@@ -1,15 +1,15 @@
 {
   "scheming_version": 1,
   "dataset_type": "dataset",
-  "about": "An implementation of the DCAT-AP Switzerland Schema",
-  "about_url": "https://github.com/ogdch/ckanext-switzerland",
+  "about": "A reimplementation of the default CKAN dataset schema",
+  "about_url": "http://github.com/open-data/ckanext-scheming",
   "form_languages": ["de", "fr", "it", "en"],
   "dataset_fields": [
     {
       "field_name": "title",
       "label": "Title",
-      "preset": "fluent_title",
-      "form_placeholder": "eg. A descriptive test title"
+      "preset": "fluent_text",
+      "form_placeholder": "eg. A descriptive title"
     },
     {
       "field_name": "name",
@@ -28,16 +28,6 @@
       "label": "Tags",
       "preset": "tag_string_autocomplete",
       "form_placeholder": "eg. economy, mental health, government"
-    },
-    {
-      "field_name": "tags",
-      "label": {
-          "en": "Keywords",
-          "fr": "Mots-cl\u00e9s"
-      },
-      "form_languages": ["en", "fr", "de", "it"],
-      "preset": "fluent_tags",
-      "required": false
     },
     {
       "field_name": "license_id",
