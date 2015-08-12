@@ -23,7 +23,8 @@
     },
     {
       "field_name": "notes",
-      "label": "Description"
+      "label": "Description",
+      "preset": "fluent_text"
     },
     {
       "field_name": "issued",
@@ -41,7 +42,7 @@
       "preset": "dataset_organization"
     },
     {
-      "field_name": "contactPoint",
+      "field_name": "contact_point",
       "label": "Contact point(s)"
     },
     {
