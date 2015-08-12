@@ -24,7 +24,7 @@
     {
       "field_name": "notes",
       "label": "Description",
-      "preset": "fluent_text"
+      "preset": "fluent_markdown"
     },
     {
       "field_name": "issued",
@@ -111,7 +111,7 @@
     {
       "field_name": "notes",
       "label": "Description",
-      "preset": "fluent_text"
+      "preset": "fluent_markdown"
     },
     {
       "field_name": "issued",
