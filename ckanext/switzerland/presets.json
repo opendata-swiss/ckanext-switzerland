@@ -24,6 +24,16 @@
       }
     },
     {
+      "preset_name": "current_lang_text",
+      "values": {
+        "form_snippet": "fluent_text.html",
+        "display_snippet": "current_lang_text.html",
+        "error_snippet": "fluent_text.html",
+        "validators": "fluent_text",
+        "output_validators": "fluent_text_output"
+      }
+    },
+    {
       "preset_name": "dataset_slug",
       "values": {
         "validators": "not_empty unicode name_validator package_name_validator",
