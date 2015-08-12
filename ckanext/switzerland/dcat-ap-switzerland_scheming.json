@@ -6,113 +6,167 @@
   "form_languages": ["de", "fr", "it", "en"],
   "dataset_fields": [
     {
+      "field_name": "identifier",
+      "label": "Identifier"
+    },
+    {
       "field_name": "title",
       "label": "Title",
-      "preset": "fluent_title",
-      "form_placeholder": "eg. A descriptive test title"
+      "preset": "fluent_text",
+      "form_placeholder": "eg. A descriptive title"
     },
     {
       "field_name": "name",
-      "label": "URL",
+      "label": "Slug",
       "preset": "dataset_slug",
       "form_placeholder": "eg. my-dataset"
     },
     {
       "field_name": "notes",
-      "label": "Description",
-      "form_snippet": "markdown.html",
-      "form_placeholder": "eg. Some useful notes about the data"
+      "label": "Description"
+    },
+    {
+      "field_name": "issued",
+      "label": "Issued date",
+      "preset": "date"
+    },
+    {
+      "field_name": "modified",
+      "label": "Modified date",
+      "preset": "date"
+    },
+    {
+      "field_name": "owner_org",
+      "label": "Publisher",
+      "preset": "dataset_organization"
+    },
+    {
+      "field_name": "contactPoint",
+      "label": "Contact point(s)"
+    },
+    {
+      "field_name": "language",
+      "label": "Language",
+      "preset": "multiple_checkbox",
+      "choices": [
+        {"value": "de", "label": "Deutsch"},
+        {"value": "fr", "label": "Français"},
+        {"value": "it", "label": "Italiano"},
+        {"value": "en", "label": "English"}
+      ]
+    },
+    {
+      "field_name": "relation",
+      "label": "Relation(s)"
     },
     {
       "field_name": "tag_string",
-      "label": "Tags",
+      "label": "Keyswords",
       "preset": "tag_string_autocomplete",
       "form_placeholder": "eg. economy, mental health, government"
     },
     {
-      "field_name": "tags",
-      "label": {
-          "en": "Keywords",
-          "fr": "Mots-cl\u00e9s"
-      },
-      "form_languages": ["en", "fr", "de", "it"],
-      "preset": "fluent_tags",
-      "required": false
-    },
-    {
-      "field_name": "license_id",
-      "label": "License",
-      "form_snippet": "license.html",
-      "help_text": "License definitions and additional information can be found at http://opendefinition.org/"
-    },
-    {
-      "field_name": "owner_org",
-      "label": "Organization",
-      "preset": "dataset_organization"
-    },
-    {
       "field_name": "url",
-      "label": "Source",
+      "label": "Landing page",
       "form_placeholder": "http://example.com/dataset.json",
       "display_property": "foaf:homepage",
       "display_snippet": "link.html"
     },
     {
-      "field_name": "version",
-      "label": "Version",
-      "validators": "ignore_missing unicode package_version_validator",
-      "form_placeholder": "1.0"
+      "field_name": "spatial",
+      "label": "Spatial"
     },
     {
-      "field_name": "author",
-      "label": "Author",
-      "form_placeholder": "Joe Bloggs",
-      "display_property": "dc:creator"
+      "field_name": "coverage",
+      "label": "Coverage"
     },
     {
-      "field_name": "author_email",
-      "label": "Author Email",
-      "form_placeholder": "joe@example.com",
-      "display_property": "dc:creator",
-      "display_snippet": "email.html",
-      "display_email_name_field": "author"
+      "field_name": "temporal",
+      "label": "Temporal"
     },
     {
-      "field_name": "maintainer",
-      "label": "Maintainer",
-      "form_placeholder": "Joe Bloggs",
-      "display_property": "dc:contributor"
+      "field_name": "accrual_periodicity",
+      "label": "Periodicity"
     },
     {
-      "field_name": "maintainer_email",
-      "label": "Maintainer Email",
-      "form_placeholder": "joe@example.com",
-      "display_property": "dc:contributor",
-      "display_snippet": "email.html",
-      "display_email_name_field": "maintainer"
+      "field_name": "see_also",
+      "label": "See also",
+      "form_placeholder": "http://example.com/dataset.json",
+      "display_property": "foaf:homepage",
+      "display_snippet": "link.html"
     }
   ],
   "resource_fields": [
     {
+      "field_name": "identifier",
+      "label": "Identifier"
+    },
+    {
+      "field_name": "title",
+      "label": "Title",
+      "preset": "fluent_text",
+      "form_placeholder": "eg. A descriptive title"
+    },
+    {
+      "field_name": "notes",
+      "label": "Description",
+      "preset": "fluent_text"
+    },
+    {
+      "field_name": "issued",
+      "label": "Issued date",
+      "preset": "date"
+    },
+    {
+      "field_name": "modified",
+      "label": "Modified date",
+      "preset": "date"
+    },
+    {
+      "field_name": "language",
+      "label": "Language",
+      "preset": "multiple_checkbox",
+      "choices": [
+        {"value": "de", "label": "Deutsch"},
+        {"value": "fr", "label": "Français"},
+        {"value": "it", "label": "Italiano"},
+        {"value": "en", "label": "English"}
+      ]
+    },
+    {
       "field_name": "url",
-      "label": "URL",
+      "label": "Access URL",
       "preset": "resource_url_upload"
     },
     {
-      "field_name": "name",
-      "label": "Name",
-      "form_placeholder": "eg. January 2011 Gold Prices"
+      "field_name": "download_url",
+      "label": "Download URL",
+      "preset": "resource_url_upload"
     },
     {
-      "field_name": "description",
-      "label": "Description",
-      "form_snippet": "markdown.html",
-      "form_placeholder": "Some useful notes about the data"
+      "field_name": "rights",
+      "label": "Rights"
+    },
+    {
+      "field_name": "license",
+      "label": "License"
+    },
+    {
+      "field_name": "byte_size",
+      "label": "Byte Size"
+    },
+    {
+      "field_name": "media_type",
+      "label": "Media Type"
     },
     {
       "field_name": "format",
       "label": "Format",
       "preset": "resource_format_autocomplete"
+    },
+    {
+      "field_name": "coverage",
+      "label": "Coverage"
     }
   ]
 }
