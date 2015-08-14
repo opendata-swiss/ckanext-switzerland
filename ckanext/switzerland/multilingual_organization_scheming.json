@@ -1,0 +1,34 @@
+{
+  "scheming_version": 1,
+  "organization_type": "organization",
+  "about": "Multilingual organization schema",
+  "about_url": "https://github.com/ogdch/ckanext-switzerland",
+  "form_languages": ["de", "fr", "it", "en"],
+  "fields": [
+    {
+      "field_name": "title",
+      "label": "Title",
+      "preset": "fluent_text",
+      "form_placeholder": "eg. A descriptive title"
+    },
+    {
+      "field_name": "name",
+      "label": "Slug",
+      "preset": "dataset_slug",
+      "form_placeholder": "eg. my-organization"
+    },
+    {
+      "field_name": "notes",
+      "label": "Description"
+    },
+    {
+      "field_name": "url",
+      "label": "Image URL",
+      "form_placeholder": "http://example.com/my-image.jpg"
+    },
+    {
+      "field_name": "parent",
+      "label": "Parent"
+    }
+  ]
+}
