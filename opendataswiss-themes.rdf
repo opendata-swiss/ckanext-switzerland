@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Arbeit">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Arbeit, Erwerb</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Travail, rémunération</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Lavoro e reddito</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Work and income</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Bauwesen">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Bau- und Wohnungswesen</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Construction, logement</skos:prefLabel>
+        <skos:prefLabel xml:lang="it"></skos:prefLabel>
+        <skos:prefLabel xml:lang="en"></skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Bevoelkerung">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Bevölkerung</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Population</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Popolazione</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Population</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Bildung">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Bildung, Wissenschaft</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Education, science</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Formazione e scienza</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Education and science</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Energie">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Energie</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Energie</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Energia</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Energy</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Finanzen">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Finanzen</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Finances</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Finanze</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Finances</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Geographie">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Geographie</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr"></skos:prefLabel>
+        <skos:prefLabel xml:lang="it"></skos:prefLabel>
+        <skos:prefLabel xml:lang="en"></skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Gesetzgebung">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Gesetzgebung</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Legislation</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Legislazione</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Legislation</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Gesundheit">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Gesundheit</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Santé</skos:prefLabel>
+        <skos:prefLabel xml:lang="it"></skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Health</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Handel">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Handel</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr"></skos:prefLabel>
+        <skos:prefLabel xml:lang="it"></skos:prefLabel>
+        <skos:prefLabel xml:lang="en"></skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Industrie">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Industrie, Dienstleistungen</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Industrie, services</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Industria, servizi</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Industry and services</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Kriminalitaet">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Kriminalität, Strafrecht</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Criminalité, droit pénal</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Criminalità, diritto penale</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Crime, criminal justice</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Kultur">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Kultur, Medien, Informationsgesellschaft, Sport</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Culture, médias, société de l'information, sport</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Cultura, media, società dell'informazione, sport</skos:prefLabel>
+        <skos:prefLabel xml:lang="en"></skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Landwirtschaft">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Land- und Forstwirtschaft</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Agriculture, sylviculture</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Agricoltura, selvicoltura</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Agriculture, forestry</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Mobilitaet">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Mobilität und Verkehr</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Mobilité et transports</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Mobilità e trasporti</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Mobility and Transport</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Sicherheit">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Öffentliche Ordnung &amp; Sicherheit</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr"></skos:prefLabel>
+        <skos:prefLabel xml:lang="it"></skos:prefLabel>
+        <skos:prefLabel xml:lang="en"></skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Politik">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Politik</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Politique</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Politica</skos:prefLabel>
+        <skos:prefLabel xml:lang="en"></skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Preise">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Preise</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Prix</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Prezzi</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Prices</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Raum">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Raum, Umwelt</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Espace, environnement</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Territorio e ambiente</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Territory and environment</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Soziale-Sicherheit">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Soziale Sicherheit</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Protection sociale</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Sicurezza sociale</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Social security</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Statistische-Grundlagen">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Statistische Grundlagen</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Bases statistiques</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Basi statistiche</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Statistical basis</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Tourismus">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Tourismus</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Tourisme</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Turismo</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Tourism</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Verwaltung">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Verwaltung</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Administration</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Amministrazione</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">Administration</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://opendata.swiss/themes/Volkswirtschaft">
+        <rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+        <skos:prefLabel xml:lang="de">Volkswirtschft</skos:prefLabel>
+        <skos:prefLabel xml:lang="fr">Economie nationale</skos:prefLabel>
+        <skos:prefLabel xml:lang="it">Economia</skos:prefLabel>
+        <skos:prefLabel xml:lang="en">National economy</skos:prefLabel>
+        <skos:definition xml:lang="de"></skos:definition>
+        <skos:definition xml:lang="fr"></skos:definition>
+        <skos:definition xml:lang="it"></skos:definition>
+        <skos:definition xml:lang="en"></skos:definition>
+    </rdf:Description>
+</rdf:RDF>
