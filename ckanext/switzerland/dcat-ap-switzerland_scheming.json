@@ -10,9 +10,14 @@
       "label": "Identifier"
     },
     {
+        "field_name": "__junk",
+        "label": "Junk",
+        "validators": "ignore"
+    },
+    {
       "field_name": "title",
       "label": "Title",
-      "preset": "fluent_text",
+      "preset": "multilingual_text",
       "form_placeholder": "eg. A descriptive title"
     },
     {
@@ -24,7 +29,7 @@
     {
       "field_name": "notes",
       "label": "Description",
-      "preset": "fluent_markdown"
+      "preset": "multilingual_markdown"
     },
     {
       "field_name": "issued",
@@ -38,12 +43,18 @@
     },
     {
       "field_name": "owner_org",
-      "label": "Publisher",
+      "label": "Organization",
       "preset": "dataset_organization"
     },
     {
-      "field_name": "contact_point",
-      "label": "Contact point(s)"
+      "field_name": "publishers",
+      "label": "Publisher",
+      "preset": "multiple_text"
+    },
+    {
+      "field_name": "contact_points",
+      "label": "Contact point(s)",
+      "preset": "multiple_text"
     },
     {
       "field_name": "language",
@@ -105,13 +116,13 @@
     {
       "field_name": "title",
       "label": "Title",
-      "preset": "fluent_text",
+      "preset": "multilingual_text",
       "form_placeholder": "eg. A descriptive title"
     },
     {
       "field_name": "notes",
       "label": "Description",
-      "preset": "fluent_markdown"
+      "preset": "multilingual_markdown"
     },
     {
       "field_name": "issued",
