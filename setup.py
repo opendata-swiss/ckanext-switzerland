@@ -24,7 +24,7 @@ setup(
 
     # Author details
     author='''Liip AG''',
-    author_email='''ogd@liip.ch''',
+    author_email='''jazz@liip.ch''',
 
     # Choose your license
     license='AGPL',
@@ -78,6 +78,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        switzerland=ckanext.switzerland.plugin:SwitzerlandPlugin
+        ogdch=ckanext.switzerland.plugin:OgdchPlugin
+        ogdch_pkg=ckanext.switzerland.plugin:OgdchPackagePlugin
     ''',
 )

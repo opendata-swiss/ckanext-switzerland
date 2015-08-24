@@ -14,21 +14,30 @@
       }
     },
     {
-      "preset_name": "fluent_title",
+      "preset_name": "dicts",
+      "values": {
+        "validators": "list_of_dicts",
+        "output_validators": "multiple_text_output"
+      }
+    },
+    {
+      "preset_name": "multiple_text",
+      "values": {
+        "output_validators": "multiple_text_output"
+      }
+    },
+    {
+      "preset_name": "multilingual_text",
       "values": {
         "form_snippet": "fluent_text.html",
-        "display_snippet": "fluent_text.html",
-        "error_snippet": "fluent_text.html",
         "validators": "fluent_text",
         "output_validators": "fluent_text_output"
       }
     },
     {
-      "preset_name": "current_lang_text",
+      "preset_name": "multilingual_markdown",
       "values": {
-        "form_snippet": "fluent_text.html",
-        "display_snippet": "current_lang_text.html",
-        "error_snippet": "fluent_text.html",
+        "form_snippet": "fluent_markdown.html",
         "validators": "fluent_text",
         "output_validators": "fluent_text_output"
       }
