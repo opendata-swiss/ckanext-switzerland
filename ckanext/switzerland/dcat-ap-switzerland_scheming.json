@@ -63,8 +63,9 @@
       ]
     },
     {
-      "field_name": "relation",
-      "label": "Relation(s)"
+      "field_name": "relations",
+      "label": "Relation(s)",
+      "preset": "dicts"
     },
     {
       "field_name": "tag_string",
@@ -88,19 +89,18 @@
       "label": "Coverage"
     },
     {
-      "field_name": "temporal",
-      "label": "Temporal"
+      "field_name": "temporals",
+      "label": "Temporal(s)",
+      "preset": "dicts"
     },
     {
       "field_name": "accrual_periodicity",
       "label": "Periodicity"
     },
     {
-      "field_name": "see_also",
-      "label": "See also",
-      "form_placeholder": "http://example.com/dataset.json",
-      "display_property": "foaf:homepage",
-      "display_snippet": "link.html"
+      "field_name": "see_alsos",
+      "label": "See also(s)",
+      "preset": "dicts"
     }
   ],
   "resource_fields": [
