@@ -24,7 +24,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         return {
             'multiple_text': validators.multiple_text,
             'multiple_text_output': validators.multiple_text_output,
-            'dict_from_junk': validators.dict_from_junk,
+            'list_of_dicts': validators.list_of_dicts,
             }
 
 

@@ -10,11 +10,6 @@
       "label": "Identifier"
     },
     {
-        "field_name": "__junk",
-        "label": "Junk",
-        "validators": "ignore"
-    },
-    {
       "field_name": "title",
       "label": "Title",
       "preset": "multilingual_text",
@@ -49,12 +44,12 @@
     {
       "field_name": "publishers",
       "label": "Publisher",
-      "preset": "multiple_text"
+      "preset": "dicts"
     },
     {
       "field_name": "contact_points",
       "label": "Contact point(s)",
-      "preset": "multiple_text"
+      "preset": "dicts"
     },
     {
       "field_name": "language",

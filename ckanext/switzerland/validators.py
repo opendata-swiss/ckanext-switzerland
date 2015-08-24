@@ -32,12 +32,11 @@ def multiple_text(field, schema):
 
         if not errors[key]:
             data[key] = json.dumps(value)
-            errors[key].append(pprint.pformat(data[('__junk',)]))
 
     return validator
 
 @scheming_validator
-def dict_from_junk(field, schema):
+def list_of_dicts(field, schema):
     def validator(key, data, errors, context):
         # if there was an error before calling our validator
         # don't bother with our validation
@@ -57,6 +56,10 @@ def dict_from_junk(field, schema):
 
         if not errors[key]:
             data[key] = json.dumps(value)
+
+        # remove from junk
+        del data_dict[key[0]]
+        data[('__junk',)] = df.flatten_dict(data_dict)
 
     return validator
 

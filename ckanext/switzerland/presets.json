@@ -14,9 +14,15 @@
       }
     },
     {
+      "preset_name": "dicts",
+      "values": {
+        "validators": "list_of_dicts",
+        "output_validators": "multiple_text_output"
+      }
+    },
+    {
       "preset_name": "multiple_text",
       "values": {
-        "validators": "dict_from_junk",
         "output_validators": "multiple_text_output"
       }
     },
