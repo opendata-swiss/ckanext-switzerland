@@ -1,0 +1,13 @@
+{% ckan_extends %}
+
+{%- block title -%}
+  {{ app_globals.site_title }}
+{%- endblock -%}
+
+{% block styles %}
+  {{ super() }}
+
+  <link rel="stylesheet" href="/ckan_resources/css/normalize.css" />
+  <link rel="stylesheet" href="/ckan_resources/css/base.css" />
+
+{% endblock %}
