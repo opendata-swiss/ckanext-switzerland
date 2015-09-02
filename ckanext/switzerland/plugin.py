@@ -3,6 +3,7 @@ import ckan.plugins.toolkit as toolkit
 import pylons
 import json
 import pprint
+import collections
 import logging
 log = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it']
 class OgdchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IValidators)
+    plugins.implements(plugins.IFacets)
 
     # IConfigurer
 
@@ -30,6 +32,23 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'multiple_text_output': validators.multiple_text_output,
             'list_of_dicts': validators.list_of_dicts,
             }
+
+    # IFacets functions
+
+    def dataset_facets(self, facets_dict, package_type):
+        facets_dict = collections.OrderedDict()
+        facets_dict['groups'] = plugins.toolkit._('Themes')
+        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['organization'] = plugins.toolkit._('Organization')
+        facets_dict['license_id'] = plugins.toolkit._('Terms')
+        facets_dict['res_format'] = plugins.toolkit._('Media Type')
+        return facets_dict
+
+    def group_facets(self, facets_dict, group_type, package_type):
+        return facets_dict
+
+    def organization_facets(self, facets_dict, organization_type, package_type):
+        return facets_dict
 
 
 class OgdchPackagePlugin(plugins.SingletonPlugin):
