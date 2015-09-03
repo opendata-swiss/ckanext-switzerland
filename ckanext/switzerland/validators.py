@@ -3,6 +3,8 @@ import ckan.lib.navl.dictization_functions as df
 from ckanext.scheming.validation import scheming_validator
 import json
 import pprint
+import logging
+log = logging.getLogger(__name__)
 
 @scheming_validator
 def multiple_text(field, schema):

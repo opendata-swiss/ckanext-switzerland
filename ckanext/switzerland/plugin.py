@@ -51,24 +51,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         return facets_dict
 
 
-class OgdchPackagePlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IPackageController, inherit=True)
-
-    # IPackageController
-
-    def before_view(self, pkg_dict):
-        desired_lang_code = pylons.request.environ['CKAN_LANG']
-        for key, value in pkg_dict.iteritems():
-            if isinstance(value, dict):
-                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value=value)
-        for resource in pkg_dict['resources']:
-            if not resource['name'] and resource['title']:
-                resource['name'] = resource['title']
-            for key, value in resource.iteritems():
-                if isinstance(value, dict):
-                    resource[key] = self.get_language_value(value, desired_lang_code, default_value=value)
-        return pkg_dict
-
+class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def get_language_value(self, lang_dict, desired_lang_code, default_value=''):
         try:
             if lang_dict[desired_lang_code]:
@@ -86,6 +69,48 @@ class OgdchPackagePlugin(plugins.SingletonPlugin):
             except (KeyError, IndexError, ValueError):
                 continue
         return default_value
+
+
+class OgdchOrganizationPlugin(OgdchLanguagePlugin):
+    plugins.implements(plugins.IOrganizationController, inherit=True)
+
+    # IOrganizationController
+
+    def before_view(self, pkg_dict):
+        desired_lang_code = pylons.request.environ['CKAN_LANG']
+
+        # TODO: why is this not already a dict?
+        pkg_dict['display_name'] = pkg_dict['title']
+        dict_fields = ['display_name', 'title', 'description']
+        for key in dict_fields:
+            try:
+                value = json.loads(pkg_dict[key])
+            except ValueError:
+                continue
+            if isinstance(value, dict):
+                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value=value)
+        log.debug(pkg_dict)
+        return pkg_dict
+
+
+class OgdchPackagePlugin(OgdchLanguagePlugin):
+    plugins.implements(plugins.IPackageController, inherit=True)
+
+    # IPackageController
+
+    def before_view(self, pkg_dict):
+        desired_lang_code = pylons.request.environ['CKAN_LANG']
+        for key, value in pkg_dict.iteritems():
+            if isinstance(value, dict):
+                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value=value)
+        for resource in pkg_dict['resources']:
+            if not resource['name'] and resource['title']:
+                resource['name'] = resource['title']
+            for key, value in resource.iteritems():
+                if isinstance(value, dict):
+                    resource[key] = self.get_language_value(value, desired_lang_code, default_value=value)
+        return pkg_dict
+
 
     def before_index(self, pkg_dict):
         extract_title = LangToString('title')
