@@ -88,7 +88,7 @@ class OgdchOrganizationPlugin(OgdchLanguagePlugin):
             except ValueError:
                 continue
             if isinstance(value, dict):
-                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value=value)
+                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value='')
         log.debug(pkg_dict)
         return pkg_dict
 
@@ -102,13 +102,13 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         desired_lang_code = pylons.request.environ['CKAN_LANG']
         for key, value in pkg_dict.iteritems():
             if isinstance(value, dict):
-                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value=value)
+                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value='')
         for resource in pkg_dict['resources']:
             if not resource['name'] and resource['title']:
                 resource['name'] = resource['title']
             for key, value in resource.iteritems():
                 if isinstance(value, dict):
-                    resource[key] = self.get_language_value(value, desired_lang_code, default_value=value)
+                    resource[key] = self.get_language_value(value, desired_lang_code, default_value='')
         return pkg_dict
 
 
