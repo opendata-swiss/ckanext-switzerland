@@ -80,5 +80,6 @@ setup(
         [ckan.plugins]
         ogdch=ckanext.switzerland.plugin:OgdchPlugin
         ogdch_pkg=ckanext.switzerland.plugin:OgdchPackagePlugin
+        ogdch_org=ckanext.switzerland.plugin:OgdchOrganizationPlugin
     ''',
 )
