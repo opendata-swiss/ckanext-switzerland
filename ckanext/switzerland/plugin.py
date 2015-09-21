@@ -8,6 +8,9 @@ import logging
 log = logging.getLogger(__name__)
 
 from ckanext.switzerland import validators
+from ckanext.switzerland.logic import (
+   dataset_count
+)
 
 
 LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
@@ -16,6 +19,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.IFacets)
+    plugins.implements(plugins.IActions)
 
     # IConfigurer
 
@@ -33,7 +37,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'list_of_dicts': validators.list_of_dicts,
             }
 
-    # IFacets functions
+    # IFacets
 
     def dataset_facets(self, facets_dict, package_type):
         facets_dict = collections.OrderedDict()
@@ -49,6 +53,16 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
     def organization_facets(self, facets_dict, organization_type, package_type):
         return facets_dict
+
+    # IActions
+
+    def get_actions(self):
+        """
+        publish dataset schemas
+        """
+        return {
+            'dataset_count': dataset_count,
+        }
 
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
