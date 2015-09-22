@@ -11,13 +11,15 @@ def ogdch_dataset_count(context, data_dict):
 
     # group_list contains the number of datasets in the 'packages' field
     groups = tk.get_action('group_list')(req_context, {'all_fields': True})
-    mapping = {'packages': 'count', 'name': 'name'}
-    groups = [dict((new_key, group[old_key]) for old_key, new_key in mapping.iteritems()) for group in groups]
+    group_count = {}
+    for group in groups:
+        group_count[group['name']] = group['packages']
+
 
     # get the total number of dataset from package_search
     search_result = tk.get_action('package_search')(req_context, {'rows': 0})
 
     return {
         'total_count': search_result['count'],
-        'groups': groups,
+        'groups': group_count,
     }
