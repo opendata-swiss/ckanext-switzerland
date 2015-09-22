@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 from ckanext.switzerland import validators
 from ckanext.switzerland.logic import (
-   dataset_count
+   ogdch_dataset_count
 )
 
 
@@ -58,10 +58,10 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
     def get_actions(self):
         """
-        publish dataset schemas
+        Expose new API methods
         """
         return {
-            'dataset_count': dataset_count,
+            'ogdch_dataset_count': ogdch_dataset_count,
         }
 
 
