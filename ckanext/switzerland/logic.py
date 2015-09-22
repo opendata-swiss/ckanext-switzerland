@@ -2,7 +2,7 @@ from ckan.plugins.toolkit import get_or_bust, side_effect_free, ObjectNotFound
 import ckan.plugins.toolkit as tk
 
 @side_effect_free
-def dataset_count(context, data_dict):
+def ogdch_dataset_count(context, data_dict):
     '''
     Return the total number of datasets and the number of dataset per group.
     '''
