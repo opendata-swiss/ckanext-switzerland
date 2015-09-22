@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from ckan.plugins.toolkit import get_or_bust, side_effect_free, ObjectNotFound
 import ckan.plugins.toolkit as tk
 
@@ -11,7 +12,8 @@ def ogdch_dataset_count(context, data_dict):
 
     # group_list contains the number of datasets in the 'packages' field
     groups = tk.get_action('group_list')(req_context, {'all_fields': True})
-    group_count = {}
+    groups = sorted(groups, key=lambda group: group['packages'])[::-1]
+    group_count = OrderedDict()
     for group in groups:
         group_count[group['name']] = group['packages']
 
