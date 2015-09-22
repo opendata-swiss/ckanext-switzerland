@@ -1,0 +1,55 @@
+{% set current_lang = request.environ.CKAN_LANG %}
+<footer class="container">
+    <div class="row">
+        <div class="col-sm-3 col-xs-6">
+            <div class="statsnumber">
+                {{ h.get_dataset_count() }} <i class="fa fa-files-o"></i>
+            </div>
+            <p>Open Datasets</p>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+            <div class="statsnumber">
+                {{ h.get_org_count() }} <i class="fa fa-users"></i>
+            </div>
+            <p>Data Publishers</p>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+            <div class="statsnumber">
+                {{ h.get_app_count() }} <i class="fa fa-puzzle-piece"></i>
+            </div>
+            <p>Built Applications</p>
+        </div>
+        <div class="col-sm-3 col-xs-6">
+            <div class="statsnumber">
+                {{ h.get_tweet_count() }} <i class="fa fa-twitter"></i>
+            </div>
+            <p>Tweets</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <p class="lead">What about you?</p>
+        </div>
+        <div class="col-sm-8 text-md-right">
+            <a class="btn btn-primary" href="/{{ current_lang }}/faq" role="button">How do I publish open data?</a>
+            <a class="btn btn-primary last" href="/{{ current_lang }}/app" role="button">How to share the App I built?</a>
+        </div>
+    </div>
+    <div id="info" class="row">
+        <div class="col-md-2 col-xs-4">
+            {% snippet "snippets/language_selector.html" %}
+        </div>
+        <div class="col-md-4 col-xs-8">
+            <p>Lorem ipsum dolor sit amet ea ius soluta nusquam constituto. Lorem ipsum dolor sit amet ea ius soluta nusquam constituto</p>
+        </div>
+        <div class="col-md-2 col-xs-4">
+            <div class="list-unstyled"><ul><li class="page_item page-item-164"><a href="http://ogdch.dev/de/faq/">FAQ</a></li><li class="page_item page-item-2"><a href="http://ogdch.dev/de/sample-page/">Sample Page German</a></li></ul></div>
+        </div>
+        <div class="col-md-2 col-xs-4">
+            <div class="list-unstyled"><ul><li class="page_item page-item-164"><a href="http://ogdch.dev/de/faq/">FAQ</a></li><li class="page_item page-item-2"><a href="http://ogdch.dev/de/sample-page/">Sample Page German</a></li></ul></div>
+        </div>
+        <div class="col-md-2 col-xs-4">
+            <div class="list-unstyled"><ul><li class="page_item page-item-164"><a href="http://ogdch.dev/de/faq/">FAQ</a></li><li class="page_item page-item-2"><a href="http://ogdch.dev/de/sample-page/">Sample Page German</a></li></ul></div>
+        </div>
+    </div>
+</footer>

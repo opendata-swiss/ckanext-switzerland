@@ -11,6 +11,10 @@ from ckanext.switzerland import validators
 from ckanext.switzerland.logic import (
    ogdch_dataset_count
 )
+from ckanext.switzerland.helpers import (
+   get_dataset_count, get_group_count, get_app_count,
+   get_org_count, get_tweet_count
+)
 
 
 LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
@@ -20,6 +24,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
 
@@ -62,6 +67,20 @@ class OgdchPlugin(plugins.SingletonPlugin):
         """
         return {
             'ogdch_dataset_count': ogdch_dataset_count,
+        }
+
+    # ITemplateHelpers
+
+    def get_helpers(self):
+        """
+        Provide template helper functions
+        """
+        return {
+            'get_dataset_count': get_dataset_count,
+            'get_group_count': get_group_count,
+            'get_app_count': get_app_count,
+            'get_org_count': get_org_count,
+            'get_tweet_count': get_tweet_count,
         }
 
 

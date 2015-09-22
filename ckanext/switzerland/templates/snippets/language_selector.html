@@ -1,0 +1,17 @@
+{% set current_url = request.environ.CKAN_CURRENT_URL %}
+{% set current_lang = request.environ.CKAN_LANG %}
+{% set current_locale = h.get_locales_dict()[current_lang] %}
+<div class="btn-group"> 
+     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+         {{ current_locale.display_name or current_locale.english_name }} <span class="caret"></span> 
+     </button> 
+     <ul class="dropdown-menu" role="menu"> 
+        {% for locale in h.get_available_locales() %}
+          <li {% if locale == current_lang %}class="active"{% endif %}>
+            <a href="{% url_for current_url, locale=locale %}">
+                {{ locale.display_name or locale.english_name }}
+            </a>
+          </li>
+        {% endfor %}
+    </ul>
+</div>
