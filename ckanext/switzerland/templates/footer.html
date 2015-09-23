@@ -5,37 +5,37 @@
             <div class="statsnumber">
                 {{ h.get_dataset_count() }} <i class="fa fa-files-o"></i>
             </div>
-            <p>Open Datasets</p>
+            <p>{{ _('Open Datasets') }}</p>
         </div>
         <div class="col-sm-3 col-xs-6">
             <div class="statsnumber">
                 {{ h.get_org_count() }} <i class="fa fa-users"></i>
             </div>
-            <p>Data Publishers</p>
+            <p>{{ _('Organizations') }}</p>
         </div>
         <div class="col-sm-3 col-xs-6">
             <div class="statsnumber">
                 {{ h.get_app_count() }} <i class="fa fa-puzzle-piece"></i>
             </div>
-            <p>Built Applications</p>
+            <p>{{ _('Built Applications') }}</p>
         </div>
         <div class="col-sm-3 col-xs-6">
             <div class="statsnumber">
                 {{ h.get_tweet_count() }} <i class="fa fa-twitter"></i>
             </div>
-            <p>Tweets</p>
+            <p>{{ _('Tweets') }}</p>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            <p class="lead">What about you?</p>
+            <p class="lead">{{ _('What about you?') }}</p>
         </div>
         <div class="col-sm-8 text-md-right">
-            <a class="btn btn-primary" href="/{{ current_lang }}/faq" role="button">How do I publish open data?</a>
-            <a class="btn btn-primary last" href="/{{ current_lang }}/app" role="button">How to share the App I built?</a>
+            <a class="btn btn-primary" href="/{{ current_lang }}/faq" role="button">{{ _('How do I publish open data?') }}</a>
+            <a class="btn btn-primary last" href="/{{ current_lang }}/app" role="button">{{ _('How to share the App I built?') }}</a>
         </div>
     </div>
-    <div id="info" class="row">
+    <div class="row">
         <div class="col-md-2 col-xs-4">
             {% snippet "snippets/language_selector.html" %}
         </div>
@@ -43,13 +43,24 @@
             <p>Lorem ipsum dolor sit amet ea ius soluta nusquam constituto. Lorem ipsum dolor sit amet ea ius soluta nusquam constituto</p>
         </div>
         <div class="col-md-2 col-xs-4">
-            <div class="list-unstyled"><ul><li class="page_item page-item-164"><a href="http://ogdch.dev/de/faq/">FAQ</a></li><li class="page_item page-item-2"><a href="http://ogdch.dev/de/sample-page/">Sample Page German</a></li></ul></div>
-        </div>
+            <div class="menu-aboutnavigation-de-container"><ul id="menu-aboutnavigation-de" class="list-unstyled"><li id="menu-item-251" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-251"><a href="http://ogdch.dev/{{ current_lang }}/about/">{{ _('About') }}</a></li>
+                <li id="menu-item-252" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-252"><a href="/{{ current_lang }}/faq/">FAQ</a></li>
+                <li id="menu-item-253" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-253"><a href="/{{ current_lang }}/contact/">Kontakt</a></li>
+            </ul></div>		</div>
         <div class="col-md-2 col-xs-4">
-            <div class="list-unstyled"><ul><li class="page_item page-item-164"><a href="http://ogdch.dev/de/faq/">FAQ</a></li><li class="page_item page-item-2"><a href="http://ogdch.dev/de/sample-page/">Sample Page German</a></li></ul></div>
-        </div>
+            <div class="menu-datanavigation-de-container"><ul id="menu-datanavigation-de" class="list-unstyled"><li id="menu-item-263" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-263"><a href="/{{ current_lang }}/dataset">{{ _('Datasets') }}</a></li>
+                <li id="menu-item-264" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-264"><a href="/{{ current_lang }}/organization">{{ _('Organizations') }}</a></li>
+                <li id="menu-item-265" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item menu-item-265 active "><a href="/{{ current_lang }}/app">{{ _('Apps') }}</a></li>
+            </ul></div>		</div>
         <div class="col-md-2 col-xs-4">
-            <div class="list-unstyled"><ul><li class="page_item page-item-164"><a href="http://ogdch.dev/de/faq/">FAQ</a></li><li class="page_item page-item-2"><a href="http://ogdch.dev/de/sample-page/">Sample Page German</a></li></ul></div>
+            <div class="menu-developernavigation-de-container"><ul id="menu-developernavigation-de" class="list-unstyled"><li id="menu-item-275" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-275"><a href="http://docs.ckan.org/en/latest/api/index.html">API</a></li>
+                <li id="menu-item-276" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-276"><a href="https://github.com/ogdch/ckanext-switzerland">{{ _('Sourcecode') }}</a></li>
+            </ul></div>		</div>
+    </div>
+    <div id="logos" class="row last">
+        <div class="col-xs-12">
+            <img class="logo-confederation" src="/content/themes/wp-ogdch-theme/assets/images/logo-confederation.png" />
+            <img class="logo-egovernment" src="/content/themes/wp-ogdch-theme/assets/images/logo-egovernment.png" />
         </div>
     </div>
 </footer>
