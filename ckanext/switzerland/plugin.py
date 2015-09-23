@@ -140,7 +140,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             if not resource['name'] and resource['title']:
                 resource['name'] = resource['title']
             for key, value in resource.iteritems():
-                if isinstance(value, dict):
+                if isinstance(value, dict) and key not in ['tracking_summary']:
                     resource[key] = self.get_language_value(value, desired_lang_code, default_value='')
         return pkg_dict
 
