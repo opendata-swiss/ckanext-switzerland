@@ -1,5 +1,5 @@
 {% set current_lang = request.environ.CKAN_LANG %}
-<footer class="container">
+<footer class="container main-footer top-buffer">
     <div class="row">
         <div class="col-sm-3 col-xs-6">
             <div class="statsnumber">
@@ -26,7 +26,7 @@
             <p>{{ _('Tweets') }}</p>
         </div>
     </div>
-    <div class="row">
+    <div class="row top-buffer">
         <div class="col-sm-4">
             <p class="lead">{{ _('What about you?') }}</p>
         </div>
@@ -35,7 +35,7 @@
             <a class="btn btn-primary last" href="/{{ current_lang }}/app" role="button">{{ _('How to share the App I built?') }}</a>
         </div>
     </div>
-    <div class="row">
+    <div class="row top-buffer">
         <div class="col-md-2 col-xs-4">
             {% snippet "snippets/language_selector.html" %}
         </div>
@@ -57,7 +57,7 @@
                 <li id="menu-item-276" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-276"><a href="https://github.com/ogdch/ckanext-switzerland">{{ _('Sourcecode') }}</a></li>
             </ul></div>		</div>
     </div>
-    <div id="logos" class="row last">
+    <div id="logos" class="row top-buffer">
         <div class="col-xs-12">
             <img class="logo-confederation" src="/content/themes/wp-ogdch-theme/assets/images/logo-confederation.png" />
             <img class="logo-egovernment" src="/content/themes/wp-ogdch-theme/assets/images/logo-egovernment.png" />
