@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3 facet-filters">
         <h2 class="sr-only">{{ _('Search Filter') }}</h2>
         {% for facet in c.facet_titles %}
         {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
@@ -40,9 +40,9 @@
       </div>
       <div class="col-md-9">
         {% block search_title %}
-
+          <h2>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='dataset') }}</h2>
           {% if sorting %}
-          <div class="form-group form-inline pull-right h2-vertical-center">
+          <div class="form-group form-inline">
             <label for="field-order-by">{{ _('Order by') }}</label>
             <select class="form-control" id="field-order-by" name="sort">
               {% for label, value in sorting %}
@@ -53,7 +53,6 @@
             </select>
           </div>
           {% endif %}
-          <h2>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='dataset') }}</h2>
         {% endblock %}
         {% block package_search_results_list %}
           {{ h.snippet('snippets/package_list.html', packages=c.page.items, list_class='list-unstyled') }}
