@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{%- block page -%}
+
+  {#
+  Override the header on a page by page basis by extending this block. If
+  making sitewide header changes it is preferable to override the header.html
+  file.
+  #}
+  {%- block header %}
+    {% include "header.html" %}
+  {% endblock -%}
+
+  {# The content block allows you to replace the content of the page if needed #}
+  {%- block content %}
+    {% block maintag %}<div id="content" role="main">{% endblock %}
+
+      {% block main_content %}
+        {% block toolbar %}
+          <nav class="container">
+            <div class="row">
+              <div class="col-xs-12">
+                {% block breadcrumb %}
+                  {% if self.breadcrumb_content() | trim %}
+                  <ol class="breadcrumb">
+                    {% snippet 'snippets/home_breadcrumb_item.html' %}
+                    {% block breadcrumb_content %}{% endblock %}
+                  </ol>
+                  {% endif %}
+                {% endblock %}
+              </div>
+            </div>
+          </nav>
+        {% endblock %}
+
+        {% block primary_content %}
+          {#
+          Insert main content here
+          #}
+        {% endblock %}
+      {% endblock %}
+    </div>
+  {% endblock -%}
+
+  {#
+  Override the footer on a page by page basis by extending this block. If
+  making sitewide header changes it is preferable to override the footer.html-u
+  file.
+  #}
+  {%- block footer %}
+    {% include "footer.html" %}
+  {% endblock -%}
+{%- endblock -%}
