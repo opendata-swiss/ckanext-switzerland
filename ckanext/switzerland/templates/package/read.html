@@ -1,0 +1,65 @@
+{% extends "package/read_base.html" %}
+
+{% set pkg = c.pkg_dict %}
+
+{% block primary_content %}
+  {{ super() }}
+  {% block package_description %}
+    {% if pkg.private %}
+      <span class="dataset-private label label-inverse pull-right">
+        <i class="icon-lock"></i>
+        {{ _('Private') }}
+      </span>
+    {% endif %}
+    <header class="dataset-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <h1>
+              {% block page_heading %}
+                {{ pkg.title or pkg.name }}
+                {% if pkg.state.startswith('draft') %}
+                  [{{ _('Draft') }}]
+                {% endif %}
+                {% if pkg.state == 'deleted' %}
+                  [{{ _('Deleted') }}]
+                {% endif %}
+              {% endblock %}
+            </h1>
+          </div>
+          <div class="col-md-3 dataset-toolbox">
+            <h2>{{ _('Toolbox') }}</h2>
+            <ul class="fa-ul">
+              <li><i class="fa-li fa fa-copy"></i> Request New Data</li>
+              <li><i class="fa-li fa fa-exclamation-triangle"></i> Report a Problem</li>
+              <li><i class="fa-li fa fa-puzzle-piece"></i> Share my App</li>
+              <li><i class="fa-li fa fa-exchange"></i> Request translation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    {% block package_notes %}
+      {% if c.pkg_notes_formatted %}
+        <div class="notes embedded-content">
+          {{ c.pkg_notes_formatted }}
+        </div>
+      {% endif %}
+    {% endblock %}
+    {# FIXME why is this here? seems wrong #}
+    <span class="insert-comment-thread"></span>
+  {% endblock %}
+
+  {% block package_resources %}
+    {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
+  {% endblock %}
+
+  {% block package_tags %}
+    {% snippet "package/snippets/tags.html", tags=pkg.tags %}
+  {% endblock %}
+
+  {% block package_additional_info %}
+    {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
+  {% endblock %}
+
+{% endblock %}
