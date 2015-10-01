@@ -49,6 +49,7 @@ within_tertiary
       {% block facet_list_item %}
         <section class="{{ wrapper_class or 'facet-filter' }}">
           {% block facet_list_heading %}
+            <a role="button" data-toggle="collapse" class="facet-{{ name }}-collapse-button facet-toggle collapsed" href="#facet-{{ name }}-collapse" aria-expanded="false" aria-controls="facet-{{ name }}-collapse">+</a>
             <h3>
               {% set title = title or h.get_facet_title(name) %}
               {{ title }}
@@ -56,23 +57,34 @@ within_tertiary
           {% endblock %}
           {% block facet_list_items %}
             {% with items = items or h.get_facet_items_dict(name) %}
+            <div id="facet-{{ name }}-collapse" class="collapse facet-collapse">
             {% if items %}
-              <nav>
-                <ul class="{{ nav_class or 'nav nav-pills nav-stacked' }}">
+              {% if name == 'tags' %}
+                <div class="tags">
                   {% for item in items %}
+                  {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if item.active else h.add_url_param(new_params={name: item.name}, extras=extras, alternative_url=alternative_url) %}
+                  {% set label = label_function(item) if label_function else item.display_name %}
+                  {% set label_truncated = h.truncate(label, 22) if not label_function else label %}
+                    <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}" class="label label-default">{{ label_truncated }}</a>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <nav>
+                  <ul class="{{ nav_class or 'nav nav-pills nav-stacked' }}">
+                    {% for item in items %}
                     {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if item.active else h.add_url_param(new_params={name: item.name}, extras=extras, alternative_url=alternative_url) %}
                     {% set label = label_function(item) if label_function else item.display_name %}
                     {% set label_truncated = h.truncate(label, 22) if not label_function else label %}
                     {% set count = count_label(item['count']) if count_label else ('%d' % item['count']) %}
-                      <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %}">
-                        <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}">
-                          {{ label_truncated }} <span>{{ count }}</span>
-                        </a>
-                      </li>
-                  {% endfor %}
-                </ul>
-              </nav>
-
+                    <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %}">
+                      <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}">
+                        {{ label_truncated }} <span>{{ count }}</span>
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </nav>
+              {% endif %}
               <p class="module-footer">
                 {% if h.get_param_int('_%s_limit' % name) %}
                   {% if h.has_more_facets(name) %}
@@ -85,6 +97,18 @@ within_tertiary
             {% else %}
               <p class="module-content empty">{{ _('There are no {facet_type} that match this search').format(facet_type=title) }}</p>
             {% endif %}
+            </div>
+            <script>
+              // TODO find a way to add this javascript block after jQuery gets loaded
+              /*
+              $('#facet-{{ name }}-collapse').on('shown.bs.collapse', function () {
+                $('#' + $(this)[0].id + '-button').text('-');
+              });
+              $('#facet-{{ name }}-collapse').on('hidden.bs.collapse', function () {
+                $('#' + $(this)[0].id + '-button').text('+');
+              });
+              */
+            </script>
             {% endwith %}
           {% endblock %}
         </section>

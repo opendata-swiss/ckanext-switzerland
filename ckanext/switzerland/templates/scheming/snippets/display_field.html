@@ -1,0 +1,21 @@
+{#- master snippet for all scheming display fields -#}
+{#- render the field the user requested, or use a default field -#}
+
+{%- set display_snippet = field.display_snippet -%}
+
+{%- if not display_snippet -%}
+  {%- if 'choices' in field -%}
+    {%- set display_snippet = 'select.html' -%}
+  {%- else -%}
+    {%- set display_snippet = 'text.html' -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if '/' not in display_snippet -%}
+  {%- set display_snippet = 'scheming/display_snippets/' + display_snippet -%}
+{%- endif -%}
+
+{%- if field.field_name in data -%}
+  {%- snippet display_snippet, field=field, data=data, errors=errors,
+    schema=schema -%}
+{%- endif -%}
