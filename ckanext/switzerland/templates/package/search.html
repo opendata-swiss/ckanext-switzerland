@@ -4,7 +4,7 @@
 {% set form_id = form_id if form_id else false %}
 
 {% block breadcrumb_content %}
-<li class="active">{{ _('Datasets') }}</li>
+<li class="active">{% link_for _('Datasets'), controller='package', action='search' %}</li>
 {% endblock %}
 
 {% block primary_content %}
