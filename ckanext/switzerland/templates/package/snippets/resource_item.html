@@ -15,13 +15,7 @@
   {% block resource_item_explore %}
   {% if not url_is_edit %}
   <div class="actions pull-right hidden-sm hidden-xs">
-    <a href="{{ url }}">
-      {% if res.has_views %}
-        <small><i class="fa fa-eye"></i> {{ _('Preview') }}</small>
-      {% else %}
-        <small><i class="fa fa-eye"></i> {{ _('More information') }}</small>
-      {% endif %}
-    </a>
+    <a href="{{ url }}"><i class="fa fa-eye"></i> {% if res.has_views %} <small>{{ _('Preview') }}</small>{% else %}<small>{{ _('More information') }}</small>{% endif %}</a>
     <a href="{{ res.url }}" class="btn btn-primary btn-xs" role="button">
       {% if res.has_views %}
         <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
