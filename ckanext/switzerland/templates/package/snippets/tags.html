@@ -1,0 +1,14 @@
+{% if tags %}
+  <section class="container tags">
+    <div class="row">
+      <div class="col-xs-12">
+        <h3>{{ _('Dataset Tags') }}</h3>
+        <div class="tags">
+          {% for tag in tags %}
+            <a class="label label-default" href="{% url_for controller='package', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}

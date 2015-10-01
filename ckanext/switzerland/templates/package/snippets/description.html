@@ -1,0 +1,40 @@
+{#
+Renders the description of a package
+
+pkg - A package object that the resources belong to.
+
+Example:
+
+{% snippet "package/snippets/description.html", pkg=pkg %}
+
+#}
+<section class="container description">
+  <div class="row">
+    <div class="col-md-2">
+      <dl>
+        <dt>{{ _('Last update') }}</dt>
+        <dd>10.09.2015</dd>
+      </dl>
+    </div>
+    <div class="col-md-2">
+      <dl>
+        <dt>{{ _('License') }}</dt>
+        <dd>Insert icon here</dd>
+      </dl>
+    </div>
+    <div class="col-md-4">
+      <dl>
+        <dt>{{ _('Category') }}</dt>
+        <dd><a href="#">Territory and environment</a>, <a href="#">Population</a></dd>
+      </dl>
+    </div>
+    <div class="col-md-4">
+      <dl>
+        <dt>{{ _('Publisher') }}</dt>
+        <dd><a href="#">Organisation Name</a></dd>
+      </dl>
+    </div>
+  </div>
+  <h2>{{ _('Description') }}</h2>
+  <p>{{ notes }}</p>
+</section>
