@@ -13,7 +13,7 @@ Example:
     <div class="col-md-2">
       <dl>
         <dt>{{ _('Last updated') }}</dt>
-        <dd>10.09.2015</dd>
+        <dd>{{ h.render_datetime(pkg.metadata_modified, with_hours=False) }}</dd>
       </dl>
     </div>
     <div class="col-md-2">
@@ -25,13 +25,33 @@ Example:
     <div class="col-md-4">
       <dl>
         <dt>{{ _('Groups') }}</dt>
-        <dd><a href="#">Territory and environment</a>, <a href="#">Population</a></dd>
+        <dd>
+        {% if pkg.groups %}
+          {% for group in pkg.groups %}
+            {% set type = group.type or 'group' %}
+            {% set url = h.url_for(type ~ '_read', action='read', id=group.name) %}
+            <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}" class="media-view">{{ _('View {name}').format(name=group.display_name) }}</a>
+            {# TODO do not print comma after last element #}
+            ,
+          {% endfor %}
+        {% else %}
+          -
+        {% endif %}
+        </dd>
       </dl>
     </div>
     <div class="col-md-4">
       <dl>
         <dt>{{ _('Publisher') }}</dt>
-        <dd><a href="#">Organisation Name</a></dd>
+        <dd>
+          {% if pkg.owner_org %}
+            {% set organization = h.get_organization(pkg.owner_org) %}
+            {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
+            <a href="{{ url }}">{{ organization.title or organization.name }}</a>
+          {% else %}
+            -
+          {% endif %}
+        </dd>
       </dl>
     </div>
   </div>
