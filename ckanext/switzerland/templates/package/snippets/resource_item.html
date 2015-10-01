@@ -1,0 +1,35 @@
+{% set can_edit = h.check_access('package_update', {'id':pkg.id }) %}
+{% set url_action = 'resource_edit' if url_is_edit and can_edit else 'resource_read' %}
+{% set url = h.url_for(controller='package', action=url_action, id=pkg.name, resource_id=res.id) %}
+
+<li class="resource-item" data-id="{{ res.id }}">
+  {% block resource_item_title %}
+  {% if res.media_type %}
+    <small><span class="label label-primary label-format" property="dcat:mediaType" data-format="{{ res.media_type.upper() }}">{{ res.media_type.upper() }}</span></small>
+  {% endif %}
+  <a class="heading" href="{{ url }}" title="{{ res.name or res.description }}">
+    {{ h.resource_display_name(res) | truncate(50) }}
+    {{ h.popular('views', res.tracking_summary.total, min=10) }}
+  </a>
+  {% endblock %}
+  {% block resource_item_explore %}
+  {% if not url_is_edit %}
+  <div class="actions pull-right hidden-sm hidden-xs">
+    <a href="{{ url }}">
+      {% if res.has_views %}
+        <small><i class="fa fa-eye"></i> {{ _('Preview') }}</small>
+      {% else %}
+        <small><i class="fa fa-eye"></i> {{ _('More information') }}</small>
+      {% endif %}
+    </a>
+    <a href="{{ res.url }}" class="btn btn-primary btn-xs" role="button">
+      {% if res.has_views %}
+        <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
+      {% else %}
+        <i class="fa fa-external-link"></i> {{ _('Go to resource') }}
+      {% endif %}
+    </a>
+  </div>
+  {% endif %}
+  {% endblock %}
+</li>
