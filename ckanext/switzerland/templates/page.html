@@ -16,21 +16,25 @@
     {% block maintag %}<div id="content" role="main">{% endblock %}
 
       {% block main_content %}
-        {% block toolbar %}
-          <nav class="container">
-            <div class="row">
-              <div class="col-xs-12">
-                {% block breadcrumb %}
-                  {% if self.breadcrumb_content() | trim %}
-                  <ol class="breadcrumb">
-                    {% snippet 'snippets/home_breadcrumb_item.html' %}
-                    {% block breadcrumb_content %}{% endblock %}
-                  </ol>
-                  {% endif %}
-                {% endblock %}
+        {% block page_header %}
+          <header class="page-header">
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-12">
+                  {% block breadcrumb %}
+                    {% if self.breadcrumb_content() | trim %}
+                    <ol class="breadcrumb">
+                      {% snippet 'snippets/home_breadcrumb_item.html' %}
+                      {% block breadcrumb_content %}{% endblock %}
+                    </ol>
+                    {% endif %}
+                  {% endblock %}
+                  {% block page_title %}
+                  {% endblock %}
+                </div>
               </div>
             </div>
-          </nav>
+          </header>
         {% endblock %}
 
         {% block primary_content %}
