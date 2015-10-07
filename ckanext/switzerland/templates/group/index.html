@@ -1,0 +1,39 @@
+{% extends "page.html" %}
+{% import 'macros/form.html' as form %}
+{% set form_id = form_id if form_id else false %}
+
+{% block subtitle %}{{ _('Groups') }} | {% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Groups'), controller='group', action='index' %}</li>
+{% endblock %}
+
+{% block page_title %}
+  <h1>{{ _('Groups') }}</h1>
+{% endblock %}
+
+{% block primary_content %}
+  <form id="group-search-form" class="search-form" method="get" data-module="select-switch">
+    <section class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          {% block groups_search_form %}
+            {% snippet 'snippets/search_form.html', form_id='group-search-form', type='group', query=c.q, sorting_selected=c.sort_by_selected, count=c.page.item_count, placeholder=_('Search groups...'), show_empty=request.params, no_bottom_border=true if c.page.items, sorting = [(_('Name Ascending'), 'title asc'), (_('Name Descending'), 'title desc')] %}
+          {% endblock %}
+          {% block groups_list %}
+            {% if c.page.items or request.params %}
+              {% if c.page.items %}
+                {% snippet "group/snippets/group_list.html", groups=c.page.items %}
+              {% endif %}
+            {% else %}
+              <p class="empty">
+                {{ _('There are currently no groups for this site') }}.
+              </p>
+            {% endif %}
+          {% endblock %}
+        </div>
+      </div>
+    </section>
+  </form>
+{% endblock %}
+
