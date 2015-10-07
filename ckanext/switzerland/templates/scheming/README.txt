@@ -1,1 +1,0 @@
-2015-10-01 Jürg Hunziker: Had to copy/paste all templates of the scheming extension because I couldn't overwrite the templates
