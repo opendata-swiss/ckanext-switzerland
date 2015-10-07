@@ -7,8 +7,12 @@
 <li class="active">{% link_for _('Datasets'), controller='package', action='search' %}</li>
 {% endblock %}
 
+{% block page_title %}
+  <h1>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='dataset') }}</h1>
+{% endblock %}
+
 {% block primary_content %}
-<form {% if form_id %}id="{{ form_id }}" {% endif %}class="search-form" method="get" data-module="select-switch">
+<form id="dataset-search-form" class="search-form" method="get" data-module="select-switch">
   <section class="container">
     <div class="row">
       <div class="col-xs-12">
@@ -27,7 +31,7 @@
         (_('Last Modified'), 'metadata_modified desc'),
         (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
         %}
-        {% snippet 'snippets/search_form.html', form_id='dataset-search-form', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields %}
+        {% snippet 'snippets/search_form.html', type='dataset', query=c.q, count=c.page.item_count, show_empty=request.params, error=c.query_error, fields=c.fields %}
         {% endblock %}
       </div>
     </div>
@@ -39,15 +43,14 @@
         {% endfor %}
       </div>
       <div class="col-md-9">
-        {% block search_title %}
-          <h2>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='dataset') }}</h2>
+        {% block sorting %}
           {% if sorting %}
           <div class="form-group form-inline">
             <label for="field-order-by">{{ _('Order by') }}</label>
             <select class="form-control" id="field-order-by" name="sort">
               {% for label, value in sorting %}
               {% if label and value %}
-              <option value="{{ value }}"{% if sorting_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
+              <option value="{{ value }}"{% if c.sort_by_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
               {% endif %}
               {% endfor %}
             </select>

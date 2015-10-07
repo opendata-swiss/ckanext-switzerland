@@ -18,7 +18,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/{{ current_lang }}"><span>opendata</span>.swiss</a>
+            <a class="navbar-brand" href="/{{ current_lang }}">
+                <img src="/content/themes/wp-ogdch-theme/assets/images/logo.svg" class="navbar-brand-image hidden-xs hidden-sm " alt="opendata.swiss" />
+                <img src="/content/themes/wp-ogdch-theme/assets/images/logo_line.svg" class="navbar-brand-image hidden-md hidden-lg " alt="opendata.swiss" />
+            </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -41,7 +44,7 @@
                         <a href="/{{ current_lang }}/faq">{{ _('FAQ') }}</a>
                     </li>
                     <li class="search">
-                        <a href="/{{ current_lang }}/">{{ _('Search') }}</a>
+                        <a href="/{{ current_lang }}/" title="{{ _('Search') }}"><i class="fa fa-search" aria-hidden="true"></i></a>
                     </li>
                 </ul>
             </div>

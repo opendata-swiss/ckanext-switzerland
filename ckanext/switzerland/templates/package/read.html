@@ -2,44 +2,22 @@
 
 {% set pkg = c.pkg_dict %}
 
-{% block primary_content %}
-  {{ super() }}
-  {% block package_header %}
-    {% if pkg.private %}
-      <span class="dataset-private label label-inverse pull-right">
-        <i class="icon-lock"></i>
-        {{ _('Private') }}
-      </span>
+{% block page_title %}
+  {% if pkg.private %}
+    <span><i class="fa fa-lock"></i> {{ _('Private') }}</span>
+  {% endif %}
+  <h1>
+    {{ pkg.title or pkg.name }}
+    {% if pkg.state.startswith('draft') %}
+      [{{ _('Draft') }}]
     {% endif %}
-    <header class="dataset-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-9">
-            <h1>
-              {% block page_heading %}
-                {{ pkg.title or pkg.name }}
-                {% if pkg.state.startswith('draft') %}
-                  [{{ _('Draft') }}]
-                {% endif %}
-                {% if pkg.state == 'deleted' %}
-                  [{{ _('Deleted') }}]
-                {% endif %}
-              {% endblock %}
-            </h1>
-          </div>
-          <div class="col-md-3 dataset-toolbox hidden-sm hidden-xs">
-            <h2>{{ _('Toolbox') }}</h2>
-            <ul class="fa-ul">
-              <li><i class="fa-li fa fa-copy"></i> <a href="#">{{ _('Request New Data') }}</a></li>
-              <li><i class="fa-li fa fa-exclamation-triangle"></i> <a href="#">{{ _('Report a Problem') }}</a></li>
-              <li><i class="fa-li fa fa-puzzle-piece"></i> <a href="#">{{ _('Share my App') }}</a></li>
-              <li><i class="fa-li fa fa-exchange"></i> <a href="#">{{ _('Request translation') }}</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </header>
-  {% endblock %}
+    {% if pkg.state == 'deleted' %}
+      [{{ _('Deleted') }}]
+    {% endif %}
+  </h1>
+{% endblock %}
+
+{% block primary_content %}
 
   {% block package_description %}
     {% snippet "package/snippets/description.html", pkg=pkg, notes=c.pkg_notes_formatted %}
