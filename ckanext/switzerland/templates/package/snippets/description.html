@@ -30,7 +30,7 @@ Example:
           {% for group in pkg.groups %}
             {% set type = group.type or 'group' %}
             {% set url = h.url_for(type ~ '_read', action='read', id=group.name) %}
-            <a href="{{ url }}" title="{{ _('View {name}').format(name=group.display_name) }}" class="media-view">{{ _('View {name}').format(name=group.display_name) }}</a>
+            <a href="{{ url }}" title="{{ _('View {name}').format(name=group.title) }}" class="media-view">{{ group.title }}</a>
             {# TODO do not print comma after last element #}
             ,
           {% endfor %}
@@ -42,10 +42,10 @@ Example:
     </div>
     <div class="col-md-4">
       <dl>
-        <dt>{{ _('Publisher') }}</dt>
+        <dt>{{ _('Organization') }}</dt>
         <dd>
           {% if pkg.owner_org %}
-            {% set organization = h.get_organization(pkg.owner_org) %}
+            {% set organization = h.get_localized_org(pkg.owner_org) %}
             {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
             <a href="{{ url }}">{{ organization.title or organization.name }}</a>
           {% else %}
@@ -56,5 +56,5 @@ Example:
     </div>
   </div>
   <h2>{{ _('Description') }}</h2>
-  <p>{{ notes }}</p>
+  <p>{{ pkg.description }}</p>
 </section>
