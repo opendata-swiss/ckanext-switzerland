@@ -105,7 +105,6 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         for key, value in pkg_dict.iteritems():
             pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
-        log.debug(pkg_dict)
         return pkg_dict
 
 
@@ -123,7 +122,6 @@ class OgdchOrganizationPlugin(OgdchLanguagePlugin):
     # IOrganizationController
 
     def before_view(self, pkg_dict):
-        log.debug("HELL YEAH")
         return super(OgdchOrganizationPlugin, self).before_view(pkg_dict)
 
 
