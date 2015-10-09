@@ -62,3 +62,12 @@
     {% include "footer.html" %}
   {% endblock -%}
 {%- endblock -%}
+
+{%- block scripts %}
+  {% resource 'base/main' %}
+  {% resource 'base/ckan' %}
+  {% if g.tracking_enabled %}
+  {% resource 'base/tracking.js' %}
+  {% endif %}
+  {{ super() }}
+{% endblock -%}
