@@ -16,10 +16,18 @@ Example:
         <dd>{{ h.render_datetime(pkg.metadata_modified, with_hours=False) }}</dd>
       </dl>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-4">
       <dl>
-        <dt>{{ _('License') }}</dt>
-        <dd>Insert icon here</dd>
+        <dt>{{ _('Organization') }}</dt>
+        <dd>
+          {% if pkg.owner_org %}
+          {% set organization = h.get_localized_org(pkg.owner_org) %}
+          {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
+          <a href="{{ url }}">{{ organization.title or organization.name }}</a>
+          {% else %}
+          {{ _('No organisation available') }}
+          {% endif %}
+        </dd>
       </dl>
     </div>
     <div class="col-md-4">
@@ -40,18 +48,10 @@ Example:
         </dd>
       </dl>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
       <dl>
-        <dt>{{ _('Organization') }}</dt>
-        <dd>
-          {% if pkg.owner_org %}
-            {% set organization = h.get_localized_org(pkg.owner_org) %}
-            {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
-            <a href="{{ url }}">{{ organization.title or organization.name }}</a>
-          {% else %}
-            {{ _('No organisation available') }}
-          {% endif %}
-        </dd>
+        <dt>{{ _('Terms of use') }}</dt>
+        <dd class="terms"><img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_ref-ask.svg" /></dd>
       </dl>
     </div>
   </div>

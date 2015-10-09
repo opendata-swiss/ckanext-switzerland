@@ -1,0 +1,30 @@
+{#
+Renders a list of related datasets.
+
+pkg - A package object that the resources belong to.
+
+Example:
+
+{% snippet "package/snippets/related_datasets.html", pkg=pkg %}
+
+#}
+{% if pkg.see_alsos %}
+<section class="container related-datasets">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>{{ _('Related Datasets') }}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      {% block related_datasets %}
+      <ul>
+        {% for see_also in pkg.see_alsos %}
+          <li>{{ see_also }}</li>
+        {% endfor %}
+      </ul>
+      {% endblock %}
+    </div>
+  </div>
+</section>
+{% endif %}

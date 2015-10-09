@@ -35,4 +35,8 @@
     {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
   {% endblock %}
 
+  {% block related_datasets %}
+    {% snippet "package/snippets/related_datasets.html", pkg=pkg %}
+  {% endblock %}
+
 {% endblock %}
