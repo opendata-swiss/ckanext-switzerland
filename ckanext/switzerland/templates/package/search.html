@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block page_title %}
-  <h1>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='dataset') }}</h1>
+  <h1>{{ _('Datasets') }}</h1>
 {% endblock %}
 
 {% block primary_content %}
@@ -37,7 +37,9 @@
         {% endfor %}
       </div>
       <div class="col-md-9">
-        {% block sorting %}
+        <div class="search-result-title clearfix">
+          <h2>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='dataset') }}</h2>
+          {% block sorting %}
           {% set sorting = [
           (_('Relevance'), 'score desc, metadata_modified desc'),
           (_('Name Ascending'), 'title_string asc'),
@@ -45,7 +47,7 @@
           (_('Last Modified'), 'metadata_modified desc'),
           (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
           %}
-          <div class="form-group form-inline">
+          <div class="form-group form-inline h2-vertical-center sortby">
             <label for="field-order-by">{{ _('Order by') }}</label>
             <select class="form-control" id="field-order-by" name="sort">
               {% for label, value in sorting %}
@@ -55,7 +57,10 @@
               {% endfor %}
             </select>
           </div>
-        {% endblock %}
+          {% endblock %}
+        </div>
+
+
         {% block package_search_results_list %}
           {{ h.snippet('snippets/package_list.html', packages=c.page.items, list_class='list-unstyled') }}
         {% endblock %}
