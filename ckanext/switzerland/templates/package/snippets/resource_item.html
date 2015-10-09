@@ -5,7 +5,7 @@
 <li class="resource-item" data-id="{{ res.id }}">
   {% block resource_item_title %}
   {% if res.media_type %}
-    <small><span class="label label-primary label-format" property="dcat:mediaType" data-format="{{ res.media_type.upper() }}">{{ res.media_type.upper() }}</span></small>
+    <small><span class="label label-primary-gray" property="dcat:mediaType" data-format="{{ res.media_type.upper() }}">{{ res.media_type.upper() }}</span></small>
   {% endif %}
   <a class="heading" href="{{ url }}" title="{{ res.name or res.description }}">
     {{ h.resource_display_name(res) | truncate(50) }}
@@ -15,7 +15,7 @@
   {% block resource_item_explore %}
   {% if not url_is_edit %}
   <div class="actions pull-right hidden-sm hidden-xs">
-    <a href="{{ url }}"><i class="fa fa-eye"></i> {% if res.has_views %} <small>{{ _('Preview') }}</small>{% else %}<small>{{ _('More information') }}</small>{% endif %}</a>
+    <small><a href="{{ url }}"><i class="fa fa-eye"></i> {% if res.has_views %} {{ _('Preview') }}{% else %}{{ _('More information') }}{% endif %}</a></small>
     <a href="{{ res.url }}" class="btn btn-primary btn-xs" role="button">
       {% if res.has_views %}
         <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
