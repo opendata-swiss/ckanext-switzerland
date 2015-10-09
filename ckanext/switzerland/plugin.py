@@ -13,11 +13,11 @@ from ckanext.switzerland.logic import (
 )
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
-   get_org_count, get_tweet_count
+   get_org_count, get_tweet_count, _get_language_value,
+   get_localized_org
 )
 
 
-LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
 
 class OgdchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -81,27 +81,40 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_app_count': get_app_count,
             'get_org_count': get_org_count,
             'get_tweet_count': get_tweet_count,
+            'get_localized_org': get_localized_org,
         }
 
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
-    def get_language_value(self, lang_dict, desired_lang_code, default_value=''):
+    def _extract_lang_value(self, value, lang_code):
+        new_value = value
         try:
-            if lang_dict[desired_lang_code]:
-                return lang_dict[desired_lang_code]
-        except KeyError:
+            new_value = json.loads(value)
+        except (ValueError, TypeError, AttributeError):
             pass
 
-        lang_idx = LANGUAGE_PRIORITIES.index(desired_lang_code)
-        for i in range(0,len(LANGUAGE_PRIORITIES)):
-            try:
-                # choose next language according to priority
-                lang_code = LANGUAGE_PRIORITIES[lang_idx-i]
-                if str(lang_dict[lang_code]):
-                    return lang_dict[lang_code]
-            except (KeyError, IndexError, ValueError):
-                continue
-        return default_value
+        if isinstance(new_value, dict):
+            return _get_language_value(new_value, lang_code, default_value='')
+        return value
+
+    def before_view(self, pkg_dict):
+        desired_lang_code = pylons.request.environ['CKAN_LANG']
+
+        # TODO: why is this not already a dict?
+        pkg_dict['display_name'] = pkg_dict['title']
+
+        for key, value in pkg_dict.iteritems():
+            pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
+        log.debug(pkg_dict)
+        return pkg_dict
+
+
+class OgdchGroupPlugin(OgdchLanguagePlugin):
+    plugins.implements(plugins.IGroupController, inherit=True)
+
+    # IGroupController
+    def before_view(self, pkg_dict):
+        return super(OgdchGroupPlugin, self).before_view(pkg_dict)
 
 
 class OgdchOrganizationPlugin(OgdchLanguagePlugin):
@@ -110,20 +123,8 @@ class OgdchOrganizationPlugin(OgdchLanguagePlugin):
     # IOrganizationController
 
     def before_view(self, pkg_dict):
-        desired_lang_code = pylons.request.environ['CKAN_LANG']
-
-        # TODO: why is this not already a dict?
-        pkg_dict['display_name'] = pkg_dict['title']
-        dict_fields = ['display_name', 'title', 'description']
-        for key in dict_fields:
-            try:
-                value = json.loads(pkg_dict[key])
-            except ValueError:
-                continue
-            if isinstance(value, dict):
-                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value='')
-        log.debug(pkg_dict)
-        return pkg_dict
+        log.debug("HELL YEAH")
+        return super(OgdchOrganizationPlugin, self).before_view(pkg_dict)
 
 
 class OgdchPackagePlugin(OgdchLanguagePlugin):
@@ -133,15 +134,22 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
     def before_view(self, pkg_dict):
         desired_lang_code = pylons.request.environ['CKAN_LANG']
+        # pkg fields
         for key, value in pkg_dict.iteritems():
-            if isinstance(value, dict):
-                pkg_dict[key] = self.get_language_value(value, desired_lang_code, default_value='')
+            pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
+
+        # groups
+        for element in pkg_dict['groups']:
+            for field in element:
+                element[field] = self._extract_lang_value(element[field], desired_lang_code)
+
+        # resources
         for resource in pkg_dict['resources']:
             if not resource['name'] and resource['title']:
                 resource['name'] = resource['title']
             for key, value in resource.iteritems():
-                if isinstance(value, dict) and key not in ['tracking_summary']:
-                    resource[key] = self.get_language_value(value, desired_lang_code, default_value='')
+                if key not in ['tracking_summary']:
+                    resource[key] = self._extract_lang_value(value, desired_lang_code)
         return pkg_dict
 
 
@@ -153,12 +161,13 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         pkg_dict['res_name'] = map(extract_title, validated_dict[u'resources'])
         pkg_dict['title_string'] = extract_title(validated_dict)
-        pkg_dict['notes'] = LangToString('notes')(validated_dict)
+        pkg_dict['description'] = LangToString('description')(validated_dict)
 
         pkg_dict['title_de'] = validated_dict['title']['de']
         pkg_dict['title_fr'] = validated_dict['title']['fr']
         pkg_dict['title_it'] = validated_dict['title']['it']
         pkg_dict['title_en'] = validated_dict['title']['en']
+
         log.debug(pprint.pformat(pkg_dict))
         return pkg_dict
    
