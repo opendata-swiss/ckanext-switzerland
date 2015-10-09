@@ -1,0 +1,26 @@
+{#
+Renders a toolbox to the dataset.
+
+pkg - A package object.
+
+Example:
+
+{% snippet "package/snippets/toolbox.html", pkg=pkg %}
+
+#}
+<section class="toolbox hidden-sm hidden-xs">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="list-inline">
+          <li class="small"><i class="fa fa-copy"></i> <a href="#">Copy Dataset Reference</a></li>
+          <li class="small"><i class="fa fa-dollar"></i> <a href="#">Request Commercial Use</a></li>
+          <li class="small"><i class="fa fa-refresh"></i> <a href="#">Request Update</a></li>
+          <li class="small"><i class="fa fa-exchange"></i> <a href="#">Request Translation</a></li>
+          <li class="small"><i class="fa fa-exclamation-triangle"></i> <a href="#">Report Problem</a></li>
+          <li class="small"><i class="fa fa-puzzle-piece"></i> <a href="#">Share my App</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
