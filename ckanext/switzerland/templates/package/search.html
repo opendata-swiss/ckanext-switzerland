@@ -3,7 +3,7 @@
 {% set sorting = sorting if sorting else [(_('Name Ascending'), 'name asc'), (_('Name Descending'), 'name desc')] %}
 {% set form_id = form_id if form_id else false %}
 
-{% block subtitle %}{{ _('Datasets') }} | {% endblock %}
+{% block subtitle %}{{ _('Datasets') }}{% endblock %}
 
 {% block breadcrumb_content %}
 <li class="active">{% link_for _('Datasets'), controller='package', action='search' %}</li>
