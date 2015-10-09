@@ -1,0 +1,62 @@
+{% extends "organization/read_base.html" %}
+
+{% block subtitle %}{{ c.group_dict.display_name }} - {% endblock %}
+
+{% block page_title %}
+  <h1>{{ c.group_dict.display_name }}</h1>
+{% endblock %}
+
+{% block primary_content %}
+<form id="dataset-search-form" class="search-form" method="get" data-module="select-switch">
+  <section class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        {% block form %}
+        {% set facets = {
+        'fields': c.fields_grouped,
+        'search': c.search_facets,
+        'titles': c.facet_titles,
+        'translated_fields': c.translated_fields,
+        'remove_field': c.remove_field }
+        %}
+        {% set sorting = [
+        (_('Relevance'), 'score desc, metadata_modified desc'),
+        (_('Name Ascending'), 'title_string asc'),
+        (_('Name Descending'), 'title_string desc'),
+        (_('Last Modified'), 'metadata_modified desc'),
+        (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+        %}
+        {% snippet 'snippets/search_form.html', type='dataset', query=c.q, count=c.page.item_count, show_empty=request.params, error=c.query_error, fields=c.fields %}
+        {% endblock %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 facet-filters">
+        <h2 class="sr-only">{{ _('Search Filter') }}</h2>
+        {% for facet in c.facet_titles %}
+        {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
+        {% endfor %}
+      </div>
+      <div class="col-md-9">
+        {% block sorting %}
+        {% if sorting %}
+        <div class="form-group form-inline">
+          <label for="field-order-by">{{ _('Order by') }}</label>
+          <select class="form-control" id="field-order-by" name="sort">
+            {% for label, value in sorting %}
+            {% if label and value %}
+            <option value="{{ value }}"{% if c.sort_by_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        {% endif %}
+        {% endblock %}
+        {% block package_search_results_list %}
+        {{ h.snippet('snippets/package_list.html', packages=c.page.items, list_class='list-unstyled') }}
+        {% endblock %}
+      </div>
+    </div>
+  </section>
+</form>
+{% endblock %}
