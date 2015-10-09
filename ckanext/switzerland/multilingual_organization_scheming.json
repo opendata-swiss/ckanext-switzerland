@@ -19,7 +19,8 @@
     },
     {
       "field_name": "description",
-      "label": "Description"
+      "label": "Description",
+      "preset": "multilingual_markdown"
     },
     {
       "field_name": "url",

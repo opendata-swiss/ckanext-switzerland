@@ -8,7 +8,7 @@
     {
       "field_name": "title",
       "label": "Title",
-      "preset": "fluent_text",
+      "preset": "multilingual_text",
       "form_placeholder": "eg. A descriptive title"
     },
     {
@@ -18,8 +18,9 @@
       "form_placeholder": "eg. my-group"
     },
     {
-      "field_name": "notes",
-      "label": "Description"
+      "field_name": "description",
+      "label": "Description",
+      "preset": "multilingual_markdown"
     },
     {
       "field_name": "url",

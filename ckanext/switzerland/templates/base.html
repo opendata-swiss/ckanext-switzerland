@@ -1,7 +1,7 @@
 {% ckan_extends %}
 
 {%- block title -%}
-  {{ app_globals.site_title }}
+{% block subtitle %}{{ _('Home') }}{% endblock %} | {{ app_globals.site_title }}
 {%- endblock -%}
 
 {% block styles %}

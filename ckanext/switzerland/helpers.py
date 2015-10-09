@@ -1,6 +1,10 @@
 import ckan.plugins.toolkit as tk
+import ckan.logic as logic
 import requests
-from pylons import config
+import pylons
+
+import logging
+log = logging.getLogger(__name__)
 
 def get_dataset_count():
     user = tk.get_action('get_site_user')({'ignore_auth': True},{})
@@ -37,9 +41,45 @@ def get_tweet_count():
     return 'N/A'
 
 def _call_wp_api(action):
-    api_url = config.get('ckanext.switzerland.wp_ajax_url', None)
+    api_url = pylons.config.get('ckanext.switzerland.wp_ajax_url', None)
     try:
         r = requests.post(api_url, data={'action': action})
         return r.json()
     except:
         return None
+
+def get_localized_org(org=None, include_datasets=False):
+    if org is None:
+        return {}
+    try:
+        lang_code = pylons.request.environ['CKAN_LANG']
+        org = logic.get_action('organization_show')(
+            {}, {'id': org, 'include_datasets': include_datasets})
+        for key, value in org.iteritems():
+            org[key] = _get_language_value(value, lang_code, default_value=value)
+        return org
+
+    except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
+        return {}
+
+LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
+def _get_language_value(lang_dict, desired_lang_code, default_value=''):
+    if not isinstance(lang_dict, dict):
+        return default_value
+
+    try:
+        if lang_dict[desired_lang_code]:
+            return lang_dict[desired_lang_code]
+    except KeyError:
+        pass
+
+    lang_idx = LANGUAGE_PRIORITIES.index(desired_lang_code)
+    for i in range(0,len(LANGUAGE_PRIORITIES)):
+        try:
+            # choose next language according to priority
+            lang_code = LANGUAGE_PRIORITIES[lang_idx-i]
+            if str(lang_dict[lang_code]):
+                return lang_dict[lang_code]
+        except (KeyError, IndexError, ValueError):
+            continue
+    return default_value
