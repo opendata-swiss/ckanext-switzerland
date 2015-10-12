@@ -1,13 +1,13 @@
-{% extends "organization/read_base.html" %}
+{% extends "group/read_base.html" %}
 
 {% block subtitle %}{{ c.group_dict.display_name }} - {% endblock %}
 
 {% block page_title %}
-  <h1>{{ c.group_dict.display_name }}</h1>
+<h1>{{ c.group_dict.display_name }}</h1>
 {% endblock %}
 
 {% block primary_content %}
-{% block organization_description %}
+{% block group_description %}
 <section class="container">
   <div class="row">
     <div class="col-xs-12">
@@ -21,13 +21,6 @@
     <div class="row">
       <div class="col-xs-12">
         {% block form %}
-        {% set facets = {
-        'fields': c.fields_grouped,
-        'search': c.search_facets,
-        'titles': c.facet_titles,
-        'translated_fields': c.translated_fields,
-        'remove_field': c.remove_field }
-        %}
         {% set sorting = [
         (_('Relevance'), 'score desc, metadata_modified desc'),
         (_('Name Ascending'), 'title_string asc'),
@@ -42,6 +35,7 @@
     <div class="row">
       <div class="col-md-3 facet-filters">
         <h2 class="sr-only">{{ _('Search Filter') }}</h2>
+        {{ c.facet_titles }}
         {% for facet in c.facet_titles %}
         {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
         {% endfor %}
