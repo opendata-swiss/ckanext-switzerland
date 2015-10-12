@@ -64,7 +64,7 @@
           %}
           <div class="form-group form-inline h2-vertical-center sortby">
             <label for="field-order-by">{{ _('Order by') }}</label>
-            <select class="form-control" id="field-order-by" name="sort">
+            <select class="form-control" id="field-order-by" name="sort" onchange="this.form.submit()">
               {% for label, value in sorting %}
               {% if label and value %}
               <option value="{{ value }}"{% if c.sort_by_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
