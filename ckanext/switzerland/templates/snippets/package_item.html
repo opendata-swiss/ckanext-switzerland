@@ -47,7 +47,11 @@ Example:
         {% endblock %}
         {% block groups %}
           {% if package.groups %}
-            <p class="small">{{ package.groups }}</p>
+            <p class="small">
+            {% for group in package.groups %}
+              {{ group.display_name }},
+            {% endfor %}
+            </p>
           {% endif %}
         {% endblock %}
         {% block description %}
