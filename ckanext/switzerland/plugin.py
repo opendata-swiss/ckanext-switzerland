@@ -101,7 +101,8 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _extract_lang_value(self, value, lang_code):
         new_value = value
         try:
-            new_value = json.loads(value)
+            if not isinstance(new_value, dict):
+                new_value = json.loads(value)
         except (ValueError, TypeError, AttributeError):
             pass
 
