@@ -20,6 +20,7 @@ Example:
       {% block related_datasets %}
       <ul>
         {% for see_also in pkg.see_alsos %}
+          {# TODO print link to related dataset #}
           <li>{{ see_also }}</li>
         {% endfor %}
       </ul>

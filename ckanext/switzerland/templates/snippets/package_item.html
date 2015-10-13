@@ -49,6 +49,7 @@ Example:
           {% if package.groups %}
             <p class="small">
             {% for group in package.groups %}
+              {# TODO do not print comma after last element #}
               {{ group.display_name }},
             {% endfor %}
             </p>
