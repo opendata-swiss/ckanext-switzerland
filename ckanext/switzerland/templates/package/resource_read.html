@@ -1,6 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
+{% set current_lang = request.environ.CKAN_LANG %}
 
 {% block head_extras -%}
   {{ super() }}
@@ -26,14 +27,14 @@
 {% block primary_content %}
   <section class="container description">
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-2 col-sm-6">
         <dl>
           <dt>{{ _('Last updated') }}</dt>
           {# TODO use issued or modified date when sync problem is solved #}
           <dd>{{ h.render_datetime(res.created, with_hours=False) }}</dd>
         </dl>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 col-sm-6">
         <dl>
           <dt>{{ _('Terms of use') }}</dt>
           <dd class="terms">
@@ -48,7 +49,7 @@
           </dd>
         </dl>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3 col-sm-6">
         <dl>
           <dt>{{ _('Organization') }}</dt>
           <dd>
@@ -62,19 +63,28 @@
           </dd>
         </dl>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2 col-sm-6">
         <dl>
-          <dt>{{ _('Download') }}</dt>
+          <dt>{{ _('Media Type') }}</dt>
           <dd>
-            {% if pkg.owner_org %}
-            {% set organization = h.get_localized_org(pkg.owner_org) %}
-            {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
-            <a href="{{ url }}">{{ organization.title or organization.name }}</a>
+            {% if res.media_type %}
+              <span class="label label-default">{{ res.media_type }}</span>
             {% else %}
-            {{ _('No organisation available') }}
+              -
             {% endif %}
           </dd>
         </dl>
+      </div>
+      <div class="col-md-3 col-sm-12 text-md-right">
+        {% if res.download_url %}
+          <a href="{{ res.download_url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
+            <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
+          </a>
+          {% else %}
+          <a href="{{ res.access_url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
+            <i class="fa fa-external-link"></i> {{ _('Go to resource') }}
+          </a>
+        {% endif %}
       </div>
     </div>
     <div class="row">
