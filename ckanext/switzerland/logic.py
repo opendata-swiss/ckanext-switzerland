@@ -25,3 +25,42 @@ def ogdch_dataset_count(context, data_dict):
         'total_count': search_result['count'],
         'groups': group_count,
     }
+
+@side_effect_free
+def ogdch_dataset_terms_of_use(context, data_dict):
+    '''
+    Returns the terms of use for the requested dataset.
+
+    By definition the terms of use of a dataset corresponds 
+    to the least open rights statement of all distributions of
+    the dataset
+    '''
+    terms = [
+      'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired',
+      'NonCommercialAllowed-CommercialAllowed-ReferenceRequired',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired',
+      'ClosedData',
+    ]
+    user = tk.get_action('get_site_user')({'ignore_auth': True},{})
+    req_context = {'user': user['name']}
+
+    pkg = tk.get_action('package_show')(req_context, {'id': data_dict['id']})
+
+    least_open = None
+    for res in pkg['resources']:
+        if res['rights'] not in terms:
+            least_open = 'ClosedData'
+            continue
+        if least_open is None:
+            least_open = res['rights']
+            continue
+        if terms.index(res['rights']) > terms.index(least_open):
+            least_open = res['rights']
+
+    if least_open is None:
+        least_open = 'ClosedData'
+
+    return {
+        'dataset_rights': least_open
+    }

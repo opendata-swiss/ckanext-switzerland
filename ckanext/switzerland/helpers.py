@@ -126,11 +126,17 @@ def get_terms_of_use_icon(terms_of_use):
       'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': 'terms_ref.svg',
       'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': 'terms_ask.svg',
       'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': 'terms_ref-ask.svg',
+      'ClosedData': 'terms_closed.svg',
     }
     try:
         return term_to_image_mapping[terms_of_use]
     except KeyError:
         return False
+
+def get_dataset_terms_of_use(pkg):
+    rights = logic.get_action('ogdch_dataset_terms_of_use')({}, {'id': pkg})
+    return rights['dataset_rights']
+    
 
 def _resource_display_name(resource_dict):
     title = resource_dict.get('title', None)
