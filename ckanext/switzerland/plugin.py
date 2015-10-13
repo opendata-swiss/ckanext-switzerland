@@ -143,6 +143,14 @@ class OgdchOrganizationPlugin(OgdchLanguagePlugin):
     def before_view(self, pkg_dict):
         return super(OgdchOrganizationPlugin, self).before_view(pkg_dict)
 
+class OgdchResourcePlugin(OgdchLanguagePlugin):
+    plugins.implements(plugins.IResourceController, inherit=True)
+    
+    # IResourceController
+
+    def before_show(self, pkg_dict):
+        return super(OgdchResourcePlugin, self).before_view(pkg_dict)
+
 
 class OgdchPackagePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IPackageController, inherit=True)
