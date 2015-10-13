@@ -1,6 +1,7 @@
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic
 import requests
+import json
 import pylons
 from ckan.common import _
 
@@ -71,6 +72,13 @@ def get_localized_org(org=None, include_datasets=False):
         return org
     except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
         return {}
+
+def localize_json_title(facet_item):
+    try:
+        lang_dict = json.loads(facet_item['display_name'])
+        return get_localized_value(lang_dict, default_value=facet_item['display_name'])
+    except:
+        return facet_item['display_name']
 
 LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
 def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
