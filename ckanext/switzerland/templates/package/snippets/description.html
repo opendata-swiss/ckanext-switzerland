@@ -11,7 +11,7 @@ Example:
 {% set current_lang = request.environ.CKAN_LANG %}
 <section class="container description">
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-6">
       <dl>
         <dt>{{ _('Last updated') }}</dt>
         <dd>
@@ -22,14 +22,14 @@ Example:
           {% endif %}
       </dl>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-6">
       <dl>
         <dt>{{ _('Terms of use') }}</dt>
         {# TODO get least open terms of use from resources instead of static image #}
         <dd class="terms"><a href="/{{ current_lang }}/terms-of-use"><img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_ref-ask.svg" /></a></dd>
       </dl>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-6">
       <dl>
         <dt>{{ _('Organization') }}</dt>
         <dd>
@@ -43,7 +43,7 @@ Example:
         </dd>
       </dl>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-6">
       <dl>
         <dt>{{ _('Groups') }}</dt>
         <dd>
@@ -51,7 +51,7 @@ Example:
           {% for group in pkg.groups %}
             {% set type = group.type or 'group' %}
             {% set url = h.url_for(type ~ '_read', action='read', id=group.name) %}
-            <a href="{{ url }}" title="{{ _('View {name}').format(name=group.title) }}" class="media-view">{{ group.title }}</a>{% if not loop.last %}, {% endif %}
+            <a href="{{ url }}" title="{{ _('View {name}').format(name=group.title) }}">{{ group.title }}</a>{% if not loop.last %}, {% endif %}
           {% endfor %}
         {% else %}
           -
