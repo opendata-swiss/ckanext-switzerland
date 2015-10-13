@@ -19,64 +19,87 @@
 {% endblock %}
 
 {% block page_title %}
-  <h1>{{ h.resource_display_name(res) | truncate(200) }}</h1>
+  {# TODO res.title is still a dictionary here #}
+  <h1>{{ h.resource_display_name(res) }}</h1>
 {% endblock %}
 
 {% block primary_content %}
-  <section class="container">
+  <section class="container description">
+    <div class="row">
+      <div class="col-md-2">
+        <dl>
+          <dt>{{ _('Last updated') }}</dt>
+          {# TODO use issued or modified date when sync problem is solved #}
+          <dd>{{ h.render_datetime(res.created, with_hours=False) }}</dd>
+        </dl>
+      </div>
+      <div class="col-md-2">
+        <dl>
+          <dt>{{ _('Terms of use') }}</dt>
+          <dd class="terms">
+            <a href="/{{ current_lang }}/terms-of-use">
+              {% set terms_of_use_image = h.get_terms_of_use_icon(res.rights) %}
+              {% if terms_of_use_image %}
+                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use_image }}" />
+              {% else %}
+                -
+              {% endif %}
+            </a>
+          </dd>
+        </dl>
+      </div>
+      <div class="col-md-4">
+        <dl>
+          <dt>{{ _('Organization') }}</dt>
+          <dd>
+            {% if pkg.owner_org %}
+              {% set organization = h.get_localized_org(pkg.owner_org) %}
+              {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
+              <a href="{{ url }}">{{ organization.title or organization.name }}</a>
+            {% else %}
+              {{ _('No organisation available') }}
+            {% endif %}
+          </dd>
+        </dl>
+      </div>
+      <div class="col-md-4">
+        <dl>
+          <dt>{{ _('Download') }}</dt>
+          <dd>
+            {% if pkg.owner_org %}
+            {% set organization = h.get_localized_org(pkg.owner_org) %}
+            {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
+            <a href="{{ url }}">{{ organization.title or organization.name }}</a>
+            {% else %}
+            {{ _('No organisation available') }}
+            {% endif %}
+          </dd>
+        </dl>
+      </div>
+    </div>
     <div class="row">
       <div class="col-xs-12">
-        <div class="prose notes" property="rdfs:label">
-          {% if res.description %}
-            {{ h.render_markdown(res.description) }}
-          {% endif %}
-          {% if not res.description and c.package.notes %}
-            <h3>{{ _('From the dataset abstract') }}</h3>
-            {{ h.markdown_extract(c.package.get('notes')) }}
-            <p>{% trans dataset=c.package.title, url=h.url_for(controller='package', action='read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
-          {% endif %}
-        </div>
+        {% TODO description is still an dict of all languages %}
+        <h2>{{ _('Description') }}</h2>
+        {% if res.description %}
+          <p>{{ res.description }}</p>
+        {% endif %}
+        {% if not res.description and c.package.description %}
+          <p>{{ c.package.get('description') }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
 
-        {% block resource_additional_information %}
-          {% if res %}
-            <section class="module">
-              {% block resource_additional_information_inner %}
-              <div class="module-content">
-                <h2>{{ _('Additional Information') }}</h2>
-                <table class="table table-striped table-bordered table-condensed" data-module="table-toggle-more">
-                  <thead>
-                    <tr>
-                      <th scope="col">{{ _('Field') }}</th>
-                      <th scope="col">{{ _('Value') }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">{{ _('Last updated') }}</th>
-                      <td>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">{{ _('Created') }}</th>
-                      <td>{{ h.render_datetime(res.created) or _('unknown') }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">{{ _('Format') }}</th>
-                      <td>{{ res.mimetype_inner or res.mimetype or res.format or _('unknown') }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">{{ _('License') }}</th>
-                      <td>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</td>
-                    </tr>
-                    {% for key, value in h.format_resource_items(res.items()) %}
-                      <tr class="toggle-more"><th scope="row">{{ key }}</th><td>{{ value }}</td></tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              {% endblock %}
-            </section>
-          {% endif %}
-        {% endblock %}
+  <section class="additional-info container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>{{ _('Additional Info') }}</h2>
+        <dl class="dl-horizontal">
+          {% block resource_additional_information_inner %}
+            {# Content gets rendered in scheming/package/resource_read.html #}
+          {% endblock %}
+        </dl>
       </div>
     </div>
   </section>

@@ -1,0 +1,12 @@
+{%- set relations = data[field.field_name] -%}
+<ul>
+  {% for relation in relations %}
+  <li>
+    {% if relation.url %}
+      <a href="{{ relation.url }}" target="_blank">{{ relation.label }}</a>
+    {% else %}
+      {{ relation.label }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>

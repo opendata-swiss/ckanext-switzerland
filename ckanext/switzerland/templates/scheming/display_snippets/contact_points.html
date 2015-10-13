@@ -1,0 +1,12 @@
+{%- set contact_points = data[field.field_name] -%}
+<ul>
+  {% for contact_point in contact_points %}
+  <li>
+    {% if contact_point.email %}
+      <a href="mailto:{{ contact_point.email }}">{{ contact_point.name }}</a>
+    {% else %}
+      {{ contact_point.name }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>

@@ -1,12 +1,11 @@
 {% import 'macros/form.html' as form %}
 
 {% set placeholder = placeholder if placeholder else _('Search datasets...') %}
-{% set search_class = search_class if search_class else 'search-giant' %}
 
 
 {% block search_input %}
-  <div class="form-group has-feedback {{ search_class }}">
-    <input type="search" class="form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
+  <div class="form-group has-feedback main-search">
+    <input type="search" class="form-control input-lg" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
     <i class="fa fa-search form-control-feedback" aria-hidden="true"></i>
   </div>
 {% endblock %}

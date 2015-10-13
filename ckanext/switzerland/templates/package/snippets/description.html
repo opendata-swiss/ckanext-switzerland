@@ -8,18 +8,39 @@ Example:
 {% snippet "package/snippets/description.html", pkg=pkg %}
 
 #}
+{% set current_lang = request.environ.CKAN_LANG %}
 <section class="container description">
   <div class="row">
     <div class="col-md-2">
       <dl>
         <dt>{{ _('Last updated') }}</dt>
-        <dd>{{ h.render_datetime(pkg.metadata_modified, with_hours=False) }}</dd>
+        <dd>
+          {% if pkg.modified %}
+            {{ h.render_datetime(pkg.modified, with_hours=False) }}</dd>
+          {% else %}
+            {{ h.render_datetime(pkg.issued, with_hours=False) }}</dd>
+          {% endif %}
       </dl>
     </div>
     <div class="col-md-2">
       <dl>
-        <dt>{{ _('License') }}</dt>
-        <dd>Insert icon here</dd>
+        <dt>{{ _('Terms of use') }}</dt>
+        {# TODO get least open terms of use from resources instead of static image #}
+        <dd class="terms"><a href="/{{ current_lang }}/terms-of-use"><img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_ref-ask.svg" /></a></dd>
+      </dl>
+    </div>
+    <div class="col-md-4">
+      <dl>
+        <dt>{{ _('Organization') }}</dt>
+        <dd>
+          {% if pkg.owner_org %}
+          {% set organization = h.get_localized_org(pkg.owner_org) %}
+          {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
+          <a href="{{ url }}">{{ organization.title or organization.name }}</a>
+          {% else %}
+          {{ _('No organisation available') }}
+          {% endif %}
+        </dd>
       </dl>
     </div>
     <div class="col-md-4">
@@ -40,21 +61,11 @@ Example:
         </dd>
       </dl>
     </div>
-    <div class="col-md-4">
-      <dl>
-        <dt>{{ _('Organization') }}</dt>
-        <dd>
-          {% if pkg.owner_org %}
-            {% set organization = h.get_localized_org(pkg.owner_org) %}
-            {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
-            <a href="{{ url }}">{{ organization.title or organization.name }}</a>
-          {% else %}
-            {{ _('No organisation available') }}
-          {% endif %}
-        </dd>
-      </dl>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>{{ _('Description') }}</h2>
+      <p>{{ pkg.description }}</p>
     </div>
   </div>
-  <h2>{{ _('Description') }}</h2>
-  <p>{{ pkg.description }}</p>
 </section>

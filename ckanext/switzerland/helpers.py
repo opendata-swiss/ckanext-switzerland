@@ -2,6 +2,7 @@ import ckan.plugins.toolkit as tk
 import ckan.logic as logic
 import requests
 import pylons
+from ckan.common import _
 
 import logging
 log = logging.getLogger(__name__)
@@ -83,3 +84,30 @@ def _get_language_value(lang_dict, desired_lang_code, default_value=''):
         except (KeyError, IndexError, ValueError):
             continue
     return default_value
+
+def get_frequency_name(identifier):
+    frequencies = {
+      'http://purl.org/cld/freq/completelyIrregular': _('Irregular'),
+      'http://purl.org/cld/freq/continuous': _('Continuous'),
+      'http://purl.org/cld/freq/daily': _('Daily'),
+      'http://purl.org/cld/freq/weekly': _('Weekly'),
+      'http://purl.org/cld/freq/monthly': _('Monthly'),
+      'http://purl.org/cld/freq/semiannual': _('Semi Annual'),
+      'http://purl.org/cld/freq/annual': _('Annual'),
+    }
+    try:
+        return frequencies[identifier]
+    except KeyError:
+        return identifier
+
+def get_terms_of_use_icon(terms_of_use):
+    term_to_image_mapping = {
+      'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': 'terms_open.svg',
+      'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': 'terms_ref.svg',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': 'terms_ask.svg',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': 'terms_ref-ask.svg',
+    }
+    try:
+        return term_to_image_mapping[terms_of_use]
+    except KeyError:
+        return False

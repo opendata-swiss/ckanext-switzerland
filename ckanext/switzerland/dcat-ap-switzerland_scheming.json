@@ -43,17 +43,19 @@
     },
     {
       "field_name": "publishers",
-      "label": "Publisher",
-      "preset": "dicts"
+      "label": "Publisher(s)",
+      "preset": "dicts",
+      "display_snippet": "publishers.html"
     },
     {
       "field_name": "contact_points",
       "label": "Contact point(s)",
-      "preset": "dicts"
+      "preset": "dicts",
+      "display_snippet": "contact_points.html"
     },
     {
       "field_name": "language",
-      "label": "Language",
+      "label": "Languages",
       "preset": "multiple_checkbox",
       "choices": [
         {"value": "de", "label": "Deutsch"},
@@ -65,7 +67,8 @@
     {
       "field_name": "relations",
       "label": "Relation(s)",
-      "preset": "dicts"
+      "preset": "dicts",
+      "display_snippet": "relations.html"
     },
     {
       "field_name": "tag_string",
@@ -91,11 +94,13 @@
     {
       "field_name": "temporals",
       "label": "Temporal(s)",
-      "preset": "dicts"
+      "preset": "dicts",
+      "display_snippet": "temporals.html"
     },
     {
       "field_name": "accrual_periodicity",
-      "label": "Periodicity"
+      "label": "Periodicity",
+      "display_snippet": "periodicity.html"
     },
     {
       "field_name": "see_alsos",
@@ -115,7 +120,7 @@
       "form_placeholder": "eg. A descriptive title"
     },
     {
-      "field_name": "notes",
+      "field_name": "description",
       "label": "Description",
       "preset": "multilingual_markdown"
     },

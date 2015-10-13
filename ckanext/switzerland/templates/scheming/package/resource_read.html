@@ -1,0 +1,25 @@
+{% extends "package/resource_read.html" %}
+
+{%- set exclude_fields = [
+    'title',
+    'description',
+    'rights',
+    'license',
+    'coverage',
+    ] -%}
+{%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+
+{% block resource_additional_information_inner %}
+    {%- block resource_fields -%}
+      {%- for field in schema.resource_fields -%}
+        {%- if field.field_name not in exclude_fields -%}
+            <dt>
+              {{- h.scheming_language_text(field.label) -}}
+            </dt>
+            <dd>
+              {%- snippet 'scheming/snippets/display_field.html', field=field, data=res, schema=schema -%}
+            </dd>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endblock -%}
+{% endblock %}

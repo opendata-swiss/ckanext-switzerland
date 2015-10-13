@@ -1,26 +1,10 @@
 <section class="additional-info container">
   <div class="row">
     <div class="col-xs-12">
-      <h3>{{ _('Additional Info') }}</h3>
+      <h2>{{ _('Additional Info') }}</h2>
       <dl class="dl-horizontal">
         {% block package_additional_info %}
-          {% if pkg_dict.url %}
-            <dt>{{ _('Source') }}</dt>
-            <dd property="foaf:homepage">
-              {% if h.is_url(pkg_dict.url) %}
-                {{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}
-              {% else %}
-                {{ pkg_dict.url }}
-              {% endif %}
-            </dd>
-          {% endif %}
-          {% block extras scoped %}
-            {% for extra in h.sorted_extras(pkg_dict.extras) %}
-            {% set key, value = extra %}
-              <dt class="dataset-label" property="rdfs:label">{{ _(key) }}</dt>
-              <dd class="dataset-details" property="rdf:value">{{ value }}</dd>
-            {% endfor %}
-          {% endblock %}
+          {# Content gets rendered in scheming/package/snippets/additional_info.html #}
         {% endblock %}
       </dl>
     </div>

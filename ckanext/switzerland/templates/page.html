@@ -13,7 +13,7 @@
 
   {# The content block allows you to replace the content of the page if needed #}
   {%- block content %}
-    {% block maintag %}<div id="content" role="main">{% endblock %}
+    {% block maintag %}<div id="content" role="main" class="{% block maintag_class %}{% endblock %}">{% endblock %}
 
       {% block main_content %}
         {% block page_header %}
