@@ -52,7 +52,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict['groups'] = plugins.toolkit._('Themes')
         facets_dict['tags'] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
-        facets_dict['license_id'] = plugins.toolkit._('Terms')
+        facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
@@ -60,7 +60,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict = collections.OrderedDict()
         facets_dict['tags'] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
-        facets_dict['license_id'] = plugins.toolkit._('Terms')
+        facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
@@ -68,7 +68,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict = collections.OrderedDict()
         facets_dict['groups'] = plugins.toolkit._('Themes')
         facets_dict['tags'] = plugins.toolkit._('Keywords')
-        facets_dict['license_id'] = plugins.toolkit._('Terms')
+        facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
@@ -195,6 +195,8 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         log.debug(pprint.pformat(validated_dict))
 
         pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
+        pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
+        pkg_dict['res_rights'] = [r['rights'] for r in validated_dict[u'resources']]
         pkg_dict['title_string'] = extract_title(validated_dict)
         pkg_dict['description'] = LangToString('description')(validated_dict)
 
