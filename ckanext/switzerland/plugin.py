@@ -14,7 +14,7 @@ from ckanext.switzerland.logic import (
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
    get_org_count, get_tweet_count, _get_language_value,
-   get_localized_org
+   get_localized_org, get_frequency_name
 )
 
 
@@ -82,6 +82,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_org_count': get_org_count,
             'get_tweet_count': get_tweet_count,
             'get_localized_org': get_localized_org,
+            'get_frequency_name': get_frequency_name,
         }
 
 

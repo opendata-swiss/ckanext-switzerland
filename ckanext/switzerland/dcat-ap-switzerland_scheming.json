@@ -67,7 +67,8 @@
     {
       "field_name": "relations",
       "label": "Relation(s)",
-      "preset": "dicts"
+      "preset": "dicts",
+      "display_snippet": "relations.html"
     },
     {
       "field_name": "tag_string",
@@ -93,11 +94,13 @@
     {
       "field_name": "temporals",
       "label": "Temporal(s)",
-      "preset": "dicts"
+      "preset": "dicts",
+      "display_snippet": "temporals.html"
     },
     {
       "field_name": "accrual_periodicity",
-      "label": "Periodicity"
+      "label": "Periodicity",
+      "display_snippet": "periodicity.html"
     },
     {
       "field_name": "see_alsos",
