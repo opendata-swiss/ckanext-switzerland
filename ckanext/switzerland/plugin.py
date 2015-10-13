@@ -39,6 +39,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         return {
             'multiple_text': validators.multiple_text,
             'multiple_text_output': validators.multiple_text_output,
+            'multilingual_text_output': validators.multilingual_text_output,
             'list_of_dicts': validators.list_of_dicts,
             }
 

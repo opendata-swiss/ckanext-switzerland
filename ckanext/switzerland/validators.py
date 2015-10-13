@@ -37,6 +37,19 @@ def multiple_text(field, schema):
 
     return validator
 
+def multilingual_text_output(value):
+    """
+    Return stored json representation as a multilingual dict, if
+    value is already a dict just pass it through.
+    """
+    if isinstance(value, dict):
+        return value
+    try:
+        return json.loads(value)
+    except ValueError:
+        # plain string in the db, assume already correctly replaced
+        return value
+
 @scheming_validator
 def list_of_dicts(field, schema):
     def validator(key, data, errors, context):
