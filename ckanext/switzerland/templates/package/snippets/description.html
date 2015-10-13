@@ -51,9 +51,7 @@ Example:
           {% for group in pkg.groups %}
             {% set type = group.type or 'group' %}
             {% set url = h.url_for(type ~ '_read', action='read', id=group.name) %}
-            <a href="{{ url }}" title="{{ _('View {name}').format(name=group.title) }}" class="media-view">{{ group.title }}</a>
-            {# TODO do not print comma after last element #}
-            ,
+            <a href="{{ url }}" title="{{ _('View {name}').format(name=group.title) }}" class="media-view">{{ group.title }}</a>{% if not loop.last %}, {% endif %}
           {% endfor %}
         {% else %}
           -
