@@ -79,9 +79,7 @@
     {
       "field_name": "url",
       "label": "Landing page",
-      "form_placeholder": "http://example.com/dataset.json",
-      "display_property": "foaf:homepage",
-      "display_snippet": "link.html"
+      "preset": "url"
     },
     {
       "field_name": "spatial",
@@ -148,12 +146,12 @@
     {
       "field_name": "url",
       "label": "Access URL",
-      "preset": "resource_url_upload"
+      "preset": "url"
     },
     {
       "field_name": "download_url",
       "label": "Download URL",
-      "preset": "resource_url_upload"
+      "preset": "url"
     },
     {
       "field_name": "rights",
