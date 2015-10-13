@@ -43,17 +43,19 @@
     },
     {
       "field_name": "publishers",
-      "label": "Publisher",
-      "preset": "dicts"
+      "label": "Publisher(s)",
+      "preset": "dicts",
+      "display_snippet": "publishers.html"
     },
     {
       "field_name": "contact_points",
       "label": "Contact point(s)",
-      "preset": "dicts"
+      "preset": "dicts",
+      "display_snippet": "contact_points.html"
     },
     {
       "field_name": "language",
-      "label": "Language",
+      "label": "Languages",
       "preset": "multiple_checkbox",
       "choices": [
         {"value": "de", "label": "Deutsch"},
