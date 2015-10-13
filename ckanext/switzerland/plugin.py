@@ -14,9 +14,9 @@ from ckanext.switzerland.logic import (
 )
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
-   get_org_count, get_tweet_count, _get_language_value,
-   get_localized_org, get_frequency_name, get_terms_of_use_icon,
-   _resource_display_name
+   get_org_count, get_tweet_count, get_localized_value,
+   get_localized_org, get_localized_pkg, get_frequency_name,
+   get_terms_of_use_icon
 )
 
 
@@ -35,9 +35,6 @@ class OgdchPlugin(plugins.SingletonPlugin):
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'switzerland')
 
-        # monkey patch ckan helper methods
-        h.resource_display_name = _resource_display_name
-    
     # IValidators
 
     def get_validators(self):
@@ -98,6 +95,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_org_count': get_org_count,
             'get_tweet_count': get_tweet_count,
             'get_localized_org': get_localized_org,
+            'get_localized_pkg': get_localized_pkg,
             'get_frequency_name': get_frequency_name,
             'get_terms_of_use_icon': get_terms_of_use_icon,
         }
@@ -113,7 +111,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             pass
 
         if isinstance(new_value, dict):
-            return _get_language_value(new_value, lang_code, default_value='')
+            return get_localized_value(new_value, lang_code, default_value='')
         return value
 
     def before_view(self, pkg_dict):
@@ -123,8 +121,12 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         pkg_dict['display_name'] = pkg_dict['title']
 
         for key, value in pkg_dict.iteritems():
-            pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
+            if not self._ignore_field(key):
+                pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
         return pkg_dict
+
+    def _ignore_field(self, key):
+        return False
 
 
 class OgdchGroupPlugin(OgdchLanguagePlugin):
@@ -151,6 +153,9 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
     def before_show(self, pkg_dict):
         return super(OgdchResourcePlugin, self).before_view(pkg_dict)
 
+    def _ignore_field(self, key):
+        return key == 'tracking_summary'
+
 
 class OgdchPackagePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IPackageController, inherit=True)
@@ -168,6 +173,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             for field in element:
                 element[field] = self._extract_lang_value(element[field], desired_lang_code)
 
+        # organization
+        for field in pkg_dict['organization']:
+            pkg_dict['organization'][field] = self._extract_lang_value(pkg_dict['organization'][field], desired_lang_code)
+
         # resources
         for resource in pkg_dict['resources']:
             if not resource['name'] and resource['title']:
@@ -182,9 +191,9 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         extract_title = LangToString('title')
         validated_dict = json.loads(pkg_dict['validated_data_dict'])
         
-        log.debug(pprint.pformat(validated_dict['title']))
+        log.debug(pprint.pformat(validated_dict))
 
-        pkg_dict['res_name'] = map(extract_title, validated_dict[u'resources'])
+        pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
         pkg_dict['title_string'] = extract_title(validated_dict)
         pkg_dict['description'] = LangToString('description')(validated_dict)
 
