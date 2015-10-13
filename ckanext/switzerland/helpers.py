@@ -99,3 +99,15 @@ def get_frequency_name(identifier):
         return frequencies[identifier]
     except KeyError:
         return identifier
+
+def get_terms_of_use_icon(terms_of_use):
+    term_to_image_mapping = {
+      'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': 'terms_open.svg',
+      'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': 'terms_ref.svg',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': 'terms_ask.svg',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': 'terms_ref-ask.svg',
+    }
+    try:
+        return term_to_image_mapping[terms_of_use]
+    except KeyError:
+        return False

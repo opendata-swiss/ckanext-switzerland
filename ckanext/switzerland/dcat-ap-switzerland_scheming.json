@@ -120,7 +120,7 @@
       "form_placeholder": "eg. A descriptive title"
     },
     {
-      "field_name": "notes",
+      "field_name": "description",
       "label": "Description",
       "preset": "multilingual_markdown"
     },

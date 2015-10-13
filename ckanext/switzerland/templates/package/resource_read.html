@@ -19,6 +19,7 @@
 {% endblock %}
 
 {% block page_title %}
+  {# TODO res.title is still a dictionary here #}
   <h1>{{ h.resource_display_name(res) }}</h1>
 {% endblock %}
 
@@ -28,7 +29,7 @@
       <div class="col-md-2">
         <dl>
           <dt>{{ _('Last updated') }}</dt>
-          {# TODO use issued or modified date #}
+          {# TODO use issued or modified date when sync problem is solved #}
           <dd>{{ h.render_datetime(res.created, with_hours=False) }}</dd>
         </dl>
       </div>
@@ -36,17 +37,14 @@
         <dl>
           <dt>{{ _('Terms of use') }}</dt>
           <dd class="terms">
-            {% if res.rights == 'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired' %}
-              <img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_open.svg" />
-            {% elif res.rights == 'NonCommercialAllowed-CommercialAllowed-ReferenceRequired' %}
-              <img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_ref.svg" />
-              {% elif res.rights == 'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired' %}
-              <img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_ask.svg" />
-              {% elif res.rights == 'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired' %}
-              <img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_ref-ask.svg" />
-            {% else %}
-              -
-            {% endif %}
+            <a href="/{{ current_lang }}/terms-of-use">
+              {% set terms_of_use_image = h.get_terms_of_use_icon(res.rights) %}
+              {% if terms_of_use_image %}
+                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use_image }}" />
+              {% else %}
+                -
+              {% endif %}
+            </a>
           </dd>
         </dl>
       </div>
@@ -81,6 +79,7 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
+        {% TODO description is still an dict of all languages %}
         <h2>{{ _('Description') }}</h2>
         {% if res.description %}
           <p>{{ res.description }}</p>
@@ -92,52 +91,15 @@
     </div>
   </section>
 
-  <section class="container">
+  <section class="additional-info container">
     <div class="row">
       <div class="col-xs-12">
-        <h2>{{ _('Description') }}</h2>
-
-
-        {% block resource_additional_information %}
-          {% if res %}
-            <section class="module">
-              {% block resource_additional_information_inner %}
-              <div class="module-content">
-                <h2>{{ _('Additional Information') }}</h2>
-                <table class="table table-striped table-bordered table-condensed" data-module="table-toggle-more">
-                  <thead>
-                    <tr>
-                      <th scope="col">{{ _('Field') }}</th>
-                      <th scope="col">{{ _('Value') }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">{{ _('Last updated') }}</th>
-                      <td>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">{{ _('Created') }}</th>
-                      <td>{{ h.render_datetime(res.created) or _('unknown') }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">{{ _('Format') }}</th>
-                      <td>{{ res.mimetype_inner or res.mimetype or res.format or _('unknown') }}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">{{ _('License') }}</th>
-                      <td>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</td>
-                    </tr>
-                    {% for key, value in h.format_resource_items(res.items()) %}
-                      <tr class="toggle-more"><th scope="row">{{ key }}</th><td>{{ value }}</td></tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              {% endblock %}
-            </section>
-          {% endif %}
-        {% endblock %}
+        <h2>{{ _('Additional Info') }}</h2>
+        <dl class="dl-horizontal">
+          {% block resource_additional_information_inner %}
+            {# Content gets rendered in scheming/package/resource_read.html #}
+          {% endblock %}
+        </dl>
       </div>
     </div>
   </section>
