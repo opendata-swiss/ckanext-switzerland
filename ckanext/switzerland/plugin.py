@@ -1,5 +1,6 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+import ckan.lib.helpers as h
 import pylons
 import json
 import pprint
@@ -14,7 +15,8 @@ from ckanext.switzerland.logic import (
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
    get_org_count, get_tweet_count, _get_language_value,
-   get_localized_org, get_frequency_name, get_terms_of_use_icon
+   get_localized_org, get_frequency_name, get_terms_of_use_icon,
+   _resource_display_name
 )
 
 
@@ -32,6 +34,9 @@ class OgdchPlugin(plugins.SingletonPlugin):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'switzerland')
+
+        # monkey patch ckan helper methods
+        h.resource_display_name = _resource_display_name
     
     # IValidators
 

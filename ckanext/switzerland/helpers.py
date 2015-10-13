@@ -114,3 +114,17 @@ def get_terms_of_use_icon(terms_of_use):
         return term_to_image_mapping[terms_of_use]
     except KeyError:
         return False
+
+def _resource_display_name(resource_dict):
+    title = resource_dict.get('title', None)
+    description = resource_dict.get('description', None)
+    if title:
+        return _get_language_value(title)
+    elif description:
+        description = _get_language_value(description).split('.')[0]
+        max_len = 60
+        if len(description) > max_len:
+            description = description[:max_len] + '...'
+        return description
+    else:
+        return _("Unnamed resource")
