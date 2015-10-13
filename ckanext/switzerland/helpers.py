@@ -64,9 +64,12 @@ def get_localized_org(org=None, include_datasets=False):
         return {}
 
 LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
-def _get_language_value(lang_dict, desired_lang_code, default_value=''):
+def _get_language_value(lang_dict, desired_lang_code=None, default_value=''):
     if not isinstance(lang_dict, dict):
         return default_value
+
+    if desired_lang_code is None:
+        desired_lang_code = pylons.request.environ['CKAN_LANG']
 
     try:
         if lang_dict[desired_lang_code]:
