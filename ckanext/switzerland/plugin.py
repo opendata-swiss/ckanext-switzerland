@@ -54,9 +54,19 @@ class OgdchPlugin(plugins.SingletonPlugin):
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
+        facets_dict = collections.OrderedDict()
+        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['organization'] = plugins.toolkit._('Organization')
+        facets_dict['license_id'] = plugins.toolkit._('Terms')
+        facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
+        facets_dict = collections.OrderedDict()
+        facets_dict['groups'] = plugins.toolkit._('Themes')
+        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['license_id'] = plugins.toolkit._('Terms')
+        facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
     # IActions
