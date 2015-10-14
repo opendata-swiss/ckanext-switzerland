@@ -53,7 +53,7 @@ def ogdch_dataset_terms_of_use(context, data_dict):
     for res in pkg['resources']:
         if res['rights'] not in terms:
             least_open = 'ClosedData'
-            continue
+            break
         if least_open is None:
             least_open = res['rights']
             continue
