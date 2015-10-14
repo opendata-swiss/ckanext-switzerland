@@ -122,7 +122,10 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         return value
 
     def before_view(self, pkg_dict):
-        desired_lang_code = pylons.request.environ['CKAN_LANG']
+        try:
+            desired_lang_code = pylons.request.environ['CKAN_LANG']
+        except TypeError:
+            desired_lang_code = pylons.config.get('ckan.locale_default', 'en')
 
         pkg_dict['display_name'] = pkg_dict['title']
         for key, value in pkg_dict.iteritems():
@@ -168,7 +171,11 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
     # IPackageController
 
     def before_view(self, pkg_dict):
-        desired_lang_code = pylons.request.environ['CKAN_LANG']
+        try:
+            desired_lang_code = pylons.request.environ['CKAN_LANG']
+        except TypeError:
+            desired_lang_code = pylons.config.get('ckan.locale_default', 'en')
+
         # pkg fields
         for key, value in pkg_dict.iteritems():
             pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
