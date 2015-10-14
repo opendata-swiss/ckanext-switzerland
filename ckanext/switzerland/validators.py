@@ -99,3 +99,44 @@ def multiple_text_output(value):
         return json.loads(value)
     except ValueError:
         return [value]
+
+@scheming_validator
+def ogdch_multiple_choice(field, schema):
+    """
+    Accept zero or more values from a list of choices and convert
+    to a json list for storage:
+    1. a list of strings, eg.:
+       ["choice-a", "choice-b"]
+    2. a single string for single item selection in form submissions:
+       "choice-a"
+    """
+    choice_values = set(c['value'] for c in field['choices'])
+
+    def validator(key, data, errors, context):
+        # if there was an error before calling our validator
+        # don't bother with our validation
+        if errors[key]:
+            return
+
+        value = data[key]
+        if value is not missing and value is not None:
+            if isinstance(value, basestring):
+                value = [value]
+            elif not isinstance(value, list):
+                errors[key].append(_('expecting list of strings, got %s') % str(value))
+                return
+        else:
+            value = []
+
+        selected = set()
+        for element in value:
+            if element in choice_values:
+                selected.add(element)
+                continue
+            errors[key].append(_('unexpected choice "%s"') % element)
+
+        if not errors[key]:
+            data[key] = json.dumps([
+                c['value'] for c in field['choices'] if c['value'] in selected])
+
+    return validator

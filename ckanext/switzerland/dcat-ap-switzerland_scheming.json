@@ -63,7 +63,7 @@
     {
       "field_name": "language",
       "label": "Languages",
-      "preset": "multiple_checkbox",
+      "preset": "ogdch_multiple_checkbox",
       "choices": [
         {"value": "de", "label": "Deutsch"},
         {"value": "fr", "label": "Français"},
@@ -142,7 +142,7 @@
     {
       "field_name": "language",
       "label": "Language",
-      "preset": "multiple_checkbox",
+      "preset": "ogdch_multiple_checkbox",
       "choices": [
         {"value": "de", "label": "Deutsch"},
         {"value": "fr", "label": "Français"},
