@@ -125,7 +125,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         try:
             desired_lang_code = pylons.request.environ['CKAN_LANG']
         except TypeError:
-            desired_lang_code = config.get('ckan.locale_default', 'en')
+            desired_lang_code = pylons.config.get('ckan.locale_default', 'en')
 
         pkg_dict['display_name'] = pkg_dict['title']
         for key, value in pkg_dict.iteritems():
@@ -174,7 +174,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         try:
             desired_lang_code = pylons.request.environ['CKAN_LANG']
         except TypeError:
-            desired_lang_code = config.get('ckan.locale_default', 'en')
+            desired_lang_code = pylons.config.get('ckan.locale_default', 'en')
 
         # pkg fields
         for key, value in pkg_dict.iteritems():
