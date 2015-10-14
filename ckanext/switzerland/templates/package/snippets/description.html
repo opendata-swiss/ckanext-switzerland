@@ -25,8 +25,17 @@ Example:
     <div class="col-md-2 col-sm-6">
       <dl>
         <dt>{{ _('Terms of use') }}</dt>
-        {# TODO get least open terms of use from resources instead of static image #}
-        <dd class="terms"><a href="/{{ current_lang }}/terms-of-use"><img src="/content/themes/wp-ogdch-theme/assets/images/terms/terms_ref-ask.svg" /></a></dd>
+        <dd class="terms">
+            <a href="/{{ current_lang }}/terms-of-use">
+              {% set dataset_rights = h.get_dataset_terms_of_use(pkg.name) %}
+              {% set terms_of_use_image = h.get_terms_of_use_icon(dataset_rights) %}
+              {% if terms_of_use_image %}
+              <img alt="{{ dataset_rights }}" src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use_image }}" />
+              {% else %}
+                -
+              {% endif %}
+          </a>
+        </dd>
       </dl>
     </div>
     <div class="col-md-4 col-sm-6">

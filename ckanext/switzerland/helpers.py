@@ -132,6 +132,11 @@ def get_terms_of_use_icon(terms_of_use):
     except KeyError:
         return False
 
+def get_dataset_terms_of_use(pkg):
+    rights = logic.get_action('ogdch_dataset_terms_of_use')({}, {'id': pkg})
+    return rights['dataset_rights']
+    
+
 def _resource_display_name(resource_dict):
     title = resource_dict.get('title', None)
     description = resource_dict.get('description', None)

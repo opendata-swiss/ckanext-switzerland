@@ -10,13 +10,14 @@ log = logging.getLogger(__name__)
 
 from ckanext.switzerland import validators
 from ckanext.switzerland.logic import (
-   ogdch_dataset_count
+   ogdch_dataset_count, ogdch_dataset_terms_of_use,
+   ogdch_dataset_by_identifier
 )
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
    get_org_count, get_tweet_count, get_localized_value,
    get_localized_org, get_localized_pkg, localize_json_title,
-   get_frequency_name, get_terms_of_use_icon
+   get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use
 )
 
 
@@ -80,6 +81,8 @@ class OgdchPlugin(plugins.SingletonPlugin):
         """
         return {
             'ogdch_dataset_count': ogdch_dataset_count,
+            'ogdch_dataset_terms_of_use': ogdch_dataset_terms_of_use,
+            'ogdch_dataset_by_identifier': ogdch_dataset_by_identifier,
         }
 
     # ITemplateHelpers
@@ -99,6 +102,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'localize_json_title': localize_json_title,
             'get_frequency_name': get_frequency_name,
             'get_terms_of_use_icon': get_terms_of_use_icon,
+            'get_dataset_terms_of_use': get_dataset_terms_of_use,
         }
 
 
