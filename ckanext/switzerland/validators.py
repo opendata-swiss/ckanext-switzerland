@@ -3,6 +3,7 @@ import ckan.lib.navl.dictization_functions as df
 from ckanext.scheming.validation import scheming_validator
 import json
 import pprint
+import datetime
 import logging
 log = logging.getLogger(__name__)
 
@@ -48,6 +49,15 @@ def multilingual_text_output(value):
         return json.loads(value)
     except ValueError:
         # plain string in the db, assume already correctly replaced
+        return value
+
+def timestamp_to_datetime(value):
+    """
+    Returns a datetime for a given timestamp
+    """
+    try:
+        return datetime.datetime.fromtimestamp(int(value)).isoformat()
+    except ValueError:
         return value
 
 @scheming_validator

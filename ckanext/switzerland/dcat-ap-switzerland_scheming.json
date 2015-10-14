@@ -35,12 +35,13 @@
     {
       "field_name": "issued",
       "label": "Issued date",
-      "preset": "date"
+      "required": true,
+      "output_validators": "timestamp_to_datetime"
     },
     {
       "field_name": "modified",
       "label": "Modified date",
-      "preset": "date"
+      "output_validators": "timestamp_to_datetime"
     },
     {
       "field_name": "owner_org",
@@ -131,12 +132,12 @@
     {
       "field_name": "issued",
       "label": "Issued date",
-      "preset": "date"
+      "output_validators": "timestamp_to_datetime"
     },
     {
       "field_name": "modified",
       "label": "Modified date",
-      "preset": "date"
+      "output_validators": "timestamp_to_datetime"
     },
     {
       "field_name": "language",
