@@ -16,7 +16,6 @@
     {% else %}
       <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
     {% endif %}
-    {# TODO Somehow the truncate method doesnt work here. Why? #}
     <li{{ self.breadcrumb_content_selected() }}>{% link_for dataset.title|truncate(30), controller='package', action='read', id=pkg.name %}</li>
   {% else %}
     <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
