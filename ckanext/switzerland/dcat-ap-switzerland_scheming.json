@@ -7,7 +7,8 @@
   "dataset_fields": [
     {
       "field_name": "identifier",
-      "label": "Identifier"
+      "label": "Identifier",
+      "validators": "scheming_required"
     },
     {
       "field_name": "display_name",
@@ -151,7 +152,8 @@
     {
       "field_name": "url",
       "label": "Access URL",
-      "preset": "url"
+      "preset": "url",
+      "validators": "scheming_required"
     },
     {
       "field_name": "download_url",

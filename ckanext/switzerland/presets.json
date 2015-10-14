@@ -77,7 +77,6 @@
     {
       "preset_name": "url",
       "values": {
-        "validators": "not_empty unicode remove_whitespace",
         "display_snippet": "url.html"
       }
     },

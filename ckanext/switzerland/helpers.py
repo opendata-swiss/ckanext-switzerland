@@ -130,7 +130,7 @@ def get_terms_of_use_icon(terms_of_use):
     try:
         return term_to_image_mapping[terms_of_use]
     except KeyError:
-        return False
+        return 'terms_closed.png'
 
 def get_dataset_terms_of_use(pkg):
     rights = logic.get_action('ogdch_dataset_terms_of_use')({}, {'id': pkg})
