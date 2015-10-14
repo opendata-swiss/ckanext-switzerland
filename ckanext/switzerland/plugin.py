@@ -46,6 +46,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'multilingual_text_output': validators.multilingual_text_output,
             'list_of_dicts': validators.list_of_dicts,
             'timestamp_to_datetime': validators.timestamp_to_datetime,
+            'ogdch_multiple_choice': validators.ogdch_multiple_choice,
             }
 
     # IFacets
