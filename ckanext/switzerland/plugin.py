@@ -122,9 +122,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def before_view(self, pkg_dict):
         desired_lang_code = pylons.request.environ['CKAN_LANG']
 
-        # TODO: why is this not already a dict?
         pkg_dict['display_name'] = pkg_dict['title']
-
         for key, value in pkg_dict.iteritems():
             if not self._ignore_field(key):
                 pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)

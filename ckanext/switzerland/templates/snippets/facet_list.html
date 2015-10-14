@@ -98,17 +98,6 @@ within_tertiary
               <p class="module-content empty">{{ _('There are no {facet_type} that match this search').format(facet_type=title) }}</p>
             {% endif %}
             </div>
-            <script>
-              // TODO find a way to add this javascript block after jQuery gets loaded
-              /*
-              $('#facet-{{ name }}-collapse').on('shown.bs.collapse', function () {
-                $('#' + $(this)[0].id + '-button').text('-');
-              });
-              $('#facet-{{ name }}-collapse').on('hidden.bs.collapse', function () {
-                $('#' + $(this)[0].id + '-button').text('+');
-              });
-              */
-            </script>
             {% endwith %}
           {% endblock %}
         </section>

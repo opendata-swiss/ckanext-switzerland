@@ -20,7 +20,6 @@
 {% endblock %}
 
 {% block page_title %}
-  {# TODO res.title is still a dictionary here #}
   <h1>{{ h.resource_display_name(res) }}</h1>
 {% endblock %}
 
@@ -89,7 +88,6 @@
     </div>
     <div class="row">
       <div class="col-xs-12">
-        {# TODO description is still an dict of all languages #}
         <h2>{{ _('Description') }}</h2>
         {% if res.description %}
           <p>{{ res.description }}</p>
