@@ -130,7 +130,7 @@ def get_terms_of_use_icon(terms_of_use):
     try:
         return term_to_image_mapping[terms_of_use]
     except KeyError:
-        return False
+        return 'terms_closed.png'
 
 def _resource_display_name(resource_dict):
     title = resource_dict.get('title', None)
