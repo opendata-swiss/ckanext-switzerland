@@ -20,8 +20,12 @@ Example:
       {% block related_datasets %}
       <ul>
         {% for see_also in pkg.see_alsos %}
-          {# TODO print link to related dataset #}
-          <li>{{ see_also }}</li>
+          {% set related_dataset = h.get_dataset_by_identifier(see_also.dataset_identifier) %}
+          {% if related_dataset %}
+            <li>{{ h.link_to(related_dataset.title, h.url_for(controller='package', action='read', id=related_dataset.name)) }}</li>
+          {% else %}
+            <li>{{ see_also.dataset_identifier }}</li>
+          {% endif %}
         {% endfor %}
       </ul>
       {% endblock %}

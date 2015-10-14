@@ -135,18 +135,10 @@ def get_terms_of_use_icon(terms_of_use):
 def get_dataset_terms_of_use(pkg):
     rights = logic.get_action('ogdch_dataset_terms_of_use')({}, {'id': pkg})
     return rights['dataset_rights']
-    
 
-def _resource_display_name(resource_dict):
-    title = resource_dict.get('title', None)
-    description = resource_dict.get('description', None)
-    if title:
-        return get_localized_value(title)
-    elif description:
-        description = get_localized_value(description).split('.')[0]
-        max_len = 60
-        if len(description) > max_len:
-            description = description[:max_len] + '...'
-        return description
-    else:
-        return _("Unnamed resource")
+def get_dataset_by_identifier(identifier):
+    try:
+        pkg = logic.get_action('ogdch_dataset_by_identifier')({}, {'identifier': identifier})
+        return get_localized_pkg(pkg['id'])
+    except logic.NotFound:
+        return None
