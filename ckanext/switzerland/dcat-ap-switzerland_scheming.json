@@ -36,12 +36,12 @@
       "field_name": "issued",
       "label": "Issued date",
       "required": true,
-      "preset": "date"
+      "preset": "ogdch_date"
     },
     {
       "field_name": "modified",
       "label": "Modified date",
-      "preset": "date"
+      "preset": "ogdch_date"
     },
     {
       "field_name": "owner_org",
@@ -132,12 +132,12 @@
     {
       "field_name": "issued",
       "label": "Issued date",
-      "preset": "date"
+      "preset": "ogdch_date"
     },
     {
       "field_name": "modified",
       "label": "Modified date",
-      "preset": "date"
+      "preset": "ogdch_date"
     },
     {
       "field_name": "language",
