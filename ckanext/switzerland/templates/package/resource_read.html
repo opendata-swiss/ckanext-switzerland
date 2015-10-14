@@ -2,6 +2,7 @@
 
 {% set res = c.resource %}
 {% set current_lang = request.environ.CKAN_LANG %}
+{% set res_title = res.title or c.package.title %}
 
 {% block head_extras -%}
   {{ super() }}
@@ -10,17 +11,17 @@
   <meta property="og:description" content="{{ description|forceescape }}">
 {% endblock -%}
 
-{% block subtitle %}{{ h.dataset_display_name(c.package)[current_lang] }} - {{ h.resource_display_name(res) }}{% endblock %}
+{% block subtitle %}{{ h.dataset_display_name(c.package)[current_lang] }} - {{ res_title }}{% endblock %}
 
 {% block breadcrumb_content_selected %}{% endblock %}
 
 {% block breadcrumb_content %}
   {{ super() }}
-  <li class="active"><a href="">{{ h.resource_display_name(res)|truncate(30) }}</a></li>
+  <li class="active"><a href="">{{ res_title|truncate(30) }}</a></li>
 {% endblock %}
 
 {% block page_title %}
-  <h1>{{ h.resource_display_name(res) }}</h1>
+  <h1>{{ res_title }}</h1>
 {% endblock %}
 
 {% block primary_content %}
@@ -30,7 +31,8 @@
         <dl>
           <dt>{{ _('Last updated') }}</dt>
           {# TODO use issued or modified date when sync problem is solved #}
-          <dd>{{ h.render_datetime(res.created, with_hours=False) }}</dd>
+          {% set mod_date = res.modified or res.issued %}
+          <dd>{{ h.render_datetime(mod_date, with_hours=False) }}</dd>
         </dl>
       </div>
       <div class="col-md-2 col-sm-6">
