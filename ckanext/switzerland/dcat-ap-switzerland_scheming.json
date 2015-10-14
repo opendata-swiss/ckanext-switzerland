@@ -10,6 +10,11 @@
       "label": "Identifier"
     },
     {
+      "field_name": "display_name",
+      "label": "Display name",
+      "preset": "multilingual_output"
+    },
+    {
       "field_name": "title",
       "label": "Title",
       "preset": "multilingual_text",
@@ -24,7 +29,7 @@
     {
       "field_name": "description",
       "label": "Description",
-      "preset": "multilingual_markdown"
+      "preset": "multilingual_text"
     },
     {
       "field_name": "issued",
@@ -120,7 +125,7 @@
     {
       "field_name": "description",
       "label": "Description",
-      "preset": "multilingual_markdown"
+      "preset": "multilingual_text"
     },
     {
       "field_name": "issued",

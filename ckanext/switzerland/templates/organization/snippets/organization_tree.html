@@ -14,6 +14,7 @@ Example:
 
 #}
 
+{% set current_lang = request.environ.CKAN_LANG %}
 <section id="organisations-list" class="container">
   <div class="row">
     <div class="col-md-7">
@@ -30,7 +31,8 @@ Example:
       <ul>
         {% for node in top_nodes recursive %}
         <li id="node_{{ node.name }}">
-          {% link_for node.title, controller='organization', action='read', id=node.name %}
+          {% set org = h.get_localized_org(node.name) %}
+          {% link_for org.title, controller='organization', action='read', id=node.name %}
 
           {% if node.children %}
             <ul> {{ loop(node.children) }} </ul>

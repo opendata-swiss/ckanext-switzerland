@@ -33,7 +33,7 @@
       <div class="col-md-3 facet-filters">
         <h2 class="sr-only">{{ _('Search Filter') }}</h2>
         {% for facet in c.facet_titles %}
-        {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
+        {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet, label_function=h.localize_json_title) }}
         {% endfor %}
       </div>
       <div class="col-md-9">

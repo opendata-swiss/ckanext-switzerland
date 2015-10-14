@@ -27,11 +27,18 @@
       }
     },
     {
+      "preset_name": "multilingual_output",
+      "values": {
+        "validators": "ignore",
+        "output_validators": "multilingual_text_output"
+      }
+    },
+    {
       "preset_name": "multilingual_text",
       "values": {
         "form_snippet": "fluent_text.html",
         "validators": "fluent_text",
-        "output_validators": "fluent_text_output"
+        "output_validators": "multilingual_text_output"
       }
     },
     {
@@ -39,7 +46,7 @@
       "values": {
         "form_snippet": "fluent_markdown.html",
         "validators": "fluent_text",
-        "output_validators": "fluent_text_output"
+        "output_validators": "multilingual_text_output"
       }
     },
     {

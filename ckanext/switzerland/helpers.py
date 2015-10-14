@@ -1,6 +1,7 @@
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic
 import requests
+import json
 import pylons
 from ckan.common import _
 
@@ -49,24 +50,43 @@ def _call_wp_api(action):
     except:
         return None
 
+def get_localized_pkg(pkg=None):
+    if pkg is None:
+        return {}
+    try:
+        pkg = logic.get_action('package_show')({}, {'id': pkg})
+        for key, value in pkg.iteritems():
+            pkg[key] = get_localized_value(value, default_value=value)
+        return pkg
+    except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
+        return {}
+
 def get_localized_org(org=None, include_datasets=False):
     if org is None:
         return {}
     try:
-        lang_code = pylons.request.environ['CKAN_LANG']
         org = logic.get_action('organization_show')(
             {}, {'id': org, 'include_datasets': include_datasets})
         for key, value in org.iteritems():
-            org[key] = _get_language_value(value, lang_code, default_value=value)
+            org[key] = get_localized_value(value, default_value=value)
         return org
-
     except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
         return {}
 
+def localize_json_title(facet_item):
+    try:
+        lang_dict = json.loads(facet_item['display_name'])
+        return get_localized_value(lang_dict, default_value=facet_item['display_name'])
+    except:
+        return facet_item['display_name']
+
 LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
-def _get_language_value(lang_dict, desired_lang_code, default_value=''):
+def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
     if not isinstance(lang_dict, dict):
         return default_value
+
+    if desired_lang_code is None:
+        desired_lang_code = pylons.request.environ['CKAN_LANG']
 
     try:
         if lang_dict[desired_lang_code]:
@@ -111,3 +131,17 @@ def get_terms_of_use_icon(terms_of_use):
         return term_to_image_mapping[terms_of_use]
     except KeyError:
         return False
+
+def _resource_display_name(resource_dict):
+    title = resource_dict.get('title', None)
+    description = resource_dict.get('description', None)
+    if title:
+        return get_localized_value(title)
+    elif description:
+        description = get_localized_value(description).split('.')[0]
+        max_len = 60
+        if len(description) > max_len:
+            description = description[:max_len] + '...'
+        return description
+    else:
+        return _("Unnamed resource")
