@@ -122,15 +122,30 @@ def get_frequency_name(identifier):
 
 def get_terms_of_use_icon(terms_of_use):
     term_to_image_mapping = {
-      'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': 'terms_open.svg',
-      'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': 'terms_ref.svg',
-      'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': 'terms_ask.svg',
-      'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': 'terms_ref-ask.svg',
+        'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': {
+            'title': _('Open data'),
+            'icon': 'terms_open.svg',
+        },
+        'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': {
+            'title': _('Reference required'),
+            'icon': 'terms_ref.svg',
+        },
+        'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': {
+            'title': _('Commercial use with permission allowed'),
+            'icon': 'terms_ask.svg',
+        },
+        'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': {
+            'title': _('Reference required / Commercial use with permission allowed'),
+            'icon': 'terms_ref-ask.svg',
+        },
     }
     try:
         return term_to_image_mapping[terms_of_use]
     except KeyError:
-        return 'terms_closed.png'
+        return {
+            'title': _('Closed data'),
+            'icon': 'terms_closed.png',
+        }
 
 def get_dataset_terms_of_use(pkg):
     rights = logic.get_action('ogdch_dataset_terms_of_use')({}, {'id': pkg})

@@ -38,9 +38,9 @@
           <dt>{{ _('Terms of use') }}</dt>
           <dd class="terms">
             <a href="/{{ current_lang }}/terms-of-use">
-              {% set terms_of_use_image = h.get_terms_of_use_icon(res.rights) %}
-              {% if terms_of_use_image %}
-                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use_image }}" />
+              {% set terms_of_use = h.get_terms_of_use_icon(res.rights) %}
+              {% if terms_of_use %}
+                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
               {% else %}
                 -
               {% endif %}
