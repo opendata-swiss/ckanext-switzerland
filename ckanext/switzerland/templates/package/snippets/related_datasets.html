@@ -8,7 +8,7 @@ Example:
 {% snippet "package/snippets/related_datasets.html", pkg=pkg %}
 
 #}
-{% if pkg.see_alsos %}
+{% if pkg.see_alsos and pkg.see_alsos[0].dataset_identifier %}
 <section class="container related-datasets">
   <div class="row">
     <div class="col-xs-12">
@@ -20,11 +20,13 @@ Example:
       {% block related_datasets %}
       <ul>
         {% for see_also in pkg.see_alsos %}
-          {% set related_dataset = h.get_dataset_by_identifier(see_also.dataset_identifier) %}
-          {% if related_dataset %}
-            <li>{{ h.link_to(related_dataset.title, h.url_for(controller='package', action='read', id=related_dataset.name)) }}</li>
-          {% else %}
-            <li>{{ see_also.dataset_identifier }}</li>
+          {% if see_also and see_also.dataset_identifier %}
+            {% set related_dataset = h.get_dataset_by_identifier(see_also.dataset_identifier) %}
+            {% if related_dataset %}
+              <li>{{ h.link_to(related_dataset.title, h.url_for(controller='package', action='read', id=related_dataset.name)) }}</li>
+            {% else %}
+              <li>{{ see_also.dataset_identifier }}</li>
+            {% endif %}
           {% endif %}
         {% endfor %}
       </ul>
