@@ -35,7 +35,6 @@
     {
       "field_name": "issued",
       "label": "Issued date",
-      "required": true,
       "preset": "ogdch_date"
     },
     {
@@ -132,6 +131,7 @@
     {
       "field_name": "issued",
       "label": "Issued date",
+      "required": true,
       "preset": "ogdch_date"
     },
     {
