@@ -1,5 +1,5 @@
 {%- set temporals = data[field.field_name] -%}
-{% if relations %}
+{% if temporals %}
   <ul>
     {% for temporal in temporals %}
     <li>
