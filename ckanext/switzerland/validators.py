@@ -58,7 +58,7 @@ def timestamp_to_datetime(value):
     try:
         return datetime.datetime.fromtimestamp(int(value)).isoformat()
     except ValueError:
-        return value
+        return False
 
 @scheming_validator
 def list_of_dicts(field, schema):

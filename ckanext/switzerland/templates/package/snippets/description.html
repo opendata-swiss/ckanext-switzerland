@@ -15,11 +15,13 @@ Example:
       <dl>
         <dt>{{ _('Last updated') }}</dt>
         <dd>
-          {% if pkg.modified %}
-            {{ h.render_datetime(pkg.modified, with_hours=False) }}</dd>
+          {% set mod_date = pkg.modified or pkg.issued or pkg.resources[0].issued %}
+          {% if mod_date %}
+            {{ h.render_datetime(mod_date, with_hours=False) }}
           {% else %}
-            {{ h.render_datetime(pkg.issued, with_hours=False) }}</dd>
+            -
           {% endif %}
+        </dd>
       </dl>
     </div>
     <div class="col-md-2 col-sm-6">
