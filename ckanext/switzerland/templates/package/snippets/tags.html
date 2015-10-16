@@ -2,11 +2,11 @@
   <section class="container tags">
     <div class="row">
       <div class="col-xs-12">
-        <div class="tags">
+        <ul class="list-inline tags">
           {% for tag in tags %}
-            <a class="label label-primary-gray" href="{% url_for controller='package', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>
+            <li><a class="label label-primary-gray" href="{% url_for controller='package', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a></li>
           {% endfor %}
-        </div>
+        </ul>
       </div>
     </div>
   </section>
