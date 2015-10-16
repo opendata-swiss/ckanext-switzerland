@@ -157,3 +157,11 @@ def get_dataset_by_identifier(identifier):
         return get_localized_pkg(pkg['id'])
     except logic.NotFound:
         return None
+
+def get_readable_file_size(num, suffix='B'):
+    for unit in ['','K','M','G','T','P','E','Z']:
+        num = float(num)
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Y', suffix)

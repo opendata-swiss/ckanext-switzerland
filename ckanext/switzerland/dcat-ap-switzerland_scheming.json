@@ -171,7 +171,8 @@
     },
     {
       "field_name": "byte_size",
-      "label": "Byte Size"
+      "label": "Byte Size",
+      "preset": "file_size"
     },
     {
       "field_name": "media_type",

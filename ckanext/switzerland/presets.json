@@ -123,6 +123,12 @@
         "display_snippet": "date.html",
         "output_validators": "timestamp_to_datetime"
       }
+    },
+    {
+      "preset_name": "file_size",
+      "values": {
+        "display_snippet": "file_size.html"
+      }
     }
   ]
 }
