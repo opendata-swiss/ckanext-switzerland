@@ -31,13 +31,8 @@
       </div>
 
       <div class="row">
-        <div class="col-md-7">
-          <h2>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='organization') }}</h2>
-        </div>
-        <div class="col-md-5 h2-vertical-center">
-          {% block organizations_search_form %}
-          {% snippet 'snippets/search_form.html', type='organization', query=c.q, count=c.page.item_count, placeholder=_('Search organizations...'), show_empty=request.params %}
-          {% endblock %}
+        <div class="col-xs-12">
+          <h2>{{ ungettext('{num} Active Organization', '{num} Active Organizations', c.page.item_count).format(num=c.page.item_count) }}</h2>
         </div>
       </div>
 
@@ -56,16 +51,6 @@
           {% endblock %}
         </div>
       </div>
-
-      {% if request.params and c.page.item_count == 0 %}
-        <div class="row">
-          <div class="col-xs-12">
-            <p>
-              {{ _('Please try another search.') }}.
-            </p>
-          </div>
-        </div>
-      {% endif %}
     </section>
 
   </form>
