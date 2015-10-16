@@ -49,11 +49,11 @@ within_tertiary
       {% block facet_list_item %}
         <section class="{{ wrapper_class or 'facet-filter' }}">
           {% block facet_list_heading %}
-            <a role="button" data-toggle="collapse" class="facet-{{ name }}-collapse-button facet-toggle collapsed" href="#facet-{{ name }}-collapse" aria-expanded="false" aria-controls="facet-{{ name }}-collapse"><i class="fa fa-angle-down"></i></a>
-            <h3>
-              {% set title = title or h.get_facet_title(name) %}
-              {{ title }}
-            </h3>
+            {% set title = title or h.get_facet_title(name) %}
+            <a role="button" data-toggle="collapse" class="facet-{{ name }}-collapse-button facet-toggle collapsed" href="#facet-{{ name }}-collapse" aria-expanded="false" aria-controls="facet-{{ name }}-collapse">
+              <h3>{{ title }} <i class="fa fa-angle-down"></i></h3>
+            </a>
+            <h3 class="facet-header">{{ title }}</h3>
           {% endblock %}
           {% block facet_list_items %}
             {% with items = items or h.get_facet_items_dict(name) %}
@@ -106,17 +106,17 @@ within_tertiary
                   </ul>
                 </nav>
               {% endif %}
-              <p class="module-footer">
+              <p>
                 {% if h.get_param_int('_%s_limit' % name) %}
                   {% if h.has_more_facets(name) %}
-                    <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="read-more">{{ _('Show More {facet_type}').format(facet_type=title) }}</a>
+                    <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="btn btn-default btn-xs"><i class="fa fa-angle-down"></i> {{ _('Show More {facet_type}').format(facet_type=title) }}</a>
                   {% endif %}
                 {% else %}
-                  <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="read-more">{{ _('Show Only Popular {facet_type}').format(facet_type=title) }}</a>
+                  <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="btn btn-default btn-xs"><i class="fa fa-angle-up"></i> {{ _('Show Only Popular {facet_type}').format(facet_type=title) }}</a>
                 {% endif %}
               </p>
             {% else %}
-              <p class="module-content empty">{{ _('There are no {facet_type} that match this search').format(facet_type=title) }}</p>
+              <p>{{ _('There are no {facet_type} that match this search').format(facet_type=title) }}</p>
             {% endif %}
             </div>
             {% endwith %}
