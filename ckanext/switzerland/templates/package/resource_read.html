@@ -30,9 +30,14 @@
       <div class="col-md-2 col-sm-6">
         <dl>
           <dt>{{ _('Last updated') }}</dt>
-          {# TODO use issued or modified date when sync problem is solved #}
           {% set mod_date = res.modified or res.issued %}
-          <dd>{{ h.render_datetime(mod_date, with_hours=False) }}</dd>
+          <dd>
+            {% if mod_date %}
+              {{ h.render_datetime(mod_date, with_hours=False) }}
+            {% else %}
+              -
+            {% endif %}
+          </dd>
         </dl>
       </div>
       <div class="col-md-2 col-sm-6">
@@ -69,7 +74,7 @@
           <dt>{{ _('Media Type') }}</dt>
           <dd>
             {% if res.media_type %}
-              <span class="label label-default">{{ res.media_type }}</span>
+              <span class="label label-default">{{ res.media_type.upper() }}</span>
             {% else %}
               -
             {% endif %}

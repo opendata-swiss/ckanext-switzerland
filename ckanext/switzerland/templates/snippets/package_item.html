@@ -19,15 +19,15 @@ Example:
 {% set description = h.truncate(package.description, truncate) %}
 
 {% block package_item %}
-  <li class="{{ item_class or "dataset-item" }}">
+  <li class="{{ item_class or 'dataset-item' }}">
     {% block content %}
       <div class="dataset-content">
         {% block heading %}
           <h3 class="dataset-heading">
             {% block heading_private %}
               {% if package.private %}
-                <span class="dataset-private label label-inverse">
-                  <i class="icon-lock"></i>
+                <span class="label label-default">
+                  <i class="fa fa-lock"></i>
                   {{ _('Private') }}
                 </span>
               {% endif %}
@@ -37,9 +37,9 @@ Example:
             {% endblock %}
             {% block heading_meta %}
               {% if package.get('state', '').startswith('draft') %}
-                <span class="label label-info">{{ _('Draft') }}</span>
+                <span class="label label-default">{{ _('Draft') }}</span>
               {% elif package.get('state', '').startswith('deleted') %}
-                <span class="label label-important">{{ _('Deleted') }}</span>
+                <span class="label label-danger">{{ _('Deleted') }}</span>
               {% endif %}
               {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
             {% endblock %}
@@ -67,9 +67,9 @@ Example:
           {% block resources_outer %}
             <ul class="dataset-resources list-inline">
               {% block resources_inner %}
-                {% for resource in h.dict_list_reduce(package.resources, 'media_type') %}
+                {% for media_type in h.dict_list_reduce(package.resources, 'media_type') %}
                 <li>
-                  <small><span class="label label-default">{{ resource.upper() }}</span></small>
+                  <small><span class="label label-default">{{ media_type.upper() }}</span></small>
                 </li>
                 {% endfor %}
               {% endblock %}
