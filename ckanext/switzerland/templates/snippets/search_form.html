@@ -1,7 +1,19 @@
+{#
+  Displays a search form.
+
+  query       - Current query value.
+  fields      - Some fields.
+  placeholder - The placeholder of the search input field.
+
+  Example:
+
+  {% snippet 'snippets/search_form.html', package=c.datasets[0] %}
+
+#}
+
 {% import 'macros/form.html' as form %}
 
 {% set placeholder = placeholder if placeholder else _('Search datasets...') %}
-
 
 {% block search_input %}
   <div class="form-group has-feedback main-search">
