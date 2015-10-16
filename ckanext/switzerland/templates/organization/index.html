@@ -20,36 +20,54 @@
         <div class="col-xs-12">
           <h2>{{ _('Are you a potential open data publisher?') }}</h2>
           <p>{{ _('All communal, cantonal, and federal authorities (cities, cantons, offices, regions, interfederal organisations etc.), as well as communal, cantonal, and federal businesses (e.g. SBB, Post, Swisscom etc.) are called on to make data available in open, machine-readable formats, while continuing to ensure privacy and security.') }}</p>
-          <a class="btn btn-primary" href="/{{ current_lang }}/contact" role="button">{{ _('See how to get involved') }}</a>
+          <a class="btn btn-primary" href="{{ h.url('/contact') }}" role="button">{{ _('See how to get involved') }}</a>
         </div>
       </div>
-    </section>
 
-    <div class="container">
       <div class="row">
         <div class="col-xs-12">
           <hr/>
         </div>
       </div>
-    </div>
 
-    {% block organizations_list %}
-      {% if c.page.items or request.params %}
-        {% if c.page.items %}
-          {% snippet "organization/snippets/organization_list.html", organizations=c.page.items %}
-        {% endif %}
-      {% else %}
-        <div class="container">
-          <div class="row">
-            <div class="col-xs-12">
+      <div class="row">
+        <div class="col-md-7">
+          <h2>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='organization') }}</h2>
+        </div>
+        <div class="col-md-5 h2-vertical-center">
+          {% block organizations_search_form %}
+          {% snippet 'snippets/search_form.html', type='organization', query=c.q, count=c.page.item_count, placeholder=_('Search organizations...'), show_empty=request.params %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          {% block organizations_list %}
+            {% if c.page.items or request.params %}
+              {% if c.page.items %}
+                {% snippet "organization/snippets/organization_list.html", organizations=c.page.items %}
+              {% endif %}
+            {% else %}
               <p class="empty">
                 {{ _('There are currently no organizations for this site') }}.
               </p>
-            </div>
+            {% endif %}
+          {% endblock %}
+        </div>
+      </div>
+
+      {% if request.params and c.page.item_count == 0 %}
+        <div class="row">
+          <div class="col-xs-12">
+            <p>
+              {{ _('Please try another search.') }}.
+            </p>
           </div>
         </div>
       {% endif %}
-    {% endblock %}
+    </section>
+
   </form>
 {% endblock %}
 
