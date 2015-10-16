@@ -44,7 +44,7 @@
         <dl>
           <dt>{{ _('Terms of use') }}</dt>
           <dd class="terms">
-            <a href="/{{ current_lang }}/terms-of-use">
+            <a href="{{ h.url('/terms-of-use') }}">
               {% set terms_of_use = h.get_terms_of_use_icon(res.rights) %}
               {% if terms_of_use %}
                 <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
@@ -86,8 +86,8 @@
           <a href="{{ res.download_url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
             <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
           </a>
-          {% else %}
-          <a href="{{ res.access_url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
+        {% else %}
+          <a href="{{ res.url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
             <i class="fa fa-external-link"></i> {{ _('Go to resource') }}
           </a>
         {% endif %}
