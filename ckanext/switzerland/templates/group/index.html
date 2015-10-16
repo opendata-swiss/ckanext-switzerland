@@ -40,6 +40,14 @@
           {% endblock %}
         </div>
       </div>
+
+      {% if request.params and c.page.item_count == 0 %}
+        <div class="row">
+          <div class="col-xs-12">
+            <p>{{ _('Please try another search.') }}</p>
+          </div>
+        </div>
+      {% endif %}
     </section>
   </form>
 {% endblock %}
