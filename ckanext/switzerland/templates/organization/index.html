@@ -1,7 +1,4 @@
 {% extends "page.html" %}
-{% import 'macros/form.html' as form %}
-{% set form_id = form_id if form_id else false %}
-{% set current_lang = request.environ.CKAN_LANG %}
 
 {% block subtitle %}{{ _('Organizations') }}{% endblock %}
 
