@@ -18,7 +18,7 @@ from ckanext.switzerland.helpers import (
    get_org_count, get_tweet_count, get_localized_value,
    get_localized_org, get_localized_pkg, localize_json_title,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
-   get_dataset_by_identifier, get_readable_file_size
+   get_dataset_by_identifier, get_readable_file_size, timestamp_to_datetime
 )
 
 
@@ -108,6 +108,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_dataset_terms_of_use': get_dataset_terms_of_use,
             'get_dataset_by_identifier': get_dataset_by_identifier,
             'get_readable_file_size': get_readable_file_size,
+            'timestamp_to_datetime': timestamp_to_datetime,
         }
 
 
