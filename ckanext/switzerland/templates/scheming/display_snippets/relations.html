@@ -1,16 +1,24 @@
 {%- set relations = data[field.field_name] -%}
 {% if relations %}
-  <ul>
-    {% for relation in relations %}
-    <li>
-      {% if relation.url %}
-        <a href="{{ relation.url }}" target="_blank">{{ relation.label }}</a>
-      {% else %}
-        {{ relation.label }}
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
+  {% if relations|length == 1 %}
+    {% if relations[0].url %}
+      <a href="{{ relations[0].url }}" target="_blank">{{ relations[0].label }}</a>
+    {% else %}
+      {{ relations[0].label }}
+    {% endif %}
+  {% else %}
+    <ul>
+      {% for relation in relations %}
+      <li>
+        {% if relation.url %}
+          <a href="{{ relation.url }}" target="_blank">{{ relation.label }}</a>
+        {% else %}
+          {{ relation.label }}
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 {% else %}
   -
 {% endif %}

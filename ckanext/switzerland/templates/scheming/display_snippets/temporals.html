@@ -1,15 +1,22 @@
 {%- set temporals = data[field.field_name] -%}
 {% if temporals %}
-  <ul>
-    {% for temporal in temporals %}
-    <li>
-      {{ h.render_datetime(h.timestamp_to_datetime(temporal.start_date), with_hours=False) }}
-      {% if temporal.end_date %}
-        - {{ h.render_datetime(h.timestamp_to_datetime(temporal.end_date), with_hours=False) }}
-      {% endif %}
-    </li>
-    {% endfor %}
-  </ul>
+  {% if temporals|length == 1 %}
+    {{ h.render_datetime(h.timestamp_to_datetime(temporals[0].start_date), with_hours=False) }}
+    {% if temporals[0].end_date %}
+      - {{ h.render_datetime(h.timestamp_to_datetime(temporals[0].end_date), with_hours=False) }}
+    {% endif %}
+  {% else %}
+    <ul>
+      {% for temporal in temporals %}
+      <li>
+        {{ h.render_datetime(h.timestamp_to_datetime(temporal.start_date), with_hours=False) }}
+        {% if temporal.end_date %}
+          - {{ h.render_datetime(h.timestamp_to_datetime(temporal.end_date), with_hours=False) }}
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 {% else %}
   -
 {% endif %}

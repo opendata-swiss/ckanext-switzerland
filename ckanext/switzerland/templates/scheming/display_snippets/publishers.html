@@ -1,10 +1,14 @@
 {%- set publishers = data[field.field_name] -%}
 {% if publishers %}
-  <ul>
-    {% for publisher in publishers %}
-    <li>{{ publisher.label }}</li>
-    {% endfor %}
-  </ul>
+  {% if publishers|length == 1 %}
+    {{ publishers[0].label }}
+  {% else %}
+    <ul>
+      {% for publisher in publishers %}
+      <li>{{ publisher.label }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 {% else %}
   -
 {% endif %}
