@@ -93,17 +93,22 @@
         {% endif %}
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <h2>{{ _('Description') }}</h2>
-        {% if res.description %}
+    {% if res.description %}
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>{{ _('Description') }}</h2>
           <p>{{ res.description }}</p>
-        {% endif %}
-        {% if not res.description and c.package.description %}
-          <p>{{ c.package.get('description') }}</p>
-        {% endif %}
+        </div>
       </div>
-    </div>
+    {% elif c.package.description %}
+      {% TODO package description should be the same as on package detail %}
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>{{ _('Description') }}</h2>
+          <p>{{ c.package.description }}</p>
+        </div>
+      </div>
+    {% endif %}
   </section>
 
   <section class="additional-info container">
