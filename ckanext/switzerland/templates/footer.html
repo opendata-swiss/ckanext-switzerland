@@ -1,85 +1,85 @@
 <footer class="container main-footer top-buffer">
-    <div class="row">
-      <div class="col-sm-3 col-xs-6">
-        <a href="{{ h.url('/dataset') }}">
-          <div class="statsnumber">
-            {{ h.get_dataset_count() }} <i class="fa fa-files-o"></i>
-          </div>
-          <p>{{ _('Open Datasets') }}</p>
-        </a>
-      </div>
-      <div class="col-sm-3 col-xs-6">
-        <a href="{{ h.url('/organization') }}">
-          <div class="statsnumber">
-            {{ h.get_org_count() }} <i class="fa fa-users"></i>
-          </div>
-          <p>{{ _('Organizations') }}</p>
-        </a>
-      </div>
-      <div class="col-sm-3 col-xs-6">
-        <a href="{{ h.url('/app') }}">
-          <div class="statsnumber">
-            {{ h.get_app_count() }} <i class="fa fa-puzzle-piece"></i>
-          </div>
-          <p>{{ _('Built Applications') }}</p>
-        </a>
-      </div>
-      <div class="col-sm-3 col-xs-6">
-        <a href="https://twitter.com/OpendataCH" target="_blank">
-          <div class="statsnumber">
-            {{ h.get_tweet_count() }} <i class="fa fa-twitter"></i>
-          </div>
-          <p>{{ _('Tweets') }}</p>
-        </a>
+  <div class="row">
+    <div class="col-sm-3 col-xs-6">
+      <a href="{{ h.url('/dataset') }}">
+        <div class="statsnumber">
+          {{ h.get_dataset_count() }} <i class="fa fa-files-o"></i>
+        </div>
+        <p>{{ _('Open Datasets') }}</p>
+      </a>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <a href="{{ h.url('/organization') }}">
+        <div class="statsnumber">
+          {{ h.get_org_count() }} <i class="fa fa-users"></i>
+        </div>
+        <p>{{ _('Organizations') }}</p>
+      </a>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <a href="{{ h.url('/app') }}">
+        <div class="statsnumber">
+          {{ h.get_app_count() }} <i class="fa fa-puzzle-piece"></i>
+        </div>
+        <p>{{ _('Built Applications') }}</p>
+      </a>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+      <a href="https://twitter.com/OpendataCH" target="_blank">
+        <div class="statsnumber">
+          {{ h.get_tweet_count() }} <i class="fa fa-twitter"></i>
+        </div>
+        <p>{{ _('Tweets') }}</p>
+      </a>
+    </div>
+  </div>
+  <div class="row top-buffer">
+    <div class="col-sm-4">
+      <p class="lead">{{ _('What about you?') }}</p>
+    </div>
+    <div class="col-sm-8 text-md-right">
+      <a class="btn btn-primary" href="{{ h.url('/faq') }}" role="button">{{ _('How do I publish open data?') }}</a>
+      <a class="btn btn-primary last" href="{{ h.url('/app') }}" role="button">{{ _('How to share the App I built?') }}</a>
+    </div>
+  </div>
+  <div class="row top-buffer">
+    <div class="col-md-2 col-xs-4">
+      {% snippet "snippets/language_selector.html" %}
+    </div>
+    <div class="col-md-4 col-xs-8">
+      <p>Lorem ipsum dolor sit amet ea ius soluta nusquam constituto. Lorem ipsum dolor sit amet ea ius soluta nusquam constituto</p>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <div>
+        <ul class="list-unstyled">
+          <li><a href="{{ h.url('/about') }}">{{ _('About') }}</a></li>
+          <li><a href="{{ h.url('/faq') }}">FAQ</a></li>
+          <li><a href="{{ h.url('/contact') }}">Kontakt</a></li>
+        </ul>
       </div>
     </div>
-    <div class="row top-buffer">
-        <div class="col-sm-4">
-            <p class="lead">{{ _('What about you?') }}</p>
-        </div>
-        <div class="col-sm-8 text-md-right">
-            <a class="btn btn-primary" href="{{ h.url('/faq') }}" role="button">{{ _('How do I publish open data?') }}</a>
-            <a class="btn btn-primary last" href="{{ h.url('/app') }}" role="button">{{ _('How to share the App I built?') }}</a>
-        </div>
+    <div class="col-md-2 col-xs-4">
+      <div>
+        <ul class="list-unstyled">
+          <li><a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Datasets') }}</a></li>
+          <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
+          <li><a href="{{ h.url('/app') }}">{{ _('Apps') }}</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="row top-buffer">
-        <div class="col-md-2 col-xs-4">
-            {% snippet "snippets/language_selector.html" %}
-        </div>
-        <div class="col-md-4 col-xs-8">
-            <p>Lorem ipsum dolor sit amet ea ius soluta nusquam constituto. Lorem ipsum dolor sit amet ea ius soluta nusquam constituto</p>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <div>
-                <ul class="list-unstyled">
-                    <li><a href="{{ h.url('/about') }}">{{ _('About') }}</a></li>
-                    <li><a href="{{ h.url('/faq') }}">FAQ</a></li>
-                    <li><a href="{{ h.url('/contact') }}">Kontakt</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <div>
-                <ul class="list-unstyled">
-                    <li><a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Datasets') }}</a></li>
-                    <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
-                    <li><a href="{{ h.url('/app') }}">{{ _('Apps') }}</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-2 col-xs-4">
-            <div>
-                <ul class="list-unstyled">
-                    <li><a href="http://docs.ckan.org/en/latest/api/index.html">{{ _('API') }}</a></li>
-                <li><a href="https://github.com/ogdch/ckanext-switzerland">{{ _('Sourcecode') }}</a></li>
-            </ul>
-            </div>
-        </div>
+    <div class="col-md-2 col-xs-4">
+      <div>
+        <ul class="list-unstyled">
+          <li><a href="http://docs.ckan.org/en/latest/api/index.html">{{ _('API') }}</a></li>
+          <li><a href="https://github.com/ogdch/ckanext-switzerland">{{ _('Sourcecode') }}</a></li>
+        </ul>
+      </div>
     </div>
-    <div id="logos" class="row top-buffer">
-        <div class="col-xs-12">
-            <img class="logo-confederation" src="/content/themes/wp-ogdch-theme/assets/images/logo-confederation.png" />
-            <img class="logo-egovernment" src="/content/themes/wp-ogdch-theme/assets/images/logo-egovernment.png" />
-        </div>
+  </div>
+  <div id="logos" class="row top-buffer">
+    <div class="col-xs-12">
+      <img class="logo-confederation" src="/content/themes/wp-ogdch-theme/assets/images/logo-confederation.png" />
+      <img class="logo-egovernment" src="/content/themes/wp-ogdch-theme/assets/images/logo-egovernment.png" />
     </div>
+  </div>
 </footer>
