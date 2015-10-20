@@ -3,7 +3,6 @@ import ckan.logic as logic
 import requests
 import json
 import pylons
-import datetime
 from ckan.common import _
 
 import logging
@@ -167,14 +166,5 @@ def get_readable_file_size(num, suffix='B'):
                 return "%3.1f%s%s" % (num, unit, suffix)
             num /= 1024.0
         return "%.1f%s%s" % (num, 'Y', suffix)
-    except ValueError:
-        return False
-
-def timestamp_to_datetime(value):
-    """
-    Returns a datetime for a given timestamp
-    """
-    try:
-        return datetime.datetime.fromtimestamp(int(value)).isoformat()
     except ValueError:
         return False
