@@ -15,18 +15,20 @@ Example:
       <dl>
         <dt>{{ _('Last updated') }}</dt>
         <dd>
-          {% if pkg.modified %}
-            {{ h.render_datetime(pkg.modified, with_hours=False) }}</dd>
+          {% set mod_date = pkg.modified or pkg.issued or pkg.resources[0].issued %}
+          {% if mod_date %}
+            {{ h.render_datetime(mod_date, with_hours=False) }}
           {% else %}
-            {{ h.render_datetime(pkg.issued, with_hours=False) }}</dd>
+            -
           {% endif %}
+        </dd>
       </dl>
     </div>
     <div class="col-md-2 col-sm-6">
       <dl>
         <dt>{{ _('Terms of use') }}</dt>
         <dd class="terms">
-            <a href="/{{ current_lang }}/terms-of-use">
+            <a href="{{ h.url('/terms-of-use') }}">
               {% set dataset_rights = h.get_dataset_terms_of_use(pkg.name) %}
               {% set terms_of_use = h.get_terms_of_use_icon(dataset_rights) %}
               {% if terms_of_use %}
@@ -69,10 +71,12 @@ Example:
       </dl>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <h2>{{ _('Description') }}</h2>
-      <p>{{ pkg.description }}</p>
+  {% if pkg.description %}
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>{{ _('Description') }}</h2>
+        <p>{{ pkg.description }}</p>
+      </div>
     </div>
-  </div>
+  {% endif %}
 </section>

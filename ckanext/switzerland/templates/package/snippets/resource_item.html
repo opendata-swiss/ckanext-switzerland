@@ -7,9 +7,9 @@
   {% if res.media_type %}
     <small><span class="label label-default" property="dcat:mediaType" data-format="{{ res.media_type.upper() }}">{{ res.media_type.upper() }}</span></small>
   {% endif %}
+  {# TODO Display dataset name if resource name is empty #}
   <a class="heading" href="{{ url }}" title="{{ res.name or res.description }}">
     {{ h.resource_display_name(res) | truncate(50) }}
-    {{ h.popular('views', res.tracking_summary.total, min=10) }}
   </a>
   {% endblock %}
   {% block resource_item_explore %}
@@ -21,7 +21,7 @@
         <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
       </a>
     {% else %}
-      <a href="{{ res.access_url }}" class="btn btn-primary btn-xs" role="button" target="_blank">
+      <a href="{{ res.url }}" class="btn btn-primary btn-xs" role="button" target="_blank">
         <i class="fa fa-external-link"></i> {{ _('Go to resource') }}
       </a>
     {% endif %}

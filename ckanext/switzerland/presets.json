@@ -14,6 +14,14 @@
       }
     },
     {
+      "preset_name": "temporals",
+      "values": {
+        "display_snippet": "temporals.html",
+        "validators": "list_of_dicts",
+        "output_validators": "temporals_to_datetime_output"
+      }
+    },
+    {
       "preset_name": "dicts",
       "values": {
         "validators": "list_of_dicts",
@@ -122,6 +130,12 @@
       "values": {
         "display_snippet": "date.html",
         "output_validators": "timestamp_to_datetime"
+      }
+    },
+    {
+      "preset_name": "file_size",
+      "values": {
+        "display_snippet": "file_size.html"
       }
     }
   ]

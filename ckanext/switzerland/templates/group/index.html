@@ -1,6 +1,4 @@
 {% extends "page.html" %}
-{% import 'macros/form.html' as form %}
-{% set form_id = form_id if form_id else false %}
 
 {% block subtitle %}{{ _('Groups') }}{% endblock %}
 
@@ -16,10 +14,17 @@
   <form id="group-search-form" class="search-form" method="get" data-module="select-switch">
     <section class="container" id="group-list">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-7">
+          <h2>{{ h.snippet('snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='group') }}</h2>
+        </div>
+        <div class="col-md-5 h2-vertical-center">
           {% block groups_search_form %}
-            {% snippet 'snippets/search_form.html', form_id='group-search-form', type='group', query=c.q, sorting_selected=c.sort_by_selected, count=c.page.item_count, placeholder=_('Search groups...'), show_empty=request.params, no_bottom_border=true if c.page.items, sorting = [(_('Name Ascending'), 'title asc'), (_('Name Descending'), 'title desc')] %}
+            {% snippet 'snippets/search_form.html', query=c.q, placeholder=_('Search groups...') %}
           {% endblock %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
           {% block groups_list %}
             {% if c.page.items or request.params %}
               {% if c.page.items %}
@@ -33,6 +38,14 @@
           {% endblock %}
         </div>
       </div>
+
+      {% if request.params and c.page.item_count == 0 %}
+        <div class="row">
+          <div class="col-xs-12">
+            <p>{{ _('Please try another search.') }}</p>
+          </div>
+        </div>
+      {% endif %}
     </section>
   </form>
 {% endblock %}

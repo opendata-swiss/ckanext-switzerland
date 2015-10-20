@@ -18,7 +18,7 @@ from ckanext.switzerland.helpers import (
    get_org_count, get_tweet_count, get_localized_value,
    get_localized_org, get_localized_pkg, localize_json_title,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
-   get_dataset_by_identifier
+   get_dataset_by_identifier, get_readable_file_size
 )
 
 
@@ -47,7 +47,9 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'list_of_dicts': validators.list_of_dicts,
             'timestamp_to_datetime': validators.timestamp_to_datetime,
             'ogdch_multiple_choice': validators.ogdch_multiple_choice,
-            }
+            'temporals_to_datetime_output': validators.temporals_to_datetime_output,
+            'json_parse': validators.json_parse
+        }
 
     # IFacets
 
@@ -107,6 +109,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_terms_of_use_icon': get_terms_of_use_icon,
             'get_dataset_terms_of_use': get_dataset_terms_of_use,
             'get_dataset_by_identifier': get_dataset_by_identifier,
+            'get_readable_file_size': get_readable_file_size,
         }
 
 

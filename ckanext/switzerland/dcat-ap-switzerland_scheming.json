@@ -35,7 +35,6 @@
     {
       "field_name": "issued",
       "label": "Issued date",
-      "required": true,
       "preset": "ogdch_date"
     },
     {
@@ -99,8 +98,7 @@
     {
       "field_name": "temporals",
       "label": "Temporal(s)",
-      "preset": "dicts",
-      "display_snippet": "temporals.html"
+      "preset": "temporals"
     },
     {
       "field_name": "accrual_periodicity",
@@ -132,6 +130,7 @@
     {
       "field_name": "issued",
       "label": "Issued date",
+      "required": true,
       "preset": "ogdch_date"
     },
     {
@@ -171,7 +170,8 @@
     },
     {
       "field_name": "byte_size",
-      "label": "Byte Size"
+      "label": "Byte Size",
+      "preset": "file_size"
     },
     {
       "field_name": "media_type",

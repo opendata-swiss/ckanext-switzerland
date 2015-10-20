@@ -8,7 +8,6 @@
 
 {% block breadcrumb_content %}
   {% if pkg %}
-    {% set dataset = h.get_localized_pkg(pkg.name) %}
     {% if pkg.organization %}
       {% set organization = h.get_localized_org(pkg.organization.name) %}
       <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
@@ -16,7 +15,8 @@
     {% else %}
       <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
     {% endif %}
-    <li{{ self.breadcrumb_content_selected() }}>{% link_for dataset.title|truncate(30), controller='package', action='read', id=pkg.name %}</li>
+    {% set pkg_title = pkg.title or pkg.name %}
+    <li{{ self.breadcrumb_content_selected() }}>{% link_for pkg_title|truncate(30), controller='package', action='read', id=pkg.name %}</li>
   {% else %}
     <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
   {% endif %}

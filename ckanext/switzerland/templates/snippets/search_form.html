@@ -1,7 +1,19 @@
+{#
+  Displays a search form.
+
+  query       - Current query value.
+  fields      - Some fields.
+  placeholder - The placeholder of the search input field.
+
+  Example:
+
+  {% snippet 'snippets/search_form.html', package=c.datasets[0] %}
+
+#}
+
 {% import 'macros/form.html' as form %}
 
 {% set placeholder = placeholder if placeholder else _('Search datasets...') %}
-
 
 {% block search_input %}
   <div class="form-group has-feedback main-search">
@@ -15,37 +27,3 @@
     <span>{{ form.hidden_from_list(fields=fields) }}</span>
   {%- endif %}
 {% endblock %}
-
-{% block search_facets %}
-  {% if facets %}
-    <p class="filter-list">
-      {% for field in facets.fields %}
-        {% set search_facets_items = facets.search.get(field)['items'] %}
-        <span class="facet">{{ facets.titles.get(field) }}:</span>
-        {% for value in facets.fields[field] %}
-          <span class="filtered pill">
-            {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
-              {{ facets.translated_fields[(field,value)] }}
-            {%- else -%}
-              {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
-            {%- endif %}
-            <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="icon-remove"></i></a>
-          </span>
-        {% endfor %}
-      {% endfor %}
-    </p>
-  {% endif %}
-{% endblock %}
-
-
-{% if show_empty and count == 0 %}
-  {% trans %}
-    <p class="extra">Please try another search.</p>
-  {% endtrans %}
-{% endif %}
-
-{% if error %}
-  {% trans %}
-    <p><strong>There was an error while searching.</strong> Please try again.</p>
-  {% endtrans %}
-{% endif %}

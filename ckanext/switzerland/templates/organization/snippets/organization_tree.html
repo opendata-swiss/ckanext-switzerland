@@ -14,33 +14,16 @@ Example:
 
 #}
 
-{% set current_lang = request.environ.CKAN_LANG %}
-<section id="organisations-list" class="container">
-  <div class="row">
-    <div class="col-md-7">
-      <h2>{{ c.page.item_count }} Active Organisations</h2>
-    </div>
-    <div class="col-md-5 h2-vertical-center">
-      {% block organizations_search_form %}
-        {% snippet 'snippets/search_form.html', type='organization', query=c.q, count=c.page.item_count, placeholder=_('Search organizations...'), show_empty=request.params %}
-      {% endblock %}
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <ul>
-        {% for node in top_nodes recursive %}
-        <li id="node_{{ node.name }}">
-          {% set org = h.get_localized_org(node.name) %}
-          {% link_for org.title, controller='organization', action='read', id=node.name %}
+<ul id="organisations-list">
+  {% for node in top_nodes recursive %}
+  <li id="node_{{ node.name }}">
+    {% set org = h.get_localized_org(node.name) %}
+    {% link_for org.title, controller='organization', action='read', id=node.name %}
 
-          {% if node.children %}
-            <ul> {{ loop(node.children) }} </ul>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-</section>
+    {% if node.children %}
+      <ul> {{ loop(node.children) }} </ul>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
 

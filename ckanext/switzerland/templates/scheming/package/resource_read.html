@@ -12,8 +12,9 @@
 {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 
 {% block resource_additional_information_inner %}
-    {%- block resource_fields -%}
-      {%- for field in schema.resource_fields -%}
+  {%- block resource_fields -%}
+    {%- for field in schema.resource_fields -%}
+      {% if res[field.field_name] %}
         {%- if field.field_name not in exclude_fields -%}
             <dt>
               {{- h.scheming_language_text(field.label) -}}
@@ -22,6 +23,7 @@
               {%- snippet 'scheming/snippets/display_field.html', field=field, data=res, schema=schema -%}
             </dd>
         {%- endif -%}
-      {%- endfor -%}
-    {%- endblock -%}
+      {% endif %}
+    {%- endfor -%}
+  {%- endblock -%}
 {% endblock %}

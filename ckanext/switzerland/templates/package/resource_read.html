@@ -30,16 +30,21 @@
       <div class="col-md-2 col-sm-6">
         <dl>
           <dt>{{ _('Last updated') }}</dt>
-          {# TODO use issued or modified date when sync problem is solved #}
           {% set mod_date = res.modified or res.issued %}
-          <dd>{{ h.render_datetime(mod_date, with_hours=False) }}</dd>
+          <dd>
+            {% if mod_date %}
+              {{ h.render_datetime(mod_date, with_hours=False) }}
+            {% else %}
+              -
+            {% endif %}
+          </dd>
         </dl>
       </div>
       <div class="col-md-2 col-sm-6">
         <dl>
           <dt>{{ _('Terms of use') }}</dt>
           <dd class="terms">
-            <a href="/{{ current_lang }}/terms-of-use">
+            <a href="{{ h.url('/terms-of-use') }}">
               {% set terms_of_use = h.get_terms_of_use_icon(res.rights) %}
               {% if terms_of_use %}
                 <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
@@ -69,7 +74,7 @@
           <dt>{{ _('Media Type') }}</dt>
           <dd>
             {% if res.media_type %}
-              <span class="label label-default">{{ res.media_type }}</span>
+              <span class="label label-default">{{ res.media_type.upper() }}</span>
             {% else %}
               -
             {% endif %}
@@ -81,24 +86,29 @@
           <a href="{{ res.download_url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
             <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
           </a>
-          {% else %}
-          <a href="{{ res.access_url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
+        {% else %}
+          <a href="{{ res.url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
             <i class="fa fa-external-link"></i> {{ _('Go to resource') }}
           </a>
         {% endif %}
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <h2>{{ _('Description') }}</h2>
-        {% if res.description %}
+    {% if res.description %}
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>{{ _('Description') }}</h2>
           <p>{{ res.description }}</p>
-        {% endif %}
-        {% if not res.description and c.package.description %}
-          <p>{{ c.package.get('description') }}</p>
-        {% endif %}
+        </div>
       </div>
-    </div>
+    {% elif c.package.description %}
+      {# TODO package description should be the same as on package detail #}
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>{{ _('Description') }}</h2>
+          <p>{{ c.package.description }}</p>
+        </div>
+      </div>
+    {% endif %}
   </section>
 
   <section class="additional-info container">

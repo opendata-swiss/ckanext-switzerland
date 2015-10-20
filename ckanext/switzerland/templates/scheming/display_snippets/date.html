@@ -1,1 +1,6 @@
-{{ h.render_datetime(data[field.field_name], date_format='%d.%m.%Y') }}
+{% set date = data[field.field_name] %}
+{% if date %}
+  {{ h.render_datetime(date, with_hours=False) }}
+{% else %}
+  -
+{% endif %}

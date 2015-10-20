@@ -1,54 +1,56 @@
 {% ckan_extends %}
 {% block header_wrapper %}
+
 {% block header_account %}
 {% endblock %}
-  {% block header_debug %}
-    {% if g.debug and not g.debug_supress_header %}
-      <div class="debug">Controller : {{ c.controller }}<br/>Action : {{ c.action }}</div>
-    {% endif %}
-  {% endblock %}
-{% set current_lang = request.environ.CKAN_LANG %}
-<nav class="navbar navbar-default" id="main-navigation">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navigation-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/{{ current_lang }}">
-                <img src="/content/themes/wp-ogdch-theme/assets/images/logo.svg" class="navbar-brand-image hidden-xs hidden-sm " alt="opendata.swiss" />
-                <img src="/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.svg" class="navbar-brand-image hidden-md hidden-lg " alt="opendata.swiss" />
-            </a>
-        </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="main-navigation-collapse" role="navigation">
-            <div class="menu-mainnavigation-de-container">
-                <ul id="menu-mainnavigation-de" class="nav navbar-nav navbar-right">
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                        <a href="/{{ current_lang }}/dataset">{{ _('Datasets') }}</a>
-                    </li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                        <a href="/{{ current_lang }}/organization">{{ _('Organizations') }}</a>
-                    </li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                        <a href="/{{ current_lang }}/app">{{ _('Apps') }}</a>
-                    </li>
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                        <a href="/{{ current_lang }}/about">{{ _('About') }}</a>
-                    </li>
-                    <li class="menu-item menu-item-type-post_type menu-item-object-page">
-                        <a href="/{{ current_lang }}/faq">{{ _('FAQ') }}</a>
-                    </li>
-                    <li class="search">
-                        <a href="/{{ current_lang }}/dataset" title="{{ _('Search') }}"><i class="fa fa-search" aria-hidden="true"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container -->
+{% block header_debug %}
+  {% if g.debug and not g.debug_supress_header %}
+    <div class="debug">Controller : {{ c.controller }}<br/>Action : {{ c.action }}</div>
+  {% endif %}
+{% endblock %}
+
+<nav class="navbar navbar-default" id="main-navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navigation-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ h.url('home') }}">
+        <img src="/content/themes/wp-ogdch-theme/assets/images/logo.svg" class="navbar-brand-image hidden-xs hidden-sm " alt="opendata.swiss" />
+        <img src="/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.svg" class="navbar-brand-image hidden-md hidden-lg " alt="opendata.swiss" />
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-navigation-collapse" role="navigation">
+      <div>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Datasets') }}</a>
+          </li>
+          <li>
+            <a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a>
+          </li>
+          <li>
+            <a href="{{ h.url('/app') }}">{{ _('Apps') }}</a>
+          </li>
+          <li>
+            <a href="{{ h.url('/about') }}">{{ _('About') }}</a>
+          </li>
+          <li>
+            <a href="{{ h.url('/faq') }}">{{ _('FAQ') }}</a>
+          </li>
+          <li class="search">
+            <a href="{{ h.url_for(controller='package', action='search') }}" title="{{ _('Search') }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container -->
 </nav>
 {% endblock %}

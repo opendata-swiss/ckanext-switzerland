@@ -38,6 +38,14 @@ def multiple_text(field, schema):
 
     return validator
 
+def parse_json(value, default_value=None):
+    try:
+        return json.loads(value)
+    except ValueError:
+        if default_value is not None:
+            return default_value
+        return value
+
 def multilingual_text_output(value):
     """
     Return stored json representation as a multilingual dict, if
@@ -45,11 +53,7 @@ def multilingual_text_output(value):
     """
     if isinstance(value, dict):
         return value
-    try:
-        return json.loads(value)
-    except ValueError:
-        # plain string in the db, assume already correctly replaced
-        return value
+    return parse_json(value)
 
 def timestamp_to_datetime(value):
     """
@@ -58,8 +62,20 @@ def timestamp_to_datetime(value):
     try:
         return datetime.datetime.fromtimestamp(int(value)).isoformat()
     except ValueError:
-        return value
+        return False
 
+def temporals_to_datetime_output(value):
+    """
+    Converts a temporal with start and end date
+    as timestamps to temporal as datetimes
+    """
+    value = parse_json(value)
+
+    for temporal in value:
+        for key in temporal:
+            temporal[key] = timestamp_to_datetime(temporal[key]) if temporal[key] else None
+    return value
+    
 @scheming_validator
 def list_of_dicts(field, schema):
     def validator(key, data, errors, context):
@@ -95,10 +111,7 @@ def multiple_text_output(value):
     """
     Return stored json representation as a list
     """
-    try:
-        return json.loads(value)
-    except ValueError:
-        return [value]
+    return json_parse(value, default_value=[value])
 
 @scheming_validator
 def ogdch_multiple_choice(field, schema):
