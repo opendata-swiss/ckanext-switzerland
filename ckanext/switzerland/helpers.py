@@ -128,7 +128,7 @@ def get_terms_of_use_icon(terms_of_use):
         },
         'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': {
             'title': _('Reference required'),
-            'icon': 'terms_ref.svg',
+            'icon': 'terms_by.svg',
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': {
             'title': _('Commercial use with permission allowed'),
@@ -136,7 +136,7 @@ def get_terms_of_use_icon(terms_of_use):
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': {
             'title': _('Reference required / Commercial use with permission allowed'),
-            'icon': 'terms_ref-ask.svg',
+            'icon': 'terms_by-ask.svg',
         },
     }
     try:
@@ -144,7 +144,7 @@ def get_terms_of_use_icon(terms_of_use):
     except KeyError:
         return {
             'title': _('Closed data'),
-            'icon': 'terms_closed.png',
+            'icon': 'terms_closed.svg',
         }
 
 def get_dataset_terms_of_use(pkg):
