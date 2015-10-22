@@ -111,7 +111,7 @@ def multiple_text_output(value):
     """
     Return stored json representation as a list
     """
-    return json_parse(value, default_value=[value])
+    return parse_json(value, default_value=[value])
 
 @scheming_validator
 def ogdch_multiple_choice(field, schema):
