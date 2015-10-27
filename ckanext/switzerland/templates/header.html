@@ -21,8 +21,8 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="{{ h.url('home') }}">
-        <img src="/content/themes/wp-ogdch-theme/assets/images/logo.svg" class="navbar-brand-image hidden-xs hidden-sm " alt="opendata.swiss" />
-        <img src="/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.svg" class="navbar-brand-image hidden-md hidden-lg " alt="opendata.swiss" />
+        <img src="/content/themes/wp-ogdch-theme/assets/images/logo.svg" class="navbar-brand-image hidden-xs hidden-sm " alt="{{ app_globals.site_title }}" title="{{ app_globals.site_title }}" />
+        <img src="/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.svg" class="navbar-brand-image hidden-md hidden-lg " alt="{{ app_globals.site_title }}" title="{{ app_globals.site_title }}" />
       </a>
     </div>
 
@@ -31,13 +31,13 @@
       <div>
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Datasets') }}</a>
+            <a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Data') }}</a>
           </li>
           <li>
             <a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a>
           </li>
           <li>
-            <a href="{{ h.url('/app') }}">{{ _('Apps') }}</a>
+            <a href="{{ h.url('/app') }}">{{ _('Applications') }}</a>
           </li>
           <li>
             <a href="{{ h.url('/about') }}">{{ _('About') }}</a>

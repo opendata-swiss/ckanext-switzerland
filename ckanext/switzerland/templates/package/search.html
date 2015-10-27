@@ -1,14 +1,14 @@
 {% extends "page.html" %}
 {% import 'macros/form.html' as form %}
 
-{% block subtitle %}{{ _('Datasets') }}{% endblock %}
+{% block subtitle %}{{ _('Data') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('Datasets'), controller='package', action='search' %}</li>
+  <li class="active">{% link_for _('Data'), controller='package', action='search' %}</li>
 {% endblock %}
 
 {% block page_title %}
-  <h1>{{ _('Datasets') }}</h1>
+  <h1>{{ _('Data') }}</h1>
 {% endblock %}
 
 {% block primary_content %}
