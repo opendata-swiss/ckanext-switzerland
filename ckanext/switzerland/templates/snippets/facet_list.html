@@ -109,10 +109,10 @@ within_tertiary
               <p>
                 {% if h.get_param_int('_%s_limit' % name) %}
                   {% if h.has_more_facets(name) %}
-                    <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="btn btn-default btn-xs"><i class="fa fa-angle-down"></i> {{ _('Show More {facet_type}').format(facet_type=title) }}</a>
+                    <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="btn btn-default-gray btn-xs"><i class="fa fa-angle-down"></i> {{ _('Show More {facet_type}').format(facet_type=title) }}</a>
                   {% endif %}
                 {% else %}
-                  <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="btn btn-default btn-xs"><i class="fa fa-angle-up"></i> {{ _('Show Only Popular {facet_type}').format(facet_type=title) }}</a>
+                  <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="btn btn-default-gray btn-xs"><i class="fa fa-angle-up"></i> {{ _('Show Only Popular {facet_type}').format(facet_type=title) }}</a>
                 {% endif %}
               </p>
             {% else %}

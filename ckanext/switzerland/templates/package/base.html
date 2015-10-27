@@ -8,6 +8,7 @@
 
 {% block breadcrumb_content %}
   {% if pkg %}
+    {# TODO Why isn't pkg.organization set in dataset detail but in ressource detail? #}
     {% if pkg.organization %}
       {% set organization = h.get_localized_org(pkg.organization.name) %}
       <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
