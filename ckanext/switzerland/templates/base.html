@@ -1,5 +1,10 @@
 {% ckan_extends %}
 
+{%- block meta -%}
+  {{ super() }}
+  <meta name="description" content="{{ _('Open Government Data Switzerland') }}" />
+{%- endblock -%}
+
 {%- block title -%}
 {% block subtitle %}{{ _('Home') }}{% endblock %} | {{ app_globals.site_title }}
 {%- endblock -%}
