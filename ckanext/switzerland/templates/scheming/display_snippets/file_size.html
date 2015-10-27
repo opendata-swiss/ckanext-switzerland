@@ -1,6 +1,1 @@
-{% set byte_size = data[field.field_name] %}
-{% if byte_size %}
-  {{ h.get_readable_file_size(byte_size) }}
-{% else %}
-  -
-{% endif %}
+{{ h.get_readable_file_size(data[field.field_name]) or '-' }}

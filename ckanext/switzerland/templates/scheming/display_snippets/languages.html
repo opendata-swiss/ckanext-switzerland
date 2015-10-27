@@ -1,0 +1,20 @@
+{%- set languages = data[field.field_name] -%}
+{% if languages %}
+  {% if languages|length == 1 %}
+    {%- for choice in field.choices -%}
+      {%- if choice.value in languages -%}
+        {{ h.scheming_language_text(choice.label) }}
+      {%- endif -%}
+    {%- endfor -%}
+  {% else %}
+    <ul>
+      {%- for choice in field.choices -%}
+        {%- if choice.value in languages -%}
+          <li>{{ h.scheming_language_text(choice.label) }}</li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  {% endif %}
+{% else %}
+  {{ _('Language independent') }}
+{% endif %}

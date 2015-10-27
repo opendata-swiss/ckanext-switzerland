@@ -110,10 +110,20 @@ def get_frequency_name(identifier):
       'http://purl.org/cld/freq/completelyIrregular': _('Irregular'),
       'http://purl.org/cld/freq/continuous': _('Continuous'),
       'http://purl.org/cld/freq/daily': _('Daily'),
+      'http://purl.org/cld/freq/threeTimesAWeek': _('Three times a week'),
+      'http://purl.org/cld/freq/semiweekly': _('Semi weekly'),
       'http://purl.org/cld/freq/weekly': _('Weekly'),
+      'http://purl.org/cld/freq/threeTimesAMonth': _('Three times a month'),
+      'http://purl.org/cld/freq/biweekly': _('Biweekly'),
+      'http://purl.org/cld/freq/semimonthly': _('Semimonthly'),
       'http://purl.org/cld/freq/monthly': _('Monthly'),
+      'http://purl.org/cld/freq/bimonthly': _('Bimonthly'),
+      'http://purl.org/cld/freq/quarterly': _('Quarterly'),
+      'http://purl.org/cld/freq/threeTimesAYear': _('Three times a year'),
       'http://purl.org/cld/freq/semiannual': _('Semi Annual'),
       'http://purl.org/cld/freq/annual': _('Annual'),
+      'http://purl.org/cld/freq/biennial': _('Biennial'),
+      'http://purl.org/cld/freq/triennial': _('Triennial'),
     }
     try:
         return frequencies[identifier]

@@ -14,16 +14,18 @@
 {% block resource_additional_information_inner %}
   {%- block resource_fields -%}
     {%- for field in schema.resource_fields -%}
-      {% if res[field.field_name] %}
         {%- if field.field_name not in exclude_fields -%}
+          {%- if field.field_name == 'download_url' and not res[field.field_name] -%}
+            {# Hide download url if empty #}
+          {%- else -%}
             <dt>
               {{- h.scheming_language_text(field.label) -}}
             </dt>
             <dd>
               {%- snippet 'scheming/snippets/display_field.html', field=field, data=res, schema=schema -%}
             </dd>
+          {%- endif -%}
         {%- endif -%}
-      {% endif %}
     {%- endfor -%}
   {%- endblock -%}
 {% endblock %}

@@ -1,6 +1,1 @@
-{%- set periodicity = data[field.field_name] -%}
-{% if periodicity %}
-  {{ h.get_frequency_name(periodicity) }}
-{% else %}
-  -
-{% endif %}
+{{ h.get_frequency_name(data[field.field_name]) or '-' }}
