@@ -2,16 +2,13 @@
 
 {% set res = c.resource %}
 {% set current_lang = request.environ.CKAN_LANG %}
+{% set pkg_title = h.dataset_display_name(c.package)[current_lang] %}
 {% set res_title = res.title or c.package.title %}
+{% set res_description = h.markdown_extract(res.description, extract_length=200) %}
 
-{% block head_extras -%}
-  {{ super() }}
-  {% set description = h.markdown_extract(res.description, extract_length=200) if res.description else h.markdown_extract(c.package.notes, extract_length=200) %}
-  <meta property="og:title" content="{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }} - {{ g.site_title }}">
-  <meta property="og:description" content="{{ description|forceescape }}">
-{% endblock -%}
+{% block meta_description %}<meta name="description" content="{{ res_description|forceescape|trim }}" />{% endblock %}
 
-{% block subtitle %}{{ h.dataset_display_name(c.package)[current_lang] }} - {{ res_title }}{% endblock %}
+{% block subtitle %}{{ pkg_title }} | {{ res_title }}{% endblock %}
 
 {% block breadcrumb_content_selected %}{% endblock %}
 

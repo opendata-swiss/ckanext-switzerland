@@ -1,5 +1,9 @@
 {% extends "page.html" %}
 
+{% set page_description = _('All communal, cantonal, and federal authorities (cities, cantons, offices, regions, interfederal organisations etc.), as well as communal, cantonal, and federal businesses (e.g. SBB, Post, Swisscom etc.) are called on to make data available in open, machine-readable formats, while continuing to ensure privacy and security.') %}
+
+{% block meta_description %}<meta name="description" content="{{ page_description|truncate(200) }}" />{% endblock %}
+
 {% block subtitle %}{{ _('Organizations') }}{% endblock %}
 
 {% block breadcrumb_content %}
@@ -16,7 +20,7 @@
       <div class="row">
         <div class="col-xs-12">
           <h2>{{ _('Are you a potential open data publisher?') }}</h2>
-          <p>{{ _('All communal, cantonal, and federal authorities (cities, cantons, offices, regions, interfederal organisations etc.), as well as communal, cantonal, and federal businesses (e.g. SBB, Post, Swisscom etc.) are called on to make data available in open, machine-readable formats, while continuing to ensure privacy and security.') }}</p>
+          <p>{{ page_description }}</p>
           <a class="btn btn-primary" href="{{ h.url('/contact') }}" role="button">{{ _('See how to get involved') }}</a>
         </div>
       </div>

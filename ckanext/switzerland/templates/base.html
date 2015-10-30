@@ -2,11 +2,11 @@
 
 {%- block meta -%}
   {{ super() }}
-  <meta name="description" content="{{ _('Open Government Data Switzerland') }}" />
+  {% block meta_description %}<meta name="description" content="{{ _('Open Government Data Switzerland') }}" />{% endblock %}
 {%- endblock -%}
 
 {%- block title -%}
-{% block subtitle %}{{ _('Home') }}{% endblock %} | {{ app_globals.site_title }}
+  {% block subtitle %}{{ _('Home') }}{% endblock %} | {{ app_globals.site_title }}
 {%- endblock -%}
 
 {% block styles %}
