@@ -1,6 +1,8 @@
 {% extends "group/read_base.html" %}
 
-{% block subtitle %}{{ c.group_dict.display_name }} - {% endblock %}
+{% block meta_description %}<meta name="description" content="{{ c.group_dict.description|truncate(200) }}" />{% endblock %}
+
+{% block subtitle %}{{ c.group_dict.display_name }}{% endblock %}
 
 {% block breadcrumb_content %}
   <li>{% link_for _('Groups'), controller='group', action='index' %}</li>

@@ -1,17 +1,14 @@
 {% extends "package/base.html" %}
 
-{% block subtitle %}{{ pkg.title or pkg.name }} - {{ super() }}{% endblock %}
+{% set description = h.markdown_extract(pkg.description, extract_length=200)|forceescape %}
+
+{% block meta_description %}<meta name="description" content="{{ description|forceescape|trim }}" />{% endblock %}
+
+{% block subtitle %}{{ pkg.title or pkg.name }}{% endblock %}
 
 {% block links -%}
   {{ super() }}
   <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for(controller='package', action='read', id=pkg.id, format='rdf', qualified=True) }}"/>
-{% endblock -%}
-
-{% block head_extras -%}
-  {{ super() }}
-  {% set description = h.markdown_extract(pkg.notes, extract_length=200)|forceescape %}
-  <meta property="og:title" content="{{ h.dataset_display_name(pkg) }} - {{ g.site_title }}">
-  <meta property="og:description" content="{{ description|forceescape|trim }}">
 {% endblock -%}
 
 {% block content_primary_nav %}
