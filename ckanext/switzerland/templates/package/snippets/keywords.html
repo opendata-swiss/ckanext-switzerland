@@ -1,10 +1,10 @@
-{% if tags %}
+{% if keywords %}
   <section class="container tags">
     <div class="row">
       <div class="col-xs-12">
         <ul class="list-inline tags">
-          {% for tag in tags %}
-            <li><a class="label label-primary-gray" href="{% url_for controller='package', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a></li>
+          {% for keyword in keywords %}
+            <li><a class="label label-primary-gray" href="{% url_for controller='package', action='search', keywords=keyword %}">{{ h.truncate(keyword, 22) }}</a></li>
           {% endfor %}
         </ul>
       </div>
