@@ -3,6 +3,7 @@ import ckan.logic as logic
 import requests
 import json
 import pylons
+from itertools import chain
 from ckan.common import _
 
 import logging
@@ -178,3 +179,6 @@ def get_readable_file_size(num, suffix='B'):
         return "%.1f%s%s" % (num, 'Y', suffix)
     except ValueError:
         return False
+
+def flatten_dict_values(dictionary):
+    return list(chain(*dictionary.values()))

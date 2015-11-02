@@ -1,6 +1,7 @@
 from ckan.plugins.toolkit import missing, _
 import ckan.lib.navl.dictization_functions as df
 from ckanext.scheming.validation import scheming_validator
+from ckanext.switzerland.helpers import flatten_dict_values
 import json
 import pprint
 import datetime
@@ -103,6 +104,24 @@ def list_of_dicts(field, schema):
             del data_dict[key[0]]
             data[('__junk',)] = df.flatten_dict(data_dict)
         except KeyError:
+            pass
+
+    return validator
+
+
+@scheming_validator
+def flat_list_of_source(field, schema):
+    def validator(key, data, errors, context):
+        # if there was an error before calling our validator
+        # don't bother with our validation
+        if errors[key]:
+            return
+
+        source = field.get('source', None)
+        try:
+            source_value = parse_json(data[(source,)])
+            data[key] = ', '.join(flatten_dict_values(source_value))
+        except:
             pass
 
     return validator

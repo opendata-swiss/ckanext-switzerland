@@ -49,6 +49,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'ogdch_multiple_choice': validators.ogdch_multiple_choice,
             'temporals_to_datetime_output': validators.temporals_to_datetime_output,
             'parse_json': validators.parse_json,
+            'flat_list_of_source': validators.flat_list_of_source,
         }
 
     # IFacets

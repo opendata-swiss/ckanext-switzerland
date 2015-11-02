@@ -4,7 +4,7 @@
       <div class="col-xs-12">
         <ul class="list-inline tags">
           {% for keyword in keywords %}
-            <li><a class="label label-primary-gray" href="{% url_for controller='package', action='search', keywords=keyword %}">{{ h.truncate(keyword, 22) }}</a></li>
+            <li><a class="label label-primary-gray" href="{% url_for controller='package', action='search', tags=keyword %}">{{ h.truncate(keyword, 22) }}</a></li>
           {% endfor %}
         </ul>
       </div>
