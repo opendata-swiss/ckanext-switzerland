@@ -36,13 +36,19 @@ ckanext-switzerland
    What does it do? What features does it have?
    Consider including some screenshots or embedding a video!
 
-
 ------------
 Requirements
 ------------
 
-For example, you might want to mention here which versions of CKAN this
-extension works with.
+- CKAN 2.4+
+- ckanext-scheming
+- ckanext-fluent
+
+------------
+Update translations
+------------
+
+Follow the guide at https://github.com/ckan/ckan/wiki/Translations-and-Extensions
 
 
 ------------
@@ -94,6 +100,7 @@ do::
     cd ckanext-switzerland
     python setup.py develop
     pip install -r dev-requirements.txt
+    pip install -r requirements.txt
 
 
 -----------------
