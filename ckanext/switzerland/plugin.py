@@ -18,7 +18,8 @@ from ckanext.switzerland.helpers import (
    get_org_count, get_tweet_count, get_localized_value,
    get_localized_org, get_localized_pkg, localize_json_title,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
-   get_dataset_by_identifier, get_readable_file_size
+   get_dataset_by_identifier, get_readable_file_size,
+   simplify_terms_of_use
 )
 
 
@@ -215,7 +216,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
         pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
-        pkg_dict['res_rights'] = [r['rights'] for r in validated_dict[u'resources']]
+        pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
         pkg_dict['title_string'] = extract_title(validated_dict)
         pkg_dict['description'] = LangToString('description')(validated_dict)
 
