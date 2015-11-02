@@ -164,10 +164,9 @@ def simplify_terms_of_use(term_id):
       'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired',
     ]
 
-    try:
-        return terms[term_id]
-    except KeyError:
-        return 'ClosedData'
+    if term_id in terms:
+        return term_id
+    return 'ClosedData'
 
 def get_dataset_terms_of_use(pkg):
     rights = logic.get_action('ogdch_dataset_terms_of_use')({}, {'id': pkg})
