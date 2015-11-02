@@ -1,7 +1,6 @@
 from ckan.plugins.toolkit import missing, _
 import ckan.lib.navl.dictization_functions as df
 from ckanext.scheming.validation import scheming_validator
-from ckanext.switzerland.helpers import flatten_dict_values
 import json
 import pprint
 import datetime
