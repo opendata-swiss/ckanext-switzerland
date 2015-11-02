@@ -76,12 +76,6 @@
       }
     },
     {
-      "preset_name": "tag_list",
-      "values": {
-          "validators": "flat_list_of_source tag_string_convert"
-      }
-    },
-    {
       "preset_name": "dataset_organization",
       "values": {
         "validators": "owner_org_validator unicode",
