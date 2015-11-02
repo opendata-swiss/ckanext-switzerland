@@ -49,32 +49,34 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'ogdch_multiple_choice': validators.ogdch_multiple_choice,
             'temporals_to_datetime_output': validators.temporals_to_datetime_output,
             'parse_json': validators.parse_json,
-            'flat_list_of_source': validators.flat_list_of_source,
         }
 
     # IFacets
 
     def dataset_facets(self, facets_dict, package_type):
+        lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
         facets_dict['groups'] = plugins.toolkit._('Themes')
-        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
+        lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
-        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
+        lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
         facets_dict['groups'] = plugins.toolkit._('Themes')
-        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict

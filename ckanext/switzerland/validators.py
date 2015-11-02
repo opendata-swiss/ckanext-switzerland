@@ -108,24 +108,6 @@ def list_of_dicts(field, schema):
 
     return validator
 
-
-@scheming_validator
-def flat_list_of_source(field, schema):
-    def validator(key, data, errors, context):
-        # if there was an error before calling our validator
-        # don't bother with our validation
-        if errors[key]:
-            return
-
-        source = field.get('source', None)
-        try:
-            source_value = parse_json(data[(source,)])
-            data[key] = ', '.join(flatten_dict_values(source_value))
-        except:
-            pass
-
-    return validator
-
 def multiple_text_output(value):
     """
     Return stored json representation as a list

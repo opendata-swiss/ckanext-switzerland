@@ -83,12 +83,6 @@
       "form_placeholder": "eg. economy, mental health, government"
     },
     {
-        "field_name": "tag_string",
-        "label": "Tags",
-        "preset": "tag_list",
-        "source": "keywords"
-    },
-    {
       "field_name": "url",
       "label": "Landing page",
       "preset": "url"
