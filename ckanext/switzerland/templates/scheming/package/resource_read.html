@@ -16,7 +16,9 @@
     {%- for field in schema.resource_fields -%}
         {%- if field.field_name not in exclude_fields -%}
           {%- if field.field_name == 'download_url' and not res[field.field_name] -%}
-            {# Hide download url if empty #}
+            {# Hide download_url if empty #}
+          {%- elif field.field_name == 'byte_size' and not res['download_url'] -%}
+            {# Hide byte_size if download_url empty #}
           {%- else -%}
             <dt>
               {{- h.scheming_language_text(field.label) -}}
