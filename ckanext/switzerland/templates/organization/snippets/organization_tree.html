@@ -14,7 +14,7 @@ Example:
 
 #}
 
-<ul id="organisations-list">
+<ul id="organizations-list">
   {% for node in top_nodes recursive %}
   <li id="node_{{ node.name }}">
     {% set org = h.get_localized_org(node.name) %}

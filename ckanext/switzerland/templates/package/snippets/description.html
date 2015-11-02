@@ -49,14 +49,14 @@ Example:
           {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
           <a href="{{ url }}">{{ organization.title or organization.name }}</a>
           {% else %}
-          {{ _('No organisation available') }}
+          {{ _('No organization available') }}
           {% endif %}
         </dd>
       </dl>
     </div>
     <div class="col-md-4 col-sm-6">
       <dl>
-        <dt>{{ _('Groups') }}</dt>
+        <dt>{{ _('Categories') }}</dt>
         <dd>
         {% if pkg.groups %}
           {% for group in pkg.groups %}

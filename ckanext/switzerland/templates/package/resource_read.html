@@ -61,7 +61,7 @@
               {% set url = h.url_for(controller='organization', action='read', id=organization.name) %}
               <a href="{{ url }}">{{ organization.title or organization.name }}</a>
             {% else %}
-              {{ _('No organisation available') }}
+              {{ _('No organization available') }}
             {% endif %}
           </dd>
         </dl>
