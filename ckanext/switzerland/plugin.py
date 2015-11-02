@@ -211,7 +211,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         extract_title = LangToString('title')
         validated_dict = json.loads(pkg_dict['validated_data_dict'])
         
-        log.debug(pprint.pformat(validated_dict))
+        # log.debug(pprint.pformat(validated_dict))
 
         pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
         pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
@@ -219,16 +219,25 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         pkg_dict['title_string'] = extract_title(validated_dict)
         pkg_dict['description'] = LangToString('description')(validated_dict)
 
-        pkg_dict['title_de'] = validated_dict['title']['de']
-        pkg_dict['title_fr'] = validated_dict['title']['fr']
-        pkg_dict['title_it'] = validated_dict['title']['it']
-        pkg_dict['title_en'] = validated_dict['title']['en']
 
-        log.debug(pprint.pformat(pkg_dict))
+        try:
+            pkg_dict['title_de'] = validated_dict['title']['de']
+            pkg_dict['title_fr'] = validated_dict['title']['fr']
+            pkg_dict['title_it'] = validated_dict['title']['it']
+            pkg_dict['title_en'] = validated_dict['title']['en']
+
+            pkg_dict['keywords_de'] = validated_dict['keywords']['de']
+            pkg_dict['keywords_fr'] = validated_dict['keywords']['fr']
+            pkg_dict['keywords_it'] = validated_dict['keywords']['it']
+            pkg_dict['keywords_en'] = validated_dict['keywords']['en']
+        except KeyError:
+            pass
+
+        # log.debug(pprint.pformat(pkg_dict))
         return pkg_dict
    
     def before_search(self, search_params):
-        log.debug(pprint.pformat(search_params))
+        # log.debug(pprint.pformat(search_params))
         return search_params
 
 
