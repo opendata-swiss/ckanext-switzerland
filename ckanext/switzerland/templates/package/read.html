@@ -20,10 +20,6 @@
 {% endblock %}
 
 {% block primary_content %}
-  {% block package_toolbox %}
-    {% snippet "package/snippets/toolbox.html", pkg=pkg %}
-  {% endblock %}
-
   {% block package_description %}
     {% snippet "package/snippets/description.html", pkg=pkg %}
   {% endblock %}
