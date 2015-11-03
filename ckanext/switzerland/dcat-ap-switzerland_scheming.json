@@ -170,7 +170,7 @@
       "field_name": "keywords",
       "label": {
         "en": "Keywords",
-        "de": "Schlagworte",
+        "de": "Schlagwörter",
         "fr": "Mots clés",
         "it": "Parole chiave"
       },
@@ -228,7 +228,7 @@
       "field_name": "see_alsos",
       "label": {
         "en": "Related Datasets",
-        "de": "Datensatz Beziehungen",
+        "de": "In Beziehung stehende Datensätze",
         "fr": "Relations record",
         "it": "Relazioni record"
       },
