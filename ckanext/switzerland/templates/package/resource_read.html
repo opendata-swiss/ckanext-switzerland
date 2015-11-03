@@ -1,10 +1,9 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set current_lang = request.environ.CKAN_LANG %}
-{% set pkg_title = h.dataset_display_name(c.package)[current_lang] %}
-{% set res_title = res.title or c.package.title %}
-{% set res_description = h.markdown_extract(res.description, extract_length=200) %}
+{% set pkg_title = c.package.title or c.package.name %}
+{% set res_title = res.title or pkg_title %}
+{% set res_description = res.description or c.package.description %}
 
 {% block meta_description %}<meta name="description" content="{{ res_description|forceescape|trim }}" />{% endblock %}
 
@@ -90,19 +89,11 @@
         {% endif %}
       </div>
     </div>
-    {% if res.description %}
+    {% if res_description %}
       <div class="row">
         <div class="col-xs-12">
           <h2>{{ _('Description') }}</h2>
-          <p>{{ res.description }}</p>
-        </div>
-      </div>
-    {% elif c.package.description %}
-      {# TODO package description should be the same as on package detail #}
-      <div class="row">
-        <div class="col-xs-12">
-          <h2>{{ _('Description') }}</h2>
-          <p>{{ c.package.description }}</p>
+          <p>{{ res_description }}</p>
         </div>
       </div>
     {% endif %}
