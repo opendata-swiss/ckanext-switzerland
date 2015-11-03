@@ -60,7 +60,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict['groups'] = plugins.toolkit._('Categories')
         facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
-        facets_dict['res_rights'] = plugins.toolkit._('Terms')
+        facets_dict['res_rights'] = plugins.toolkit._('Terms of use')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
@@ -69,7 +69,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict = collections.OrderedDict()
         facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
-        facets_dict['res_rights'] = plugins.toolkit._('Terms')
+        facets_dict['res_rights'] = plugins.toolkit._('Terms of use')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
@@ -78,7 +78,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict = collections.OrderedDict()
         facets_dict['groups'] = plugins.toolkit._('Categories')
         facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
-        facets_dict['res_rights'] = plugins.toolkit._('Terms')
+        facets_dict['res_rights'] = plugins.toolkit._('Terms of use')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
