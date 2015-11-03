@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-10-30 15:10+0000\n"
+"POT-Creation-Date: 2015-11-03 12:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,131 +18,135 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: ckanext/switzerland/helpers.py:111
+#: ckanext/switzerland/_missing_translations.py:9
+msgid "About"
+msgstr ""
+
+#: ckanext/switzerland/helpers.py:110
 msgid "Irregular"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:112
+#: ckanext/switzerland/helpers.py:111
 msgid "Continuous"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:113
+#: ckanext/switzerland/helpers.py:112
 msgid "Daily"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:114
+#: ckanext/switzerland/helpers.py:113
 msgid "Three times a week"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:115
+#: ckanext/switzerland/helpers.py:114
 msgid "Semi weekly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:116
+#: ckanext/switzerland/helpers.py:115
 msgid "Weekly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:117
+#: ckanext/switzerland/helpers.py:116
 msgid "Three times a month"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:118
+#: ckanext/switzerland/helpers.py:117
 msgid "Biweekly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:119
+#: ckanext/switzerland/helpers.py:118
 msgid "Semimonthly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:120
+#: ckanext/switzerland/helpers.py:119
 msgid "Monthly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:121
+#: ckanext/switzerland/helpers.py:120
 msgid "Bimonthly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:122
+#: ckanext/switzerland/helpers.py:121
 msgid "Quarterly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:123
+#: ckanext/switzerland/helpers.py:122
 msgid "Three times a year"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:124
+#: ckanext/switzerland/helpers.py:123
 msgid "Semi Annual"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:125
+#: ckanext/switzerland/helpers.py:124
 msgid "Annual"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:126
+#: ckanext/switzerland/helpers.py:125
 msgid "Biennial"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:127
+#: ckanext/switzerland/helpers.py:126
 msgid "Triennial"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:137
+#: ckanext/switzerland/helpers.py:136
 msgid "Open data"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:141
+#: ckanext/switzerland/helpers.py:140
 msgid "Reference required"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:145
+#: ckanext/switzerland/helpers.py:144
 msgid "Commercial use with permission allowed"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:149
+#: ckanext/switzerland/helpers.py:148
 msgid "Reference required / Commercial use with permission allowed"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:157
+#: ckanext/switzerland/helpers.py:152
 msgid "Closed data"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:59 ckanext/switzerland/plugin.py:76
+#: ckanext/switzerland/plugin.py:60 ckanext/switzerland/plugin.py:79
 msgid "Themes"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:60 ckanext/switzerland/plugin.py:68
-#: ckanext/switzerland/plugin.py:77
+#: ckanext/switzerland/plugin.py:61 ckanext/switzerland/plugin.py:70
+#: ckanext/switzerland/plugin.py:80
 msgid "Keywords"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:61 ckanext/switzerland/plugin.py:69
-#: ckanext/switzerland/templates/package/resource_read.html:60
+#: ckanext/switzerland/plugin.py:62 ckanext/switzerland/plugin.py:71
+#: ckanext/switzerland/templates/package/resource_read.html:57
 #: ckanext/switzerland/templates/package/snippets/description.html:45
 msgid "Organization"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:62 ckanext/switzerland/plugin.py:70
-#: ckanext/switzerland/plugin.py:78
+#: ckanext/switzerland/plugin.py:63 ckanext/switzerland/plugin.py:72
+#: ckanext/switzerland/plugin.py:81
 msgid "Terms"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:63 ckanext/switzerland/plugin.py:71
-#: ckanext/switzerland/plugin.py:79
-#: ckanext/switzerland/templates/package/resource_read.html:74
+#: ckanext/switzerland/plugin.py:64 ckanext/switzerland/plugin.py:73
+#: ckanext/switzerland/plugin.py:82
+#: ckanext/switzerland/templates/package/resource_read.html:71
 msgid "Media Type"
 msgstr ""
 
-#: ckanext/switzerland/validators.py:32 ckanext/switzerland/validators.py:95
+#: ckanext/switzerland/validators.py:31 ckanext/switzerland/validators.py:94
 #, python-format
 msgid "expecting list of strings, got \"%s\""
 msgstr ""
 
-#: ckanext/switzerland/validators.py:161
+#: ckanext/switzerland/validators.py:139
 #, python-format
 msgid "expecting list of strings, got %s"
 msgstr ""
 
-#: ckanext/switzerland/validators.py:171
+#: ckanext/switzerland/validators.py:149
 #, python-format
 msgid "unexpected choice \"%s\""
 msgstr ""
@@ -163,11 +167,6 @@ msgid ""
 "space shuttle to make you feel better!"
 msgstr ""
 
-#: ckanext/switzerland/templates/group/read_base.html:3
-#: ckanext/switzerland/templates/package/snippets/description.html:59
-msgid "Groups"
-msgstr ""
-
 #: ckanext/switzerland/templates/group/snippets/group_item.html:20
 #: ckanext/switzerland/templates/package/snippets/description.html:65
 msgid "View {name}"
@@ -183,44 +182,44 @@ msgstr[1] ""
 msgid "0 Datasets"
 msgstr ""
 
-#: ckanext/switzerland/templates/organization/read_base.html:3
-msgid "Organizations"
-msgstr ""
-
-#: ckanext/switzerland/templates/package/resource_read.html:32
+#: ckanext/switzerland/templates/package/resource_read.html:29
 #: ckanext/switzerland/templates/package/snippets/description.html:16
 msgid "Last updated"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:45
+#: ckanext/switzerland/templates/package/resource_read.html:42
 #: ckanext/switzerland/templates/package/snippets/description.html:29
 msgid "Terms of use"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:67
+#: ckanext/switzerland/templates/package/resource_read.html:64
 #: ckanext/switzerland/templates/package/snippets/description.html:52
-msgid "No organisation available"
+msgid "No organization available"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:87
+#: ckanext/switzerland/templates/package/resource_read.html:84
 #: ckanext/switzerland/templates/package/snippets/resource_item.html:21
 msgid "Download"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:91
+#: ckanext/switzerland/templates/package/resource_read.html:88
 #: ckanext/switzerland/templates/package/snippets/resource_item.html:25
 msgid "Go to resource"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:99
-#: ckanext/switzerland/templates/package/resource_read.html:107
+#: ckanext/switzerland/templates/package/resource_read.html:96
+#: ckanext/switzerland/templates/package/resource_read.html:104
 #: ckanext/switzerland/templates/package/snippets/description.html:77
 msgid "Description"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:117
+#: ckanext/switzerland/templates/package/resource_read.html:114
 #: ckanext/switzerland/templates/package/snippets/additional_info.html:4
 msgid "Additional Info"
+msgstr ""
+
+#: ckanext/switzerland/templates/package/snippets/description.html:59
+msgid "Categories"
 msgstr ""
 
 #: ckanext/switzerland/templates/package/snippets/related_datasets.html:15
@@ -277,14 +276,14 @@ msgstr ""
 
 #: ckanext/switzerland/templates/snippets/search_result_text.html:21
 #: ckanext/switzerland/templates/snippets/search_result_text.html:23
-msgid "{number} group found"
-msgid_plural "{number} groups found"
+msgid "{number} category found"
+msgid_plural "{number} categories found"
 msgstr[0] ""
 msgstr[1] ""
 
 #: ckanext/switzerland/templates/snippets/search_result_text.html:22
 #: ckanext/switzerland/templates/snippets/search_result_text.html:24
-msgid "No groups found"
+msgid "No categories found"
 msgstr ""
 
 #: ckanext/switzerland/templates/snippets/search_result_text.html:27
