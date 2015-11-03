@@ -18,7 +18,8 @@ from ckanext.switzerland.helpers import (
    get_org_count, get_tweet_count, get_localized_value,
    get_localized_org, get_localized_pkg, localize_json_title,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
-   get_dataset_by_identifier, get_readable_file_size
+   get_dataset_by_identifier, get_readable_file_size,
+   simplify_terms_of_use
 )
 
 
@@ -54,26 +55,29 @@ class OgdchPlugin(plugins.SingletonPlugin):
     # IFacets
 
     def dataset_facets(self, facets_dict, package_type):
+        lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
         facets_dict['groups'] = plugins.toolkit._('Themes')
-        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
     def group_facets(self, facets_dict, group_type, package_type):
+        lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
-        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
+        lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
         facets_dict['groups'] = plugins.toolkit._('Themes')
-        facets_dict['tags'] = plugins.toolkit._('Keywords')
+        facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
         return facets_dict
@@ -208,24 +212,33 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         extract_title = LangToString('title')
         validated_dict = json.loads(pkg_dict['validated_data_dict'])
         
-        log.debug(pprint.pformat(validated_dict))
+        # log.debug(pprint.pformat(validated_dict))
 
         pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
         pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
-        pkg_dict['res_rights'] = [r['rights'] for r in validated_dict[u'resources']]
+        pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
         pkg_dict['title_string'] = extract_title(validated_dict)
         pkg_dict['description'] = LangToString('description')(validated_dict)
 
-        pkg_dict['title_de'] = validated_dict['title']['de']
-        pkg_dict['title_fr'] = validated_dict['title']['fr']
-        pkg_dict['title_it'] = validated_dict['title']['it']
-        pkg_dict['title_en'] = validated_dict['title']['en']
 
-        log.debug(pprint.pformat(pkg_dict))
+        try:
+            pkg_dict['title_de'] = validated_dict['title']['de']
+            pkg_dict['title_fr'] = validated_dict['title']['fr']
+            pkg_dict['title_it'] = validated_dict['title']['it']
+            pkg_dict['title_en'] = validated_dict['title']['en']
+
+            pkg_dict['keywords_de'] = validated_dict['keywords']['de']
+            pkg_dict['keywords_fr'] = validated_dict['keywords']['fr']
+            pkg_dict['keywords_it'] = validated_dict['keywords']['it']
+            pkg_dict['keywords_en'] = validated_dict['keywords']['en']
+        except KeyError:
+            pass
+
+        # log.debug(pprint.pformat(pkg_dict))
         return pkg_dict
    
     def before_search(self, search_params):
-        log.debug(pprint.pformat(search_params))
+        # log.debug(pprint.pformat(search_params))
         return search_params
 
 

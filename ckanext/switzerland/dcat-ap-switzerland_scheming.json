@@ -77,9 +77,9 @@
       "display_snippet": "relations.html"
     },
     {
-      "field_name": "tag_string",
+      "field_name": "keywords",
       "label": "Keyswords",
-      "preset": "tag_string_autocomplete",
+      "preset": "fluent_tags",
       "form_placeholder": "eg. economy, mental health, government"
     },
     {

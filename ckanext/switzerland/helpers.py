@@ -148,14 +148,25 @@ def get_terms_of_use_icon(terms_of_use):
             'title': _('Reference required / Commercial use with permission allowed'),
             'icon': 'terms_by-ask.svg',
         },
-    }
-    try:
-        return term_to_image_mapping[terms_of_use]
-    except KeyError:
-        return {
+        'ClosedData': {
             'title': _('Closed data'),
             'icon': 'terms_closed.svg',
-        }
+        },
+    }
+    term_id = simplify_terms_of_use(terms_of_use)
+    return term_to_image_mapping.get(term_id, None)
+
+def simplify_terms_of_use(term_id):
+    terms = [
+      'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired',
+      'NonCommercialAllowed-CommercialAllowed-ReferenceRequired',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired',
+      'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired',
+    ]
+
+    if term_id in terms:
+        return term_id
+    return 'ClosedData'
 
 def get_dataset_terms_of_use(pkg):
     rights = logic.get_action('ogdch_dataset_terms_of_use')({}, {'id': pkg})
