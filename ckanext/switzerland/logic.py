@@ -16,7 +16,7 @@ def ogdch_dataset_count(context, data_dict):
     groups = tk.get_action('group_list')(req_context, {'all_fields': True})
     group_count = OrderedDict()
     for group in groups:
-        group_count[group['name']] = group['packages']
+        group_count[group['name']] = group['package_count']
 
 
     # get the total number of dataset from package_search
