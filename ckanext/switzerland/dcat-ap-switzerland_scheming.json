@@ -376,10 +376,10 @@
     {
       "field_name": "byte_size",
       "label": {
-        "en": "Size (in Bytes)",
-        "de": "Grösse (in Bytes)",
-        "fr": "Taille (en octets)",
-        "it": "Dimensioni (in byte)"
+        "en": "File size",
+        "de": "Dateigrösse",
+        "fr": "Taille du fichier",
+        "it": "Dimensione del file"
       },
       "preset": "file_size"
     },
