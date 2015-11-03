@@ -89,7 +89,7 @@
       "field_name": "publishers",
       "label": {
         "en": "Publishers",
-        "de": "Organisation",
+        "de": "Publisher",
         "fr": "Éditeurs",
         "it": "Editori"
       },
@@ -338,7 +338,7 @@
       "field_name": "url",
       "label": {
         "en": "Access URL",
-        "de": "Access URL",
+        "de": "Zugriffs-URL",
         "fr": "URL d'accès",
         "it": "Accesso URL"
       },
@@ -349,7 +349,7 @@
       "field_name": "download_url",
       "label": {
         "en": "Download URL",
-        "de": "Download URL",
+        "de": "Download-URL",
         "fr": "URL de téléchargement",
         "it": "URL per il download"
       },
