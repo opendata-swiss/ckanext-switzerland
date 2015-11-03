@@ -1,8 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set current_lang = request.environ.CKAN_LANG %}
-{% set pkg_title = h.dataset_display_name(c.package)[current_lang] %}
+{% set pkg_title = c.package.title %}
 {% set res_title = res.title or c.package.title %}
 {% set res_description = h.markdown_extract(res.description, extract_length=200) %}
 
