@@ -7,184 +7,409 @@
   "dataset_fields": [
     {
       "field_name": "identifier",
-      "label": "Identifier",
+      "label": {
+        "en": "Identifier",
+        "de": "Identifier",
+        "fr": "Identifier",
+        "it": "Identifier"
+      },
       "validators": "scheming_required"
     },
     {
       "field_name": "display_name",
-      "label": "Display name",
+      "label": {
+        "en": "Display name",
+        "de": "Anzeigename",
+        "fr": "Afficher un nom",
+        "it": "Mostra il nome"
+      },
       "preset": "multilingual_output"
     },
     {
       "field_name": "title",
-      "label": "Title",
-      "preset": "multilingual_text",
-      "form_placeholder": "eg. A descriptive title"
+      "label": {
+        "en": "Title",
+        "de": "Titel",
+        "fr": "Titre",
+        "it": "Titolo"
+      },
+      "preset": "multilingual_text"
     },
     {
       "field_name": "name",
-      "label": "Slug",
-      "preset": "dataset_slug",
-      "form_placeholder": "eg. my-dataset"
+      "label": {
+        "en": "Slug",
+        "de": "Slug",
+        "fr": "Slug",
+        "it": "Slug"
+      },
+      "preset": "dataset_slug"
     },
     {
       "field_name": "description",
-      "label": "Description",
+      "label": {
+        "en": "Description",
+        "de": "Beschreibung",
+        "fr": "Description",
+        "it": "Descrizione"
+      },
       "preset": "multilingual_text"
     },
     {
       "field_name": "issued",
-      "label": "Issued date",
+      "label": {
+        "en": "Issued date",
+        "de": "Erstellungsdatum",
+        "fr": "Date de publication",
+        "it": "Data di rilascio"
+      },
       "preset": "ogdch_date"
     },
     {
       "field_name": "modified",
-      "label": "Modified date",
+      "label": {
+        "en": "Modified date",
+        "de": "Änderungsdatum",
+        "fr": "Date modifiée",
+        "it": "Data modificata"
+      },
       "preset": "ogdch_date"
     },
     {
       "field_name": "owner_org",
-      "label": "Organization",
+      "label": {
+        "en": "Organization",
+        "de": "Organisation",
+        "fr": "Organisation",
+        "it": "Organizzazione"
+      },
       "preset": "dataset_organization"
     },
     {
       "field_name": "publishers",
-      "label": "Publisher(s)",
+      "label": {
+        "en": "Publishers",
+        "de": "Organisation",
+        "fr": "Éditeurs",
+        "it": "Editori"
+      },
       "preset": "dicts",
       "display_snippet": "publishers.html"
     },
     {
       "field_name": "contact_points",
-      "label": "Contact point(s)",
+      "label": {
+        "en": "Contact points",
+        "de": "Kontaktstellen",
+        "fr": "Points de contact",
+        "it": "Punti di contatto"
+      },
       "preset": "dicts",
       "display_snippet": "contact_points.html"
     },
     {
       "field_name": "language",
-      "label": "Languages",
+      "label": {
+        "en": "Languages",
+        "de": "Sprachen",
+        "fr": "Langues",
+        "it": "Lingue"
+      },
       "preset": "languages",
       "choices": [
-        {"value": "de", "label": "Deutsch"},
-        {"value": "fr", "label": "Français"},
-        {"value": "it", "label": "Italiano"},
-        {"value": "en", "label": "English"}
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "de": "Englisch",
+            "fr": "Anglais",
+            "it": "Inglese"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "German",
+            "de": "Deutsch",
+            "fr": "Allemand",
+            "it": "Tedesco"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "French",
+            "de": "Französisch",
+            "fr": "Français",
+            "it": "Francese"
+          }
+        },
+        {
+          "value": "it",
+          "label": {
+            "en": "Italian",
+            "de": "Italienisch",
+            "fr": "Italien",
+            "it": "Italiano"
+          }
+        }
       ]
     },
     {
       "field_name": "relations",
-      "label": "Relation(s)",
+      "label": {
+        "en": "Relations",
+        "de": "Beziehungen",
+        "fr": "Relations",
+        "it": "Relazioni"
+      },
       "preset": "dicts",
       "display_snippet": "relations.html"
     },
     {
       "field_name": "keywords",
-      "label": "Keyswords",
-      "preset": "fluent_tags",
-      "form_placeholder": "eg. economy, mental health, government"
+      "label": {
+        "en": "Keywords",
+        "de": "Schlüsselwörter",
+        "fr": "Mots clés",
+        "it": "Parole chiave"
+      },
+      "preset": "fluent_tags"
     },
     {
       "field_name": "url",
-      "label": "Landing page",
+      "label": {
+        "en": "Landing page",
+        "de": "Landing page",
+        "fr": "Landing page",
+        "it": "Landing page"
+      },
       "preset": "url"
     },
     {
       "field_name": "spatial",
-      "label": "Spatial"
+      "label": {
+        "en": "Spatial",
+        "de": "Räumlich",
+        "fr": "Spatial",
+        "it": "Spaziale"
+      }
     },
     {
       "field_name": "coverage",
-      "label": "Coverage"
+      "label": {
+        "en": "Coverage",
+        "de": "Abdeckung",
+        "fr": "Couverture",
+        "it": "Copertura"
+      }
     },
     {
       "field_name": "temporals",
-      "label": "Temporal(s)",
+      "label": {
+        "en": "Temporals",
+        "de": "Zeitliche Abdeckung",
+        "fr": "Couverture temporelle",
+        "it": "Copertura temporale"
+      },
       "preset": "temporals"
     },
     {
       "field_name": "accrual_periodicity",
-      "label": "Periodicity",
+      "label": {
+        "en": "Periodicity",
+        "de": "Periodizität",
+        "fr": "Périodicité",
+        "it": "Periodicità"
+      },
       "display_snippet": "periodicity.html"
     },
     {
       "field_name": "see_alsos",
-      "label": "See also(s)",
+      "label": {
+        "en": "Related Datasets",
+        "de": "Datensatz Beziehungen",
+        "fr": "Relations record",
+        "it": "Relazioni record"
+      },
       "preset": "dicts"
     }
   ],
   "resource_fields": [
     {
       "field_name": "identifier",
-      "label": "Identifier"
+      "label": {
+        "en": "Identifier",
+        "de": "Identifier",
+        "fr": "Identifier",
+        "it": "Identifier"
+      }
     },
     {
       "field_name": "title",
-      "label": "Title",
-      "preset": "multilingual_text",
-      "form_placeholder": "eg. A descriptive title"
+      "label": {
+        "en": "Title",
+        "de": "Titel",
+        "fr": "Titre",
+        "it": "Titolo"
+      },
+      "preset": "multilingual_text"
     },
     {
       "field_name": "description",
-      "label": "Description",
+      "label": {
+        "en": "Description",
+        "de": "Beschreibung",
+        "fr": "Description",
+        "it": "Descrizione"
+      },
       "preset": "multilingual_text"
     },
     {
       "field_name": "issued",
-      "label": "Issued date",
+      "label": {
+        "en": "Issued date",
+        "de": "Erstellungsdatum",
+        "fr": "Date de publication",
+        "it": "Data di rilascio"
+      },
       "required": true,
       "preset": "ogdch_date"
     },
     {
       "field_name": "modified",
-      "label": "Modified date",
+      "label": {
+        "en": "Modified date",
+        "de": "Änderungsdatum",
+        "fr": "Date modifiée",
+        "it": "Data modificata"
+      },
       "preset": "ogdch_date"
     },
     {
       "field_name": "language",
-      "label": "Language",
+      "label": {
+        "en": "Languages",
+        "de": "Sprachen",
+        "fr": "Langues",
+        "it": "Lingue"
+      },
       "preset": "languages",
       "choices": [
-        {"value": "de", "label": "Deutsch"},
-        {"value": "fr", "label": "Français"},
-        {"value": "it", "label": "Italiano"},
-        {"value": "en", "label": "English"}
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "de": "Englisch",
+            "fr": "Anglais",
+            "it": "Inglese"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "German",
+            "de": "Deutsch",
+            "fr": "Allemand",
+            "it": "Tedesco"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "French",
+            "de": "Französisch",
+            "fr": "Français",
+            "it": "Francese"
+          }
+        },
+        {
+          "value": "it",
+          "label": {
+            "en": "Italian",
+            "de": "Italienisch",
+            "fr": "Italien",
+            "it": "Italiano"
+          }
+        }
       ]
     },
     {
       "field_name": "url",
-      "label": "Access URL",
+      "label": {
+        "en": "Access URL",
+        "de": "Access URL",
+        "fr": "URL d'accès",
+        "it": "Accesso URL"
+      },
       "preset": "url",
       "validators": "scheming_required"
     },
     {
       "field_name": "download_url",
-      "label": "Download URL",
+      "label": {
+        "en": "Download URL",
+        "de": "Download URL",
+        "fr": "URL de téléchargement",
+        "it": "URL per il download"
+      },
       "preset": "url"
     },
     {
       "field_name": "rights",
-      "label": "Rights"
+      "label": {
+        "en": "Terms of use",
+        "de": "Nutzungsbedingungen",
+        "fr": "Conditions d'utilisation",
+        "it": "Condizioni d'uso"
+      }
     },
     {
       "field_name": "license",
-      "label": "License"
+      "label": {
+        "en": "License",
+        "de": "Lizenz",
+        "fr": "Licence",
+        "it": "Licenza"
+      }
     },
     {
       "field_name": "byte_size",
-      "label": "Byte Size",
+      "label": {
+        "en": "Size (in Bytes)",
+        "de": "Grösse (in Bytes)",
+        "fr": "Taille (en octets)",
+        "it": "Dimensioni (in byte)"
+      },
       "preset": "file_size"
     },
     {
       "field_name": "media_type",
-      "label": "Media Type"
+      "label": {
+        "en": "Media type",
+        "de": "Medientyp",
+        "fr": "Type de support",
+        "it": "Tipo di supporto"
+      }
     },
     {
       "field_name": "format",
-      "label": "Format",
+      "label": {
+        "en": "Format",
+        "de": "Format",
+        "fr": "Format",
+        "it": "Formato"
+      },
       "preset": "resource_format_autocomplete"
     },
     {
       "field_name": "coverage",
-      "label": "Coverage"
+      "label": {
+        "en": "Coverage",
+        "de": "Abdeckung",
+        "fr": "Couverture",
+        "it": "Copertura"
+      }
     }
   ]
 }

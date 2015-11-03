@@ -7,34 +7,62 @@
   "fields": [
     {
       "field_name": "title",
-      "label": "Title",
-      "preset": "multilingual_text",
-      "form_placeholder": "eg. A descriptive title"
+      "label": {
+        "en": "Title",
+        "de": "Titel",
+        "fr": "Titre",
+        "it": "Titolo"
+      },
+      "preset": "multilingual_text"
     },
     {
       "field_name": "display_name",
-      "label": "Display name",
+      "label": {
+        "en": "Display name",
+        "de": "Anzeigename",
+        "fr": "Afficher un nom",
+        "it": "Mostra il nome"
+      },
       "preset": "multilingual_output"
     },
     {
       "field_name": "name",
-      "label": "Slug",
-      "preset": "dataset_slug",
-      "form_placeholder": "eg. my-organization"
+      "label": {
+        "en": "Slug",
+        "de": "Slug",
+        "fr": "Slug",
+        "it": "Slug"
+      },
+      "preset": "dataset_slug"
     },
     {
       "field_name": "description",
-      "label": "Description",
+      "label": {
+        "en": "Description",
+        "de": "Beschreibung",
+        "fr": "Description",
+        "it": "Descrizione"
+      },
       "preset": "multilingual_text"
     },
     {
       "field_name": "url",
-      "label": "Image URL",
+      "label": {
+        "en": "Image URL",
+        "de": "Bild URL",
+        "fr": "Image URL",
+        "it": "Immagine URL"
+      },
       "form_placeholder": "http://example.com/my-image.jpg"
     },
     {
       "field_name": "parent",
-      "label": "Parent"
+      "label": {
+        "en": "Parent",
+        "de": "Übergeordnete Organisation",
+        "fr": "Organisation de Parent",
+        "it": "Organizzazione Parent"
+      }
     }
   ]
 }
