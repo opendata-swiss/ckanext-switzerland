@@ -8,7 +8,6 @@
   {% if res.media_type %}
     <small><span class="label label-default" property="dcat:mediaType" data-format="{{ res.media_type.upper() }}">{{ res.media_type.upper() }}</span></small>
   {% endif %}
-  {# TODO Display dataset name if resource name is empty #}
   <a class="heading" href="{{ url }}" title="{{ res.name or res.description }}">
     {{ res_title | truncate(50) }}
   </a>
