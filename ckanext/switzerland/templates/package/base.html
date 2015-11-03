@@ -1,6 +1,7 @@
 {% extends "page.html" %}
 
 {% set pkg = c.pkg_dict or pkg_dict %}
+{% set organization = h.get_localized_org(pkg.owner_org) %}
 
 {% block breadcrumb_content_selected %} class="active"{% endblock %}
 
@@ -8,11 +9,9 @@
 
 {% block breadcrumb_content %}
   {% if pkg %}
-    {# TODO Why isn't pkg.organization set in dataset detail but in ressource detail? #}
-    {% if pkg.organization %}
-      {% set organization = h.get_localized_org(pkg.organization.name) %}
+    {% if organization %}
       <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
-      <li>{% link_for organization.title|truncate(30), controller='organization', action='read', id=pkg.organization.name %}</li>
+      <li>{% link_for organization.title|truncate(30), controller='organization', action='read', id=organization.name %}</li>
     {% else %}
       <li>{% link_for _('Data'), controller='package', action='search' %}</li>
     {% endif %}

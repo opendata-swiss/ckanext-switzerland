@@ -28,7 +28,7 @@ def multiple_text(field, schema):
             if isinstance(value, basestring):
                 value = [value]
             elif not isinstance(value, list):
-                errors[key].append(_('expecting list of strings, got "%s"') % str(value) )
+                errors[key].append(_('Expecting list of strings, got "%s"') % str(value) )
                 return
         else:
             value = []
@@ -91,7 +91,7 @@ def list_of_dicts(field, schema):
                 if isinstance(value, basestring):
                     value = [value]
                 elif not isinstance(value, list):
-                    errors[key].append(_('expecting list of strings, got "%s"') % str(value) )
+                    errors[key].append(_('Expecting list of strings, got "%s"') % str(value) )
                     return
             else:
                 value = []
@@ -136,7 +136,7 @@ def ogdch_multiple_choice(field, schema):
             if isinstance(value, basestring):
                 value = [value]
             elif not isinstance(value, list):
-                errors[key].append(_('expecting list of strings, got %s') % str(value))
+                errors[key].append(_('Expecting list of strings, got "%s"') % str(value))
                 return
         else:
             value = []
