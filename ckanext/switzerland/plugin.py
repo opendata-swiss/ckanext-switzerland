@@ -57,7 +57,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
     def dataset_facets(self, facets_dict, package_type):
         lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
-        facets_dict['groups'] = plugins.toolkit._('Themes')
+        facets_dict['groups'] = plugins.toolkit._('Categories')
         facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organization')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
@@ -76,7 +76,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
     def organization_facets(self, facets_dict, organization_type, package_type):
         lang_code = pylons.request.environ['CKAN_LANG']
         facets_dict = collections.OrderedDict()
-        facets_dict['groups'] = plugins.toolkit._('Themes')
+        facets_dict['groups'] = plugins.toolkit._('Categories')
         facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['res_rights'] = plugins.toolkit._('Terms')
         facets_dict['res_format'] = plugins.toolkit._('Media Type')
