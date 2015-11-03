@@ -30,12 +30,10 @@
     <div class="collapse navbar-collapse" id="main-navigation-collapse" role="navigation">
       <div>
         <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Data') }}</a>
-          </li>
-          <li>
-            <a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a>
-          </li>
+          {{ h.build_nav_main(
+            ('search', _('Data')),
+            ('organizations_index', _('Organizations')),
+          ) }}
           <li>
             <a href="{{ h.url('/app') }}">{{ _('Applications') }}</a>
           </li>
