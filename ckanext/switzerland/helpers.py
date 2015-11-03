@@ -149,7 +149,7 @@ def get_terms_of_use_icon(terms_of_use):
             'icon': 'terms_by-ask.svg',
         },
         'ClosedData': {
-            'title': _('ClosedData'),
+            'title': _('Closed data'),
             'icon': 'terms_closed.svg',
         },
     }
