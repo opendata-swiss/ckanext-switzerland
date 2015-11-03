@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-03 20:15+0100\n"
-"PO-Revision-Date: 2015-11-03 20:15+0100\n"
+"POT-Creation-Date: 2015-11-03 22:50+0100\n"
+"PO-Revision-Date: 2015-11-03 22:52+0100\n"
 "Last-Translator: \n"
 "Language-Team: es <LL@li.org>\n"
 "Language: de\n"
@@ -19,12 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 0.9.6\n"
 "X-Generator: Poedit 1.8.6\n"
-
-#: ckanext/switzerland/_missing_translations.py:9
-#: ckanext/switzerland/templates/footer.html:55
-#: ckanext/switzerland/templates/header.html:41
-msgid "About"
-msgstr "Über das Portal"
 
 #: ckanext/switzerland/helpers.py:110
 msgid "Irregular"
@@ -161,7 +155,7 @@ msgstr "Unerwartete Wahl \"%s\""
 
 #: ckanext/switzerland/templates/base.html:5
 msgid "Open Government Data Switzerland"
-msgstr ""
+msgstr "Open Government Data Switzerland"
 
 #: ckanext/switzerland/templates/base.html:9
 #: ckanext/switzerland/templates/snippets/home_breadcrumb_item.html:2
@@ -207,7 +201,7 @@ msgstr "Erstellte Anwendungen"
 
 #: ckanext/switzerland/templates/footer.html:32
 msgid "Tweets"
-msgstr ""
+msgstr "Tweets"
 
 #: ckanext/switzerland/templates/footer.html:38
 msgid "What about you?"
@@ -232,6 +226,11 @@ msgstr ""
 "und Gemeinden. Es stellt der Allgemeinheit offene Behördendaten aller "
 "föderalen Ebenen in einem zentralen Katalog zur Verfügung. Das "
 "Schweizerische Bundesarchiv betreibt opendata.swiss."
+
+#: ckanext/switzerland/templates/footer.html:55
+#: ckanext/switzerland/templates/header.html:41
+msgid "About"
+msgstr "Über das Portal"
 
 #: ckanext/switzerland/templates/footer.html:56
 #: ckanext/switzerland/templates/header.html:44
@@ -302,6 +301,10 @@ msgid ""
 "data available in open, machine-readable formats, while continuing to ensure "
 "privacy and security."
 msgstr ""
+"Alle Gemeinde-, Kantons- und Bundesbehörden (Städte, Kantone, Büros, "
+"Regionen, interföderale Organisationen etc.) sowie Gemeinde-, Kantons- und "
+"Bundesunternehmen (z.B. SBB, Post, Swisscom etc.) sind aufgerufen, Daten in "
+"offenen, maschinenlesbare Formaten zur Verfügung zu stellen."
 
 #: ckanext/switzerland/templates/organization/index.html:22
 msgid "Are you a potential open data publisher?"
@@ -309,7 +312,7 @@ msgstr "Bist du ein potentieller Daten-Publisher?"
 
 #: ckanext/switzerland/templates/organization/index.html:24
 msgid "See how to get involved"
-msgstr "Finde heraus wie du dazu beitragen kannst"
+msgstr "Finde heraus wie du dich involvieren kannst"
 
 #: ckanext/switzerland/templates/organization/index.html:36
 msgid "{num} Active Organization"
