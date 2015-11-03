@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-03 12:37+0000\n"
+"POT-Creation-Date: 2015-11-03 17:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,7 +111,8 @@ msgid "Closed data"
 msgstr ""
 
 #: ckanext/switzerland/plugin.py:60 ckanext/switzerland/plugin.py:79
-msgid "Themes"
+#: ckanext/switzerland/templates/package/snippets/description.html:58
+msgid "Categories"
 msgstr ""
 
 #: ckanext/switzerland/plugin.py:61 ckanext/switzerland/plugin.py:70
@@ -120,30 +121,28 @@ msgid "Keywords"
 msgstr ""
 
 #: ckanext/switzerland/plugin.py:62 ckanext/switzerland/plugin.py:71
-#: ckanext/switzerland/templates/package/resource_read.html:57
-#: ckanext/switzerland/templates/package/snippets/description.html:45
+#: ckanext/switzerland/templates/package/resource_read.html:56
+#: ckanext/switzerland/templates/package/snippets/description.html:44
 msgid "Organization"
 msgstr ""
 
 #: ckanext/switzerland/plugin.py:63 ckanext/switzerland/plugin.py:72
 #: ckanext/switzerland/plugin.py:81
-msgid "Terms"
+#: ckanext/switzerland/templates/package/resource_read.html:41
+#: ckanext/switzerland/templates/package/snippets/description.html:28
+msgid "Terms of use"
 msgstr ""
 
 #: ckanext/switzerland/plugin.py:64 ckanext/switzerland/plugin.py:73
 #: ckanext/switzerland/plugin.py:82
-#: ckanext/switzerland/templates/package/resource_read.html:71
+#: ckanext/switzerland/templates/package/resource_read.html:70
 msgid "Media Type"
 msgstr ""
 
 #: ckanext/switzerland/validators.py:31 ckanext/switzerland/validators.py:94
-#, python-format
-msgid "expecting list of strings, got \"%s\""
-msgstr ""
-
 #: ckanext/switzerland/validators.py:139
 #, python-format
-msgid "expecting list of strings, got %s"
+msgid "Expecting list of strings, got \"%s\""
 msgstr ""
 
 #: ckanext/switzerland/validators.py:149
@@ -168,58 +167,44 @@ msgid ""
 msgstr ""
 
 #: ckanext/switzerland/templates/group/snippets/group_item.html:20
-#: ckanext/switzerland/templates/package/snippets/description.html:65
+#: ckanext/switzerland/templates/package/snippets/description.html:64
 msgid "View {name}"
 msgstr ""
 
-#: ckanext/switzerland/templates/group/snippets/group_item.html:24
+#: ckanext/switzerland/templates/group/snippets/group_item.html:23
 msgid "{num} Dataset"
 msgid_plural "{num} Datasets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/switzerland/templates/group/snippets/group_item.html:26
-msgid "0 Datasets"
-msgstr ""
-
-#: ckanext/switzerland/templates/package/resource_read.html:29
-#: ckanext/switzerland/templates/package/snippets/description.html:16
+#: ckanext/switzerland/templates/package/resource_read.html:28
+#: ckanext/switzerland/templates/package/snippets/description.html:15
 msgid "Last updated"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:42
-#: ckanext/switzerland/templates/package/snippets/description.html:29
-msgid "Terms of use"
-msgstr ""
-
-#: ckanext/switzerland/templates/package/resource_read.html:64
-#: ckanext/switzerland/templates/package/snippets/description.html:52
+#: ckanext/switzerland/templates/package/resource_read.html:63
+#: ckanext/switzerland/templates/package/snippets/description.html:51
 msgid "No organization available"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:84
+#: ckanext/switzerland/templates/package/resource_read.html:83
 #: ckanext/switzerland/templates/package/snippets/resource_item.html:21
 msgid "Download"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:88
+#: ckanext/switzerland/templates/package/resource_read.html:87
 #: ckanext/switzerland/templates/package/snippets/resource_item.html:25
 msgid "Go to resource"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:96
-#: ckanext/switzerland/templates/package/resource_read.html:104
-#: ckanext/switzerland/templates/package/snippets/description.html:77
+#: ckanext/switzerland/templates/package/resource_read.html:95
+#: ckanext/switzerland/templates/package/snippets/description.html:76
 msgid "Description"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:114
+#: ckanext/switzerland/templates/package/resource_read.html:105
 #: ckanext/switzerland/templates/package/snippets/additional_info.html:4
 msgid "Additional Info"
-msgstr ""
-
-#: ckanext/switzerland/templates/package/snippets/description.html:59
-msgid "Categories"
 msgstr ""
 
 #: ckanext/switzerland/templates/package/snippets/related_datasets.html:15
@@ -236,10 +221,6 @@ msgstr ""
 
 #: ckanext/switzerland/templates/scheming/display_snippets/languages.html:19
 msgid "Language independent"
-msgstr ""
-
-#: ckanext/switzerland/templates/snippets/home_breadcrumb_item.html:2
-msgid "Home"
 msgstr ""
 
 #: ckanext/switzerland/templates/snippets/package_item.html:31
