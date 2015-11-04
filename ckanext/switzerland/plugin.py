@@ -130,14 +130,17 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         for key, value in pkg_dict.iteritems():
             pkg_dict[key] = parse_json(value)
 
-        # Do not change the resulting dict for API requests
-        if pylons.request.path.startswith('/api'):
-            return pkg_dict
-
+        # read pylons values if available
         try:
+            path = pylons.request.path
             desired_lang_code = pylons.request.environ['CKAN_LANG']
         except TypeError:
+            path = ''
             desired_lang_code = pylons.config.get('ckan.locale_default', 'en')
+
+        # Do not change the resulting dict for API requests
+        if path.startswith('/api'):
+            return pkg_dict
 
         pkg_dict['display_name'] = pkg_dict['title']
         for key, value in pkg_dict.iteritems():
