@@ -1,6 +1,7 @@
 from ckan.plugins.toolkit import missing, _
 import ckan.lib.navl.dictization_functions as df
 from ckanext.scheming.validation import scheming_validator
+from ckanext.switzerland.helpers import parse_json
 import json
 import pprint
 import datetime
@@ -37,14 +38,6 @@ def multiple_text(field, schema):
             data[key] = json.dumps(value)
 
     return validator
-
-def parse_json(value, default_value=None):
-    try:
-        return json.loads(value)
-    except ValueError:
-        if default_value is not None:
-            return default_value
-        return value
 
 def multilingual_text_output(value):
     """

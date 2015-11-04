@@ -19,7 +19,7 @@ from ckanext.switzerland.helpers import (
    get_localized_org, get_localized_pkg, localize_json_title,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
    get_dataset_by_identifier, get_readable_file_size,
-   simplify_terms_of_use
+   simplify_terms_of_use, parse_json
 )
 
 
@@ -49,7 +49,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'timestamp_to_datetime': validators.timestamp_to_datetime,
             'ogdch_multiple_choice': validators.ogdch_multiple_choice,
             'temporals_to_datetime_output': validators.temporals_to_datetime_output,
-            'parse_json': validators.parse_json,
+            'parse_json': parse_json,
         }
 
     # IFacets
@@ -119,18 +119,21 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _extract_lang_value(self, value, lang_code):
-        new_value = value
-        try:
-            if not isinstance(new_value, dict):
-                new_value = json.loads(value)
-        except (ValueError, TypeError, AttributeError):
-            pass
+        new_value = parse_json(value)
 
         if isinstance(new_value, dict):
             return get_localized_value(new_value, lang_code, default_value='')
         return value
 
     def before_view(self, pkg_dict):
+        # try to parse all values as JSON
+        for key, value in pkg_dict.iteritems():
+            pkg_dict[key] = parse_json(value)
+
+        # Do not change the resulting dict for API requests
+        if pylons.request.path.startswith('/api'):
+            return pkg_dict
+
         try:
             desired_lang_code = pylons.request.environ['CKAN_LANG']
         except TypeError:
@@ -198,15 +201,12 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         for field in pkg_dict['organization']:
             pkg_dict['organization'][field] = self._extract_lang_value(pkg_dict['organization'][field], desired_lang_code)
 
-        # resources
-        for resource in pkg_dict['resources']:
-            if not resource['name'] and resource['title']:
-                resource['name'] = resource['title']
-            for key, value in resource.iteritems():
-                if key not in ['tracking_summary']:
-                    resource[key] = self._extract_lang_value(value, desired_lang_code)
         return pkg_dict
 
+    def after_show(self, context, pkg_dict):
+        # TODO: somehow the title is messed up here, but the display_name is okay
+        for group in pkg_dict['groups']:
+            group['title'] = group['display_name']
 
     def before_index(self, pkg_dict):
         extract_title = LangToString('title')
@@ -219,7 +219,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
         pkg_dict['title_string'] = extract_title(validated_dict)
         pkg_dict['description'] = LangToString('description')(validated_dict)
-
 
         try:
             pkg_dict['title_de'] = validated_dict['title']['de']

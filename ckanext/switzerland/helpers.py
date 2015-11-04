@@ -189,3 +189,11 @@ def get_readable_file_size(num, suffix='B'):
         return "%.1f%s%s" % (num, 'Y', suffix)
     except ValueError:
         return False
+
+def parse_json(value, default_value=None):
+    try:
+        return json.loads(value)
+    except (ValueError, TypeError, AttributeError):
+        if default_value is not None:
+            return default_value
+        return value
