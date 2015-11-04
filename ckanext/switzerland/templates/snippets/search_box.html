@@ -1,15 +1,13 @@
+{#
+extras
+Extra info passed into the add/remove params to make the url
+#}
+
 <form id="dataset-search-form" class="search-form" method="get" data-module="select-switch">
   <section class="container">
     <div class="row">
       <div class="col-xs-12">
         {% block form %}
-        {% set facets = {
-        'fields': c.fields_grouped,
-        'search': c.search_facets,
-        'titles': c.facet_titles,
-        'translated_fields': c.translated_fields,
-        'remove_field': c.remove_field }
-        %}
         {% snippet 'snippets/search_form.html', query=c.q, fields=c.fields %}
         {% endblock %}
       </div>
@@ -18,7 +16,7 @@
       <div class="col-md-3 facet-filters">
         <h2 class="sr-only">{{ _('Search Filter') }}</h2>
         {% for facet in c.facet_titles %}
-        {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet, label_function=h.localize_json_title) }}
+        {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet, label_function=h.localize_json_title, extras=extras) }}
         {% endfor %}
       </div>
       <div class="col-md-9">
