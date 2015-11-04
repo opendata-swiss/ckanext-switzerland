@@ -207,9 +207,16 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
-        # TODO: somehow the title is messed up here, but the display_name is okay
+        # groups
         for group in pkg_dict['groups']:
+            # TODO: somehow the title is messed up here, but the display_name is okay
             group['title'] = group['display_name']
+            for field in group:
+                group[field] = parse_json(group[field])
+
+        # organization
+        for field in pkg_dict['organization']:
+            pkg_dict['organization'][field] = parse_json(pkg_dict['organization'][field])
 
     def before_index(self, pkg_dict):
         extract_title = LangToString('title')
