@@ -135,8 +135,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             path = pylons.request.path
             desired_lang_code = pylons.request.environ['CKAN_LANG']
         except TypeError:
-            path = ''
-            desired_lang_code = pylons.config.get('ckan.locale_default', 'en')
+            return pkg_dict
 
         # Do not change the resulting dict for API requests
         if path.startswith('/api'):
