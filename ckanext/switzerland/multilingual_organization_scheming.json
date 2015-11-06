@@ -33,7 +33,7 @@
         "fr": "Slug",
         "it": "Slug"
       },
-      "preset": "dataset_slug"
+      "preset": "group_slug"
     },
     {
       "field_name": "description",
