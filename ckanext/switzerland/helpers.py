@@ -134,23 +134,23 @@ def get_terms_of_use_icon(terms_of_use):
     term_to_image_mapping = {
         'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': {
             'title': _('Open data'),
-            'icon': 'terms_open.svg',
+            'icon': 'terms_open',
         },
         'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': {
             'title': _('Reference required'),
-            'icon': 'terms_by.svg',
+            'icon': 'terms_by',
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': {
             'title': _('Commercial use with permission allowed'),
-            'icon': 'terms_ask.svg',
+            'icon': 'terms_ask',
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': {
             'title': _('Reference required / Commercial use with permission allowed'),
-            'icon': 'terms_by-ask.svg',
+            'icon': 'terms_by-ask',
         },
         'ClosedData': {
             'title': _('Closed data'),
-            'icon': 'terms_closed.svg',
+            'icon': 'terms_closed',
         },
     }
     term_id = simplify_terms_of_use(terms_of_use)
