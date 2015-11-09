@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-03 21:49+0000\n"
+"POT-Creation-Date: 2015-11-09 19:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,7 +106,8 @@ msgstr ""
 msgid "Closed data"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:60 ckanext/switzerland/plugin.py:79
+#: ckanext/switzerland/plugin.py:60 ckanext/switzerland/plugin.py:82
+#: ckanext/switzerland/templates/footer.html:24
 #: ckanext/switzerland/templates/footer.html:66
 #: ckanext/switzerland/templates/group/index.html:3
 #: ckanext/switzerland/templates/group/index.html:6
@@ -116,37 +117,37 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:61 ckanext/switzerland/plugin.py:70
-#: ckanext/switzerland/plugin.py:80
+#: ckanext/switzerland/plugin.py:61 ckanext/switzerland/plugin.py:72
+#: ckanext/switzerland/plugin.py:83
 msgid "Keywords"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:62 ckanext/switzerland/plugin.py:71
+#: ckanext/switzerland/plugin.py:62 ckanext/switzerland/plugin.py:73
 #: ckanext/switzerland/templates/package/resource_read.html:56
 #: ckanext/switzerland/templates/package/snippets/description.html:44
 msgid "Organization"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:63 ckanext/switzerland/plugin.py:72
-#: ckanext/switzerland/plugin.py:81
+#: ckanext/switzerland/plugin.py:63 ckanext/switzerland/plugin.py:74
+#: ckanext/switzerland/plugin.py:84
 #: ckanext/switzerland/templates/package/resource_read.html:41
 #: ckanext/switzerland/templates/package/snippets/description.html:28
 msgid "Terms of use"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:64 ckanext/switzerland/plugin.py:73
-#: ckanext/switzerland/plugin.py:82
+#: ckanext/switzerland/plugin.py:64 ckanext/switzerland/plugin.py:75
+#: ckanext/switzerland/plugin.py:85
 #: ckanext/switzerland/templates/package/resource_read.html:70
 msgid "Media Type"
 msgstr ""
 
-#: ckanext/switzerland/validators.py:31 ckanext/switzerland/validators.py:94
-#: ckanext/switzerland/validators.py:139
+#: ckanext/switzerland/validators.py:32 ckanext/switzerland/validators.py:87
+#: ckanext/switzerland/validators.py:132
 #, python-format
 msgid "Expecting list of strings, got \"%s\""
 msgstr ""
 
-#: ckanext/switzerland/validators.py:149
+#: ckanext/switzerland/validators.py:142
 #, python-format
 msgid "unexpected choice \"%s\""
 msgstr ""
@@ -191,12 +192,8 @@ msgstr ""
 msgid "Organizations"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:24
-msgid "Built Applications"
-msgstr ""
-
 #: ckanext/switzerland/templates/footer.html:32
-msgid "Tweets"
+msgid "Built Applications"
 msgstr ""
 
 #: ckanext/switzerland/templates/footer.html:38
@@ -270,7 +267,7 @@ msgid "There are currently no categories available"
 msgstr ""
 
 #: ckanext/switzerland/templates/group/index.html:45
-#: ckanext/switzerland/templates/snippets/search_box.html:49
+#: ckanext/switzerland/templates/snippets/search_box.html:47
 msgid "Please try another search."
 msgstr ""
 
@@ -381,6 +378,10 @@ msgstr ""
 msgid "Language independent"
 msgstr ""
 
+#: ckanext/switzerland/templates/scheming/package/snippets/additional_info.html:25
+msgid "Legal basis"
+msgstr ""
+
 #: ckanext/switzerland/templates/snippets/facet_list.html:112
 msgid "Show More {facet_type}"
 msgstr ""
@@ -397,35 +398,35 @@ msgstr ""
 msgid "This dataset has no description"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:19
+#: ckanext/switzerland/templates/snippets/search_box.html:17
 msgid "Search Filter"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:29
+#: ckanext/switzerland/templates/snippets/search_box.html:27
 msgid "Relevance"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:30
+#: ckanext/switzerland/templates/snippets/search_box.html:28
 msgid "Name Ascending"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:31
+#: ckanext/switzerland/templates/snippets/search_box.html:29
 msgid "Name Descending"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:32
+#: ckanext/switzerland/templates/snippets/search_box.html:30
 msgid "Last Modified"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:33
+#: ckanext/switzerland/templates/snippets/search_box.html:31
 msgid "Popular"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:36
+#: ckanext/switzerland/templates/snippets/search_box.html:34
 msgid "Order by"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/search_box.html:53
+#: ckanext/switzerland/templates/snippets/search_box.html:51
 msgid "There was an error while searching. Please try again."
 msgstr ""
 
