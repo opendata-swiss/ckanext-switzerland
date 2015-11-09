@@ -226,7 +226,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # log.debug(pprint.pformat(validated_dict))
 
         pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
-        pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
+        pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources'] if 'media_type' in r]
         pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
         pkg_dict['title_string'] = extract_title(validated_dict)
         pkg_dict['description'] = LangToString('description')(validated_dict)
