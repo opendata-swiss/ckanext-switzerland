@@ -65,6 +65,13 @@
       }
     },
     {
+      "preset_name": "group_slug",
+      "values": {
+        "validators": "not_empty unicode name_validator group_name_validator",
+        "form_snipper": "slug.html"
+      }
+    },
+    {
       "preset_name": "tag_string_autocomplete",
       "values": {
         "validators": "ignore_missing tag_string_convert",
