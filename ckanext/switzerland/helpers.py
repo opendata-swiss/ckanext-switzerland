@@ -197,3 +197,7 @@ def parse_json(value, default_value=None):
         if default_value is not None:
             return default_value
         return value
+
+def get_content_headers(url):
+    response = requests.head(url)
+    return response
