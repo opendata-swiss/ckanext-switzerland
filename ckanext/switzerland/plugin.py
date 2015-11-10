@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 from ckanext.switzerland import validators
 from ckanext.switzerland.logic import (
    ogdch_dataset_count, ogdch_dataset_terms_of_use,
-   ogdch_dataset_by_identifier
+   ogdch_dataset_by_identifier, ogdch_content_headers
 )
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
@@ -94,6 +94,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'ogdch_dataset_count': ogdch_dataset_count,
             'ogdch_dataset_terms_of_use': ogdch_dataset_terms_of_use,
             'ogdch_dataset_by_identifier': ogdch_dataset_by_identifier,
+            'ogdch_content_headers': ogdch_content_headers,
         }
 
     # ITemplateHelpers

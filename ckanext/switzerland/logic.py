@@ -2,6 +2,10 @@ from collections import OrderedDict
 from ckan.plugins.toolkit import get_or_bust, side_effect_free, ObjectNotFound
 from ckan.logic import NotFound
 import ckan.plugins.toolkit as tk
+from ckanext.switzerland.helpers import get_content_headers
+
+import logging
+log = logging.getLogger(__name__)
 
 
 @side_effect_free
@@ -25,6 +29,19 @@ def ogdch_dataset_count(context, data_dict):
     return {
         'total_count': search_result['count'],
         'groups': group_count,
+    }
+
+@side_effect_free
+def ogdch_content_headers(context, data_dict):
+    '''
+    Returns some headers of a remote resource
+    '''
+    url = get_or_bust(data_dict, 'url')
+    response = get_content_headers(url)
+    return {
+        'status_code': response.status_code,
+        'content-length': response.headers.get('content-length',''),
+        'content-type': response.headers.get('content-type', ''),
     }
 
 @side_effect_free
