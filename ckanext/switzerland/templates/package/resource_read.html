@@ -43,7 +43,7 @@
             <a href="{{ h.url('/terms-of-use') }}">
               {% set terms_of_use = h.get_terms_of_use_icon(res.rights) %}
               {% if terms_of_use %}
-                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
+                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.png'" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
               {% else %}
                 -
               {% endif %}

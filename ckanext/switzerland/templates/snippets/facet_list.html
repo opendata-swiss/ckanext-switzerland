@@ -81,7 +81,7 @@ within_tertiary
                       <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %}">
                         <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}">
                           {% if terms_of_use %}
-                            <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" /> <span class="small">{{ count }}</span>
+                            <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.png'" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" /> <span class="small">{{ count }}</span>
                           {% else %}
                             {{ label_truncated }}
                           {% endif %}

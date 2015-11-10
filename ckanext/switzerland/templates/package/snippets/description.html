@@ -31,7 +31,7 @@ Example:
               {% set dataset_rights = h.get_dataset_terms_of_use(pkg.name) %}
               {% set terms_of_use = h.get_terms_of_use_icon(dataset_rights) %}
               {% if terms_of_use %}
-                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
+                <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.png'" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
               {% else %}
                 -
               {% endif %}
