@@ -19,7 +19,7 @@ from ckanext.switzerland.helpers import (
    get_localized_org, get_localized_pkg, localize_json_title,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
    get_dataset_by_identifier, get_readable_file_size,
-   simplify_terms_of_use, parse_json, get_relations_length
+   simplify_terms_of_use, parse_json
 )
 
 
@@ -116,7 +116,6 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_dataset_terms_of_use': get_dataset_terms_of_use,
             'get_dataset_by_identifier': get_dataset_by_identifier,
             'get_readable_file_size': get_readable_file_size,
-            'get_relations_length': get_relations_length,
         }
 
 

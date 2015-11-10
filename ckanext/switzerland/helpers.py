@@ -197,11 +197,3 @@ def parse_json(value, default_value=None):
         if default_value is not None:
             return default_value
         return value
-
-def get_relations_length(relations):
-    relations_length = len(relations)
-    for relation in relations:
-        if relation.get('label', None) == 'legal_basis':
-            relations_length -= 1
-
-    return relations_length
