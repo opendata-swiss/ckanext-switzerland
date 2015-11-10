@@ -1,21 +1,34 @@
 {%- set relations = data[field.field_name] -%}
+
 {% if relations %}
-  {% if relations|length == 1 %}
-    {% if relations[0].url %}
-      <a href="{{ relations[0].url }}" target="_blank">{{ relations[0].label }}</a>
+  {% set relations_length = relations|length %}
+
+  {% if relations_length == 1 %}
+    {% if relations[0].label == 'legal_basis' %}
+      {% set relation_label = _('Legal basis') %}
     {% else %}
-      {{ relations[0].label }}
+      {% set relation_label = relations[0].label %}
     {% endif %}
-  {% else %}
+    {% if relations[0].url %}
+      <a href="{{ relations[0].url }}" target="_blank">{{ relation_label }}</a>
+    {% else %}
+      {{ relation_label }}
+    {% endif %}
+  {% elif relations_length > 1 %}
     <ul>
       {% for relation in relations %}
-      <li>
-        {% if relation.url %}
-          <a href="{{ relation.url }}" target="_blank">{{ relation.label }}</a>
+        {% if relation.label == 'legal_basis' %}
+          {% set relation_label = _('Legal basis') %}
         {% else %}
-          {{ relation.label }}
+          {% set relation_label = relation.label %}
         {% endif %}
-      </li>
+        <li>
+          {% if relation.url %}
+            <a href="{{ relation.url }}" target="_blank">{{ relation_label }}</a>
+          {% else %}
+            {{ relation_label }}
+          {% endif %}
+        </li>
       {% endfor %}
     </ul>
   {% endif %}
