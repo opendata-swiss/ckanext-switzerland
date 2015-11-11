@@ -30,7 +30,7 @@ Extra info passed into the add/remove params to make the url
           (_('Last Modified'), 'metadata_modified desc'),
           (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
           %}
-          <div class="form-group form-inline h2-vertical-center sortby">
+          <div class="form-group form-inline header-md-vertical-center sortby">
             <label for="field-order-by">{{ _('Order by') }}</label>
             <select class="form-control" id="field-order-by" name="sort" onchange="this.form.submit()">
               {% for label, value in sorting %}
