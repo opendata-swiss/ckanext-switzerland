@@ -1,5 +1,5 @@
 {% set current_url = request.environ.CKAN_CURRENT_URL %}
-{% set current_lang = request.environ.CKAN_LANG %}
+{% set current_lang = h.lang() %}
 {% set current_locale = h.get_locales_dict()[current_lang] %}
 <div class="btn-group"> 
    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

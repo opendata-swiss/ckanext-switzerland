@@ -4,7 +4,7 @@
       <div class="col-xs-12">
         <ul class="list-inline tags">
           {% for keyword in keywords %}
-            {%- set current_lang = request.environ.CKAN_LANG -%}
+            {%- set current_lang = h.lang() -%}
               {% if current_lang == 'de' %}
                  <li><a class="label label-primary-gray" href="{% url_for controller='package', action='search', keywords_de=keyword %}">{{ h.truncate(keyword, 22) }}</a></li>
               {% elif current_lang == 'fr' %}
