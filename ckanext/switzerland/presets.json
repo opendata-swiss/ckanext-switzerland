@@ -142,6 +142,7 @@
     {
       "preset_name": "file_size",
       "values": {
+        "validators": "natural_number_validator",
         "display_snippet": "file_size.html"
       }
     }
