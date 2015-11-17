@@ -2,6 +2,7 @@ from ckan.plugins.toolkit import missing, _
 import ckan.lib.navl.dictization_functions as df
 from ckanext.scheming.validation import scheming_validator
 from ckanext.switzerland.helpers import parse_json
+from ckan.logic import NotFound, get_action
 import json
 import pprint
 import datetime
@@ -144,5 +145,20 @@ def ogdch_multiple_choice(field, schema):
         if not errors[key]:
             data[key] = json.dumps([
                 c['value'] for c in field['choices'] if c['value'] in selected])
+
+    return validator
+
+@scheming_validator
+def ogdch_unique_identifier(field, schema):
+    def validator(key, data, errors, context):
+        id = data.get(key[:-1] + ('id',))
+        identifier = data.get(key[:-1] + ('identifier',))
+        try:
+            result = get_action('ogdch_dataset_by_identifier')({},
+                      {'identifier': identifier})
+            if id != result['id']:
+                raise df.Invalid(_('Identifier is already in use, it must be unique.'))
+        except NotFound:
+            pass
 
     return validator
