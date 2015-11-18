@@ -48,6 +48,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'list_of_dicts': validators.list_of_dicts,
             'timestamp_to_datetime': validators.timestamp_to_datetime,
             'ogdch_multiple_choice': validators.ogdch_multiple_choice,
+            'ogdch_unique_identifier': validators.ogdch_unique_identifier,
             'temporals_to_datetime_output': validators.temporals_to_datetime_output,
             'parse_json': parse_json,
         }

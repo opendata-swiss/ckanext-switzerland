@@ -13,7 +13,7 @@
         "fr": "Identifier",
         "it": "Identifier"
       },
-      "validators": "scheming_required"
+      "validators": "scheming_required ogdch_unique_identifier"
     },
     {
       "field_name": "display_name",
