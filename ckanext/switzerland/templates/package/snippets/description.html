@@ -8,9 +8,9 @@ Example:
 {% snippet "package/snippets/description.html", pkg=pkg %}
 
 #}
-<section class="container description">
+<section class="container information">
   <div class="row">
-    <div class="col-md-2 col-sm-6">
+    <div class="col-md-3 col-sm-6">
       <dl>
         <dt>{{ _('Last updated') }}</dt>
         <dd>
@@ -23,7 +23,7 @@ Example:
         </dd>
       </dl>
     </div>
-    <div class="col-md-2 col-sm-6">
+    <div class="col-md-3 col-sm-6">
       <dl>
         <dt>{{ _('Terms of use') }}</dt>
         <dd class="terms">
@@ -39,7 +39,7 @@ Example:
         </dd>
       </dl>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
       <dl>
         <dt>{{ _('Organization') }}</dt>
         <dd>
@@ -53,7 +53,7 @@ Example:
         </dd>
       </dl>
     </div>
-    <div class="col-md-4 col-sm-6">
+    <div class="col-md-3 col-sm-6">
       <dl>
         <dt>{{ _('Categories') }}</dt>
         <dd>
@@ -71,7 +71,7 @@ Example:
     </div>
   </div>
   {% if pkg.description %}
-    <div class="row">
+    <div class="row description">
       <div class="col-xs-12">
         <h2>{{ _('Description') }}</h2>
         <p>{{ pkg.description }}</p>
