@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block primary_content %}
-  <section class="container description">
+  <section class="container information">
     <div class="row">
       <div class="col-md-2 col-sm-6">
         <dl>
@@ -90,7 +90,7 @@
       </div>
     </div>
     {% if res_description %}
-      <div class="row">
+      <div class="row description">
         <div class="col-xs-12">
           <h2>{{ _('Description') }}</h2>
           <p>{{ res_description }}</p>
@@ -99,10 +99,10 @@
     {% endif %}
   </section>
 
-  <section class="additional-info container">
+  <section class="container additional-info">
     <div class="row">
       <div class="col-xs-12">
-        <h2>{{ _('Additional Info') }}</h2>
+        <h2>{{ _('Additional Information') }}</h2>
         <dl class="dl-horizontal">
           {% block resource_additional_information_inner %}
             {# Content gets rendered in scheming/package/resource_read.html #}
