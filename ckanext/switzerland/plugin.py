@@ -186,9 +186,19 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
 class OgdchPackagePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IPackageController, inherit=True)
 
+    def is_supported_package_type(self, pkg_dict):
+        # only package type 'dataset' is supported (not harvesters!)
+        try:
+            return (pkg_dict['type'] == 'dataset')
+        except KeyError:
+            return False
+
     # IPackageController
 
     def before_view(self, pkg_dict):
+        if not self.is_supported_package_type(pkg_dict):
+            return pkg_dict
+
         try:
             desired_lang_code = pylons.request.environ['CKAN_LANG']
         except TypeError:
@@ -210,6 +220,9 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
+        if not self.is_supported_package_type(pkg_dict):
+            return
+
         # groups
         if pkg_dict['groups'] is not None:
             for group in pkg_dict['groups']:
@@ -224,31 +237,32 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                 pkg_dict['organization'][field] = parse_json(pkg_dict['organization'][field])
 
     def before_index(self, pkg_dict):
+        if not self.is_supported_package_type(pkg_dict):
+            return pkg_dict
+
         extract_title = LangToString('title')
         validated_dict = json.loads(pkg_dict['validated_data_dict'])
         
         # log.debug(pprint.pformat(validated_dict))
 
-        # only run this for package type = dataset (not for harvesters!)
-        if 'type' in pkg_dict and pkg_dict['type'] == 'dataset':
-            pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
-            pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
-            pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
-            pkg_dict['title_string'] = extract_title(validated_dict)
-            pkg_dict['description'] = LangToString('description')(validated_dict)
+        pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
+        pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
+        pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
+        pkg_dict['title_string'] = extract_title(validated_dict)
+        pkg_dict['description'] = LangToString('description')(validated_dict)
 
-            try:
-                pkg_dict['title_de'] = validated_dict['title']['de']
-                pkg_dict['title_fr'] = validated_dict['title']['fr']
-                pkg_dict['title_it'] = validated_dict['title']['it']
-                pkg_dict['title_en'] = validated_dict['title']['en']
+        try:
+            pkg_dict['title_de'] = validated_dict['title']['de']
+            pkg_dict['title_fr'] = validated_dict['title']['fr']
+            pkg_dict['title_it'] = validated_dict['title']['it']
+            pkg_dict['title_en'] = validated_dict['title']['en']
 
-                pkg_dict['keywords_de'] = validated_dict['keywords']['de']
-                pkg_dict['keywords_fr'] = validated_dict['keywords']['fr']
-                pkg_dict['keywords_it'] = validated_dict['keywords']['it']
-                pkg_dict['keywords_en'] = validated_dict['keywords']['en']
-            except KeyError:
-                pass
+            pkg_dict['keywords_de'] = validated_dict['keywords']['de']
+            pkg_dict['keywords_fr'] = validated_dict['keywords']['fr']
+            pkg_dict['keywords_it'] = validated_dict['keywords']['it']
+            pkg_dict['keywords_en'] = validated_dict['keywords']['en']
+        except KeyError:
+            pass
 
         # log.debug(pprint.pformat(pkg_dict))
         return pkg_dict
