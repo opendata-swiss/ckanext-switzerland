@@ -20,8 +20,8 @@
       "label": {
         "en": "Display name",
         "de": "Anzeigename",
-        "fr": "Afficher un nom",
-        "it": "Mostra il nome"
+        "fr": "Nom d'affichage",
+        "it": "Nome visualizzato"
       },
       "preset": "multilingual_output"
     },
@@ -80,8 +80,8 @@
       "label": {
         "en": "Modified date",
         "de": "Änderungsdatum",
-        "fr": "Date modifiée",
-        "it": "Data modificata"
+        "fr": "Date de modification",
+        "it": "Data di modifica"
       },
       "preset": "ogdch_date"
     },
@@ -100,7 +100,7 @@
       "label": {
         "en": "Publishers",
         "de": "Publisher",
-        "fr": "Éditeurs",
+        "fr": "Editeurs",
         "it": "Editori"
       },
       "preset": "dicts",
@@ -227,20 +227,20 @@
     {
       "field_name": "accrual_periodicity",
       "label": {
-        "en": "Periodicity",
-        "de": "Periodizität",
-        "fr": "Périodicité",
-        "it": "Periodicità"
+        "en": "Update interval",
+        "de": "Aktualisierungsintervall",
+        "fr": "Intervalle d'actualisation",
+        "it": "Intervallo di aggiornamento"
       },
       "display_snippet": "periodicity.html"
     },
     {
       "field_name": "see_alsos",
       "label": {
-        "en": "Related Datasets",
-        "de": "In Beziehung stehende Datensätze",
-        "fr": "Relations record",
-        "it": "Relazioni record"
+        "en": "Related datasets",
+        "de": "Verwandte Datensätze",
+        "fr": "Jeux de données relationnels",
+        "it": "Set di dati relativi"
       },
       "preset": "dicts"
     }
@@ -270,8 +270,8 @@
       "label": {
         "en": "Display name",
         "de": "Anzeigename",
-        "fr": "Afficher un nom",
-        "it": "Mostra il nome"
+        "fr": "Nom d'affichage",
+        "it": "Nome visualizzato"
       },
       "preset": "multilingual_output"
     },
@@ -301,8 +301,8 @@
       "label": {
         "en": "Modified date",
         "de": "Änderungsdatum",
-        "fr": "Date modifiée",
-        "it": "Data modificata"
+        "fr": "Date de modification",
+        "it": "Data di modifica"
       },
       "preset": "ogdch_date"
     },
@@ -358,9 +358,9 @@
       "field_name": "url",
       "label": {
         "en": "Access URL",
-        "de": "Zugriffs-URL",
+        "de": "Zugangs-URL",
         "fr": "URL d'accès",
-        "it": "Accesso URL"
+        "it": "URL d'accesso"
       },
       "preset": "url",
       "validators": "scheming_required"
@@ -371,7 +371,7 @@
         "en": "Download URL",
         "de": "Download-URL",
         "fr": "URL de téléchargement",
-        "it": "URL per il download"
+        "it": "URL di download"
       },
       "preset": "url"
     },
@@ -399,17 +399,17 @@
         "en": "File size",
         "de": "Dateigrösse",
         "fr": "Taille du fichier",
-        "it": "Dimensione del file"
+        "it": "Grandezza dei dati"
       },
       "preset": "file_size"
     },
     {
       "field_name": "media_type",
       "label": {
-        "en": "Media type",
-        "de": "Medientyp",
-        "fr": "Type de support",
-        "it": "Tipo di supporto"
+        "en": "Format",
+        "de": "Format",
+        "fr": "Format",
+        "it": "Formato"
       }
     },
     {
