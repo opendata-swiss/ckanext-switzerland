@@ -20,8 +20,8 @@
       "label": {
         "en": "Display name",
         "de": "Anzeigename",
-        "fr": "Afficher un nom",
-        "it": "Mostra il nome"
+        "fr": "Nom d'affichage",
+        "it": "Nome visualizzato"
       },
       "preset": "multilingual_output"
     },
@@ -49,9 +49,9 @@
       "field_name": "url",
       "label": {
         "en": "Image URL",
-        "de": "Bild URL",
-        "fr": "Image URL",
-        "it": "Immagine URL"
+        "de": "Bild-URL",
+        "fr": "URL d'image",
+        "it": "URL d'immagine"
       },
       "form_placeholder": "http://example.com/my-image.jpg"
     },
