@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-11-12 15:35+0100\n"
-"PO-Revision-Date: 2015-11-12 15:35+0100\n"
+"POT-Creation-Date: 2015-11-23 11:39+0100\n"
+"PO-Revision-Date: 2015-11-23 11:40+0100\n"
 "Last-Translator: \n"
 "Language-Team: es <LL@li.org>\n"
 "Language: de\n"
@@ -108,7 +108,7 @@ msgstr "Referenz erforderlich / Kommerzielle Nutzung mit Erlaubnis zulässig"
 msgid "Closed data"
 msgstr "Geschlossene Daten"
 
-#: ckanext/switzerland/plugin.py:60 ckanext/switzerland/plugin.py:82
+#: ckanext/switzerland/plugin.py:61 ckanext/switzerland/plugin.py:83
 #: ckanext/switzerland/templates/footer.html:25
 #: ckanext/switzerland/templates/footer.html:64
 #: ckanext/switzerland/templates/group/index.html:3
@@ -119,40 +119,46 @@ msgstr "Geschlossene Daten"
 msgid "Categories"
 msgstr "Kategorien"
 
-#: ckanext/switzerland/plugin.py:61 ckanext/switzerland/plugin.py:72
-#: ckanext/switzerland/plugin.py:83
+#: ckanext/switzerland/plugin.py:62 ckanext/switzerland/plugin.py:73
+#: ckanext/switzerland/plugin.py:84
 msgid "Keywords"
 msgstr "Schlagwörter"
 
-#: ckanext/switzerland/plugin.py:62 ckanext/switzerland/plugin.py:73
+#: ckanext/switzerland/plugin.py:63 ckanext/switzerland/plugin.py:74
 #: ckanext/switzerland/templates/package/resource_read.html:56
 #: ckanext/switzerland/templates/package/snippets/description.html:44
 msgid "Organization"
 msgstr "Organisation"
 
-#: ckanext/switzerland/plugin.py:63 ckanext/switzerland/plugin.py:74
-#: ckanext/switzerland/plugin.py:84
+#: ckanext/switzerland/plugin.py:64 ckanext/switzerland/plugin.py:75
+#: ckanext/switzerland/plugin.py:85
 #: ckanext/switzerland/templates/package/resource_read.html:41
 #: ckanext/switzerland/templates/package/snippets/description.html:28
 msgid "Terms of use"
 msgstr "Nutzungsbedingungen"
 
-#: ckanext/switzerland/plugin.py:64 ckanext/switzerland/plugin.py:75
-#: ckanext/switzerland/plugin.py:85
+#: ckanext/switzerland/plugin.py:65 ckanext/switzerland/plugin.py:76
+#: ckanext/switzerland/plugin.py:86
 #: ckanext/switzerland/templates/package/resource_read.html:70
 msgid "Media Type"
 msgstr "Medientyp"
 
-#: ckanext/switzerland/validators.py:32 ckanext/switzerland/validators.py:87
-#: ckanext/switzerland/validators.py:132
+#: ckanext/switzerland/validators.py:33 ckanext/switzerland/validators.py:88
+#: ckanext/switzerland/validators.py:133
 #, python-format
 msgid "Expecting list of strings, got \"%s\""
 msgstr "Erwarte eine Liste von Strings, habe \"%s\" erhalten"
 
-#: ckanext/switzerland/validators.py:142
+#: ckanext/switzerland/validators.py:143
 #, python-format
 msgid "unexpected choice \"%s\""
 msgstr "Unerwartete Wahl \"%s\""
+
+#: ckanext/switzerland/validators.py:160
+msgid "Identifier is already in use, it must be unique."
+msgstr ""
+"Der Identifier wird bereits verwendet. Bitte einen eindeutigen Identifier "
+"angeben."
 
 #: ckanext/switzerland/templates/base.html:6
 msgid "Open Government Data Switzerland"
@@ -367,7 +373,7 @@ msgstr "Beschreibung"
 
 #: ckanext/switzerland/templates/package/resource_read.html:105
 #: ckanext/switzerland/templates/package/snippets/additional_info.html:4
-msgid "Additional Info"
+msgid "Additional Information"
 msgstr "Zusätzliche Informationen"
 
 #: ckanext/switzerland/templates/package/snippets/related_datasets.html:15
