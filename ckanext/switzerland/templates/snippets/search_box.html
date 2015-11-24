@@ -54,6 +54,10 @@ Extra info passed into the add/remove params to make the url
         {% block package_search_results_list %}
           {{ h.snippet('snippets/package_list.html', packages=c.page.items, list_class='list-unstyled') }}
         {% endblock %}
+
+        {% block page_pagination %}
+          {{ c.page.pager(q=c.q) }}
+        {% endblock %}
       </div>
     </div>
   </section>
