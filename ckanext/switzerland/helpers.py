@@ -201,3 +201,6 @@ def parse_json(value, default_value=None):
 def get_content_headers(url):
     response = requests.head(url)
     return response
+
+def get_piwik_config():
+    return { 'url': pylons.config.get('piwik.url', False), 'site_id': pylons.config.get('piwik.site_id', False)}
