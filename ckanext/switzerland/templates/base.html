@@ -45,11 +45,11 @@
     (function() {
       var u="//{{ piwik_config.url }}/";
       _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', {{ piwik_config.site_id }}]);
+      _paq.push(['setSiteId', {{ piwik_config.site_id or 0 }}]);
       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
       g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
     })();
   </script>
-  <noscript><p><img src="//{{ piwik_config.url }}/piwik.php?idsite={{ piwik_config.site_id }}" style="border:0;" alt="" /></p></noscript>
+  <noscript><p><img src="//{{ piwik_config.url }}/piwik.php?idsite={{ piwik_config.site_id or 0 }}" style="border:0;" alt="" /></p></noscript>
   <!-- End Piwik Code -->
 {% endblock %}
