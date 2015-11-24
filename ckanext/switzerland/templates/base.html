@@ -34,3 +34,22 @@
   <script type='text/javascript' src='https://code.jquery.com/jquery-1.11.1.min.js?ver=1.11.1'></script>
   <script type='text/javascript' src='/content/themes/wp-ogdch-theme/assets/js/app.min.js?ver=1.0.0'></script>
 {% endblock -%}
+
+{% block body_extras %}
+  {% set piwik_config = h.get_piwik_config() %}
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//{{ piwik_config.url }}/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', {{ piwik_config.site_id or 0 }}]);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <noscript><p><img src="//{{ piwik_config.url }}/piwik.php?idsite={{ piwik_config.site_id or 0 }}" style="border:0;" alt="" /></p></noscript>
+  <!-- End Piwik Code -->
+{% endblock %}
