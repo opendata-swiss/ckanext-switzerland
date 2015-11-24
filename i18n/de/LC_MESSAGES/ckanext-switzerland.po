@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-11-24 12:05+0000\n"
-"PO-Revision-Date: 2015-11-24 14:28+0000\n"
+"PO-Revision-Date: 2015-11-24 14:37+0000\n"
 "Last-Translator: Jürg Hunziker <juerg.hunziker@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/opendataswiss/opendata-swiss/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -303,7 +303,7 @@ msgstr "Bist du ein potentieller Open-Data-Publisher?"
 
 #: ckanext/switzerland/templates/organization/index.html:24
 msgid "How to publish data"
-msgstr "Wie du Daten publizieren kannst"
+msgstr "So kannst du Daten publizieren"
 
 #: ckanext/switzerland/templates/organization/index.html:36
 msgid "{num} active organization"
