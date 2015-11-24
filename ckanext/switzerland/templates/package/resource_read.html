@@ -67,7 +67,7 @@
       </div>
       <div class="col-md-2 col-sm-6">
         <dl>
-          <dt>{{ _('Media Type') }}</dt>
+          <dt>{{ _('Format') }}</dt>
           <dd>
             {% if res.media_type %}
               <span class="label label-default">{{ res.media_type.upper() }}</span>
@@ -102,7 +102,7 @@
   <section class="container additional-info">
     <div class="row">
       <div class="col-xs-12">
-        <h2>{{ _('Additional Information') }}</h2>
+        <h2>{{ _('Additional information') }}</h2>
         <dl class="dl-horizontal">
           {% block resource_additional_information_inner %}
             {# Content gets rendered in scheming/package/resource_read.html #}

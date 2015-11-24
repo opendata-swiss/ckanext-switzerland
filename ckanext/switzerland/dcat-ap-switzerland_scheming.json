@@ -217,7 +217,7 @@
     {
       "field_name": "temporals",
       "label": {
-        "en": "Temporals",
+        "en": "Temporal coverage",
         "de": "Zeitliche Abdeckung",
         "fr": "Couverture temporelle",
         "it": "Copertura temporale"
