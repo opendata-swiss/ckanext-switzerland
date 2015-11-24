@@ -12,7 +12,7 @@ def get_dataset_count():
     user = tk.get_action('get_site_user')({'ignore_auth': True},{})
     req_context = {'user': user['name']}
 
-    packages = tk.get_action('package_search')(req_context, {})
+    packages = tk.get_action('package_search')(req_context, {'fq': '+dataset_type:dataset'})
     return packages['count']
 
 def get_group_count():

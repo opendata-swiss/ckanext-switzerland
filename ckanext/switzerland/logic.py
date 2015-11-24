@@ -24,7 +24,7 @@ def ogdch_dataset_count(context, data_dict):
 
 
     # get the total number of dataset from package_search
-    search_result = tk.get_action('package_search')(req_context, {'rows': 0})
+    search_result = tk.get_action('package_search')(req_context, {'rows': 0, 'fq': '+dataset_type:dataset'})
 
     return {
         'total_count': search_result['count'],
