@@ -36,6 +36,10 @@
               </p>
             {% endif %}
           {% endblock %}
+
+          {% block page_pagination %}
+            {{ c.page.pager(q=c.q) }}
+          {% endblock %}
         </div>
       </div>
 
