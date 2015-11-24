@@ -210,13 +210,19 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
 
         # groups
-        for element in pkg_dict['groups']:
-            for field in element:
-                element[field] = self._extract_lang_value(element[field], desired_lang_code)
+        try:
+            for element in pkg_dict['groups']:
+                for field in element:
+                    element[field] = self._extract_lang_value(element[field], desired_lang_code)
+        except TypeError:
+            pass
 
         # organization
-        for field in pkg_dict['organization']:
-            pkg_dict['organization'][field] = self._extract_lang_value(pkg_dict['organization'][field], desired_lang_code)
+        try:
+            for field in pkg_dict['organization']:
+                pkg_dict['organization'][field] = self._extract_lang_value(pkg_dict['organization'][field], desired_lang_code)
+        except TypeError:
+            pass
 
         return pkg_dict
 

@@ -51,7 +51,7 @@ def _call_wp_api(action):
         return None
 
 def get_localized_pkg(pkg=None):
-    if pkg is None:
+    if not pkg or pkg is None:
         return {}
     try:
         pkg = logic.get_action('package_show')({}, {'id': pkg})
@@ -62,7 +62,7 @@ def get_localized_pkg(pkg=None):
         return {}
 
 def get_localized_org(org=None, include_datasets=False):
-    if org is None:
+    if not org or org is None:
         return {}
     try:
         org = logic.get_action('organization_show')(

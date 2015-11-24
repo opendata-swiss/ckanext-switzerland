@@ -14,7 +14,10 @@ Example:
       <dl>
         <dt>{{ _('Last updated') }}</dt>
         <dd>
-          {% set mod_date = pkg.modified or pkg.issued or pkg.resources[0].issued %}
+          {% set mod_date = pkg.modified or pkg.issued %}
+          {% if not mod_date and pkg.resources and len(pkg.resources) > 0 %}
+            {% set mod_date = pkg.resources[0].issued %}
+          {% endif %}
           {% if mod_date %}
             {{ h.render_datetime(mod_date, with_hours=False) }}
           {% else %}
