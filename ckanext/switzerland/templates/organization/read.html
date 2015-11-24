@@ -17,18 +17,12 @@
 {% block organization_description %}
 <section class="container description">
   <div class="row">
-    {% if c.group_dict.image_url %}
-      <div class="col-xs-9 col-md-10">
-        <p class="lead">{{ c.group_dict.description }}</p>
-      </div>
-      <div class="col-xs-3 col-md-2">
-        <img src="{{ c.group_dict.image_url }}" class="img-responsive" alt="{{ c.group_dict.display_name }}" />
-      </div>
-    {% else %}
-      <div class="col-xs-12">
-        <p class="lead">{{ c.group_dict.description }}</p>
-      </div>
-    {% endif %}
+    <div class="col-xs-12">
+      {% if c.group_dict.image_url %}
+        <img src="{{ c.group_dict.image_url }}" class="logo pull-right-md" alt="{{ c.group_dict.display_name }}" />
+      {% endif %}
+      <p class="lead">{{ c.group_dict.description }}</p>
+    </div>
   </div>
 </section>
 {% endblock %}
