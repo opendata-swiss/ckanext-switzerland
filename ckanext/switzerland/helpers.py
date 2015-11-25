@@ -56,7 +56,7 @@ def get_localized_pkg(pkg=None):
     try:
         pkg = logic.get_action('package_show')({}, {'id': pkg})
         for key, value in pkg.iteritems():
-            pkg[key] = get_localized_value(value, default_value=value)
+            pkg[key] = get_localized_value(value, default_value='')
         return pkg
     except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
         return {}
@@ -68,7 +68,7 @@ def get_localized_org(org=None, include_datasets=False):
         org = logic.get_action('organization_show')(
             {}, {'id': org, 'include_datasets': include_datasets})
         for key, value in org.iteritems():
-            org[key] = get_localized_value(value, default_value=value)
+            org[key] = get_localized_value(value, default_value='')
         return org
     except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
         return {}
@@ -99,7 +99,7 @@ def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
         try:
             # choose next language according to priority
             lang_code = LANGUAGE_PRIORITIES[lang_idx-i]
-            if str(lang_dict[lang_code]):
+            if isinstance(lang_dict[lang_code], basestring) and lang_dict[lang_code]:
                 return lang_dict[lang_code]
         except (KeyError, IndexError, ValueError):
             continue
