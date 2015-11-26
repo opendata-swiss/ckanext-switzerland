@@ -64,7 +64,7 @@ within_tertiary
                   {% for item in items %}
                     {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if item.active else h.add_url_param(new_params={name: item.name}, extras=extras, alternative_url=alternative_url) %}
                     {% set label = label_function(item) if label_function else item.display_name %}
-                    {% set label_truncated = h.truncate(label, 22) if not label_function else label %}
+                    {% set label_truncated = h.truncate(label, 22) %}
                     {% set count = count_label(item['count']) if count_label else ('%d' % item['count']) %}
                     <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %} break-word"><a href="{{ href }}" title="{{ label if label != label_truncated else '' }}" class="label label-primary-gray">{{ label_truncated }} <small>{{ count }}</small></a></li>
                   {% endfor %}
@@ -79,7 +79,7 @@ within_tertiary
                       {% set count = count_label(item['count']) if count_label else ('%d' % item['count']) %}
                       {% set terms_of_use = h.get_terms_of_use_icon(label) %}
                       <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %} break-word">
-                        <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}">
+                        <a href="{{ href }}" title="{{ label }}">
                           {% if terms_of_use %}
                             <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.png'" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" /> <span class="small">{{ count }}</span>
                           {% else %}
