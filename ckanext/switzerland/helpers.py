@@ -50,26 +50,12 @@ def _call_wp_api(action):
     except:
         return None
 
-def get_localized_pkg(pkg=None):
-    if not pkg or pkg is None:
+def get_localized_org(org_id=None, include_datasets=False):
+    if not org_id or org_id is None:
         return {}
     try:
-        pkg = logic.get_action('package_show')({}, {'id': pkg})
-        for key, value in pkg.iteritems():
-            pkg[key] = get_localized_value(value, default_value='')
-        return pkg
-    except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
-        return {}
-
-def get_localized_org(org=None, include_datasets=False):
-    if not org or org is None:
-        return {}
-    try:
-        org = logic.get_action('organization_show')(
-            {}, {'id': org, 'include_datasets': include_datasets})
-        for key, value in org.iteritems():
-            org[key] = get_localized_value(value, default_value='')
-        return org
+        return logic.get_action('organization_show')(
+               {'for_view': True}, {'id': org_id, 'include_datasets': include_datasets})
     except (logic.NotFound, logic.ValidationError, logic.NotAuthorized, AttributeError):
         return {}
 
@@ -80,25 +66,30 @@ def localize_json_title(facet_item):
     except:
         return facet_item['display_name']
 
-LANGUAGE_PRIORITIES = ['de', 'en', 'fr', 'it'] 
+LANGUAGE_PRIORITIES = ['en', 'de', 'fr', 'it'] 
 def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
+    # return original value if it's not a dict
     if not isinstance(lang_dict, dict):
-        return default_value
+        return lang_dict
 
+    # if this is not a proper lang_dict ('de', 'fr', etc. keys), return original value
+    if not all(k in lang_dict for k in LANGUAGE_PRIORITIES):
+        return lang_dict
+
+    # if no specific lang is requested, read from environment
     if desired_lang_code is None:
         desired_lang_code = pylons.request.environ['CKAN_LANG']
 
     try:
+        # return desired lang if available
         if lang_dict[desired_lang_code]:
             return lang_dict[desired_lang_code]
     except KeyError:
         pass
 
-    lang_idx = LANGUAGE_PRIORITIES.index(desired_lang_code)
-    for i in range(0,len(LANGUAGE_PRIORITIES)):
+    # loop over languages in order of their priority for fallback
+    for lang_code in LANGUAGE_PRIORITIES:
         try:
-            # choose next language according to priority
-            lang_code = LANGUAGE_PRIORITIES[lang_idx-i]
             if isinstance(lang_dict[lang_code], basestring) and lang_dict[lang_code]:
                 return lang_dict[lang_code]
         except (KeyError, IndexError, ValueError):
@@ -174,8 +165,7 @@ def get_dataset_terms_of_use(pkg):
 
 def get_dataset_by_identifier(identifier):
     try:
-        pkg = logic.get_action('ogdch_dataset_by_identifier')({}, {'identifier': identifier})
-        return get_localized_pkg(pkg['id'])
+        return logic.get_action('ogdch_dataset_by_identifier')({'for_view': True}, {'identifier': identifier})
     except logic.NotFound:
         return None
 

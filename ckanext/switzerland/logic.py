@@ -86,11 +86,11 @@ def ogdch_dataset_terms_of_use(context, data_dict):
 @side_effect_free
 def ogdch_dataset_by_identifier(context, data_dict):
     user = tk.get_action('get_site_user')({'ignore_auth': True},{})
-    req_context = {'user': user['name']}
+    context.update({'user': user['name']})
     identifier = get_or_bust(data_dict, 'identifier')
 
     param = 'identifier:%s' % identifier
-    result = tk.get_action('package_search')(req_context, {'fq': param })
+    result = tk.get_action('package_search')(context, {'fq': param })
     try:
         return result['results'][0]
     except (KeyError, IndexError, TypeError):

@@ -21,7 +21,7 @@ from ckanext.switzerland.logic import (
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
    get_org_count, get_tweet_count, get_localized_value,
-   get_localized_org, get_localized_pkg, localize_json_title,
+   get_localized_org, localize_json_title,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
    get_dataset_by_identifier, get_readable_file_size,
    simplify_terms_of_use, parse_json, get_piwik_config
@@ -116,7 +116,6 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_org_count': get_org_count,
             'get_tweet_count': get_tweet_count,
             'get_localized_org': get_localized_org,
-            'get_localized_pkg': get_localized_pkg,
             'localize_json_title': localize_json_title,
             'get_frequency_name': get_frequency_name,
             'get_terms_of_use_icon': get_terms_of_use_icon,
