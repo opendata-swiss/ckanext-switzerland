@@ -6,7 +6,8 @@
 <li class="resource-item" data-id="{{ res.id }}">
   {% block resource_item_title %}
   {% if res.media_type %}
-    <small><span class="label label-default" property="dcat:mediaType" data-format="{{ res.media_type.upper() }}">{{ res.media_type.upper() }}</span></small>
+    {% set media_type_truncated = h.truncate(res.media_type, 30) %}
+    <small><span class="label label-default" title="{{ res.media_type }}">{{ media_type_truncated.upper() }}</span></small>
   {% endif %}
   <a class="heading" href="{{ url }}" title="{{ res.name or res.description }}">
     {{ res_title | truncate(50) }}

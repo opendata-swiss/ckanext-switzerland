@@ -23,7 +23,7 @@
 {% block primary_content %}
   <section class="container information">
     <div class="row">
-      <div class="col-md-2 col-sm-6">
+      <div class="col-lg-2 col-sm-6">
         <dl>
           <dt>{{ _('Last updated') }}</dt>
           {% set mod_date = res.modified or res.issued %}
@@ -36,7 +36,7 @@
           </dd>
         </dl>
       </div>
-      <div class="col-md-2 col-sm-6">
+      <div class="col-lg-2 col-sm-6">
         <dl>
           <dt>{{ _('Terms of use') }}</dt>
           <dd class="terms">
@@ -51,7 +51,7 @@
           </dd>
         </dl>
       </div>
-      <div class="col-md-3 col-sm-6">
+      <div class="col-lg-3 col-sm-6">
         <dl>
           <dt>{{ _('Organization') }}</dt>
           <dd>
@@ -65,19 +65,20 @@
           </dd>
         </dl>
       </div>
-      <div class="col-md-2 col-sm-6">
+      <div class="col-lg-2 col-sm-6">
         <dl>
           <dt>{{ _('Format') }}</dt>
           <dd>
             {% if res.media_type %}
-              <span class="label label-default">{{ res.media_type.upper() }}</span>
+              {% set media_type_truncated = h.truncate(res.media_type, 30) %}
+              <span class="label label-default" title="{{ res.media_type }}">{{ media_type_truncated.upper() }}</span>
             {% else %}
               -
             {% endif %}
           </dd>
         </dl>
       </div>
-      <div class="col-md-3 col-sm-12 text-md-right">
+      <div class="col-lg-3 col-sm-12 text-lg-right">
         {% if res.download_url %}
           <a href="{{ res.download_url }}" class="btn btn-primary btn-lg" role="button" target="_blank">
             <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}

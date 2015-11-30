@@ -69,7 +69,8 @@ Example:
               {% block resources_inner %}
                 {% for media_type in h.dict_list_reduce(package.resources, 'media_type') %}
                 <li>
-                  <small><span class="label label-default">{{ media_type.upper() }}</span></small>
+                  {% set media_type_truncated = h.truncate(media_type, 30) %}
+                  <small><span class="label label-default" title="{{ media_type }}">{{ media_type_truncated.upper() }}</span></small>
                 </li>
                 {% endfor %}
               {% endblock %}
