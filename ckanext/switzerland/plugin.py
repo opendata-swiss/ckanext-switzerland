@@ -269,6 +269,11 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             pkg_dict['title_it'] = validated_dict['title']['it']
             pkg_dict['title_en'] = validated_dict['title']['en']
 
+            pkg_dict['description_de'] = validated_dict['description']['de']
+            pkg_dict['description_fr'] = validated_dict['description']['fr']
+            pkg_dict['description_it'] = validated_dict['description']['it']
+            pkg_dict['description_en'] = validated_dict['description']['en']
+
             pkg_dict['keywords_de'] = validated_dict['keywords']['de']
             pkg_dict['keywords_fr'] = validated_dict['keywords']['fr']
             pkg_dict['keywords_it'] = validated_dict['keywords']['it']
