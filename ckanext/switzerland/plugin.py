@@ -26,6 +26,7 @@ from ckanext.switzerland.helpers import (
    get_dataset_by_identifier, get_readable_file_size,
    simplify_terms_of_use, parse_json, get_piwik_config
 )
+import ckanext.scheming.plugins as scheming
 
 
 
@@ -281,6 +282,12 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
     def before_search(self, search_params):
         # log.debug(pprint.pformat(search_params))
         return search_params
+
+
+class OgdchSchemingOrganizationsPlugin(scheming.SchemingOrganizationsPlugin):
+     # use the correct controller (see ckan/ckan#2771)
+     def group_controller(self):
+        return 'organization'
 
 
 class LangToString(object):
