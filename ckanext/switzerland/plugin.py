@@ -21,7 +21,7 @@ from ckanext.switzerland.logic import (
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
    get_org_count, get_tweet_count, get_localized_value,
-   get_localized_org, localize_json_title,
+   get_localized_org, localize_json_title, get_langs,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
    get_dataset_by_identifier, get_readable_file_size,
    simplify_terms_of_use, parse_json, get_piwik_config
@@ -264,29 +264,57 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         pkg_dict['description'] = LangToString('description')(validated_dict)
 
         try:
-            pkg_dict['title_de'] = validated_dict['title']['de']
-            pkg_dict['title_fr'] = validated_dict['title']['fr']
-            pkg_dict['title_it'] = validated_dict['title']['it']
-            pkg_dict['title_en'] = validated_dict['title']['en']
+            # index language-specific values (or it's fallback)
+            pkg_dict['title_de'] = get_localized_value(validated_dict['title'], 'de')
+            pkg_dict['title_fr'] = get_localized_value(validated_dict['title'], 'fr')
+            pkg_dict['title_it'] = get_localized_value(validated_dict['title'], 'it')
+            pkg_dict['title_en'] = get_localized_value(validated_dict['title'], 'en')
 
-            pkg_dict['description_de'] = validated_dict['description']['de']
-            pkg_dict['description_fr'] = validated_dict['description']['fr']
-            pkg_dict['description_it'] = validated_dict['description']['it']
-            pkg_dict['description_en'] = validated_dict['description']['en']
+            pkg_dict['description_de'] = get_localized_value(validated_dict['description'], 'de')
+            pkg_dict['description_fr'] = get_localized_value(validated_dict['description'], 'fr')
+            pkg_dict['description_it'] = get_localized_value(validated_dict['description'], 'it')
+            pkg_dict['description_en'] = get_localized_value(validated_dict['description'], 'en')
 
-            pkg_dict['keywords_de'] = validated_dict['keywords']['de']
-            pkg_dict['keywords_fr'] = validated_dict['keywords']['fr']
-            pkg_dict['keywords_it'] = validated_dict['keywords']['it']
-            pkg_dict['keywords_en'] = validated_dict['keywords']['en']
+            pkg_dict['keywords_de'] = get_localized_value(validated_dict['keywords'], 'de')
+            pkg_dict['keywords_fr'] = get_localized_value(validated_dict['keywords'], 'fr')
+            pkg_dict['keywords_it'] = get_localized_value(validated_dict['keywords'], 'it')
+            pkg_dict['keywords_en'] = get_localized_value(validated_dict['keywords'], 'en')
         except KeyError:
             pass
 
         # log.debug(pprint.pformat(pkg_dict))
         return pkg_dict
    
+    # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
-        # log.debug(pprint.pformat(search_params))
-        return search_params
+            lang_set = get_langs()
+
+            try:
+                current_lang = pylons.request.environ['CKAN_LANG']
+            except TypeError as err:
+                if err.message == ('No object (name: request) has been registered '
+                                   'for this thread'):
+                    # This happens when this code gets called as part of a paster
+                    # command rather then as part of an HTTP request.
+                    current_lang = config.get('ckan.locale_default')
+                else:
+                    raise
+
+            # fallback to default locale if locale not in suported langs
+            if not current_lang in lang_set:
+                current_lang = config.get('ckan.locale_default', 'en')
+            # treat current lang differenly so remove from set
+            lang_set.remove(current_lang)
+
+            # weight current lang more highly
+            query_fields = 'title_%s^8 text_%s^4' % (current_lang, current_lang)
+
+            for lang in lang_set:
+                query_fields += ' title_%s^2 text_%s' % (lang, lang)
+
+            search_params['qf'] = query_fields
+
+            return search_params
 
 
 class OgdchSchemingOrganizationsPlugin(scheming.SchemingOrganizationsPlugin):
