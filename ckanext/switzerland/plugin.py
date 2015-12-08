@@ -3,6 +3,7 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as h
+from ckan.lib.munge import munge_title_to_name
 import pylons
 import json
 import re
@@ -248,42 +249,42 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             for field in pkg_dict['organization']:
                 pkg_dict['organization'][field] = parse_json(pkg_dict['organization'][field])
 
-    def before_index(self, pkg_dict):
-        if not self.is_supported_package_type(pkg_dict):
-            return pkg_dict
+    def before_index(self, search_data):
+        if not self.is_supported_package_type(search_data):
+            return search_data
 
         extract_title = LangToString('title')
-        validated_dict = json.loads(pkg_dict['validated_data_dict'])
+        validated_dict = json.loads(search_data['validated_data_dict'])
         
         # log.debug(pprint.pformat(validated_dict))
 
-        pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
-        pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
-        pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
-        pkg_dict['title_string'] = extract_title(validated_dict)
-        pkg_dict['description'] = LangToString('description')(validated_dict)
+        search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]
+        search_data['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
+        search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
+        search_data['title_string'] = extract_title(validated_dict)
+        search_data['description'] = LangToString('description')(validated_dict)
 
         try:
             # index language-specific values (or it's fallback)
-            pkg_dict['title_de'] = get_localized_value(validated_dict['title'], 'de')
-            pkg_dict['title_fr'] = get_localized_value(validated_dict['title'], 'fr')
-            pkg_dict['title_it'] = get_localized_value(validated_dict['title'], 'it')
-            pkg_dict['title_en'] = get_localized_value(validated_dict['title'], 'en')
+            text_field_items = {}
+            for lang_code in get_langs():
+                search_data['title_' + lang_code] = get_localized_value(validated_dict['title'], lang_code)
+                search_data['title_string_' + lang_code] = munge_title_to_name(get_localized_value(validated_dict['title'], lang_code))
+                search_data['description_' + lang_code] = get_localized_value(validated_dict['description'], lang_code)
+                search_data['keywords_' + lang_code] = get_localized_value(validated_dict['keywords'], lang_code)
 
-            pkg_dict['description_de'] = get_localized_value(validated_dict['description'], 'de')
-            pkg_dict['description_fr'] = get_localized_value(validated_dict['description'], 'fr')
-            pkg_dict['description_it'] = get_localized_value(validated_dict['description'], 'it')
-            pkg_dict['description_en'] = get_localized_value(validated_dict['description'], 'en')
+                text_field_items['text_' + lang_code] = [get_localized_value(validated_dict['description'], lang_code)]
+                text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])
 
-            pkg_dict['keywords_de'] = get_localized_value(validated_dict['keywords'], 'de')
-            pkg_dict['keywords_fr'] = get_localized_value(validated_dict['keywords'], 'fr')
-            pkg_dict['keywords_it'] = get_localized_value(validated_dict['keywords'], 'it')
-            pkg_dict['keywords_en'] = get_localized_value(validated_dict['keywords'], 'en')
+            # flatten values for text_* fields
+            for key, value in text_field_items.iteritems():
+                search_data[key] = ' '.join(value)
+
         except KeyError:
             pass
 
-        # log.debug(pprint.pformat(pkg_dict))
-        return pkg_dict
+        log.debug(pprint.pformat(search_data))
+        return search_data
    
     # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
