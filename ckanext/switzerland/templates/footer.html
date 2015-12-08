@@ -61,14 +61,14 @@
           <ul class="list-unstyled">
             <li><a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Data') }}</a></li>
             <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
-            <li><a href="{{ h.url_for(controller='group', action='index') }}">{{ _('Categories') }}</a></li>
+            <li><a href="{{ h.url('/app') }}">{{ _('Applications') }}</a></li>
           </ul>
         </div>
       </div>
       <div class="col-md-2 col-xs-6">
         <div>
           <ul class="list-unstyled">
-            <li><a href="{{ h.url('/app') }}">{{ _('Applications') }}</a></li>
+            <li><a href="{{ h.url('/legal-framework') }}">{{ _('Legal framework') }}</a></li>
             <li><a href="http://docs.ckan.org/en/latest/api/index.html" target="_blank">{{ _('API') }}</a></li>
             <li><a href="https://github.com/ogdch/ckanext-switzerland" target="_blank">{{ _('Sourcecode') }}</a></li>
           </ul>
