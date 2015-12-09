@@ -6,7 +6,7 @@
           <div class="statsnumber">
             {{ h.get_dataset_count() }} <i class="fa fa-files-o"></i>
           </div>
-          <p>{{ _('Open Datasets') }}</p>
+          <p>{{ _('Datasets') }}</p>
         </a>
       </div>
       <div class="col-sm-3 col-xs-6">
@@ -30,17 +30,17 @@
           <div class="statsnumber">
             {{ h.get_app_count() }} <i class="fa fa-puzzle-piece"></i>
           </div>
-          <p>{{ _('Built Applications') }}</p>
+          <p>{{ _('Applications') }}</p>
         </a>
       </div>
     </div>
     <div class="row top-buffer">
       <div class="col-md-4 col-xs-12">
-        <p class="lead">{{ _('What about you?') }}</p>
+        <p class="lead">{{ _('How can you get involved?') }}</p>
       </div>
       <div class="col-md-8 col-xs-12">
         <a class="btn btn-primary" href="{{ h.url('/faq') }}" role="button">{{ _('I want to publish data') }}</a>
-        <a class="btn btn-primary last" href="{{ h.url('/app') }}" role="button">{{ _('I want to use data') }}</a>
+        <a class="btn btn-primary last" href="{{ h.url('/contact') }}" role="button">{{ _('I have developed an application') }}</a>
       </div>
     </div>
     <div class="row top-buffer">
@@ -77,8 +77,8 @@
     </div>
     <div class="row top-buffer">
       <div class="col-xs-12">
-        <h2>{{ _('A joint project of the confederation and cantons') }}</h2>
-        <p>{{ _('The portal opendata.swiss is a joint project of the confederation, cantons, municipalities and further organizations with a public mandate.  It provides open government data for the public in a central catalog. The Swiss Federal Archives operates opendata.swiss.') }}</p>
+        <h2>{{ _('A joint project of the Confederation and the cantons') }}</h2>
+        <p>{{ _('The opendata.swiss portal is a joint project of the Confederation, cantons, communes and other organizations with a mandate from the state. It makes open government data available to the general public in a central catalogue. opendata.swiss is operated by the Swiss Federal Archives.') }}</p>
       </div>
     </div>
     <div id="logos" class="row top-buffer">
