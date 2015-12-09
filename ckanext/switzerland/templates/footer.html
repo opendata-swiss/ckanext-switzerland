@@ -3,34 +3,38 @@
     <div class="row">
       <div class="col-sm-3 col-xs-6">
         <a href="{{ h.url_for(controller='package', action='search') }}">
+          {% set dataset_count = h.get_dataset_count() %}
           <div class="statsnumber">
-            {{ h.get_dataset_count() }} <i class="fa fa-files-o"></i>
+            {{ dataset_count }} <i class="fa fa-files-o"></i>
           </div>
-          <p>{{ _('Datasets') }}</p>
+          <p>{{ ungettext('Dataset', 'Datasets', dataset_count) }}</p>
         </a>
       </div>
       <div class="col-sm-3 col-xs-6">
         <a href="{{ h.url_for(controller='organization', action='index') }}">
+          {% set org_count = h.get_org_count() %}
           <div class="statsnumber">
-            {{ h.get_org_count() }} <i class="fa fa-users"></i>
+            {{ org_count }} <i class="fa fa-users"></i>
           </div>
-          <p>{{ _('Organizations') }}</p>
+          <p>{{ ungettext('Organization', 'Organizations', org_count) }}</p>
         </a>
       </div>
       <div class="col-sm-3 col-xs-6">
         <a href="{{ h.url_for(controller='group', action='index') }}">
+          {% set group_count = h.get_group_count() %}
           <div class="statsnumber">
-            {{ h.get_group_count() }} <i class="fa fa-tags"></i>
+            {{ group_count }} <i class="fa fa-tags"></i>
           </div>
-          <p>{{ _('Categories') }}</p>
+          <p>{{ ungettext('Category', 'Categories', group_count) }}</p>
         </a>
       </div>
       <div class="col-sm-3 col-xs-6">
         <a href="{{ h.url('/app') }}">
+          {% set app_count = h.get_app_count() %}
           <div class="statsnumber">
-            {{ h.get_app_count() }} <i class="fa fa-puzzle-piece"></i>
+            {{ app_count }} <i class="fa fa-puzzle-piece"></i>
           </div>
-          <p>{{ _('Applications') }}</p>
+          <p>{{ ungettext('Application', 'Applications', app_count) }}</p>
         </a>
       </div>
     </div>
