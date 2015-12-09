@@ -283,7 +283,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         except KeyError:
             pass
 
-        log.debug(pprint.pformat(search_data))
+        # log.debug(pprint.pformat(search_data))
         return search_data
    
     # borrowed from ckanext-multilingual (core extension)
