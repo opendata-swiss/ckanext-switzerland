@@ -168,10 +168,10 @@
     {
       "field_name": "relations",
       "label": {
-        "en": "Relations",
-        "de": "Beziehungen",
-        "fr": "Relations",
-        "it": "Relazioni"
+        "en": "Further information",
+        "de": "Weitere Informationen",
+        "fr": "Informations complémentaires",
+        "it": "Addizionali informazioni"
       },
       "preset": "dicts",
       "display_snippet": "relations.html"
