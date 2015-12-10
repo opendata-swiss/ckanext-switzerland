@@ -66,14 +66,17 @@ def localize_json_title(facet_item):
     except:
         return facet_item['display_name']
 
-LANGUAGE_PRIORITIES = ['en', 'de', 'fr', 'it'] 
+def get_langs():
+    language_priorities = ['en', 'de', 'fr', 'it'] 
+    return language_priorities
+
 def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
     # return original value if it's not a dict
     if not isinstance(lang_dict, dict):
         return lang_dict
 
     # if this is not a proper lang_dict ('de', 'fr', etc. keys), return original value
-    if not all(k in lang_dict for k in LANGUAGE_PRIORITIES):
+    if not all(k in lang_dict for k in get_langs()):
         return lang_dict
 
     # if no specific lang is requested, read from environment
@@ -88,7 +91,7 @@ def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
         pass
 
     # loop over languages in order of their priority for fallback
-    for lang_code in LANGUAGE_PRIORITIES:
+    for lang_code in get_langs():
         try:
             if isinstance(lang_dict[lang_code], basestring) and lang_dict[lang_code]:
                 return lang_dict[lang_code]

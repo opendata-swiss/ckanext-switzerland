@@ -3,6 +3,7 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as h
+from ckan.lib.munge import munge_title_to_name
 import pylons
 import json
 import re
@@ -21,7 +22,7 @@ from ckanext.switzerland.logic import (
 from ckanext.switzerland.helpers import (
    get_dataset_count, get_group_count, get_app_count,
    get_org_count, get_tweet_count, get_localized_value,
-   get_localized_org, localize_json_title,
+   get_localized_org, localize_json_title, get_langs,
    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
    get_dataset_by_identifier, get_readable_file_size,
    simplify_terms_of_use, parse_json, get_piwik_config
@@ -248,40 +249,73 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             for field in pkg_dict['organization']:
                 pkg_dict['organization'][field] = parse_json(pkg_dict['organization'][field])
 
-    def before_index(self, pkg_dict):
-        if not self.is_supported_package_type(pkg_dict):
-            return pkg_dict
+    def before_index(self, search_data):
+        if not self.is_supported_package_type(search_data):
+            return search_data
 
         extract_title = LangToString('title')
-        validated_dict = json.loads(pkg_dict['validated_data_dict'])
+        validated_dict = json.loads(search_data['validated_data_dict'])
         
         # log.debug(pprint.pformat(validated_dict))
 
-        pkg_dict['res_name'] = [r['title'] for r in validated_dict[u'resources']]
-        pkg_dict['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
-        pkg_dict['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
-        pkg_dict['title_string'] = extract_title(validated_dict)
-        pkg_dict['description'] = LangToString('description')(validated_dict)
+        search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]
+        search_data['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]
+        search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]
+        search_data['title_string'] = extract_title(validated_dict)
+        search_data['description'] = LangToString('description')(validated_dict)
 
         try:
-            pkg_dict['title_de'] = validated_dict['title']['de']
-            pkg_dict['title_fr'] = validated_dict['title']['fr']
-            pkg_dict['title_it'] = validated_dict['title']['it']
-            pkg_dict['title_en'] = validated_dict['title']['en']
+            # index language-specific values (or it's fallback)
+            text_field_items = {}
+            for lang_code in get_langs():
+                search_data['title_' + lang_code] = get_localized_value(validated_dict['title'], lang_code)
+                search_data['title_string_' + lang_code] = munge_title_to_name(get_localized_value(validated_dict['title'], lang_code))
+                search_data['description_' + lang_code] = get_localized_value(validated_dict['description'], lang_code)
+                search_data['keywords_' + lang_code] = get_localized_value(validated_dict['keywords'], lang_code)
 
-            pkg_dict['keywords_de'] = validated_dict['keywords']['de']
-            pkg_dict['keywords_fr'] = validated_dict['keywords']['fr']
-            pkg_dict['keywords_it'] = validated_dict['keywords']['it']
-            pkg_dict['keywords_en'] = validated_dict['keywords']['en']
+                text_field_items['text_' + lang_code] = [get_localized_value(validated_dict['description'], lang_code)]
+                text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])
+
+            # flatten values for text_* fields
+            for key, value in text_field_items.iteritems():
+                search_data[key] = ' '.join(value)
+
         except KeyError:
             pass
 
-        # log.debug(pprint.pformat(pkg_dict))
-        return pkg_dict
+        # log.debug(pprint.pformat(search_data))
+        return search_data
    
+    # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
-        # log.debug(pprint.pformat(search_params))
-        return search_params
+            lang_set = get_langs()
+
+            try:
+                current_lang = pylons.request.environ['CKAN_LANG']
+            except TypeError as err:
+                if err.message == ('No object (name: request) has been registered '
+                                   'for this thread'):
+                    # This happens when this code gets called as part of a paster
+                    # command rather then as part of an HTTP request.
+                    current_lang = config.get('ckan.locale_default')
+                else:
+                    raise
+
+            # fallback to default locale if locale not in suported langs
+            if not current_lang in lang_set:
+                current_lang = config.get('ckan.locale_default', 'en')
+            # treat current lang differenly so remove from set
+            lang_set.remove(current_lang)
+
+            # weight current lang more highly
+            query_fields = 'title_%s^8 text_%s^4' % (current_lang, current_lang)
+
+            for lang in lang_set:
+                query_fields += ' title_%s^2 text_%s' % (lang, lang)
+
+            search_params['qf'] = query_fields
+
+            return search_params
 
 
 class OgdchSchemingOrganizationsPlugin(scheming.SchemingOrganizationsPlugin):
