@@ -48,7 +48,14 @@ Requirements
 Update translations
 ------------
 
-Follow the guide at https://github.com/ckan/ckan/wiki/Translations-and-Extensions
+To generate a new ckanext-switzerland.pot file use the following command:
+
+    vagrant ssh
+    source /home/vagrant/pyenv/bin/activate
+    cd /var/www/ckanext/ckanext-switzerland/
+    python setup.py extract_messages --mapping-file babel.cfg --output i18n/ckanext-switzerland.pot
+
+Or follow the official CKAN guide at https://github.com/ckan/ckan/wiki/Translations-and-Extensions
 
 
 ------------
