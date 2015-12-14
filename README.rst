@@ -1,33 +1,3 @@
-.. You should enable this project on travis-ci.org and coveralls.io to make
-   these badges work. The necessary Travis and Coverage config files have been
-   generated for you.
-
-.. image:: https://travis-ci.org/ogdch/ckanext-switzerland.svg?branch=master
-    :target: https://travis-ci.org/ogdch/ckanext-switzerland
-
-.. image:: https://coveralls.io/repos/ogdch/ckanext-switzerland/badge.png?branch=master
-  :target: https://coveralls.io/r/ogdch/ckanext-switzerland?branch=master
-
-.. image:: https://pypip.in/download/ckanext-switzerland/badge.svg
-    :target: https://pypi.python.org/pypi//ckanext-switzerland/
-    :alt: Downloads
-
-.. image:: https://pypip.in/version/ckanext-switzerland/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-switzerland/
-    :alt: Latest Version
-
-.. image:: https://pypip.in/py_versions/ckanext-switzerland/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-switzerland/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-switzerland/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-switzerland/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-switzerland/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-switzerland/
-    :alt: License
-
 =============
 ckanext-switzerland
 =============
@@ -48,7 +18,7 @@ Requirements
 Update translations
 ------------
 
-To generate a new ckanext-switzerland.pot file use the following command:
+To generate a new ckanext-switzerland.pot file use the following command::
 
     vagrant ssh
     source /home/vagrant/pyenv/bin/activate
