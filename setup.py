@@ -83,6 +83,5 @@ setup(
         ogdch_res=ckanext.switzerland.plugin:OgdchResourcePlugin
         ogdch_group=ckanext.switzerland.plugin:OgdchGroupPlugin
         ogdch_org=ckanext.switzerland.plugin:OgdchOrganizationPlugin
-        ogdch_scheming_organizations=ckanext.switzerland.plugin:OgdchSchemingOrganizationsPlugin
     ''',
 )
