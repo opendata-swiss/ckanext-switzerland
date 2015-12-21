@@ -1,8 +1,6 @@
 {% extends "package/base.html" %}
 
-{% set description = h.markdown_extract(pkg.description, extract_length=200)|forceescape %}
-
-{% block meta_description %}<meta name="description" content="{{ description|forceescape|trim }}" />{% endblock %}
+{% block meta_description %}<meta name="description" content="{{ pkg.description|forceescape|trim }}" />{% endblock %}
 
 {% block subtitle %}{{ pkg.title or pkg.name }}{% endblock %}
 
