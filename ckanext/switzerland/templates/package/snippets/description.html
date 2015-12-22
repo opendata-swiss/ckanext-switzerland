@@ -15,7 +15,7 @@ Example:
         <dt>{{ _('Last updated') }}</dt>
         <dd>
           {% set mod_date = pkg.modified or pkg.issued %}
-          {% if not mod_date and pkg.resources and len(pkg.resources) > 0 %}
+          {% if not mod_date and pkg.resources and pkg.resources|length > 0 %}
             {% set mod_date = pkg.resources[0].issued %}
           {% endif %}
           {% if mod_date %}
