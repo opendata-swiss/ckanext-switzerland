@@ -7,13 +7,14 @@
 # Andreas Amsler <andreas.amsler@liip.ch>, 2016
 # Andreas Weder <Andreas.Weder@gs-edi.admin.ch>, 2016
 # Mauro Bagnaschi <mauro.bagnaschi@gs-edi.admin.ch>, 2016
+# Stefan Oderbolz <oderbolz@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-12-14 10:07+0000\n"
-"PO-Revision-Date: 2016-01-14 07:59+0000\n"
-"Last-Translator: Andreas Amsler <andreas.amsler@liip.ch>\n"
+"PO-Revision-Date: 2016-01-15 09:41+0000\n"
+"Last-Translator: Stefan Oderbolz <oderbolz@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/opendataswiss/opendata-swiss/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -266,7 +267,7 @@ msgstr "Codice sorgente"
 
 #: ckanext/switzerland/templates/footer.html:84
 msgid "A joint project of the Confederation and the cantons"
-msgstr "Un progetto comune di Confederazione e Cantoni."
+msgstr "Un progetto comune di Confederazione e Cantoni"
 
 #: ckanext/switzerland/templates/footer.html:85
 msgid ""
