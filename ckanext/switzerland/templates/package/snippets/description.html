@@ -44,7 +44,7 @@ Example:
     </div>
     <div class="col-md-3 col-sm-6">
       <dl>
-        <dt>{{ _('Organization') }}</dt>
+          <dt>{{ ungettext('Organization', 'Organizations', 1) }}</dt>
         <dd>
           {% if pkg.owner_org %}
           {% set organization = h.get_localized_org(pkg.owner_org) %}
