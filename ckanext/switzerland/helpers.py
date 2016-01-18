@@ -45,7 +45,12 @@ def get_tweet_count():
 def _call_wp_api(action):
     api_url = pylons.config.get('ckanext.switzerland.wp_ajax_url', None)
     try:
-        r = requests.post(api_url, data={'action': action})
+        """
+        this call does not verify the SSL cert, because it is missing on
+        the deployed server.
+        TODO: re-enable verification
+        """
+        r = requests.post(api_url, data={'action': action}, verify=False)
         return r.json()
     except:
         return None
