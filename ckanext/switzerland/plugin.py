@@ -286,35 +286,54 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
    
     # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
-            lang_set = get_langs()
+        """
+        Adjust search parameters
+        """
 
-            try:
-                current_lang = pylons.request.environ['CKAN_LANG']
-            except TypeError as err:
-                if err.message == ('No object (name: request) has been registered '
-                                   'for this thread'):
-                    # This happens when this code gets called as part of a paster
-                    # command rather then as part of an HTTP request.
-                    current_lang = pylons.config.get('ckan.locale_default')
-                else:
-                    raise
+        '''
+        search in correct language-specific field and boost
+        results in current language
+        '''
+        lang_set = get_langs()
+        try:
+            current_lang = pylons.request.environ['CKAN_LANG']
+        except TypeError as err:
+            if err.message == ('No object (name: request) has been registered '
+                               'for this thread'):
+                # This happens when this code gets called as part of a paster
+                # command rather then as part of an HTTP request.
+                current_lang = pylons.config.get('ckan.locale_default')
+            else:
+                raise
 
-            # fallback to default locale if locale not in suported langs
-            if not current_lang in lang_set:
-                current_lang = pylons.config.get('ckan.locale_default', 'en')
-            # treat current lang differenly so remove from set
-            lang_set.remove(current_lang)
+        # fallback to default locale if locale not in suported langs
+        if not current_lang in lang_set:
+            current_lang = pylons.config.get('ckan.locale_default', 'en')
+        # treat current lang differenly so remove from set
+        lang_set.remove(current_lang)
 
-            # weight current lang more highly
-            query_fields = 'title_%s^8 text_%s^4' % (current_lang, current_lang)
+        # weight current lang more highly
+        query_fields = 'title_%s^8 text_%s^4' % (current_lang, current_lang)
 
-            for lang in lang_set:
-                query_fields += ' title_%s^2 text_%s' % (lang, lang)
+        for lang in lang_set:
+            query_fields += ' title_%s^2 text_%s' % (lang, lang)
 
-            search_params['qf'] = query_fields
+        search_params['qf'] = query_fields
+        
+        '''
+        Unless the query is already being filtered by any type
+        (either positively, or negatively), reduce to only display
+        'dataset' type
+        This is done because by standard all types are displayed, this
+        leads to strange situations where e.g. harvest sources are shown
+        on organization pages.
+        TODO: fix issue https://github.com/ckan/ckan/issues/2803 in CKAN core
+        '''
+        fq = search_params.get('fq', '')
+        if 'dataset_type:' not in fq:
+            search_params.update({'fq': "%s +dataset_type:dataset" % fq})
 
-            return search_params
-
+        return search_params
 
 
 class LangToString(object):
