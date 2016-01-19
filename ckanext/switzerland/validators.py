@@ -4,10 +4,10 @@ from ckanext.scheming.validation import scheming_validator
 from ckanext.switzerland.helpers import parse_json
 from ckan.logic import NotFound, get_action
 import json
-import pprint
 import datetime
 import logging
 log = logging.getLogger(__name__)
+
 
 @scheming_validator
 def multiple_text(field, schema):
@@ -30,7 +30,9 @@ def multiple_text(field, schema):
             if isinstance(value, basestring):
                 value = [value]
             elif not isinstance(value, list):
-                errors[key].append(_('Expecting list of strings, got "%s"') % str(value) )
+                errors[key].append(
+                    _('Expecting list of strings, got "%s"') % str(value)
+                )
                 return
         else:
             value = []
@@ -39,6 +41,7 @@ def multiple_text(field, schema):
             data[key] = json.dumps(value)
 
     return validator
+
 
 def multilingual_text_output(value):
     """
@@ -49,6 +52,7 @@ def multilingual_text_output(value):
         return value
     return parse_json(value)
 
+
 def timestamp_to_datetime(value):
     """
     Returns a datetime for a given timestamp
@@ -57,6 +61,7 @@ def timestamp_to_datetime(value):
         return datetime.datetime.fromtimestamp(int(value)).isoformat()
     except ValueError:
         return False
+
 
 def temporals_to_datetime_output(value):
     """
@@ -67,9 +72,13 @@ def temporals_to_datetime_output(value):
 
     for temporal in value:
         for key in temporal:
-            temporal[key] = timestamp_to_datetime(temporal[key]) if temporal[key] else None
+            if temporal[key]:
+                temporal[key] = timestamp_to_datetime(temporal[key])
+            else:
+                temporal[key] = None
     return value
-    
+
+
 @scheming_validator
 def list_of_dicts(field, schema):
     def validator(key, data, errors, context):
@@ -78,14 +87,16 @@ def list_of_dicts(field, schema):
         if errors[key]:
             return
 
-        try: 
+        try:
             data_dict = df.unflatten(data[('__junk',)])
             value = data_dict[key[0]]
             if value is not missing:
                 if isinstance(value, basestring):
                     value = [value]
                 elif not isinstance(value, list):
-                    errors[key].append(_('Expecting list of strings, got "%s"') % str(value) )
+                    errors[key].append(
+                        _('Expecting list of strings, got "%s"') % str(value)
+                    )
                     return
             else:
                 value = []
@@ -101,11 +112,13 @@ def list_of_dicts(field, schema):
 
     return validator
 
+
 def multiple_text_output(value):
     """
     Return stored json representation as a list
     """
     return parse_json(value, default_value=[value])
+
 
 @scheming_validator
 def ogdch_multiple_choice(field, schema):
@@ -130,7 +143,9 @@ def ogdch_multiple_choice(field, schema):
             if isinstance(value, basestring):
                 value = [value]
             elif not isinstance(value, list):
-                errors[key].append(_('Expecting list of strings, got "%s"') % str(value))
+                errors[key].append(
+                    _('Expecting list of strings, got "%s"') % str(value)
+                )
                 return
         else:
             value = []
@@ -144,9 +159,11 @@ def ogdch_multiple_choice(field, schema):
 
         if not errors[key]:
             data[key] = json.dumps([
-                c['value'] for c in field['choices'] if c['value'] in selected])
+                c['value'] for c in field['choices'] if c['value'] in selected
+            ])
 
     return validator
+
 
 @scheming_validator
 def ogdch_unique_identifier(field, schema):
@@ -154,10 +171,14 @@ def ogdch_unique_identifier(field, schema):
         id = data.get(key[:-1] + ('id',))
         identifier = data.get(key[:-1] + ('identifier',))
         try:
-            result = get_action('ogdch_dataset_by_identifier')({},
-                      {'identifier': identifier})
+            result = get_action('ogdch_dataset_by_identifier')(
+                {},
+                {'identifier': identifier}
+            )
             if id != result['id']:
-                raise df.Invalid(_('Identifier is already in use, it must be unique.'))
+                raise df.Invalid(
+                    _('Identifier is already in use, it must be unique.')
+                )
         except NotFound:
             pass
 
