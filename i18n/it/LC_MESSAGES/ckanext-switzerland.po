@@ -7,14 +7,15 @@
 # Andreas Amsler <andreas.amsler@liip.ch>, 2016
 # Andreas Weder <Andreas.Weder@gs-edi.admin.ch>, 2016
 # Mauro Bagnaschi <mauro.bagnaschi@gs-edi.admin.ch>, 2016
+# Stefanie Taepke <s_t@me.com>, 2016
 # Stefan Oderbolz <oderbolz@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2015-12-14 10:07+0000\n"
-"PO-Revision-Date: 2016-01-15 09:41+0000\n"
-"Last-Translator: Stefan Oderbolz <oderbolz@gmail.com>\n"
+"PO-Revision-Date: 2016-05-02 13:58+0000\n"
+"Last-Translator: Stefanie Taepke <s_t@me.com>\n"
 "Language-Team: Italian (http://www.transifex.com/opendataswiss/opendata-swiss/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -407,7 +408,7 @@ msgstr "Basi legali"
 
 #: ckanext/switzerland/templates/snippets/facet_list.html:111
 msgid "Show More {facet_type}"
-msgstr "Mostra di più {facet_type}"
+msgstr "Mostra più {facet_type}"
 
 #: ckanext/switzerland/templates/snippets/facet_list.html:114
 msgid "Show Less {facet_type}"
