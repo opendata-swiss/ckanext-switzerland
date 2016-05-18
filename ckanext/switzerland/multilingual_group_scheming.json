@@ -46,7 +46,7 @@
       "preset": "multilingual_text"
     },
     {
-      "field_name": "url",
+      "field_name": "image_url",
       "label": {
         "en": "Image URL",
         "de": "Bild-URL",
