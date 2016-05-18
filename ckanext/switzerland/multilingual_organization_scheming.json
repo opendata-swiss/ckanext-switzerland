@@ -48,6 +48,16 @@
     {
       "field_name": "url",
       "label": {
+        "en": "URL",
+        "de": "URL",
+        "fr": "URL",
+        "it": "URL"
+      },
+      "form_placeholder": "http://mycompany.com"
+    },
+    {
+      "field_name": "image_url",
+      "label": {
         "en": "Image URL",
         "de": "Bild-URL",
         "fr": "URL d'image",
