@@ -22,6 +22,9 @@
         <img src="{{ c.group_dict.image_url }}" class="logo pull-right-md" alt="{{ c.group_dict.display_name }}" />
       {% endif %}
       <p class="lead">{{ c.group_dict.description }}</p>
+      {% if c.group_dict.url %}
+        <p>{{ _('More information') }}: <a href="{{ c.group_dict.url }}">{{ c.group_dict.url }}</a></p>
+      {% endif %}
     </div>
   </div>
 </section>
