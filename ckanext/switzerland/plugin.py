@@ -286,9 +286,21 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         pkg_dict = self._map_ckan_default_fields(pkg_dict)
 
         # replace langauge dicts with requests language strings
+        desired_lang_code = self._get_accepted_language()
+        pkg_dict = self._reduce_to_requested_language(pkg_dict, desired_lang_code)
+
+    def _get_accepted_language(self):
         if 'Accept-Language' in pylons.request.headers:
-            desired_lang_code = pylons.request.headers['Accept-Language']
-            pkg_dict = self._reduce_to_requested_language(pkg_dict, desired_lang_code)
+            # Accept-Language header looks like this: 'de-DE,de;q=0.5,en-US;q=0.3,en;q=0.3'
+            accepted_languages = pylons.request.headers['Accept-Language'].split(',')
+            for accepted_language_with_quality in accepted_languages:
+                # accepted_language_with_quality looks like this: 'de;q=0.5'
+                accepted_language = accepted_language_with_quality.split(';')
+                accepted_language = accepted_language[0]
+                if accepted_language in get_langs():
+                    return accepted_language
+
+        return 'en'
 
     def _map_ckan_default_fields(self, pkg_dict):
         if 'contact_points' in pkg_dict and pkg_dict['contact_points']:
