@@ -291,7 +291,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
     def _get_accepted_language(self):
         if 'Accept-Language' in pylons.request.headers:
-            log.debug(pylons.request.headers['Accept-Language'])
             # Accept-Language header looks like this: 'de-DE,de;q=0.5,en-US;q=0.3,en;q=0.3'
             accepted_languages = pylons.request.headers['Accept-Language'].split(',')
             for accepted_language_with_quality in accepted_languages:
