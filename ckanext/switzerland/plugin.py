@@ -248,6 +248,18 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             pass
         return pkg_dict
 
+    def _res_before_view(self, pkg_dict, desired_lang_code):
+        try:
+            for element in pkg_dict['resources']:
+                for field in element:
+                    element[field] = self._extract_lang_value(
+                        element[field],
+                        desired_lang_code
+                    )
+        except TypeError:
+            pass
+        return pkg_dict
+
     def after_show(self, context, pkg_dict):
         if not self.is_supported_package_type(pkg_dict):
             return
@@ -269,6 +281,47 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                 pkg_dict['organization'][field] = parse_json(
                     pkg_dict['organization'][field]
                 )
+
+        # map ckan fields
+        pkg_dict = self._map_ckan_default_fields(pkg_dict)
+
+        # replace langauge dicts with requests language strings
+        if 'Accept-Language' in pylons.request.headers:
+            desired_lang_code = pylons.request.headers['Accept-Language']
+            pkg_dict = self._reduce_to_requested_language(pkg_dict, desired_lang_code)
+
+    def _map_ckan_default_fields(self, pkg_dict):
+        if 'contact_points' in pkg_dict and pkg_dict['contact_points']:
+            if pkg_dict['maintainer'] is None:
+                pkg_dict['maintainer'] = pkg_dict['contact_points'][0]['name']
+
+            if pkg_dict['maintainer_email'] is None:
+                pkg_dict['maintainer_email'] = pkg_dict['contact_points'][0]['email']
+        if 'publishers' in pkg_dict and pkg_dict['publishers']:
+            if pkg_dict['author'] is None:
+                pkg_dict['author'] = pkg_dict['publishers'][0]['label']
+
+        if pkg_dict['resources'] is not None:
+            for resource in pkg_dict['resources']:
+                resource['name'] = resource['title']
+
+        return pkg_dict
+
+    def _reduce_to_requested_language(self, pkg_dict, desired_lang_code):
+        # pkg fields
+        for key, value in pkg_dict.iteritems():
+            pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
+
+        # groups
+        pkg_dict = self._group_before_view(pkg_dict, desired_lang_code)
+
+        # organization
+        pkg_dict = self._org_before_view(pkg_dict, desired_lang_code)
+
+        # resources
+        pkg_dict = self._res_before_view(pkg_dict, desired_lang_code)
+
+        return pkg_dict
 
     def before_index(self, search_data):
         if not self.is_supported_package_type(search_data):
