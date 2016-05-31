@@ -127,7 +127,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
-    def after_show(self, context, pkg_dict):
+    def before_view(self, pkg_dict):
         # read pylons values if available
         desired_lang_code = self._get_accepted_language()
         pkg_dict = self._prepare_package_json(pkg_dict, desired_lang_code)
@@ -169,7 +169,6 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         for key, value in pkg_dict.iteritems():
             pkg_dict[key] = parse_json(value)
 
-        log.debug(pkg_dict)
         # groups
         if 'groups' in pkg_dict and pkg_dict['groups'] is not None:
             for group in pkg_dict['groups']:
@@ -193,21 +192,28 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _package_map_ckan_default_fields(self, pkg_dict):
         pkg_dict['display_name'] = pkg_dict['title']
 
-        if 'contact_points' in pkg_dict and pkg_dict['contact_points']:
+        if 'contact_points' in pkg_dict and pkg_dict['contact_points'] is not None:
             if pkg_dict['maintainer'] is None:
                 pkg_dict['maintainer'] = pkg_dict['contact_points'][0]['name']
 
             if pkg_dict['maintainer_email'] is None:
                 pkg_dict['maintainer_email'] = pkg_dict['contact_points'][0]['email']
-        if 'publishers' in pkg_dict and pkg_dict['publishers']:
+        if 'publishers' in pkg_dict and pkg_dict['publishers'] is not None:
             if pkg_dict['author'] is None:
                 pkg_dict['author'] = pkg_dict['publishers'][0]['label']
 
-        if 'resources' in pkg_dict and pkg_dict['resources']:
+        if 'resources' in pkg_dict and pkg_dict['resources'] is not None:
             for resource in pkg_dict['resources']:
                 resource['name'] = resource['title']
 
         return pkg_dict
+
+    def _extract_lang_value(self, value, lang_code):
+        new_value = parse_json(value)
+
+        if isinstance(new_value, dict):
+            return get_localized_value(new_value, lang_code, default_value='')
+        return value
 
     def _package_reduce_to_requested_language(self, pkg_dict, desired_lang_code):
         # pkg fields
@@ -228,13 +234,6 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         pkg_dict = self._reduce_res_language(pkg_dict, desired_lang_code)
 
         return pkg_dict
-
-    def _extract_lang_value(self, value, lang_code):
-        new_value = parse_json(value)
-
-        if isinstance(new_value, dict):
-            return get_localized_value(new_value, lang_code, default_value='')
-        return value
 
     def _reduce_group_language(self, pkg_dict, desired_lang_code):
         if 'groups' in pkg_dict and pkg_dict['groups'] is not None:
@@ -279,26 +278,24 @@ class OgdchGroupPlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IGroupController, inherit=True)
 
     # IGroupController
-    def after_show(self, context, pkg_dict):
-        return super(OgdchGroupPlugin, self).after_show(context, pkg_dict)
+    def before_view(self, pkg_dict):
+        return super(OgdchGroupPlugin, self).before_view(pkg_dict)
 
 
 class OgdchOrganizationPlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IOrganizationController, inherit=True)
 
     # IOrganizationController
-
-    def after_show(self, context, pkg_dict):
-        return super(OgdchOrganizationPlugin, self).after_show(context, pkg_dict)
+    def before_view(self, pkg_dict):
+        return super(OgdchOrganizationPlugin, self).before_view(pkg_dict)
 
 
 class OgdchResourcePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IResourceController, inherit=True)
 
     # IResourceController
-
-    def after_show(self, context, pkg_dict):
-        return super(OgdchResourcePlugin, self).after_show(context, pkg_dict)
+    def before_show(self, pkg_dict):
+        return super(OgdchResourcePlugin, self).before_view(pkg_dict)
 
     def _ignore_field(self, key):
         return key == 'tracking_summary'
@@ -315,12 +312,11 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             return False
 
     # IPackageController
-
     def after_show(self, context, pkg_dict):
         if not self.is_supported_package_type(pkg_dict):
             return pkg_dict
 
-        return super(OgdchPackagePlugin, self).after_show(context, pkg_dict)
+        return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 
     def before_index(self, search_data):
         if not self.is_supported_package_type(search_data):
