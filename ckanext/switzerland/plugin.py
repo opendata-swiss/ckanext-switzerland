@@ -128,6 +128,15 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
+    """
+    Handels language dictionaries in data_dict (pkg_dict)
+    Returns all data in requested language
+        1. When CKAN_LANG is set -> use this language
+        2. Parse Accept-Language request header to choose language
+        3. Use the configured ckan.locale_default to choose language
+    If request parameter all_langs is set to true all languages will be returned
+    """
+
     def before_view(self, pkg_dict):
         # read pylons values if available
         pkg_dict = self._prepare_package_json(pkg_dict)
