@@ -321,11 +321,21 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             return False
 
     # IPackageController
-    def after_show(self, context, pkg_dict):
+    def before_view(self, pkg_dict):
         if not self.is_supported_package_type(pkg_dict):
             return pkg_dict
 
         return super(OgdchPackagePlugin, self).before_view(pkg_dict)
+
+#     TODO: before_view isn't called in API requests -> after_show is
+#           BUT (!) after_show is also called when packages get indexed
+#           and there we need all languages.
+#           -> find a solution to _prepare_package_json() in an API call.
+#     def after_show(self, context, pkg_dict):
+#         if not self.is_supported_package_type(pkg_dict):
+#             return pkg_dict
+#
+#         return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 
     def before_index(self, search_data):
         if not self.is_supported_package_type(search_data):
