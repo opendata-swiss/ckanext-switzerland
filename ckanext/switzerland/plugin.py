@@ -129,12 +129,10 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
     """
-    Handels language dictionaries in data_dict (pkg_dict)
-    Returns all data in requested language
-        1. When CKAN_LANG is set -> use this language
-        2. Parse Accept-Language request header to choose language
-        3. Use the configured ckan.locale_default to choose language
-    If request parameter all_langs is set to true all languages will be returned
+    Handels language dictionaries in data_dict (pkg_dict).
+    Returns all data in requested language.
+    If request parameter all_langs is set to true
+    all languages will be returned.
     """
 
     def before_view(self, pkg_dict):
@@ -162,7 +160,9 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         if not show_all_langs:
             # replace langauge dicts with requested language strings
             desired_lang_code = self._get_request_language()
-            pkg_dict = self._package_reduce_to_requested_language(pkg_dict, desired_lang_code)
+            pkg_dict = self._package_reduce_to_requested_language(
+                pkg_dict, desired_lang_code
+            )
 
         return pkg_dict
 
@@ -200,17 +200,17 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _package_map_ckan_default_fields(self, pkg_dict):
         pkg_dict['display_name'] = pkg_dict['title']
 
-        if 'contact_points' in pkg_dict and pkg_dict['contact_points'] is not None:
+        if ('contact_points' in pkg_dict and pkg_dict['contact_points'] is not None):  # noqa
             if pkg_dict['maintainer'] is None:
                 pkg_dict['maintainer'] = pkg_dict['contact_points'][0]['name']
 
             if pkg_dict['maintainer_email'] is None:
-                pkg_dict['maintainer_email'] = pkg_dict['contact_points'][0]['email']
-        if 'publishers' in pkg_dict and pkg_dict['publishers'] is not None:
+                pkg_dict['maintainer_email'] = pkg_dict['contact_points'][0]['email']  # noqa
+        if ('publishers' in pkg_dict and pkg_dict['publishers'] is not None):
             if pkg_dict['author'] is None:
                 pkg_dict['author'] = pkg_dict['publishers'][0]['label']
 
-        if 'resources' in pkg_dict and pkg_dict['resources'] is not None:
+        if ('resources' in pkg_dict and pkg_dict['resources'] is not None):
             for resource in pkg_dict['resources']:
                 resource['name'] = resource['title']
 
@@ -223,7 +223,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             return get_localized_value(new_value, lang_code, default_value='')
         return value
 
-    def _package_reduce_to_requested_language(self, pkg_dict, desired_lang_code):
+    def _package_reduce_to_requested_language(self, pkg_dict, desired_lang_code):  # noqa
         # pkg fields
         for key, value in pkg_dict.iteritems():
             if not self._ignore_field(key):
@@ -281,6 +281,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             except TypeError:
                 pass
         return pkg_dict
+
 
 class OgdchGroupPlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IGroupController, inherit=True)
