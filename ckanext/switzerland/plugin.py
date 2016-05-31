@@ -153,27 +153,23 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         # map ckan fields
         pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
 
-        # replace langauge dicts with requests language strings
-        show_all_langs = asbool(pylons.request.params.get('all_langs'))
+        # If all_langs could not be parsed as boolean return requested language
+        try:
+            show_all_langs = asbool(pylons.request.params.get('all_langs'))
+        except ValueError:
+            show_all_langs = False
+
         if not show_all_langs:
-            desired_lang_code = self._get_accepted_language()
+            # replace langauge dicts with requested language strings
+            desired_lang_code = self._get_request_language()
             pkg_dict = self._package_reduce_to_requested_language(pkg_dict, desired_lang_code)
 
         return pkg_dict
 
-    def _get_accepted_language(self):
+    def _get_request_language(self):
         try:
             return pylons.request.environ['CKAN_LANG']
         except TypeError:
-            if 'Accept-Language' in pylons.request.headers:
-                # Accept-Language header looks like this: 'de-DE,de;q=0.5,en-US;q=0.3,en;q=0.3'
-                accepted_languages = pylons.request.headers['Accept-Language'].split(',')
-                for accepted_language_with_quality in accepted_languages:
-                    # accepted_language_with_quality looks like this: 'de-DE;q=0.5'
-                    accepted_language = accepted_language_with_quality[:2]
-                    if accepted_language in get_langs():
-                        return accepted_language
-
             return pylons.config.get('ckan.locale_default', 'en')
 
     def _package_parse_json_strings(self, pkg_dict):
