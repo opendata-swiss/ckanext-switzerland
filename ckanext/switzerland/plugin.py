@@ -24,6 +24,7 @@ import re
 import collections
 from webhelpers.html import HTML
 from webhelpers import paginate
+from paste.deploy.converters import asbool
 import logging
 log = logging.getLogger(__name__)
 
@@ -129,15 +130,14 @@ class OgdchPlugin(plugins.SingletonPlugin):
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def before_view(self, pkg_dict):
         # read pylons values if available
-        desired_lang_code = self._get_accepted_language()
-        pkg_dict = self._prepare_package_json(pkg_dict, desired_lang_code)
+        pkg_dict = self._prepare_package_json(pkg_dict)
 
         return pkg_dict
 
     def _ignore_field(self, key):
         return False
 
-    def _prepare_package_json(self, pkg_dict, desired_lang_code):
+    def _prepare_package_json(self, pkg_dict):
         # parse all json strings in dict
         pkg_dict = self._package_parse_json_strings(pkg_dict)
 
@@ -145,7 +145,10 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
 
         # replace langauge dicts with requests language strings
-        pkg_dict = self._package_reduce_to_requested_language(pkg_dict, desired_lang_code)
+        show_all_langs = asbool(pylons.request.params.get('all_langs'))
+        if not show_all_langs:
+            desired_lang_code = self._get_accepted_language()
+            pkg_dict = self._package_reduce_to_requested_language(pkg_dict, desired_lang_code)
 
         return pkg_dict
 
