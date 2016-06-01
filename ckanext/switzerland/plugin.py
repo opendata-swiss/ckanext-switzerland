@@ -347,7 +347,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # log.debug(pprint.pformat(validated_dict))
 
         search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]  # noqa
-        search_data['res_format'] = [r['media_type'] for r in validated_dict[u'resources']]  # noqa
+        search_data['res_format'] = [r['media_type'] for r in validated_dict[u'resources'] if 'media_type' in r]  # noqa
         search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
         search_data['description'] = LangToString('description')(validated_dict)  # noqa
