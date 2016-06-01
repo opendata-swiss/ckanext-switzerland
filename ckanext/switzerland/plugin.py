@@ -136,7 +136,6 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     """
 
     def before_view(self, pkg_dict):
-        # read pylons values if available
         pkg_dict = self._prepare_package_json(pkg_dict)
 
         return pkg_dict
@@ -153,8 +152,9 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         # If all_langs could not be parsed as boolean return requested language
         try:
+            # read all_langs params from pylon request if available
             show_all_langs = asbool(pylons.request.params.get('all_langs'))
-        except ValueError:
+        except (ValueError, TypeError):
             show_all_langs = False
 
         if not show_all_langs:
