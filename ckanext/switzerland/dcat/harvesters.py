@@ -21,6 +21,44 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             'description': 'Harvester for DCAT-AP Switzerland datasets from an RDF graph'  # noqa
         }
 
+    def _get_guid(self, dataset_dict, source_url=None):  # noqa
+        '''
+        Try to get a unique identifier for a harvested dataset
+        It will be the first found of:
+         * URI (rdf:about)
+         * dcat:identifier
+         * Source URL + Dataset name
+         * Dataset name
+         The last two are obviously not optimal, as depend on title, which
+         might change.
+         Returns None if no guid could be decided.
+        '''
+        guid = None
+        for extra in dataset_dict.get('extras', []):
+            if extra['key'] == 'uri' and extra['value']:
+                return extra['value']
+
+        if dataset_dict.get('uri'):
+            return dataset_dict['uri']
+
+        for extra in dataset_dict.get('extras', []):
+            if extra['key'] == 'identifier' and extra['value']:
+                return extra['value']
+
+        if dataset_dict.get('identifier'):
+            return dataset_dict['identifier']
+
+        for extra in dataset_dict.get('extras', []):
+            if extra['key'] == 'dcat_identifier' and extra['value']:
+                return extra['value']
+
+        if dataset_dict.get('name'):
+            guid = dataset_dict['name']
+            if source_url:
+                guid = source_url.rstrip('/') + '/' + guid
+
+        return guid
+
     def gather_stage(self, harvest_job):  # noqa
 
         log.debug('In DCATRDFHarvester gather_stage')
