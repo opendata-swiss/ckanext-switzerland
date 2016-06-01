@@ -24,6 +24,7 @@ import re
 import collections
 from webhelpers.html import HTML
 from webhelpers import paginate
+from paste.deploy.converters import asbool
 import logging
 log = logging.getLogger(__name__)
 
@@ -127,6 +128,94 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
+    """
+    Handels language dictionaries in data_dict (pkg_dict).
+    Returns all data in requested language.
+    If request parameter all_langs is set to true
+    all languages will be returned.
+    """
+
+    def before_view(self, pkg_dict):
+        # read pylons values if available
+        pkg_dict = self._prepare_package_json(pkg_dict)
+
+        return pkg_dict
+
+    def _ignore_field(self, key):
+        return False
+
+    def _prepare_package_json(self, pkg_dict):
+        # parse all json strings in dict
+        pkg_dict = self._package_parse_json_strings(pkg_dict)
+
+        # map ckan fields
+        pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
+
+        # If all_langs could not be parsed as boolean return requested language
+        try:
+            show_all_langs = asbool(pylons.request.params.get('all_langs'))
+        except ValueError:
+            show_all_langs = False
+
+        if not show_all_langs:
+            # replace langauge dicts with requested language strings
+            desired_lang_code = self._get_request_language()
+            pkg_dict = self._package_reduce_to_requested_language(
+                pkg_dict, desired_lang_code
+            )
+
+        return pkg_dict
+
+    def _get_request_language(self):
+        try:
+            return pylons.request.environ['CKAN_LANG']
+        except TypeError:
+            return pylons.config.get('ckan.locale_default', 'en')
+
+    def _package_parse_json_strings(self, pkg_dict):
+        # try to parse all values as JSON
+        for key, value in pkg_dict.iteritems():
+            pkg_dict[key] = parse_json(value)
+
+        # groups
+        if 'groups' in pkg_dict and pkg_dict['groups'] is not None:
+            for group in pkg_dict['groups']:
+                """
+                TODO: somehow the title is messed up here,
+                but the display_name is okay
+                """
+                group['title'] = group['display_name']
+                for field in group:
+                    group[field] = parse_json(group[field])
+
+        # organization
+        if 'organization' in pkg_dict and pkg_dict['organization'] is not None:
+            for field in pkg_dict['organization']:
+                pkg_dict['organization'][field] = parse_json(
+                    pkg_dict['organization'][field]
+                )
+
+        return pkg_dict
+
+    def _package_map_ckan_default_fields(self, pkg_dict):
+        pkg_dict['display_name'] = pkg_dict['title']
+
+        if ('contact_points' in pkg_dict and pkg_dict['contact_points'] is not None):  # noqa
+            if pkg_dict['maintainer'] is None:
+                pkg_dict['maintainer'] = pkg_dict['contact_points'][0]['name']
+
+            if pkg_dict['maintainer_email'] is None:
+                pkg_dict['maintainer_email'] = pkg_dict['contact_points'][0]['email']  # noqa
+        if ('publishers' in pkg_dict and pkg_dict['publishers'] is not None):
+            if pkg_dict['author'] is None:
+                pkg_dict['author'] = pkg_dict['publishers'][0]['label']
+
+        if ('resources' in pkg_dict and pkg_dict['resources'] is not None):
+            for resource in pkg_dict['resources']:
+                resource['name'] = resource['title']
+
+        return pkg_dict
+
     def _extract_lang_value(self, value, lang_code):
         new_value = parse_json(value)
 
@@ -134,33 +223,64 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             return get_localized_value(new_value, lang_code, default_value='')
         return value
 
-    def before_view(self, pkg_dict):
-        # try to parse all values as JSON
-        for key, value in pkg_dict.iteritems():
-            pkg_dict[key] = parse_json(value)
-
-        # read pylons values if available
-        try:
-            path = pylons.request.path
-            desired_lang_code = pylons.request.environ['CKAN_LANG']
-        except TypeError:
-            return pkg_dict
-
-        # Do not change the resulting dict for API requests
-        if path.startswith('/api'):
-            return pkg_dict
-
-        pkg_dict['display_name'] = pkg_dict['title']
+    def _package_reduce_to_requested_language(self, pkg_dict, desired_lang_code):  # noqa
+        # pkg fields
         for key, value in pkg_dict.iteritems():
             if not self._ignore_field(key):
                 pkg_dict[key] = self._extract_lang_value(
                     value,
                     desired_lang_code
                 )
+
+        # groups
+        pkg_dict = self._reduce_group_language(pkg_dict, desired_lang_code)
+
+        # organization
+        pkg_dict = self._reduce_org_language(pkg_dict, desired_lang_code)
+
+        # resources
+        pkg_dict = self._reduce_res_language(pkg_dict, desired_lang_code)
+
         return pkg_dict
 
-    def _ignore_field(self, key):
-        return False
+    def _reduce_group_language(self, pkg_dict, desired_lang_code):
+        if 'groups' in pkg_dict and pkg_dict['groups'] is not None:
+            try:
+                for element in pkg_dict['groups']:
+                    for field in element:
+                        element[field] = self._extract_lang_value(
+                            element[field],
+                            desired_lang_code
+                        )
+            except TypeError:
+                pass
+
+        return pkg_dict
+
+    def _reduce_org_language(self, pkg_dict, desired_lang_code):
+        if 'organization' in pkg_dict and pkg_dict['organization'] is not None:
+            try:
+                for field in pkg_dict['organization']:
+                    pkg_dict['organization'][field] = self._extract_lang_value(
+                        pkg_dict['organization'][field],
+                        desired_lang_code
+                    )
+            except TypeError:
+                pass
+        return pkg_dict
+
+    def _reduce_res_language(self, pkg_dict, desired_lang_code):
+        if 'resources' in pkg_dict and pkg_dict['resources'] is not None:
+            try:
+                for element in pkg_dict['resources']:
+                    for field in element:
+                        element[field] = self._extract_lang_value(
+                            element[field],
+                            desired_lang_code
+                        )
+            except TypeError:
+                pass
+        return pkg_dict
 
 
 class OgdchGroupPlugin(OgdchLanguagePlugin):
@@ -175,7 +295,6 @@ class OgdchOrganizationPlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IOrganizationController, inherit=True)
 
     # IOrganizationController
-
     def before_view(self, pkg_dict):
         return super(OgdchOrganizationPlugin, self).before_view(pkg_dict)
 
@@ -184,7 +303,6 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IResourceController, inherit=True)
 
     # IResourceController
-
     def before_show(self, pkg_dict):
         return super(OgdchResourcePlugin, self).before_view(pkg_dict)
 
@@ -203,72 +321,21 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             return False
 
     # IPackageController
-
     def before_view(self, pkg_dict):
         if not self.is_supported_package_type(pkg_dict):
             return pkg_dict
 
-        try:
-            desired_lang_code = pylons.request.environ['CKAN_LANG']
-        except TypeError:
-            desired_lang_code = pylons.config.get('ckan.locale_default', 'en')
+        return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 
-        # pkg fields
-        for key, value in pkg_dict.iteritems():
-            pkg_dict[key] = self._extract_lang_value(value, desired_lang_code)
-
-        # groups
-        pkg_dict = self._group_before_view(pkg_dict, desired_lang_code)
-
-        # organization
-        pkg_dict = self._org_before_view(pkg_dict, desired_lang_code)
-
-        return pkg_dict
-
-    def _group_before_view(self, pkg_dict, desired_lang_code):
-        try:
-            for element in pkg_dict['groups']:
-                for field in element:
-                    element[field] = self._extract_lang_value(
-                        element[field],
-                        desired_lang_code
-                    )
-        except TypeError:
-            pass
-        return pkg_dict
-
-    def _org_before_view(self, pkg_dict, desired_lang_code):
-        try:
-            for field in pkg_dict['organization']:
-                pkg_dict['organization'][field] = self._extract_lang_value(
-                    pkg_dict['organization'][field],
-                    desired_lang_code
-                )
-        except TypeError:
-            pass
-        return pkg_dict
-
-    def after_show(self, context, pkg_dict):
-        if not self.is_supported_package_type(pkg_dict):
-            return
-
-        # groups
-        if pkg_dict['groups'] is not None:
-            for group in pkg_dict['groups']:
-                """
-                TODO: somehow the title is messed up here,
-                but the display_name is okay
-                """
-                group['title'] = group['display_name']
-                for field in group:
-                    group[field] = parse_json(group[field])
-
-        # organization
-        if pkg_dict['organization'] is not None:
-            for field in pkg_dict['organization']:
-                pkg_dict['organization'][field] = parse_json(
-                    pkg_dict['organization'][field]
-                )
+#     TODO: before_view isn't called in API requests -> after_show is
+#           BUT (!) after_show is also called when packages get indexed
+#           and there we need all languages.
+#           -> find a solution to _prepare_package_json() in an API call.
+#     def after_show(self, context, pkg_dict):
+#         if not self.is_supported_package_type(pkg_dict):
+#             return pkg_dict
+#
+#         return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 
     def before_index(self, search_data):
         if not self.is_supported_package_type(search_data):
