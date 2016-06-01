@@ -1,11 +1,11 @@
 import rdflib
 from rdflib.namespace import Namespace, RDFS
+from pprint import pprint
 
 from ckanext.dcat.profiles import RDFProfile
 
 import logging
 log = logging.getLogger(__name__)
-from pprint import pprint
 
 
 DCT = Namespace("http://purl.org/dc/terms/")
