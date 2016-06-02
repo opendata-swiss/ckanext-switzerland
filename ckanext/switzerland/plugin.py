@@ -24,7 +24,6 @@ import re
 import collections
 from webhelpers.html import HTML
 from webhelpers import paginate
-from paste.deploy.converters import asbool
 import logging
 log = logging.getLogger(__name__)
 
@@ -129,10 +128,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
 
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
     """
-    Handels language dictionaries in data_dict (pkg_dict).
-    Returns all data in requested language.
-    If request parameter all_langs is set to true
-    all languages will be returned.
+    Handles language dictionaries in data_dict (pkg_dict).
     """
 
     def before_view(self, pkg_dict):
@@ -150,19 +146,20 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         # map ckan fields
         pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
 
-        # If all_langs could not be parsed as boolean return requested language
         try:
-            # read all_langs params from pylon request if available
-            show_all_langs = asbool(pylons.request.params.get('all_langs'))
-        except (ValueError, TypeError):
-            show_all_langs = False
+            # Do not change the resulting dict for API requests
+            path = pylons.request.path
+            if path.startswith('/api'):
+                return pkg_dict
+        except TypeError:
+            # we get here if there is no request (i.e. on the command line)
+            return pkg_dict
 
-        if not show_all_langs:
-            # replace langauge dicts with requested language strings
-            desired_lang_code = self._get_request_language()
-            pkg_dict = self._package_reduce_to_requested_language(
-                pkg_dict, desired_lang_code
-            )
+        # replace langauge dicts with requested language strings
+        desired_lang_code = self._get_request_language()
+        pkg_dict = self._package_reduce_to_requested_language(
+            pkg_dict, desired_lang_code
+        )
 
         return pkg_dict
 
