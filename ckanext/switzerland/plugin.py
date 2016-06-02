@@ -341,6 +341,8 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         if not self.is_supported_package_type(pkg_dict):
             return pkg_dict
 
+        pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
+
         # groups
         if pkg_dict['groups'] is not None:
             for group in pkg_dict['groups']:
