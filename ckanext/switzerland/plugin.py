@@ -197,25 +197,25 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _package_map_ckan_default_fields(self, pkg_dict):  # noqa
         pkg_dict['display_name'] = pkg_dict['title']
 
-        if pkg_dict['maintainer'] is None:
+        if pkg_dict.get('maintainer') is None:
             try:
                 pkg_dict['maintainer'] = pkg_dict['contact_points'][0]['name']  # noqa
             except (KeyError, IndexError):
                 pass
 
-        if pkg_dict['maintainer_email'] is None:
+        if pkg_dict.get('maintainer_email') is None:
             try:
                 pkg_dict['maintainer_email'] = pkg_dict['contact_points'][0]['email']  # noqa
             except (KeyError, IndexError):
                 pass
 
-        if pkg_dict['author'] is None:
+        if pkg_dict.get('author') is None:
             try:
                 pkg_dict['author'] = pkg_dict['publishers'][0]['label']  # noqa
             except (KeyError, IndexError):
                 pass
 
-        if ('resources' in pkg_dict and pkg_dict['resources'] is not None):
+        if pkg_dict.get('resources') is not None:
             for resource in pkg_dict['resources']:
                 resource['name'] = resource['title']
 
