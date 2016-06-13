@@ -1,0 +1,17 @@
+{#
+Renders a list of related datasets.
+
+pkg - A package object that the resources belong to.
+
+Example:
+
+{% snippet "package/snippets/discourse_comments.html", pkg=pkg %}
+
+#}
+<section class="container related-datasets">
+  <div class="row">
+    <div class="col-xs-12">
+      {{ h.discourse_comments() }}
+    </div>
+  </div>
+</section>
