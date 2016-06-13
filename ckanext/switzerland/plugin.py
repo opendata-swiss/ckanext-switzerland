@@ -194,20 +194,28 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         return pkg_dict
 
-    def _package_map_ckan_default_fields(self, pkg_dict):
+    def _package_map_ckan_default_fields(self, pkg_dict):  # noqa
         pkg_dict['display_name'] = pkg_dict['title']
 
-        if ('contact_points' in pkg_dict and pkg_dict['contact_points'] is not None):  # noqa
-            if pkg_dict['maintainer'] is None:
-                pkg_dict['maintainer'] = pkg_dict['contact_points'][0]['name']
+        if pkg_dict.get('maintainer') is None:
+            try:
+                pkg_dict['maintainer'] = pkg_dict['contact_points'][0]['name']  # noqa
+            except (KeyError, IndexError):
+                pass
 
-            if pkg_dict['maintainer_email'] is None:
+        if pkg_dict.get('maintainer_email') is None:
+            try:
                 pkg_dict['maintainer_email'] = pkg_dict['contact_points'][0]['email']  # noqa
-        if ('publishers' in pkg_dict and pkg_dict['publishers'] is not None):
-            if pkg_dict['author'] is None:
-                pkg_dict['author'] = pkg_dict['publishers'][0]['label']
+            except (KeyError, IndexError):
+                pass
 
-        if ('resources' in pkg_dict and pkg_dict['resources'] is not None):
+        if pkg_dict.get('author') is None:
+            try:
+                pkg_dict['author'] = pkg_dict['publishers'][0]['label']  # noqa
+            except (KeyError, IndexError):
+                pass
+
+        if pkg_dict.get('resources') is not None:
             for resource in pkg_dict['resources']:
                 resource['name'] = resource['title']
 
