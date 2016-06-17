@@ -11,7 +11,8 @@ from ckanext.switzerland.helpers import (
     get_localized_org, localize_json_title, get_langs,
     get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
     get_dataset_by_identifier, get_readable_file_size,
-    simplify_terms_of_use, parse_json, get_piwik_config
+    simplify_terms_of_use, parse_json, get_piwik_config,
+    get_discourse_url
 )
 
 import ckan.plugins as plugins
@@ -123,6 +124,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_dataset_by_identifier': get_dataset_by_identifier,
             'get_readable_file_size': get_readable_file_size,
             'get_piwik_config': get_piwik_config,
+            'get_discourse_url': get_discourse_url,
         }
 
 
