@@ -245,5 +245,6 @@ def get_piwik_config():
         'site_id': pylons.config.get('piwik.site_id', False)
     }
 
+
 def get_discourse_url():
     return pylons.config.get('discourse.url', False)
