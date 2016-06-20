@@ -3,7 +3,8 @@
 from ckanext.switzerland import validators as v
 from ckanext.switzerland.logic import (
     ogdch_dataset_count, ogdch_dataset_terms_of_use,
-    ogdch_dataset_by_identifier, ogdch_content_headers
+    ogdch_dataset_by_identifier, ogdch_content_headers,
+    ogdch_discourse_post_created
 )
 from ckanext.switzerland.helpers import (
     get_dataset_count, get_group_count, get_app_count,
@@ -35,6 +36,16 @@ class OgdchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IRoutes, inherit=True)
+
+    # IRoutes
+    def before_map(self, map):
+        controller = 'ckanext.switzerland.controller:DiscourseController'
+        map.connect('ogdch_discourse_post_created', '/api/ogdch_discourse_post_created', controller=controller, action='post_created')
+        return map
+
+    def after_map(self, map):
+        return map
 
     # IConfigurer
 
