@@ -36,6 +36,16 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IRoutes, inherit=True)
+
+    # IRoutes
+    def before_map(self, map):
+        controller = 'ckanext.switzerland.controller:DiscourseController'
+        map.connect('ogdch_discourse_post_created', '/api/ogdch_discourse_post_created', controller=controller, action='post_created')
+        return map
+
+    def after_map(self, map):
+        return map
 
     # ITranslation
 
@@ -135,6 +145,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_localised_number': sh.ogdch_localised_number,
             'ogdch_render_tree': sh.ogdch_render_tree,
             'ogdch_group_tree': sh.ogdch_group_tree,
+            'get_discourse_url': get_discourse_url,
         }
 
 
