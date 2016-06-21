@@ -32,13 +32,13 @@ Example:
 
 {% if query %}
   {%- if count -%}
-    {{ text_query.format(number=h.localised_number(count), query=query) }}
+    {{ text_query.format(number=h.ogdch_localised_number(count), query=query) }}
   {%- else -%}
     {{ text_query_none.format(query=query) }}
   {%- endif -%}
 {%- else -%}
   {%- if count -%}
-    {{ text_no_query.format(number=h.localised_number(count)) }}
+    {{ text_no_query.format(number=h.ogdch_localised_number(count)) }}
   {%- else -%}
     {{ text_no_query_none }}
   {%- endif -%}

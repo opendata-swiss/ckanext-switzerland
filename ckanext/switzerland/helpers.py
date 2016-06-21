@@ -4,6 +4,9 @@ import requests
 import json
 import pylons
 from ckan.common import _
+from babel import numbers
+from ckan.lib.helpers import localised_number
+import ckan.lib.i18n as i18n
 
 import logging
 log = logging.getLogger(__name__)
@@ -244,3 +247,15 @@ def get_piwik_config():
         'url': pylons.config.get('piwik.url', False),
         'site_id': pylons.config.get('piwik.site_id', False)
     }
+
+
+def get_discourse_url():
+    return pylons.config.get('discourse.url', False)
+
+
+def ogdch_localised_number(number):
+    # use swissgerman formatting rules when current language is german
+    if i18n.get_lang() == 'de':
+        return numbers.format_number(number, locale='de_CH')
+    else:
+        return localised_number(number)
