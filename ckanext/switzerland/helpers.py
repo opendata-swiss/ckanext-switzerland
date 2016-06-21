@@ -4,12 +4,12 @@ import requests
 import json
 import pylons
 from ckan.common import _
-
-import logging
-log = logging.getLogger(__name__)
 from babel import numbers
 from ckan.lib.helpers import localised_number
 import ckan.lib.i18n as i18n
+
+import logging
+log = logging.getLogger(__name__)
 
 
 def get_dataset_count():
@@ -251,6 +251,7 @@ def get_piwik_config():
 
 def get_discourse_url():
     return pylons.config.get('discourse.url', False)
+
 
 def ogdch_localised_number(number):
     # use swissgerman formatting rules when current language is german
