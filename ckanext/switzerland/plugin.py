@@ -35,6 +35,21 @@ class OgdchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IRoutes, inherit=True)
+
+    # IRoutes
+    def before_map(self, map):
+        controller = 'ckanext.switzerland.controller:DiscourseController'
+        map.connect(
+            'ogdch_discourse_post_created',
+            '/api/ogdch_discourse_post_created',
+            controller=controller,
+            action='post_created'
+        )
+        return map
+
+    def after_map(self, map):
+        return map
 
     # IConfigurer
 
