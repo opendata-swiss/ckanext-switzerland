@@ -14,10 +14,12 @@ import ckan.lib.base as base
 from ckan.controllers.api import ApiController
 from ConfigParser import ConfigParser
 from email.mime.text import MIMEText
+from urlparse import urlparse
 
 import pylons
 import json
 import smtplib
+import requests
 
 from ckanext.hierarchy.controller import _children_name_list
 import ckan.controllers.organization as organization
@@ -412,31 +414,34 @@ class DiscourseController(ApiController):
     def post_created(self):
         '''Render the config template with the first custom title.'''
 
-        log.error(request.body)
-        discourse = json.loads(request.body)
+        discourse_post = json.loads(request.body)
 
-#         get_or_bust(request.body, 'url')
-        log.error('### disco ###')
-        log.error(discourse)
-        log.error('### disco ###')
+        ckan_site_url = urlparse(pylons.config.get('ckan.site_url', None))
+        ckan_hostname = ckan_site_url.hostname
 
-        # retrieve source url http://ogdch.dev/de/dataset/baustellen
-        url = 'http://ogdch.dev/de/dataset/baustellen'
+        discourse_topic_url = urlparse(discourse_post[1]['referrer'])
+        discourse_topic_url_endpoint = discourse_topic_url.geturl() + '.json'
+        discourse_topic = requests.get(discourse_topic_url_endpoint, verify=False).json()
 
-        if '/dataset/' in url:
-            package_id = url.split('/dataset/', 1)[1].replace('/', '')
-            try:
-                package = tk.get_action('package_show')({'ignore_auth': True}, {'id': package_id})
-                self._notify_contactpoints(discourse, package)
-            except NotFound:
-                abort(404, _('The dataset {id} could not be found.').format(id=id))
+        for link in discourse_topic['details']['links']:
+            log.error(link['url'])
+            url = urlparse(link['url'])
+            if link['domain'] == ckan_hostname and url.path.startswith('/dataset/'):
+                dataset_url = link['url']
+                package_id = dataset_url.split('/dataset/', 1)[1].replace('/', '')
+                try:
+                    package = tk.get_action('package_show')({'ignore_auth': True}, {'id': package_id})
+                    self._notify_contactpoints(discourse_topic_url, dataset_url, package)
+                except NotFound:
+                    abort(404, _('The dataset {id} could not be found.').format(id=id))
 
     def _notify_contactpoints(self, discourse, package):
 
-        ckan_site_url = pylons.config.get('ckan.site_url', None)
+    def _notify_contactpoints(self, discourse_topic_url, dataset_url, package):
+
         smtp_host = pylons.config.get('smtp.server', None)
         smtp_port = pylons.config.get('smtp.host', None)
-        from_mail = 'no-reply@ogdch.dev' # pylons.config.get('from_mail')
+        from_mail = 'no-reply@ogdch.dev'
 
         for contact in package['contact_points']:
             receiver_mail = contact['email']
@@ -445,12 +450,10 @@ class DiscourseController(ApiController):
             dataset_url = ckan_site_url + '/dataset/' + package['name']
 
             mail = 'Hello ' + receiver_name + '!\n\n'
-            mail += 'A new post was created on Discourse at: ' + discourse[1]['referrer'] + '\n'
+            mail += 'A new post was created on Discourse at: ' + discourse_topic_url.geturl() + '\n'
             mail += 'You receive this mail as a contact point of the dataset '
             mail += 'of ' + package['name'] + ' at ' + dataset_url + ' \n'
-            mail += 'To read the post follow this link: ' + discourse[1]['referrer']
-
-            log.error(mail)
+            mail += 'To read the post follow this link: ' + discourse_topic_url.geturl()
 
             msg = MIMEText(mail)
             msg['Subject'] = 'Discourse Notification'
