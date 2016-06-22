@@ -25,6 +25,7 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
          Returns None if no guid could be decided.
         '''
         guid = None
+
         for extra in dataset_dict.get('extras', []):
             if extra['key'] == 'uri' and extra['value']:
                 return extra['value']
@@ -37,6 +38,17 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                 return extra['value']
 
         if dataset_dict.get('identifier'):
+            guid = dataset_dict['identifier']
+            # check if the owner_org matches the identifier
+            if '@' in guid:
+                org = guid.split('@')[-1]  # get last element
+                if org != dataset_dict['owner_org']:
+                    log.error(
+                        'The organization in the dataset indentifier (%s) '
+                        'does not match the organization in the harvester '
+                        'config (%s)' % (org, dataset_dict['owner_org'])
+                    )
+                    return None
             return dataset_dict['identifier']
 
         for extra in dataset_dict.get('extras', []):
