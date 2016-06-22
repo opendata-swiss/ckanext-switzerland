@@ -19,48 +19,52 @@ class DiscourseController(ApiController):
         '''Render the config template with the first custom title.'''
 
         log.error(request.body)
-        discourse = get_or_bust(request.body)
+        discourse = json.loads(request.body)
 
 #         get_or_bust(request.body, 'url')
+        log.error('### disco ###')
+        log.error(discourse)
+        log.error('### disco ###')
 
         # retrieve source url http://ogdch.dev/de/dataset/baustellen
         url = 'http://ogdch.dev/de/dataset/baustellen'
 
         if '/dataset/' in url:
             package_id = url.split('/dataset/', 1)[1].replace('/', '')
-            log.error('Package ID: ' + package_id)
             try:
-                pkg = tk.get_action('package_show')({'ignore_auth': True}, {'id': package_id})
-                log.error(pkg)
-                notifyContactPoints(discourse, pkg)
+                package = tk.get_action('package_show')({'ignore_auth': True}, {'id': package_id})
+                self._notify_contactpoints(discourse, package)
             except NotFound:
                 abort(404, _('The dataset {id} could not be found.').format(id=id))
 
-    def notifyContactPoints(discourse_msg, package):
+    def _notify_contactpoints(self, discourse, package):
 
         ckan_site_url = pylons.config.get('ckan.site_url', None)
         smtp_host = pylons.config.get('smtp.server', None)
         smtp_port = pylons.config.get('smtp.host', None)
+        from_mail = 'no-reply@ogdch.dev' # pylons.config.get('from_mail')
 
-        for contact in pkg['contact_points']:
+        for contact in package['contact_points']:
             receiver_mail = contact['email']
             receiver_name = contact['name']
 
-            dataset_url = ckan_site_url + '/dataset/' + pkg['name']
+            dataset_url = ckan_site_url + '/dataset/' + package['name']
 
             mail = 'Hello ' + receiver_name + '!\n\n'
-            mail += 'A new post was created on Discourse at: ' + discourse['referrer']
+            mail += 'A new post was created on Discourse at: ' + discourse[1]['referrer'] + '\n'
             mail += 'You receive this mail as a contact point of the dataset '
-            mail += 'of ' + pkg[name] + ' at ' dataset_url + ' \n'
-            mail += 'To read the post follow this link: ' + discourse['referrer']
+            mail += 'of ' + package['name'] + ' at ' + dataset_url + ' \n'
+            mail += 'To read the post follow this link: ' + discourse[1]['referrer']
 
+            log.error(mail)
 
             msg = MIMEText(mail)
-
             msg['Subject'] = 'Discourse Notification'
             msg['From'] = from_mail
             msg['To'] = receiver_mail
 
+            log.error(msg)
+
             s = smtplib.SMTP(smtp_host, smtp_port)
-            s.sendmail(filename, filename, msg.as_string())
+            s.sendmail(from_mail, receiver_mail, msg.as_string())
             s.quit()

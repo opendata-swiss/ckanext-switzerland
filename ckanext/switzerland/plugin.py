@@ -3,8 +3,7 @@
 from ckanext.switzerland import validators as v
 from ckanext.switzerland.logic import (
     ogdch_dataset_count, ogdch_dataset_terms_of_use,
-    ogdch_dataset_by_identifier, ogdch_content_headers,
-    ogdch_discourse_post_created
+    ogdch_dataset_by_identifier, ogdch_content_headers
 )
 from ckanext.switzerland.helpers import (
     get_dataset_count, get_group_count, get_app_count,
