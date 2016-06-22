@@ -1,4 +1,5 @@
 from ckanext.dcat.harvesters.rdf import DCATRDFHarvester
+import ckan.model as model
 
 import logging
 log = logging.getLogger(__name__)
@@ -41,12 +42,13 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             guid = dataset_dict['identifier']
             # check if the owner_org matches the identifier
             if '@' in guid:
-                org = guid.split('@')[-1]  # get last element
-                if org != dataset_dict['owner_org']:
+                org_id = guid.split('@')[-1]  # get last element
+                org = model.Group.get(org_id)
+                if org.id != dataset_dict['owner_org']:
                     log.error(
-                        'The organization in the dataset indentifier (%s) '
+                        'The organization in the dataset identifier (%s) '
                         'does not match the organization in the harvester '
-                        'config (%s)' % (org, dataset_dict['owner_org'])
+                        'config (%s)' % (org.id, dataset_dict['owner_org'])
                     )
                     return None
             return dataset_dict['identifier']
