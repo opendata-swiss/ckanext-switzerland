@@ -40,7 +40,12 @@ class OgdchPlugin(plugins.SingletonPlugin):
     # IRoutes
     def before_map(self, map):
         controller = 'ckanext.switzerland.controller:DiscourseController'
-        map.connect('ogdch_discourse_post_created', '/api/ogdch_discourse_post_created', controller=controller, action='post_created')
+        map.connect(
+            'ogdch_discourse_post_created',
+            '/api/ogdch_discourse_post_created',
+            controller=controller,
+            action='post_created'
+        )
         return map
 
     def after_map(self, map):
