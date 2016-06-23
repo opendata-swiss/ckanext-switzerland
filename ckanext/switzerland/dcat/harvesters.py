@@ -27,17 +27,6 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         '''
         guid = None
 
-        for extra in dataset_dict.get('extras', []):
-            if extra['key'] == 'uri' and extra['value']:
-                return extra['value']
-
-        if dataset_dict.get('uri'):
-            return dataset_dict['uri']
-
-        for extra in dataset_dict.get('extras', []):
-            if extra['key'] == 'identifier' and extra['value']:
-                return extra['value']
-
         if dataset_dict.get('identifier'):
             guid = dataset_dict['identifier']
             # check if the owner_org matches the identifier
@@ -56,6 +45,17 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                 log.exception("An error occured")
                 return None
             return dataset_dict['identifier']
+
+        for extra in dataset_dict.get('extras', []):
+            if extra['key'] == 'uri' and extra['value']:
+                return extra['value']
+
+        if dataset_dict.get('uri'):
+            return dataset_dict['uri']
+
+        for extra in dataset_dict.get('extras', []):
+            if extra['key'] == 'identifier' and extra['value']:
+                return extra['value']
 
         for extra in dataset_dict.get('extras', []):
             if extra['key'] == 'dcat_identifier' and extra['value']:
