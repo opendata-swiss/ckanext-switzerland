@@ -41,16 +41,20 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         if dataset_dict.get('identifier'):
             guid = dataset_dict['identifier']
             # check if the owner_org matches the identifier
-            if '@' in guid:
-                org_id = guid.split('@')[-1]  # get last element
-                org = model.Group.get(org_id)
-                if org.id != dataset_dict['owner_org']:
-                    log.error(
-                        'The organization in the dataset identifier (%s) '
-                        'does not match the organization in the harvester '
-                        'config (%s)' % (org.id, dataset_dict['owner_org'])
-                    )
-                    return None
+            try:
+                if '@' in guid:
+                    org_name = guid.split('@')[-1]  # get last element
+                    org = model.Group.by_name(org_name)
+                    if org.id != dataset_dict['owner_org']:
+                        log.error(
+                            'The organization in the dataset identifier (%s) '
+                            'does not match the organization in the harvester '
+                            'config (%s)' % (org.id, dataset_dict['owner_org'])
+                        )
+                        return None
+            except:
+                log.exception("An error occured")
+                return None
             return dataset_dict['identifier']
 
         for extra in dataset_dict.get('extras', []):
