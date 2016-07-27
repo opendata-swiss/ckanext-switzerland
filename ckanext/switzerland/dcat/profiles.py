@@ -4,6 +4,8 @@ from pprint import pprint
 
 from ckanext.dcat.profiles import RDFProfile
 
+from ckanext.switzerland.helpers import get_langs
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -34,6 +36,10 @@ class SwissDCATAPProfile(RDFProfile):
             else:
                 return unicode(o)
         if multilang:
+            # when translation does not exist, create an empty one
+            for lang in get_langs():
+                if not lang in lang_dict:
+                    lang_dict[lang] = ''
             return lang_dict
         else:
             return None
