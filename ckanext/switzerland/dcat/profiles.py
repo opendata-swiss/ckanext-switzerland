@@ -2,12 +2,17 @@ import rdflib
 from rdflib.namespace import Namespace, RDFS
 from pprint import pprint
 
+from datetime import datetime
+import time
+
 from ckanext.dcat.profiles import RDFProfile
 
 from ckanext.switzerland.helpers import get_langs
 
 import logging
 log = logging.getLogger(__name__)
+
+from pprint import pprint
 
 
 DCT = Namespace("http://purl.org/dc/terms/")
@@ -40,9 +45,7 @@ class SwissDCATAPProfile(RDFProfile):
             for lang in get_langs():
                 if lang not in lang_dict:
                     lang_dict[lang] = ''
-            return lang_dict
-        else:
-            return None
+        return lang_dict
 
     def _publisher(self, subject, predicate):
         '''
@@ -106,6 +109,16 @@ class SwissDCATAPProfile(RDFProfile):
 
         return contact
 
+    def _clean_datetime(self, datetime_value):
+        try:
+            d = datetime.strptime(
+                datetime_value[0:len('YYYY-MM-DD')],
+                '%Y-%m-%d'
+            )
+            return int(time.mktime(d.timetuple()))
+        except (ValueError, KeyError, TypeError, IndexError):
+            raise ValueError("Could not parse datetime")
+
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
         dataset_dict['temporals'] = None
         dataset_dict['tags'] = []
@@ -116,8 +129,6 @@ class SwissDCATAPProfile(RDFProfile):
 
         # Basic fields
         for key, predicate in (
-                ('issued', DCT.issued),
-                ('modified', DCT.modified),
                 ('identifier', DCT.identifier),
                 ('frequency', DCT.accrualPeriodicity),
                 ('spatial_uri', DCT.spatial),
@@ -127,10 +138,20 @@ class SwissDCATAPProfile(RDFProfile):
             if value:
                 dataset_dict[key] = value
 
+        # Timestamp fields
+        for key, predicate in (
+                ('issued', DCT.issued),
+                ('modified', DCT.modified),
+                ):
+            value = self._object_value(dataset_ref, predicate)
+            if value:
+                dataset_dict[key] = self._clean_datetime(value)
+
+
         # Multilingual basic fields
         for key, predicate in (
                 ('title', DCT.title),
-                ('notes', DCT.description),
+                ('description', DCT.description),
                 ):
             value = self._object_value(dataset_ref, predicate, multilang=True)
             if value:
@@ -180,13 +201,12 @@ class SwissDCATAPProfile(RDFProfile):
 
             #  Simple values
             for key, predicate in (
+                    ('identifier', DCT.identifier),
                     ('format', DCT['format']),
                     ('mimetype', DCAT.mediaType),
                     ('media_type', DCAT.mediaType),
                     ('download_url', DCAT.downloadURL),
                     ('access_url', DCAT.accessURL),
-                    ('issued', DCT.issued),
-                    ('modified', DCT.modified),
                     ('rights', DCT.rights),
                     ('license', DCT.license),
                     ):
@@ -194,17 +214,26 @@ class SwissDCATAPProfile(RDFProfile):
                 if value:
                     resource_dict[key] = value
 
+            # Timestamp fields
+            for key, predicate in (
+                    ('issued', DCT.issued),
+                    ('modified', DCT.modified),
+                    ):
+                value = self._object_value(distribution, predicate)
+                if value:
+                    resource_dict[key] = self._clean_datetime(value)
+
             # Multilingual fields
             for key, predicate in (
                     ('title', DCT.title),
                     ('description', DCT.description),
                     ):
                 value = self._object_value(
-                    dataset_ref,
+                    distribution,
                     predicate,
                     multilang=True)
                 if value:
-                    dataset_dict[key] = value
+                    resource_dict[key] = value
 
             resource_dict['url'] = (self._object_value(distribution,
                                                        DCAT.accessURL) or
@@ -213,7 +242,7 @@ class SwissDCATAPProfile(RDFProfile):
 
             size = self._object_value_int(distribution, DCAT.byteSize)
             if size is not None:
-                    resource_dict['size'] = size
+                resource_dict['size'] = size
 
             # Distribution URI (explicitly show the missing ones)
             resource_dict['uri'] = (unicode(distribution)
