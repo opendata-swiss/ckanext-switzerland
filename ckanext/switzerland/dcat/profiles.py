@@ -47,67 +47,28 @@ class SwissDCATAPProfile(RDFProfile):
                     lang_dict[lang] = ''
         return lang_dict
 
-    def _publisher(self, subject, predicate):
-        '''
-        Returns a dict with details about a dct:publisher entity, a rdfs:label
+    def _publishers(self, subject, predicate):
 
-        Both subject and predicate must be rdflib URIRef or BNode objects
-
-        Example:
-        <dct:publisher>
-          <rdf:Description rdf:about="http://termdat/some-org">
-            <rdfs:label>SomeOrg Inc.</rdfs:label>
-          </rdf:Description>
-        </dct:publisher>
-
-        {
-            'uri': 'http://termdat/some-org',
-            'name': 'SomeOrg Inc.',
-            'email': None,
-            'url': None,
-            'type': None
-        }
-
-        Returns keys for uri, name, email, url and type with the values set to
-        None if they could not be found
-        '''
-
-        publisher = {}
+        publishers = []
 
         for agent in self.g.objects(subject, predicate):
+            publisher = {'label': self._object_value(agent, RDFS.label)}
+            publishers.append(publisher)
 
-            publisher['uri'] = (str(agent) if isinstance(agent,
-                                rdflib.term.URIRef) else None)
+        return publishers
 
-            publisher['name'] = self._object_value(agent, RDFS.label)
-            publisher['email'] = None
-            publisher['url'] = None
-            publisher['type'] = None
+    def _contact_points(self, subject, predicate):
 
-        return publisher
-
-    def _contact_details(self, subject, predicate):
-        '''
-        Returns a dict with details about a vcard expression
-
-        Both subject and predicate must be rdflib URIRef or BNode objects
-
-        Returns keys for uri, name and email with the values set to
-        None if they could not be found
-        '''
-
-        contact = {}
+        contact_points = []
 
         for agent in self.g.objects(subject, predicate):
+            email = self._object_value(agent, VCARD.hasEmail)
+            email_clean = email.replace('mailto:', '')
+            contact = {'name': self._object_value(agent, VCARD.fn), 'email': email_clean}
 
-            contact['uri'] = (str(agent) if isinstance(agent,
-                              rdflib.term.URIRef) else None)
+            contact_points.append(contact)
 
-            contact['name'] = self._object_value(agent, VCARD.fn)
-
-            contact['email'] = self._object_value(agent, VCARD.hasEmail)
-
-        return contact
+        return contact_points
 
     def _clean_datetime(self, datetime_value):
         try:
@@ -172,12 +133,10 @@ class SwissDCATAPProfile(RDFProfile):
                 dataset_dict[key] = values
 
         # Contact details
-        contact = self._contact_details(dataset_ref, DCAT.contactPoint)
-        dataset_dict['contact_points'] = [contact]
+        dataset_dict['contact_points'] = self._contact_points(dataset_ref, DCAT.contactPoint)
 
         # Publisher
-        publisher = self._publisher(dataset_ref, DCT.publisher)
-        dataset_dict['publishers'] = [{'label': publisher.get('name')}]
+        dataset_dict['publishers'] = self._publishers(dataset_ref, DCT.publisher)
 
         # Temporal
         start, end = self._time_interval(dataset_ref, DCT.temporal)
