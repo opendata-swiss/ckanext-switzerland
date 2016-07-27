@@ -38,7 +38,7 @@ class SwissDCATAPProfile(RDFProfile):
         if multilang:
             # when translation does not exist, create an empty one
             for lang in get_langs():
-                if not lang in lang_dict:
+                if lang not in lang_dict:
                     lang_dict[lang] = ''
             return lang_dict
         else:
