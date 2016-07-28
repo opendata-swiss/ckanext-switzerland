@@ -1,5 +1,5 @@
 import rdflib
-from rdflib.namespace import Namespace, RDFS
+from rdflib.namespace import Namespace, RDFS, RDF
 from pprint import pprint
 
 from datetime import datetime
@@ -14,10 +14,11 @@ log = logging.getLogger(__name__)
 
 from pprint import pprint
 
-
 DCT = Namespace("http://purl.org/dc/terms/")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
 VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
+SCHEMA = Namespace('http://schema.org/')
+ODRS = Namespace('http://schema.theodi.org/odrs#')
 
 
 class SwissDCATAPProfile(RDFProfile):
@@ -57,18 +58,52 @@ class SwissDCATAPProfile(RDFProfile):
 
         return publishers
 
+    def _relations(self, subject, predicate):
+
+        relations = []
+
+        for relation_node in self.g.objects(subject, predicate):
+            relation = {'label': self._object_value(relation_node, RDFS.label), 'url': relation_node}
+            relations.append(relation)
+
+        return relations
+
+    def _keywords(self, subject, predicate):
+
+        keywords = {}
+
+        for lang in get_langs():
+            keywords[lang] = []
+
+        for keyword_node in self.g.objects(subject, predicate):
+            keywords[keyword_node.language].append(unicode(keyword_node))
+
+        return keywords
+
     def _contact_points(self, subject, predicate):
 
         contact_points = []
 
-        for agent in self.g.objects(subject, predicate):
-            email = self._object_value(agent, VCARD.hasEmail)
+        for contact_node in self.g.objects(subject, predicate):
+            email = self._object_value(contact_node, VCARD.hasEmail)
             email_clean = email.replace('mailto:', '')
-            contact = {'name': self._object_value(agent, VCARD.fn), 'email': email_clean}
+            contact = {'name': self._object_value(contact_node, VCARD.fn), 'email': email_clean}
 
             contact_points.append(contact)
 
         return contact_points
+
+    def _temporals(self, subject, predicate):
+
+        temporals = []
+
+        for temporal_node in self.g.objects(subject, predicate):
+            start_date = self._object_value(temporal_node, SCHEMA.startDate)
+            end_date = self._object_value(temporal_node, SCHEMA.endDate)
+            if start_date or end_date:
+                temporals.append({'start_date': self._clean_datetime(start_date), 'end_date': self._clean_datetime(end_date)})
+
+        return temporals
 
     def _clean_datetime(self, datetime_value):
         try:
@@ -81,17 +116,17 @@ class SwissDCATAPProfile(RDFProfile):
             raise ValueError("Could not parse datetime")
 
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
-        dataset_dict['temporals'] = None
+        dataset_dict['temporals'] = []
         dataset_dict['tags'] = []
         dataset_dict['extras'] = []
         dataset_dict['resources'] = []
-        dataset_dict['relations'] = []  # TODO: handle relations
-        dataset_dict['see_alsos'] = []  # TODO: handle see_alsos
+        dataset_dict['relations'] = []
+        dataset_dict['see_alsos'] = []
 
         # Basic fields
         for key, predicate in (
                 ('identifier', DCT.identifier),
-                ('frequency', DCT.accrualPeriodicity),
+                ('accrual_periodicity', DCT.accrualPeriodicity),
                 ('spatial_uri', DCT.spatial),
                 ('url', DCAT.landingPage),
                 ):
@@ -123,6 +158,9 @@ class SwissDCATAPProfile(RDFProfile):
         for keyword in keywords:
             dataset_dict['tags'].append({'name': keyword})
 
+        # Keywords
+        dataset_dict['keywords'] = self._keywords(dataset_ref, DCAT.keyword)
+
         #  Lists
         for key, predicate in (
                 ('language', DCT.language),
@@ -138,14 +176,16 @@ class SwissDCATAPProfile(RDFProfile):
         # Publisher
         dataset_dict['publishers'] = self._publishers(dataset_ref, DCT.publisher)
 
+        # Relations
+        dataset_dict['relations'] = self._relations(dataset_ref, DCT.relation)
+
         # Temporal
-        start, end = self._time_interval(dataset_ref, DCT.temporal)
-        if start:
-            dataset_dict['extras'].append(
-                {'key': 'temporal_start', 'value': start})
-        if end:
-            dataset_dict['extras'].append(
-                {'key': 'temporal_end', 'value': end})
+        dataset_dict['temporals'] = self._temporals(dataset_ref, DCT.temporal)
+
+        # References
+        see_alsos  = self._object_value_list(dataset_ref, RDFS.seeAlso)
+        for see_also in see_alsos:
+            dataset_dict['see_alsos'].append({'dataset_identifier': see_also})
 
         # Dataset URI (explicitly show the missing ones)
         dataset_uri = (unicode(dataset_ref)
@@ -156,7 +196,10 @@ class SwissDCATAPProfile(RDFProfile):
         # Resources
         for distribution in self._distributions(dataset_ref):
 
-            resource_dict = {'media_type': None}
+            resource_dict = {
+                'media_type': None,
+                'language': [],
+            }
 
             #  Simple values
             for key, predicate in (
@@ -167,7 +210,6 @@ class SwissDCATAPProfile(RDFProfile):
                     ('download_url', DCAT.downloadURL),
                     ('access_url', DCAT.accessURL),
                     ('rights', DCT.rights),
-                    ('license', DCT.license),
                     ):
                 value = self._object_value(distribution, predicate)
                 if value:
@@ -199,9 +241,14 @@ class SwissDCATAPProfile(RDFProfile):
                                     self._object_value(distribution,
                                                        DCAT.downloadURL))
 
-            size = self._object_value_int(distribution, DCAT.byteSize)
-            if size is not None:
-                resource_dict['size'] = size
+            # languages
+            for language in self._object_value_list(distribution, DCAT.language):
+                resource_dict['language'].append(language)
+
+            # byteSize
+            byte_size = self._object_value_int(distribution, DCAT.byteSize)
+            if byte_size is not None:
+                resource_dict['byte_size'] = byte_size
 
             # Distribution URI (explicitly show the missing ones)
             resource_dict['uri'] = (unicode(distribution)
