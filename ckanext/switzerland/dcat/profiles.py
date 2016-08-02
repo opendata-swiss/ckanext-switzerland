@@ -17,7 +17,6 @@ DCT = Namespace("http://purl.org/dc/terms/")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
 VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
 SCHEMA = Namespace('http://schema.org/')
-ODRS = Namespace('http://schema.theodi.org/odrs#')
 
 
 class SwissDCATAPProfile(RDFProfile):
