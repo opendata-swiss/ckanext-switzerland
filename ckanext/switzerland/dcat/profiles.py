@@ -1,5 +1,5 @@
 import rdflib
-from rdflib.namespace import Namespace, RDFS, RDF
+from rdflib.namespace import Namespace, RDFS
 from pprint import pprint
 
 from datetime import datetime
@@ -12,7 +12,6 @@ from ckanext.switzerland.helpers import get_langs
 import logging
 log = logging.getLogger(__name__)
 
-from pprint import pprint
 
 DCT = Namespace("http://purl.org/dc/terms/")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
@@ -63,7 +62,10 @@ class SwissDCATAPProfile(RDFProfile):
         relations = []
 
         for relation_node in self.g.objects(subject, predicate):
-            relation = {'label': self._object_value(relation_node, RDFS.label), 'url': relation_node}
+            relation = {
+                'label': self._object_value(relation_node, RDFS.label),
+                'url': relation_node
+            }
             relations.append(relation)
 
         return relations
@@ -87,7 +89,10 @@ class SwissDCATAPProfile(RDFProfile):
         for contact_node in self.g.objects(subject, predicate):
             email = self._object_value(contact_node, VCARD.hasEmail)
             email_clean = email.replace('mailto:', '')
-            contact = {'name': self._object_value(contact_node, VCARD.fn), 'email': email_clean}
+            contact = {
+                'name': self._object_value(contact_node, VCARD.fn),
+                'email': email_clean
+            }
 
             contact_points.append(contact)
 
@@ -101,7 +106,10 @@ class SwissDCATAPProfile(RDFProfile):
             start_date = self._object_value(temporal_node, SCHEMA.startDate)
             end_date = self._object_value(temporal_node, SCHEMA.endDate)
             if start_date or end_date:
-                temporals.append({'start_date': self._clean_datetime(start_date), 'end_date': self._clean_datetime(end_date)})
+                temporals.append({
+                    'start_date': self._clean_datetime(start_date),
+                    'end_date': self._clean_datetime(end_date)
+                })
 
         return temporals
 
@@ -143,7 +151,6 @@ class SwissDCATAPProfile(RDFProfile):
             if value:
                 dataset_dict[key] = self._clean_datetime(value)
 
-
         # Multilingual basic fields
         for key, predicate in (
                 ('title', DCT.title),
@@ -171,7 +178,10 @@ class SwissDCATAPProfile(RDFProfile):
                 dataset_dict[key] = values
 
         # Contact details
-        dataset_dict['contact_points'] = self._contact_points(dataset_ref, DCAT.contactPoint)
+        dataset_dict['contact_points'] = self._contact_points(
+            dataset_ref,
+            DCAT.contactPoint
+        )
 
         # Publisher
         dataset_dict['publishers'] = self._publishers(dataset_ref, DCT.publisher)
@@ -183,7 +193,7 @@ class SwissDCATAPProfile(RDFProfile):
         dataset_dict['temporals'] = self._temporals(dataset_ref, DCT.temporal)
 
         # References
-        see_alsos  = self._object_value_list(dataset_ref, RDFS.seeAlso)
+        see_alsos = self._object_value_list(dataset_ref, RDFS.seeAlso)
         for see_also in see_alsos:
             dataset_dict['see_alsos'].append({'dataset_identifier': see_also})
 
@@ -243,7 +253,10 @@ class SwissDCATAPProfile(RDFProfile):
                                                        DCAT.downloadURL))
 
             # languages
-            for language in self._object_value_list(distribution, DCAT.language):
+            for language in self._object_value_list(
+                    distribution,
+                    DCAT.language
+            ):
                 resource_dict['language'].append(language)
 
             # byteSize
