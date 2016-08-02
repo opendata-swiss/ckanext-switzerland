@@ -220,7 +220,7 @@ class SwissDCATAPProfile(RDFProfile):
                     ('mimetype', DCAT.mediaType),
                     ('media_type', DCAT.mediaType),
                     ('download_url', DCAT.downloadURL),
-                    ('access_url', DCAT.accessURL),
+                    ('url', DCAT.accessURL),
                     ('rights', DCT.rights),
                     ('license', DCT.license),
                     ):
