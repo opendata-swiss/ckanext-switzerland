@@ -210,6 +210,7 @@ class SwissDCATAPProfile(RDFProfile):
                     ('download_url', DCAT.downloadURL),
                     ('access_url', DCAT.accessURL),
                     ('rights', DCT.rights),
+                    ('license', DCT.rights),
                     ):
                 value = self._object_value(distribution, predicate)
                 if value:
