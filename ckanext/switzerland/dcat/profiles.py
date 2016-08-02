@@ -184,7 +184,10 @@ class SwissDCATAPProfile(RDFProfile):
         )
 
         # Publisher
-        dataset_dict['publishers'] = self._publishers(dataset_ref, DCT.publisher)
+        dataset_dict['publishers'] = self._publishers(
+            dataset_ref,
+            DCT.publisher
+        )
 
         # Relations
         dataset_dict['relations'] = self._relations(dataset_ref, DCT.relation)
