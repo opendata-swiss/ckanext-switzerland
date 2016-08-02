@@ -120,7 +120,7 @@ class SwissDCATAPProfile(RDFProfile):
             )
             return int(time.mktime(d.timetuple()))
         except (ValueError, KeyError, TypeError, IndexError):
-            raise ValueError("Could not parse datetime")
+            return None
 
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
         dataset_dict['temporals'] = []
@@ -222,7 +222,7 @@ class SwissDCATAPProfile(RDFProfile):
                     ('download_url', DCAT.downloadURL),
                     ('access_url', DCAT.accessURL),
                     ('rights', DCT.rights),
-                    ('license', DCT.rights),
+                    ('license', DCT.license),
                     ):
                 value = self._object_value(distribution, predicate)
                 if value:
