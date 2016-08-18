@@ -69,7 +69,7 @@
       "field_name": "issued",
       "label": {
         "en": "Issued date",
-        "de": "Erstellungsdatum",
+        "de": "Publikationsdatum",
         "fr": "Date de publication",
         "it": "Data di rilascio"
       },
