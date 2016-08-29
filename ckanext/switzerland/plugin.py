@@ -10,13 +10,14 @@ from ckanext.switzerland.helpers import (
     get_org_count, get_tweet_count, get_localized_value,
     get_localized_org, localize_json_title, get_langs,
     get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
-    get_dataset_by_identifier, get_readable_file_size,
+    get_political_level, get_dataset_by_identifier, get_readable_file_size,
     simplify_terms_of_use, parse_json, get_piwik_config,
     get_discourse_url, ogdch_localised_number
 )
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from ckan import logic
 import ckan.lib.helpers as h
 from ckan.lib.munge import munge_title_to_name
 import pylons
@@ -81,6 +82,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict['groups'] = plugins.toolkit._('Categories')
         facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organizations')
+        facets_dict['political_level'] = plugins.toolkit._('Political levels')
         facets_dict['res_rights'] = plugins.toolkit._('Terms of use')
         facets_dict['res_format'] = plugins.toolkit._('Formats')
         return facets_dict
@@ -92,6 +94,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
         facets_dict.clear()
         facets_dict['keywords_' + lang_code] = plugins.toolkit._('Keywords')
         facets_dict['organization'] = plugins.toolkit._('Organizations')
+        facets_dict['political_level'] = plugins.toolkit._('Political levels')
         facets_dict['res_rights'] = plugins.toolkit._('Terms of use')
         facets_dict['res_format'] = plugins.toolkit._('Formats')
 
@@ -134,6 +137,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_localized_org': get_localized_org,
             'localize_json_title': localize_json_title,
             'get_frequency_name': get_frequency_name,
+            'get_political_level': get_political_level,
             'get_terms_of_use_icon': get_terms_of_use_icon,
             'get_dataset_terms_of_use': get_dataset_terms_of_use,
             'get_dataset_by_identifier': get_dataset_by_identifier,
@@ -377,12 +381,17 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                 for field in group:
                     group[field] = parse_json(group[field])
 
-        # organization
-        if pkg_dict['organization'] is not None:
-            for field in pkg_dict['organization']:
-                pkg_dict['organization'][field] = parse_json(
-                    pkg_dict['organization'][field]
-                )
+        # load organization from API to get all fields defined in schema
+        # by default, CKAN loads organizations only from the database
+        if pkg_dict['owner_org'] is not None:
+            pkg_dict['organization'] = logic.get_action('organization_show')(
+                {},
+                {
+                    'id': pkg_dict['owner_org'],
+                    'include_users': False,
+                    'include_followers': False,
+                }
+            )
 
         return pkg_dict
 
@@ -400,6 +409,8 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
         search_data['description'] = LangToString('description')(validated_dict)  # noqa
+        if 'political_level' in validated_dict[u'organization']:
+            search_data['political_level'] = validated_dict[u'organization'][u'political_level']  # noqa
 
         try:
             # index language-specific values (or it's fallback)
