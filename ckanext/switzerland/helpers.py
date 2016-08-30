@@ -169,10 +169,7 @@ def get_political_level(political_level):
         'federal_organization': _('Federal organization'),
         'inter_federal_organization': _('Inter federal organization')
     }
-    try:
-        return political_levels[political_level]
-    except KeyError:
-        return political_level
+    return political_levels.get(political_level, political_level)
 
 
 def get_terms_of_use_icon(terms_of_use):
