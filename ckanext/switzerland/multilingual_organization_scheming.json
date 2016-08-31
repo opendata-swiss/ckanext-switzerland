@@ -66,6 +66,15 @@
       "form_placeholder": "http://example.com/my-image.jpg"
     },
     {
+      "field_name": "political_level",
+      "label": {
+        "en": "Political level",
+        "de": "Politische Ebene",
+        "fr": "Entité politique",
+        "it": "Livello politico"
+      }
+    },
+    {
       "field_name": "parent",
       "label": {
         "en": "Parent",

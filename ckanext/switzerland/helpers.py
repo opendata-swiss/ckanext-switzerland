@@ -161,6 +161,17 @@ def get_frequency_name(identifier):
         return identifier
 
 
+def get_political_level(political_level):
+    political_levels = {
+        'federation': _('Federation'),
+        'canton': _('Canton'),
+        'municipality': _('Municipality'),
+        'federal_organization': _('Federal organization'),
+        'inter_federal_organization': _('Inter federal organization')
+    }
+    return political_levels.get(political_level, political_level)
+
+
 def get_terms_of_use_icon(terms_of_use):
     term_to_image_mapping = {
         'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': {  # noqa
