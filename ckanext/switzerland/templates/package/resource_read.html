@@ -112,4 +112,41 @@
       </div>
     </div>
   </section>
+
+  {% set resource_preview = h.resource_preview(c.resource, c.package) %}
+  {% set views_created = res.has_views or resource_preview %}
+  {% if views_created %}
+    <section class="container preview">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>{{ _('Vorschau') }}</h2>
+          {% block resource_preview %}
+            {% block data_preview %}
+              {% block resource_view %}
+              <div class="module-content">
+                {% block resource_view_content %}
+                <div class="resource-view">
+                  {% if resource_preview and not current_resource_view %}
+                    {{ h.resource_preview(c.resource, c.package) }}
+                  {% else %}
+                    {% for resource_view in resource_views %}
+                      {% if resource_view == current_resource_view %}
+                        {% snippet 'package/snippets/resource_view.html',
+                           resource_view=resource_view,
+                           resource=c.resource,
+                           package=c.package
+                        %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                </div>
+                {% endblock %}
+              </div>
+              {% endblock %}
+            {% endblock %}
+        {% endblock %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
 {% endblock %}
