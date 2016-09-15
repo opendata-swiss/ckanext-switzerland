@@ -504,8 +504,12 @@ class LangToString(object):
     def __call__(self, data_dict):
         lang = data_dict[self.attribute]
         return (
-            '%s - %s - %s - %s'
-            % (lang['de'], lang['fr'], lang['it'], lang['en'])
+            '%s - %s - %s - %s' % (
+                lang.get('de', ''),
+                lang.get('fr', ''),
+                lang.get('it', ''),
+                lang.get('en', '')
+            )
         )
 
 

@@ -1,4 +1,7 @@
+import ckan.plugins as p
+
 from ckanext.dcat.harvesters.rdf import DCATRDFHarvester
+from ckanext.dcat.interfaces import IDCATRDFHarvester
 import ckan.model as model
 
 import logging
@@ -6,12 +9,19 @@ log = logging.getLogger(__name__)
 
 
 class SwissDCATRDFHarvester(DCATRDFHarvester):
+    p.implements(IDCATRDFHarvester, inherit=True)
+
     def info(self):
         return {
             'name': 'dcat_ch_rdf',
             'title': 'DCAT-AP Switzerland RDF Harvester',
             'description': 'Harvester for DCAT-AP Switzerland datasets from an RDF graph'  # noqa
         }
+
+    def before_download(self, url, harvest_job):
+        # fix broken URL for City of Zurich
+        url = url.replace('ogd.global.szh.loc', 'data.stadt-zuerich.ch')
+        return url, []
 
     def _get_guid(self, dataset_dict, source_url=None):  # noqa
         '''
@@ -34,6 +44,13 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                 if '@' in guid:
                     org_name = guid.split('@')[-1]  # get last element
                     org = model.Group.by_name(org_name)
+                    if not org:
+                        log.error(
+                            'The organization in the dataset identifier (%s) '
+                            'does not not exist. ' % org_name
+                        )
+                        return None
+
                     if org.id != dataset_dict['owner_org']:
                         log.error(
                             'The organization in the dataset identifier (%s) '

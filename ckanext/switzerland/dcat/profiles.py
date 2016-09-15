@@ -33,10 +33,13 @@ class SwissDCATAPProfile(RDFProfile):
 
         If found, the unicode representation is returned, else None
         '''
+        default_lang = 'de'
         lang_dict = {}
         for o in self.g.objects(subject, predicate):
             if multilang and o.language:
                 lang_dict[o.language] = unicode(o)
+            elif multilang:
+                lang_dict[default_lang] = unicode(o)
             else:
                 return unicode(o)
         if multilang:
