@@ -34,6 +34,13 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                 if '@' in guid:
                     org_name = guid.split('@')[-1]  # get last element
                     org = model.Group.by_name(org_name)
+                    if not org:
+                        log.error(
+                            'The organization in the dataset identifier (%s) '
+                            'does not not exist. ' % org_name
+                        )
+                        return None
+
                     if org.id != dataset_dict['owner_org']:
                         log.error(
                             'The organization in the dataset identifier (%s) '
