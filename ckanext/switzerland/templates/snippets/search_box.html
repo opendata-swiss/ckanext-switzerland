@@ -8,7 +8,14 @@ Extra info passed into the add/remove params to make the url
     <div class="row">
       <div class="col-xs-12">
         {% block form %}
-        {% snippet 'snippets/search_form.html', query=c.q, fields=c.fields %}
+          {% set facets = {
+            'fields': c.fields_grouped,
+            'search': c.search_facets,
+            'titles': c.facet_titles,
+            'translated_fields': c.translated_fields,
+            'remove_field': c.remove_field }
+          %}
+          {% snippet 'snippets/search_form.html', query=c.q, fields=c.fields, facets=facets %}
         {% endblock %}
       </div>
     </div>
