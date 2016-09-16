@@ -163,11 +163,10 @@ def get_frequency_name(identifier):
 
 def get_political_level(political_level):
     political_levels = {
-        'federation': _('Federation'),
+        'confederation': _('Confederation'),
         'canton': _('Canton'),
-        'municipality': _('Municipality'),
-        'federal_organization': _('Federal organization'),
-        'inter_federal_organization': _('Inter federal organization')
+        'commune': _('Commune'),
+        'other': _('Other')
     }
     return political_levels.get(political_level, political_level)
 
