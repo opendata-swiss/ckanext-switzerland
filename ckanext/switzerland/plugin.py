@@ -12,7 +12,7 @@ from ckanext.switzerland.helpers import (
     get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
     get_political_level, get_dataset_by_identifier, get_readable_file_size,
     simplify_terms_of_use, parse_json, get_piwik_config,
-    get_discourse_url, ogdch_localised_number
+    ogdch_localised_number
 )
 
 import ckan.plugins as plugins
@@ -36,21 +36,6 @@ class OgdchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IRoutes, inherit=True)
-
-    # IRoutes
-    def before_map(self, map):
-        controller = 'ckanext.switzerland.controller:DiscourseController'
-        map.connect(
-            'ogdch_discourse_post_created',
-            '/api/ogdch_discourse_post_created',
-            controller=controller,
-            action='post_created'
-        )
-        return map
-
-    def after_map(self, map):
-        return map
 
     # IConfigurer
 
@@ -143,7 +128,6 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_dataset_by_identifier': get_dataset_by_identifier,
             'get_readable_file_size': get_readable_file_size,
             'get_piwik_config': get_piwik_config,
-            'get_discourse_url': get_discourse_url,
             'ogdch_localised_number': ogdch_localised_number,
         }
 

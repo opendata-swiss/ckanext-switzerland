@@ -259,10 +259,6 @@ def get_piwik_config():
     }
 
 
-def get_discourse_url():
-    return pylons.config.get('discourse.url', False)
-
-
 def ogdch_localised_number(number):
     # use swissgerman formatting rules when current language is german
     if i18n.get_lang() == 'de':
