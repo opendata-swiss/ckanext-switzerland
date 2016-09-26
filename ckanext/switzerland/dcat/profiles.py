@@ -5,6 +5,8 @@ from pprint import pprint
 from datetime import datetime
 import time
 
+import re
+
 from ckanext.dcat.profiles import RDFProfile
 
 from ckanext.switzerland.helpers import get_langs
@@ -17,6 +19,8 @@ DCT = Namespace("http://purl.org/dc/terms/")
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
 VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
 SCHEMA = Namespace('http://schema.org/')
+
+slug_id_pattern = re.compile('[^/]+(?=/$|$)')
 
 
 class SwissDCATAPProfile(RDFProfile):
@@ -170,14 +174,19 @@ class SwissDCATAPProfile(RDFProfile):
         # Keywords
         dataset_dict['keywords'] = self._keywords(dataset_ref, DCAT.keyword)
 
-        #  Lists
-        for key, predicate in (
-                ('language', DCT.language),
-                ('theme', DCAT.theme),
-                ):
-            values = self._object_value_list(dataset_ref, predicate)
-            if values:
-                dataset_dict[key] = values
+        # Themes
+        dcat_theme_urls = self._object_value_list(dataset_ref, DCAT.theme)
+        if dcat_theme_urls:
+            dataset_dict['groups'] = []
+            for dcat_theme_url in dcat_theme_urls:
+                search_result = slug_id_pattern.search(dcat_theme_url)
+                dcat_theme_slug = search_result.group()
+                dataset_dict['groups'].append({'name': dcat_theme_slug})
+
+        #  Languages
+        languages = self._object_value_list(dataset_ref, DCT.language)
+        if languages:
+            dataset_dict['language'] = languages
 
         # Contact details
         dataset_dict['contact_points'] = self._contact_points(
