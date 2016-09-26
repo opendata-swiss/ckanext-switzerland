@@ -240,6 +240,11 @@ class SwissDCATAPProfile(RDFProfile):
                 if value:
                     resource_dict[key] = value
 
+            # if media type is not set, use format as fallback
+            if (not resource_dict.get('media_type')
+                    and resource_dict.get('format')):
+                resource_dict['media_type'] = resource_dict['format']
+
             # Timestamp fields
             for key, predicate in (
                     ('issued', DCT.issued),
