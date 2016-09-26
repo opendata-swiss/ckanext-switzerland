@@ -186,7 +186,7 @@ class SwissDCATAPProfile(RDFProfile):
         #  Languages
         languages = self._object_value_list(dataset_ref, DCT.language)
         if languages:
-            dataset_dict['key'] = languages
+            dataset_dict['language'] = languages
 
         # Contact details
         dataset_dict['contact_points'] = self._contact_points(
