@@ -1,5 +1,11 @@
 {% ckan_extends %}
 
+{% set site_root_url = h.url_for('/', locale='default', qualified=true) %}
+{% set site_root_url = site_root_url|replace('http://opendata.swiss', 'https://opendata.swiss') %}
+{% set site_root_url_localized = h.url_for('/', qualified=true) %}
+{% set site_root_url_localized = site_root_url_localized|replace('http://opendata.swiss', 'https://opendata.swiss') %}
+{% block bodytag %} data-site-root="{{ site_root_url }}" data-locale-root="{{ site_root_url_localized }}" {% endblock %}
+
 {%- block meta -%}
   {{ super() }}
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
