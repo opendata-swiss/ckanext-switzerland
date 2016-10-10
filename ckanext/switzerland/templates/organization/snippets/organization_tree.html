@@ -14,16 +14,18 @@ Example:
 
 #}
 
-<ul id="organizations-list">
-  {% for node in top_nodes recursive %}
-  <li id="node_{{ node.name }}">
-    {% set org = h.get_localized_org(node.name) %}
-    {% link_for org.title, controller='organization', action='read', id=node.name %}
-
-    {% if node.children %}
-      <ul> {{ loop(node.children) }} </ul>
-    {% endif %}
-  </li>
-  {% endfor %}
-</ul>
-
+<div class="organization-hierarchy empty-search">
+  <ul id="organizations-list">
+    {% for node in top_nodes recursive %}
+    <li id="node_{{ node.name }}" class="organization">
+      <div class="organization-row">
+        {% set org = h.get_localized_org(node.name) %}
+        {% link_for org.title, controller='organization', action='read', id=node.name %}
+      </div>
+      {% if node.children %}
+      <ul>{{ loop(node.children) }}</ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
