@@ -69,9 +69,9 @@
         <dl>
           <dt>{{ _('Format') }}</dt>
           <dd>
-            {% if res.media_type %}
-              {% set media_type_truncated = h.truncate(res.media_type, 30) %}
-              <span class="label label-default" title="{{ res.media_type }}">{{ media_type_truncated.upper() }}</span>
+            {% if res.format %}
+              {% set format_truncated = h.truncate(res.format, 30) %}
+              <span class="label label-default" title="{{ res.format }}">{{ format_truncated }}</span>
             {% else %}
               -
             {% endif %}
