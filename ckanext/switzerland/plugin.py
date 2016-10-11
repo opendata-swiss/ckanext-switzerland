@@ -416,6 +416,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                     validated_dict['keywords'],
                     lang_code
                 )
+                search_data['organization_' + lang_code] = get_localized_value(
+                    validated_dict['organization'],
+                    lang_code
+                )
 
                 text_field_items['text_' + lang_code] = [get_localized_value(validated_dict['description'], lang_code)]  # noqa
                 text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])  # noqa
