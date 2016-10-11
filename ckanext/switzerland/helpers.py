@@ -271,15 +271,14 @@ def ogdch_group_tree(type_='organization'):
     organizations = tk.get_action('group_tree')({}, {'type': type_, 'all_fields': True})
 
     for organization in organizations:
-        set_translated_group_titles(organization)
+        set_translated_group_title(organization)
+        organization['title'] = set_translated_group_title(organization['title'])
 
-    organizations.sort(key=lambda x: x['title_' + i18n.get_lang()], reverse=False)
+    organizations.sort(key=lambda x: x['title'], reverse=False)
 
     return organizations
 
-def set_translated_group_titles(organization):
-    titles_string = organization['title']
-    titles_json = parse_json(titles_string)
-    for key, title in titles_json.items():
-        organization['title_' + key] = title
-    return organization
+
+def set_translated_group_title(titles_string):
+    translated_titles = parse_json(titles_string)
+    return get_localized_value(translated_titles, i18n.get_lang(), titles_string)
