@@ -26,7 +26,8 @@ import re
 import collections
 from webhelpers.html import HTML
 from webhelpers import paginate
-import urlparse, os
+import urlparse
+import os
 import logging
 log = logging.getLogger(__name__)
 
@@ -452,7 +453,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # log.debug(pprint.pformat(validated_dict))
 
         search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]  # noqa
-        search_data['res_format'] =  self._prepare_formats(validated_dict[u'resources']) # noqa
+        search_data['res_format'] = self._prepare_formats(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
         search_data['description'] = LangToString('description')(validated_dict)  # noqa
