@@ -153,6 +153,9 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         # map ckan fields
         pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
 
+        # prepre format of resources
+        pkg_dict = self._prepare_resources_format(pkg_dict)
+
         try:
             # Do not change the resulting dict for API requests
             path = pylons.request.path
@@ -227,6 +230,63 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
                 resource['name'] = resource['title']
 
         return pkg_dict
+
+    def _prepare_resources_format(self, pkg_dict):
+        if pkg_dict.get('resources') is not None:
+            for resource in pkg_dict['resources']:
+                resource['format'] = self._prepare_resource_format(resource)
+
+        return pkg_dict
+
+    # Get format of resource
+    def _prepare_resource_format(self, resource):
+        resource_format = ''
+
+        # get format from download_url file extension if available
+        if 'download_url' in resource and resource['download_url']:
+            url = resource['download_url']
+            path = urlparse.urlparse(url).path
+            ext = os.path.splitext(path)[1]
+            if ext:
+                resource_format = ext.replace('.', '').lower()
+
+        # get format from media_type field if available
+        if 'media_type' in resource and resource['media_type']:
+            resource_format = resource['media_type'].split('/')[-1].lower()
+
+        # get format from format field if available (lol)
+        if 'format' in resource and resource['format']:
+            resource_format = resource['format'].split('/')[-1].lower()
+
+        return self._map_to_valid_format(resource_format)
+
+    def _map_to_valid_format(self, resource_format):
+        valid_formats = {
+            'text': 'TXT',
+            'txt': 'TXT',
+            'html': 'HTML',
+            'csv': 'CSV',
+            'xml': 'XML',
+            'json': 'JSON',
+            'geojson': 'GeoJSON',
+            'xls': 'XLS',
+            'xlsx': 'XLS',
+            'zip': 'ZIP',
+            'pdf': 'PDF',
+            'wms': 'WMS',
+            'wcs': 'WCS',
+            'wfs': 'WFS',
+            'wmts': 'WMTS',
+            'kmz': 'KMZ',
+            'geotiff': 'GeoTIFF',
+            'tiff': 'TIFF',
+            'png': 'PNG',
+        }
+
+        if resource_format in valid_formats:
+            return valid_formats[resource_format]
+        else:
+            return 'N/A'
 
     def _extract_lang_value(self, value, lang_code):
         new_value = parse_json(value)
@@ -315,8 +375,10 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IResourceController, inherit=True)
 
     # IResourceController
-    def before_show(self, pkg_dict):
-        return super(OgdchResourcePlugin, self).before_view(pkg_dict)
+    def before_show(self, res_dict):
+        res_dict = super(OgdchResourcePlugin, self).before_view(res_dict)
+        res_dict['format'] = self._prepare_resource_format(res_dict)
+        return res_dict
 
     def _ignore_field(self, key):
         return key == 'tracking_summary'
@@ -434,59 +496,9 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
     def _prepare_formats(self, resources):
         formats = set()
         for r in resources:
+            formats.add(self._prepare_resource_format(r))
 
-            # get format from download_url file extension
-            if 'download_url' in r and r['download_url']:
-                url = r['download_url']
-                path = urlparse.urlparse(url).path
-                ext = os.path.splitext(path)[1]
-                if ext:
-                    formats.add(ext.replace('.', '').lower())
-                    continue
-
-            # get format from media_type field
-            if 'media_type' in r and r['media_type']:
-                formats.add(r['media_type'].split('/')[-1].lower())
-                continue
-
-            # get format from format field (lol)
-            if 'format' in r and r['format']:
-                formats.add(r['format'].split('/')[-1].lower())
-                continue
-
-        return self._map_to_valid_formats(formats)
-
-    def _map_to_valid_formats(self, formats):
-        valid_formats = {
-            'text': 'txt',
-            'txt': 'txt',
-            'html': 'html',
-            'csv': 'csv',
-            'xml': 'xml',
-            'json': 'json',
-            'geojson': 'geojson',
-            'xls': 'xls',
-            'xlsx': 'xls',
-            'zip': 'zip',
-            'pdf': 'pdf',
-            'wms': 'wms',
-            'wcs': 'wcs',
-            'wfs': 'wfs',
-            'wmts': 'wmts',
-            'kmz': 'kmz',
-            'geotiff': 'geotiff',
-            'tiff': 'tiff',
-            'png': 'png',
-        }
-
-        cleaned_formats = set()
-        for f in formats:
-            if f in valid_formats:
-                cleaned_formats.add(valid_formats[f])
-            else:
-                cleaned_formats.add('n/a')
-
-        return cleaned_formats
+        return formats
 
     # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
