@@ -235,11 +235,11 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _prepare_resources_format(self, pkg_dict):
         if pkg_dict.get('resources') is not None:
             for resource in pkg_dict['resources']:
-                resource['format'] = self._prepare_resource_format(resource)
+                resource = self._prepare_resource_format(resource)
 
         return pkg_dict
 
-    # Get format of resource
+    # Generates format of resource and saves it in format field
     def _prepare_resource_format(self, resource):
         resource_format = ''
 
@@ -250,19 +250,26 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             ext = os.path.splitext(path)[1]
             if ext:
                 resource_format = ext.replace('.', '').lower()
+                resource['format'] = self._map_to_valid_format(resource_format)
+                return resource
 
         # get format from media_type field if available
         if 'media_type' in resource and resource['media_type']:
             resource_format = resource['media_type'].split('/')[-1].lower()
+            resource['format'] = self._map_to_valid_format(resource_format)
+            return resource
 
         # get format from format field if available (lol)
         if 'format' in resource and resource['format']:
             resource_format = resource['format'].split('/')[-1].lower()
+            resource['format'] = self._map_to_valid_format(resource_format)
+            return resource
 
-        return self._map_to_valid_format(resource_format)
+        resource['format'] = self._map_to_valid_format(resource_format)
+        return resource
 
     def _map_to_valid_format(self, resource_format):
-        valid_formats = {
+        format_mapping = {
             'text': 'TXT',
             'txt': 'TXT',
             'html': 'HTML',
@@ -284,10 +291,10 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             'png': 'PNG',
         }
 
-        if resource_format in valid_formats:
-            return valid_formats[resource_format]
+        if resource_format in format_mapping:
+            return format_mapping[resource_format]
         else:
-            return 'N/A'
+            return None
 
     def _extract_lang_value(self, value, lang_code):
         new_value = parse_json(value)
@@ -378,7 +385,7 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
     # IResourceController
     def before_show(self, res_dict):
         res_dict = super(OgdchResourcePlugin, self).before_view(res_dict)
-        res_dict['format'] = self._prepare_resource_format(res_dict)
+        res_dict = self._prepare_resource_format(res_dict)
         return res_dict
 
     def _ignore_field(self, key):
@@ -453,7 +460,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # log.debug(pprint.pformat(validated_dict))
 
         search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]  # noqa
-        search_data['res_format'] = self._prepare_formats(validated_dict[u'resources'])  # noqa
+        search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
         search_data['description'] = LangToString('description')(validated_dict)  # noqa
@@ -494,10 +501,14 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         return search_data
 
     # generates a set with formats of all resources
-    def _prepare_formats(self, resources):
+    def _prepare_formats_for_index(self, resources):
         formats = set()
         for r in resources:
-            formats.add(self._prepare_resource_format(r))
+            resource = self._prepare_resource_format(r)
+            if resource['format'] is not None:
+                formats.add(resource['format'])
+            else:
+                formats.add('N/A')
 
         return formats
 
