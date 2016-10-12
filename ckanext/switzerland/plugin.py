@@ -251,7 +251,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
                 resource_format = ext.replace('.', '').lower()
 
         # get format from media_type field if available
-        if not resource_format and 'media_type' in resource and resource['media_type']:
+        if not resource_format and 'media_type' in resource and resource['media_type']:  # noqa
             resource_format = resource['media_type'].split('/')[-1].lower()
 
         # get format from format field if available (lol)
