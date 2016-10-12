@@ -245,25 +245,18 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         # get format from download_url file extension if available
         if 'download_url' in resource and resource['download_url']:
-            url = resource['download_url']
-            path = urlparse.urlparse(url).path
+            path = urlparse.urlparse(resource['download_url']).path
             ext = os.path.splitext(path)[1]
             if ext:
                 resource_format = ext.replace('.', '').lower()
-                resource['format'] = self._map_to_valid_format(resource_format)
-                return resource
 
         # get format from media_type field if available
-        if 'media_type' in resource and resource['media_type']:
+        if not resource_format and 'media_type' in resource and resource['media_type']:
             resource_format = resource['media_type'].split('/')[-1].lower()
-            resource['format'] = self._map_to_valid_format(resource_format)
-            return resource
 
         # get format from format field if available (lol)
-        if 'format' in resource and resource['format']:
-            resource_format = resource['format'].split('/')[-1].lower()
-            resource['format'] = self._map_to_valid_format(resource_format)
-            return resource
+        if not resource_format and 'format' in resource and resource['format']:
+            resource_format = resource['format']
 
         resource['format'] = self._map_to_valid_format(resource_format)
         return resource
