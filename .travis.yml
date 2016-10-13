@@ -1,10 +1,16 @@
+sudo: required
+
 language: python
 
 python:
 - '2.7'
 
-install: 
-    - pip install -r dev-requirements.txt
-    - pip install -r requirements.txt
+env:
+    - CKANVERSION=master
+    - CKANVERSION=2.4
+    - CKANVERSION=2.5
+
+install:
+    - bash travis-build.bash
 
 script: ./build.sh
