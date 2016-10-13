@@ -281,7 +281,8 @@ def get_sorted_orgs_by_translated_title(organizations):
         organization['title'] = \
             set_translated_group_title(organization['title'])
         if organization['children']:
-            get_sorted_orgs_by_translated_title(organization['children'])
+            organization['children'] = \
+                get_sorted_orgs_by_translated_title(organization['children'])
     organizations.sort(key=lambda x: x['title'], reverse=False)
     return organizations
 
