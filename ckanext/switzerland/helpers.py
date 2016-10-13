@@ -272,14 +272,17 @@ def ogdch_group_tree(type_='organization'):
         {},
         {'type': type_, 'all_fields': True}
     )
+    organizations = get_sorted_orgs_by_translated_title(organizations)
+    return organizations
 
+
+def get_sorted_orgs_by_translated_title(organizations):
     for organization in organizations:
-        set_translated_group_title(organization)
         organization['title'] = \
             set_translated_group_title(organization['title'])
-
+        if organization['children']:
+            get_sorted_orgs_by_translated_title(organization['children'])
     organizations.sort(key=lambda x: x['title'], reverse=False)
-
     return organizations
 
 
