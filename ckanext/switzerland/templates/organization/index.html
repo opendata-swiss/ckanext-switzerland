@@ -1,6 +1,7 @@
 {% extends "page.html" %}
 
 {% set page_description = _('Authorities from the Confederation, cantons and communes as well as third parties that perform tasks on behalf of the state can publish their open data on the opendata.swiss portal. Is your organization missing from the list? Get involved.') %}
+{% set placeholder = placeholder if placeholder else _('Search organizations...') %}
 
 {% block meta_description %}<meta name="description" content="{{ page_description|truncate(200) }}" />{% endblock %}
 
@@ -33,7 +34,16 @@
 
       <div class="row">
         <div class="col-xs-12">
-          <h2>{{ ungettext('{num} organization', '{num} organizations', c.page.item_count).format(num=c.page.item_count) }}</h2>
+          <div class="form-group has-feedback">
+            <input type="search" class="form-control input-lg" id="organization-search" name="q" value="{{c.q}}" results="0" autocomplete="off" placeholder="{{ placeholder }}">
+            <i class="fa fa-search form-control-feedback" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2><span class="result-count">{{ c.page.item_count }}</span> <span class="result-count-footer">{{ ungettext('organization', 'organizations', c.page.item_count).format(num=c.page.item_count) }}</span></h2>
         </div>
       </div>
 
@@ -57,3 +67,17 @@
   </form>
 {% endblock %}
 
+{%- block scripts %}
+  {{ super() }}
+  <script type='text/javascript'>
+    /* <![CDATA[ */
+    var filterConfig = {
+      "labels": {
+        "organization_singular": "{{ _('organization') }}",
+        "organization_plural": "{{ _('organizations') }}"
+      }
+    };
+    /* ]]> */
+  </script>
+  <script type='text/javascript' src='/content/themes/wp-ogdch-theme/assets/js/organization-filter.js'></script>
+{% endblock -%}
