@@ -278,11 +278,10 @@ def ogdch_group_tree(type_='organization'):
 
 def get_sorted_orgs_by_translated_title(organizations):
     for organization in organizations:
-        organization['title'] = \
-            set_translated_group_title(organization['title'])
+        organization['title'] = set_translated_group_title(organization['title'])  # noqa
         if organization['children']:
-            organization['children'] = \
-                get_sorted_orgs_by_translated_title(organization['children'])
+            organization['children'] = get_sorted_orgs_by_translated_title(organization['children'])  # noqa
+
     organizations.sort(key=lambda x: x['title'], reverse=False)
     return organizations
 
