@@ -8,6 +8,8 @@ from babel import numbers
 from ckan.lib.helpers import localised_number
 import ckan.lib.i18n as i18n
 
+import unicodedata
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -282,7 +284,7 @@ def get_sorted_orgs_by_translated_title(organizations):
         if organization['children']:
             organization['children'] = get_sorted_orgs_by_translated_title(organization['children'])  # noqa
 
-    organizations.sort(key=lambda x: x['title'], reverse=False)
+    organizations.sort(key=lambda org: strip_accents(org['title'].lower()), reverse=False)  # noqa
     return organizations
 
 
@@ -293,3 +295,10 @@ def get_translated_group_title(titles_string):
         i18n.get_lang(),
         titles_string
     )
+
+
+# this function strips characters with accents, cedilla and umlauts to their
+# single character-representation to make the resulting words sortable
+# See: http://stackoverflow.com/a/518232
+def strip_accents(s):
+   return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')  # noqa
