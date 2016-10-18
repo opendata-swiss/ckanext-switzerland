@@ -120,9 +120,9 @@ class TestHelpers(unittest.TestCase):
         translated_title = helpers.set_translated_group_title(organization_title)  # noqa
         self.assertEqual('Swisstopo DE', translated_title)
 
-    def find_position_of_org(self, org_list, name):
+    def find_position_of_org(self, org_list, title):
         index = next(
             (i for i, org in enumerate(org_list) if
-             org['name'] == name),
+             org['title'] == title),
             -1)
         return index
