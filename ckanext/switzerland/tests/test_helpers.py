@@ -101,7 +101,6 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(2, self.find_position_of_org(result_orgs, u'italian-library'))  # noqa
 
     @mock.patch('ckan.lib.i18n.get_lang', return_value='it')
-    def test_get_sorted_orgs_by_translated_title_fr(self, mock_get_lang):
     def test_get_sorted_orgs_by_translated_title_it(self, mock_get_lang):
         italian_organizations = deepcopy(organizations)
         result_orgs = helpers.get_sorted_orgs_by_translated_title(italian_organizations)  # noqa
