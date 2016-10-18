@@ -67,10 +67,10 @@ Example:
           {% block resources_outer %}
             <ul class="dataset-resources list-inline">
               {% block resources_inner %}
-                {% for media_type in h.dict_list_reduce(package.resources, 'media_type') %}
+                {% for format in h.dict_list_reduce(package.resources, 'format') %}
                 <li>
-                  {% set media_type_truncated = h.truncate(media_type, 30) %}
-                  <small><span class="label label-default" title="{{ media_type }}">{{ media_type_truncated.upper() }}</span></small>
+                  {% set format_truncated = h.truncate(format, 30) %}
+                  <small><span class="label label-default" title="{{ format }}">{{ format }}</span></small>
                 </li>
                 {% endfor %}
               {% endblock %}
