@@ -15,28 +15,28 @@ organizations = [{'children': [],
                   'highlighted': False,
                   'id': u'7dbaad15-597f-499c-9a72-95de38b95cad',
                   'name': u'swiss-library',
-                  'title': u'{"fr": "AAAAA (FR)", "de": "BBBBB (DE)", "en": "YYYYY (EN)", "it": "ZZZZZ (IT)"}'},  # noqa
+                  'title': u'{"fr": "AAAAA (FR)", "de": "bbbbb (DE)", "en": "ààààà (EN)", "it": "ZZZZZ (IT)"}'},  # noqa
                  {'children': [],
                   'highlighted': False,
                   'id': u'51941490-5ade-4d06-b708-ff04279ce550',
                   'name': u'italian-library',
-                  'title': u'{"fr": "YYYYY (FR)", "de": "ZZZZZ (DE)", "en": "BBBBB (EN)", "it": "AAAAA (IT)"}'},  # noqa
+                  'title': u'{"fr": "YYYYY (FR)", "de": "ZZZZZ (DE)", "en": "üüüüü (EN)", "it": "AAAAA (IT)"}'},  # noqa
                  {'children': [{'children': [],
                                 'highlighted': False,
                                 'id': u'589ff525-be2f-4059-bea4-75c92739dfe9',
                                 'name': u'child-swiss-library',
-                                'title': u'{"fr": "AAAAA (FR)", "de": "YYYYY (DE)", "en": "ZZZZZ (EN)", "it": "BBBBB (IT)"}'},  # noqa
+                                'title': u'{"fr": "AAAAA (FR)", "de": "yyyyy (DE)", "en": "zzzzz (EN)", "it": "BBBBB (IT)"}'},  # noqa
                                {'children': [],
                                 'highlighted': False,
                                 'id': u'2c559631-e174-4e9f-8c2a-940a08371340',
                                 'name': u'child-italian-library',
-                                'title': u'{"fr": "YYYYY (FR)", "de": "BBBBB (DE)", "en": "AAAAA (EN)", "it": "ZZZZZ (IT)"}'}],  # noqa
+                                'title': u'{"fr": "YYYYY (FR)", "de": "BBBBB (DE)", "en": "ööööö (EN)", "it": "ZZZZZ (IT)"}'}],  # noqa
                   'highlighted': False,
                   'id': u'73124d1e-c2aa-4d20-a42d-fa71b8946e93',
                   'name': u'swisstopo',
-                  'title': u'{"fr": "Swisstopo FR", "de": "Swisstopo DE", "en": "Swisstopo EN", "it": "Swisstopo IT"}'}]  # noqa
+                  'title': u'{"fr": "Swisstopo FR", "de": "Swisstopo DE", "en": "ÉÉÉÉÉ (EN)", "it": "Swisstopo IT"}'}]  # noqa
 
-organization_title = u'{"fr": "Swisstopo FR", "de": "Swisstopo DE", "en": "Swisstopo EN", "it": "Swisstopo IT"}'
+organization_title = u'{"fr": "Swisstopo FR", "de": "Swisstopo DE", "en": "Swisstopo EN", "it": "Swisstopo IT"}'  # noqa
 
 class TestHelpers(unittest.TestCase):
     def test_simplify_terms_of_use_open(self):
