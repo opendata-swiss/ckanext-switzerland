@@ -3,6 +3,7 @@ from nose.tools import *  # noqa
 import mock
 import ckanext.switzerland.helpers as helpers
 import sys
+from copy import deepcopy
 
 if sys.version_info < (2, 7):
     import unittest2 as unittest
@@ -88,7 +89,8 @@ class TestHelpers(unittest.TestCase):
 
     @mock.patch('ckan.lib.i18n.get_lang', return_value='fr')
     def test_get_sorted_orgs_by_translated_title_fr(self, mock_get_lang):
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(organizations)  # noqa
+        french_organizations = deepcopy(organizations)
+        result_orgs = helpers.get_sorted_orgs_by_translated_title(french_organizations)  # noqa
 
         for org in result_orgs:
             if org['children']:
@@ -100,7 +102,9 @@ class TestHelpers(unittest.TestCase):
 
     @mock.patch('ckan.lib.i18n.get_lang', return_value='it')
     def test_get_sorted_orgs_by_translated_title_fr(self, mock_get_lang):
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(organizations)  # noqa
+    def test_get_sorted_orgs_by_translated_title_it(self, mock_get_lang):
+        italian_organizations = deepcopy(organizations)
+        result_orgs = helpers.get_sorted_orgs_by_translated_title(italian_organizations)  # noqa
 
         for org in result_orgs:
             if org['children']:
