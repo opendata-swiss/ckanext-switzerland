@@ -154,7 +154,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         # map ckan fields
         pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
 
-        # prepre format of resources
+        # prepare format of resources
         pkg_dict = self._prepare_resources_format(pkg_dict)
 
         try:
