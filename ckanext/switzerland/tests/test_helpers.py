@@ -1,5 +1,5 @@
-"""Tests for helpers.py."""
 # -*- coding: utf-8 -*-
+"""Tests for helpers.py."""
 from nose.tools import *  # noqa
 import mock
 import ckanext.switzerland.helpers as helpers
