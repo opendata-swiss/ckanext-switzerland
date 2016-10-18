@@ -132,6 +132,33 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(2, self.find_position_of_org(result_orgs, u'ZZZZZ (IT)'))  # noqa
         self.assertEqual(0, self.find_position_of_org(result_orgs, u'AAAAA (IT)'))  # noqa
 
+    @mock.patch('ckan.lib.i18n.get_lang', return_value='de')
+    def test_get_sorted_orgs_by_translated_title_de(self, mock_get_lang):
+        german_organizations = deepcopy(organizations)
+        result_orgs = helpers.get_sorted_orgs_by_translated_title(german_organizations)  # noqa
+
+        for org in result_orgs:
+            if org['children']:
+                self.assertEqual(0, self.find_position_of_org(org['children'], u'BBBBB (DE)'))  # noqa
+                self.assertEqual(1, self.find_position_of_org(org['children'], u'yyyyy (DE)'))  # noqa
+
+        self.assertEqual(0, self.find_position_of_org(result_orgs, u'bbbbb (DE)'))  # noqa
+        self.assertEqual(2, self.find_position_of_org(result_orgs, u'ZZZZZ (DE)'))  # noqa
+
+    @mock.patch('ckan.lib.i18n.get_lang', return_value='en')
+    def test_get_sorted_orgs_by_translated_title_en(self, mock_get_lang):
+        english_organizations = deepcopy(organizations)
+        result_orgs = helpers.get_sorted_orgs_by_translated_title(english_organizations)  # noqa
+
+        for org in result_orgs:
+            if org['children']:
+                self.assertEqual(0, self.find_position_of_org(org['children'], u'ööööö (EN)'))  # noqa
+                self.assertEqual(1, self.find_position_of_org(org['children'], u'zzzzz (EN)'))  # noqa
+
+        self.assertEqual(0, self.find_position_of_org(result_orgs, u'ààààà (EN)'))  # noqa
+        self.assertEqual(1, self.find_position_of_org(result_orgs, u'ÉÉÉÉÉ (EN)'))  # noqa
+        self.assertEqual(2, self.find_position_of_org(result_orgs, u'üüüüü (EN)'))  # noqa
+
     def find_position_of_org(self, org_list, title):
         index = next(
             (i for i, org in enumerate(org_list) if
