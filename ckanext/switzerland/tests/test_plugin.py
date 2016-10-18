@@ -445,7 +445,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'xml'
         }
         resource_with_valid_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_valid_format.copy())
-        self.assertEquals(resource_with_valid_format_cleaned['format'], 'XML')
+        self.assertEquals('XML', resource_with_valid_format_cleaned['format'])
 
         resource_with_invalid_media_type = {
             'download_url': None,
@@ -461,7 +461,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'xml'
         }
         resource_with_valid_media_type_without_slash_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_valid_media_type_without_slash.copy())
-        self.assertEquals(resource_with_valid_media_type_without_slash_cleaned['format'], 'HTML')
+        self.assertEquals('HTML', resource_with_valid_media_type_without_slash_cleaned['format'])
 
         resource_with_valid_media_type_with_slash = {
             'download_url': None,
@@ -469,7 +469,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'xml'
         }
         resource_with_valid_media_type_with_slash_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_valid_media_type_with_slash.copy())
-        self.assertEquals(resource_with_valid_media_type_with_slash_cleaned['format'], 'HTML')
+        self.assertEquals('HTML', resource_with_valid_media_type_with_slash_cleaned['format'])
 
         resourse_with_download_url_without_extension = {
             'download_url': 'http://download.url',
@@ -477,7 +477,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'html'
         }
         resourse_with_download_url_without_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_without_extension.copy())
-        self.assertEquals(resourse_with_download_url_without_extension_cleaned['format'], 'XML')
+        self.assertEquals('XML', resourse_with_download_url_without_extension_cleaned['format'])
 
         resourse_with_download_url_with_invalid_extension = {
             'download_url': 'http://download.url/cat.gif?param=1',
@@ -493,4 +493,4 @@ class TestPlugin(unittest.TestCase):
             'format': 'xml'
         }
         resourse_with_download_url_with_valid_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_valid_extension.copy())
-        self.assertEquals(resourse_with_download_url_with_valid_extension_cleaned['format'], 'ZIP')
+        self.assertEquals('ZIP', resourse_with_download_url_with_valid_extension_cleaned['format'])
