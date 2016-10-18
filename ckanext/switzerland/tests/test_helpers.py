@@ -88,21 +88,21 @@ class TestHelpers(unittest.TestCase):
         self.assertEquals(test_dict, result)
 
     @mock.patch('ckan.lib.i18n.get_lang')
-    def test_set_translated_group_title(self, mock_get_lang):
+    def test_get_translated_group_title(self, mock_get_lang):
         mock_get_lang.return_value = 'en'
-        translated_title = helpers.set_translated_group_title(organization_title)  # noqa
+        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
         self.assertEqual('Swisstopo EN', translated_title)
 
         mock_get_lang.return_value = 'de'
-        translated_title = helpers.set_translated_group_title(organization_title)  # noqa
+        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
         self.assertEqual('Swisstopo DE', translated_title)
 
         mock_get_lang.return_value = 'it'
-        translated_title = helpers.set_translated_group_title(organization_title)  # noqa
+        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
         self.assertEqual('Swisstopo IT', translated_title)
 
         mock_get_lang.return_value = 'fr'
-        translated_title = helpers.set_translated_group_title(organization_title)  # noqa
+        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
         self.assertEqual('Swisstopo FR', translated_title)
 
     @mock.patch('ckan.lib.i18n.get_lang', return_value='fr')

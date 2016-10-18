@@ -278,7 +278,7 @@ def ogdch_group_tree(type_='organization'):
 
 def get_sorted_orgs_by_translated_title(organizations):
     for organization in organizations:
-        organization['title'] = set_translated_group_title(organization['title'])  # noqa
+        organization['title'] = get_translated_group_title(organization['title'])  # noqa
         if organization['children']:
             organization['children'] = get_sorted_orgs_by_translated_title(organization['children'])  # noqa
 
@@ -286,10 +286,10 @@ def get_sorted_orgs_by_translated_title(organizations):
     return organizations
 
 
-def set_translated_group_title(titles_string):
-    translated_titles = parse_json(titles_string)
+def get_translated_group_title(titles_string):
+    group_titles_dict = parse_json(titles_string)
     return get_localized_value(
-        translated_titles,
+        group_titles_dict,
         i18n.get_lang(),
         titles_string
     )
