@@ -265,3 +265,31 @@ def ogdch_localised_number(number):
         return numbers.format_number(number, locale='de_CH')
     else:
         return localised_number(number)
+
+
+def ogdch_group_tree(type_='organization'):
+    organizations = tk.get_action('group_tree')(
+        {},
+        {'type': type_, 'all_fields': True}
+    )
+    organizations = get_sorted_orgs_by_translated_title(organizations)
+    return organizations
+
+
+def get_sorted_orgs_by_translated_title(organizations):
+    for organization in organizations:
+        organization['title'] = get_translated_group_title(organization['title'])  # noqa
+        if organization['children']:
+            organization['children'] = get_sorted_orgs_by_translated_title(organization['children'])  # noqa
+
+    organizations.sort(key=lambda x: x['title'], reverse=False)
+    return organizations
+
+
+def get_translated_group_title(titles_string):
+    group_titles_dict = parse_json(titles_string)
+    return get_localized_value(
+        group_titles_dict,
+        i18n.get_lang(),
+        titles_string
+    )
