@@ -87,32 +87,6 @@ class TestHelpers(unittest.TestCase):
         result = helpers.get_localized_value(test_dict)
         self.assertEquals(test_dict, result)
 
-    @mock.patch('ckan.lib.i18n.get_lang', return_value='fr')
-    def test_get_sorted_orgs_by_translated_title_fr(self, mock_get_lang):
-        french_organizations = deepcopy(organizations)
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(french_organizations)  # noqa
-
-        for org in result_orgs:
-            if org['children']:
-                self.assertEqual(0, self.find_position_of_org(org['children'], u'child-swiss-library'))  # noqa
-                self.assertEqual(1, self.find_position_of_org(org['children'], u'child-italian-library'))  # noqa
-
-        self.assertEqual(0, self.find_position_of_org(result_orgs, u'swiss-library'))  # noqa
-        self.assertEqual(2, self.find_position_of_org(result_orgs, u'italian-library'))  # noqa
-
-    @mock.patch('ckan.lib.i18n.get_lang', return_value='it')
-    def test_get_sorted_orgs_by_translated_title_it(self, mock_get_lang):
-        italian_organizations = deepcopy(organizations)
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(italian_organizations)  # noqa
-
-        for org in result_orgs:
-            if org['children']:
-                self.assertEqual(0, self.find_position_of_org(org['children'], u'child-swiss-library'))  # noqa
-                self.assertEqual(1, self.find_position_of_org(org['children'], u'child-italian-library'))  # noqa
-
-        self.assertEqual(2, self.find_position_of_org(result_orgs, u'swiss-library'))  # noqa
-        self.assertEqual(0, self.find_position_of_org(result_orgs, u'italian-library'))  # noqa
-
     @mock.patch('ckan.lib.i18n.get_lang')
     def test_set_translated_group_title(self, mock_get_lang):
         mock_get_lang.return_value = 'en'
@@ -122,6 +96,40 @@ class TestHelpers(unittest.TestCase):
         mock_get_lang.return_value = 'de'
         translated_title = helpers.set_translated_group_title(organization_title)  # noqa
         self.assertEqual('Swisstopo DE', translated_title)
+
+        mock_get_lang.return_value = 'it'
+        translated_title = helpers.set_translated_group_title(organization_title)  # noqa
+        self.assertEqual('Swisstopo IT', translated_title)
+
+        mock_get_lang.return_value = 'fr'
+        translated_title = helpers.set_translated_group_title(organization_title)  # noqa
+        self.assertEqual('Swisstopo FR', translated_title)
+
+    @mock.patch('ckan.lib.i18n.get_lang', return_value='fr')
+    def test_get_sorted_orgs_by_translated_title_fr(self, mock_get_lang):
+        french_organizations = deepcopy(organizations)
+        result_orgs = helpers.get_sorted_orgs_by_translated_title(french_organizations)  # noqa
+
+        for org in result_orgs:
+            if org['children']:
+                self.assertEqual(0, self.find_position_of_org(org['children'], u'AAAAA (FR)'))  # noqa
+                self.assertEqual(1, self.find_position_of_org(org['children'], u'YYYYY (FR)'))  # noqa
+
+        self.assertEqual(0, self.find_position_of_org(result_orgs, u'AAAAA (FR)'))  # noqa
+        self.assertEqual(2, self.find_position_of_org(result_orgs, u'YYYYY (FR)'))  # noqa
+
+    @mock.patch('ckan.lib.i18n.get_lang', return_value='it')
+    def test_get_sorted_orgs_by_translated_title_it(self, mock_get_lang):
+        italian_organizations = deepcopy(organizations)
+        result_orgs = helpers.get_sorted_orgs_by_translated_title(italian_organizations)  # noqa
+
+        for org in result_orgs:
+            if org['children']:
+                self.assertEqual(0, self.find_position_of_org(org['children'], u'BBBBB (IT)'))  # noqa
+                self.assertEqual(1, self.find_position_of_org(org['children'], u'ZZZZZ (IT)'))  # noqa
+
+        self.assertEqual(2, self.find_position_of_org(result_orgs, u'ZZZZZ (IT)'))  # noqa
+        self.assertEqual(0, self.find_position_of_org(result_orgs, u'AAAAA (IT)'))  # noqa
 
     def find_position_of_org(self, org_list, title):
         index = next(
