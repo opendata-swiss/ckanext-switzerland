@@ -322,7 +322,7 @@ class SwissDCATAPProfile(RDFProfile):
 
         return dataset_dict
 
-    def graph_from_dataset(self, dataset_dict, dataset_ref):
+    def graph_from_dataset(self, dataset_dict, dataset_ref):  # noqa
 
         g = self.g
 
@@ -355,7 +355,7 @@ class SwissDCATAPProfile(RDFProfile):
         g.add((dataset_ref, DCAT.landingPage,
                Literal(dataset_dict['url'])))
 
-        # multilang-keywords
+        # multilang Keywords
         for lang, keywords in dataset_dict.get('keywords').iteritems():
             log.debug(lang)
             log.debug(keywords)
@@ -536,7 +536,6 @@ class SwissDCATAPProfile(RDFProfile):
                 except (ValueError, TypeError):
                     g.add((distribution, DCAT.byteSize,
                            Literal(resource_dict['size'])))
-
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         log.error(pprint(catalog_dict))
