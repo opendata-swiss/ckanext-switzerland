@@ -9,16 +9,9 @@ import time
 import re
 
 from ckanext.dcat.profiles import RDFProfile
-from ckanext.dcat.utils import resource_uri, publisher_uri_from_dataset_dict
+from ckanext.dcat.utils import resource_uri
 
 from ckanext.switzerland.helpers import get_langs, map_to_valid_format
-
-
-from geomet import InvalidGeoJSONException
-
-from pylons import config
-
-
 
 import logging
 log = logging.getLogger(__name__)
@@ -361,10 +354,6 @@ class SwissDCATAPProfile(RDFProfile):
         # LandingPage
         g.add((dataset_ref, DCAT.landingPage,
                Literal(dataset_dict['url'])))
-        #
-        # # Tags
-        # for tag in dataset_dict.get('tags', []):
-        #     g.add((dataset_ref, DCAT.keyword, Literal(tag['name'])))
 
         # multilang-keywords
         for lang, keywords in dataset_dict.get('keywords').iteritems():
@@ -372,7 +361,7 @@ class SwissDCATAPProfile(RDFProfile):
             log.debug(keywords)
             if keywords:
                 for keyword in keywords:
-                    g.add((dataset_ref, DCAT.keyword, Literal(keyword, lang=lang)))
+                    g.add((dataset_ref, DCAT.keyword, Literal(keyword, lang=lang)))  # noqa
 
         # Dates
         items = [
@@ -390,7 +379,7 @@ class SwissDCATAPProfile(RDFProfile):
                 URIRef(accrual_periodicity)
             ))
 
-        #  Lists
+        # Lists
         items = [
             ('language', DCT.language, None, Literal),
             ('theme', DCAT.theme, None, URIRef),
@@ -470,7 +459,7 @@ class SwissDCATAPProfile(RDFProfile):
                 URIRef(ogd_theme_base_url + group_name.get('name'))
             ))
 
-         # Resources
+        # Resources
         for resource_dict in dataset_dict.get('resources', []):
 
             distribution = URIRef(resource_uri(resource_dict))
@@ -549,33 +538,7 @@ class SwissDCATAPProfile(RDFProfile):
                            Literal(resource_dict['size'])))
 
 
+    def graph_from_catalog(self, catalog_dict, catalog_ref):
+        log.error(pprint(catalog_dict))
         g = self.g
         g.add((catalog_ref, RDF.type, DCAT.Catalog))
-    def graph_from_catalog(self, catalog_dict, catalog_ref):
-
-        for prefix, namespace in namespaces.iteritems():
-            g.bind(prefix, namespace)
-
-
-        # Basic fields
-        items = [
-            ('title', DCT.title, config.get('ckan.site_title'), Literal),
-            ('description', DCT.description,
-             config.get('ckan.site_description'), Literal),
-            ('homepage', FOAF.homepage, config.get('ckan.site_url'), URIRef),
-            ('language', DCT.language, config.get('ckan.locale_default', 'en'),
-             Literal),
-        ]
-        for item in items:
-            key, predicate, fallback, _type = item
-            if catalog_dict:
-                value = catalog_dict.get(key, fallback)
-            else:
-                value = fallback
-            if value:
-                g.add((catalog_ref, predicate, _type(value)))
-
-        # Dates
-        modified = self._last_catalog_modification()
-        if modified:
-            self._add_date_triple(catalog_ref, DCT.modified, modified)
