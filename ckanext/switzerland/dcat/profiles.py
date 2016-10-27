@@ -357,8 +357,6 @@ class SwissDCATAPProfile(RDFProfile):
 
         # multilang Keywords
         for lang, keywords in dataset_dict.get('keywords').iteritems():
-            log.debug(lang)
-            log.debug(keywords)
             if keywords:
                 for keyword in keywords:
                     g.add((dataset_ref, DCAT.keyword, Literal(keyword, lang=lang)))  # noqa
