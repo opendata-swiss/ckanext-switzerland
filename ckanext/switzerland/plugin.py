@@ -481,6 +481,20 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         return search_params
 
 
+class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IRoutes, inherit=True)
+
+    # IRouter
+    # Redirect organization_read /organization/{id} to custom controller
+    # fix the search on the org page and use Hierarchy if needed
+
+    def before_map(self, map):
+        map.connect('organization_read', '/organization/{id}',
+                    controller='ckanext.switzerland.controller:OgdchOrganizationSearchController',  # noqa
+                    action='read')
+        return map
+
+
 class LangToString(object):
     def __init__(self, attribute):
         self.attribute = attribute
