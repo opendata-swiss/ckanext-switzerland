@@ -12,7 +12,7 @@ from ckanext.switzerland.helpers import (
     get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
     get_political_level, get_dataset_by_identifier, get_readable_file_size,
     simplify_terms_of_use, parse_json, get_piwik_config,
-    ogdch_localised_number
+    ogdch_localised_number, ogdch_group_tree
 )
 
 import ckan.plugins as plugins
@@ -26,6 +26,8 @@ import re
 import collections
 from webhelpers.html import HTML
 from webhelpers import paginate
+import urlparse
+import os
 import logging
 log = logging.getLogger(__name__)
 
@@ -129,6 +131,7 @@ class OgdchPlugin(plugins.SingletonPlugin):
             'get_readable_file_size': get_readable_file_size,
             'get_piwik_config': get_piwik_config,
             'ogdch_localised_number': ogdch_localised_number,
+            'ogdch_group_tree': ogdch_group_tree,
         }
 
 
@@ -151,6 +154,9 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         # map ckan fields
         pkg_dict = self._package_map_ckan_default_fields(pkg_dict)
+
+        # prepare format of resources
+        pkg_dict = self._prepare_resources_format(pkg_dict)
 
         try:
             # Do not change the resulting dict for API requests
@@ -226,6 +232,63 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
                 resource['name'] = resource['title']
 
         return pkg_dict
+
+    def _prepare_resources_format(self, pkg_dict):
+        if pkg_dict.get('resources') is not None:
+            for resource in pkg_dict['resources']:
+                resource = self._prepare_resource_format(resource)
+
+        return pkg_dict
+
+    # Generates format of resource and saves it in format field
+    def _prepare_resource_format(self, resource):
+        resource_format = ''
+
+        # get format from download_url file extension if available
+        if resource.get('download_url') is not None:
+            path = urlparse.urlparse(resource['download_url']).path
+            ext = os.path.splitext(path)[1]
+            if ext:
+                resource_format = ext.replace('.', '').lower()
+
+        # get format from media_type field if available
+        if not resource_format and resource.get('media_type') is not None:  # noqa
+            resource_format = resource['media_type'].split('/')[-1].lower()
+
+        # get format from format field if available (lol)
+        if not resource_format and resource.get('format') is not None:
+            resource_format = resource['format'].split('/')[-1].lower()
+
+        resource['format'] = self._map_to_valid_format(resource_format)
+        return resource
+
+    def _map_to_valid_format(self, resource_format):
+        format_mapping = {
+            'text': 'TXT',
+            'txt': 'TXT',
+            'html': 'HTML',
+            'csv': 'CSV',
+            'xml': 'XML',
+            'json': 'JSON',
+            'geojson': 'GeoJSON',
+            'xls': 'XLS',
+            'xlsx': 'XLS',
+            'zip': 'ZIP',
+            'pdf': 'PDF',
+            'wms': 'WMS',
+            'wcs': 'WCS',
+            'wfs': 'WFS',
+            'wmts': 'WMTS',
+            'kmz': 'KMZ',
+            'geotiff': 'GeoTIFF',
+            'tiff': 'TIFF',
+            'png': 'PNG',
+        }
+
+        if resource_format.lower() in format_mapping:
+            return format_mapping[resource_format.lower()]
+        else:
+            return None
 
     def _extract_lang_value(self, value, lang_code):
         new_value = parse_json(value)
@@ -314,8 +377,10 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IResourceController, inherit=True)
 
     # IResourceController
-    def before_show(self, pkg_dict):
-        return super(OgdchResourcePlugin, self).before_view(pkg_dict)
+    def before_show(self, res_dict):
+        res_dict = super(OgdchResourcePlugin, self).before_view(res_dict)
+        res_dict = self._prepare_resource_format(res_dict)
+        return res_dict
 
     def _ignore_field(self, key):
         return key == 'tracking_summary'
@@ -389,7 +454,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # log.debug(pprint.pformat(validated_dict))
 
         search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]  # noqa
-        search_data['res_format'] = [r['media_type'] for r in validated_dict[u'resources'] if 'media_type' in r]  # noqa
+        search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
         search_data['description'] = LangToString('description')(validated_dict)  # noqa
@@ -428,6 +493,18 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         # log.debug(pprint.pformat(search_data))
         return search_data
+
+    # generates a set with formats of all resources
+    def _prepare_formats_for_index(self, resources):
+        formats = set()
+        for r in resources:
+            resource = self._prepare_resource_format(r)
+            if resource['format'] is not None:
+                formats.add(resource['format'])
+            else:
+                formats.add('N/A')
+
+        return formats
 
     # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
