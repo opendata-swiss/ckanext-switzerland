@@ -302,3 +302,34 @@ def get_translated_group_title(titles_string):
 # See: http://stackoverflow.com/a/518232
 def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')  # noqa
+
+def map_to_valid_format(resource_format):
+    format_mapping = {
+        'CSV': ['csv', 'aspx'],
+        'GeoJSON': ['geojson'],
+        'GeoTIFF': ['geotiff'],
+        'GPKG' : ['gpkg'],
+        'HTML': ['html'],
+        'INTERLIS': ['interlis'],
+        'JSON': ['json'],
+        'KMZ': ['kmz'],
+        'MULTIFORMAT': ['multiformat'],
+        'ODS': ['ods'],
+        'PDF': ['pdf'],
+        'PNG': ['png'],
+        'TXT': ['text', 'txt'],
+        'TIFF': ['tiff'],
+        'WCS': ['wcs'],
+        'WFS': ['wfs'],
+        'WMS': ['wms'],
+        'WMTS': ['wmts'],
+        'XLS': ['xls', 'xlsx'],
+        'XML': ['xml'],
+        'ZIP': ['zip'],
+    }
+    resource_format_lower = resource_format.lower()
+    for key, values in format_mapping.items():
+        if resource_format_lower in values:
+            return key
+    else:
+        return None
