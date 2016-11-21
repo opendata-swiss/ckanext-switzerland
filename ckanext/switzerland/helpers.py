@@ -314,7 +314,7 @@ def map_to_valid_format(resource_format):
         'JSON': ['json'],
         'KMZ': ['kmz'],
         'MULTIFORMAT': ['multiformat'],
-        'ODS': ['ods', 'application/vnd.oas...', 'pc-axis file', 'Application/Sparql-...', 'ESRI Shapefile'], #noqa
+        'ODS': ['ods', 'vnd.oas...', 'pc-axis file', 'Sparql-...', 'ESRI Shapefile'], #noqa
         'PDF': ['pdf'],
         'PNG': ['png'],
         'TXT': ['text', 'txt'],
