@@ -494,3 +494,35 @@ class TestPlugin(unittest.TestCase):
         }
         resourse_with_download_url_with_valid_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_valid_extension.copy())
         self.assertEquals('ZIP', resourse_with_download_url_with_valid_extension_cleaned['format'])
+
+        resource_with_ods_vndoas_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'application/vnd.oas...'
+        }
+        resource_with_ods_vndoas_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_ods_vndoas_format.copy())
+        self.assertEquals('ODS', resource_with_ods_vndoas_format_cleaned['format'])
+
+        resource_with_ods_pcaxis_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'pc-axis file'
+        }
+        resource_with_ods_pcaxis_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_ods_pcaxis_format.copy())
+        self.assertEquals('ODS', resource_with_ods_pcaxis_format_cleaned['format'])
+
+        resource_with_ods_sparql_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'Application/Sparql-...'
+        }
+        resource_with_ods_sparql_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_ods_sparql_format.copy())
+        self.assertEquals('ODS', resource_with_ods_sparql_format_cleaned['format'])
+
+        resource_with_ods_esri_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'ESRI Shapefile'
+        }
+        resource_with_ods_esri_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_ods_esri_format.copy())
+        self.assertEquals('ODS', resource_with_ods_esri_format_cleaned['format'])
