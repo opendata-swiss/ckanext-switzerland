@@ -303,6 +303,7 @@ def get_translated_group_title(titles_string):
 def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')  # noqa
 
+
 def map_to_valid_format(resource_format):
     format_mapping = {
         'CSV': ['csv', 'aspx'],
