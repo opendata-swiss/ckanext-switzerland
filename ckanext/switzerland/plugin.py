@@ -482,7 +482,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                 )
 
                 text_field_items['text_' + lang_code] = [get_localized_value(validated_dict['description'], lang_code)]  # noqa
-                text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])  # noqa
+                text_field_items['text_' + lang_code].append(search_data['keywords_' + lang_code])  # noqa
 
             # flatten values for text_* fields
             for key, value in text_field_items.iteritems():
