@@ -307,7 +307,7 @@ def strip_accents(s):
 # all formats that need to be mapped have to be entered lower-case
 def map_to_valid_format(resource_format):
     format_mapping = {
-        'CSV': ['csv', 'aspx'],
+        'CSV': ['csv', 'aspx', 'text (.csv)', 'comma ...'],
         'GeoJSON': ['geojson'],
         'GeoTIFF': ['geotiff'],
         'GPKG': ['gpkg'],
@@ -321,8 +321,8 @@ def map_to_valid_format(resource_format):
         'PDF': ['pdf'],
         'PNG': ['png'],
         'RDF': ['sparql-...'],
-        'SHAPEFILE': ['esri shapefile'],
-        'TXT': ['text', 'txt'],
+        'SHAPEFILE': ['esri shapefile', 'esri geodatabase (....', 'esri file geodatabase', 'esri arcinfo ascii ...'], # noqa
+        'TXT': ['text', 'txt', 'text (.txt)', 'plain'],
         'TIFF': ['tiff'],
         'WCS': ['wcs'],
         'WFS': ['wfs'],
