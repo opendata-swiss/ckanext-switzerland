@@ -334,7 +334,7 @@ def map_to_valid_format(resource_format):
     }
     resource_format_lower = resource_format.lower()
     for key, values in format_mapping.items():
-        if resource_format in values:
+        if resource_format_lower in values:
             return key
     else:
         return None
