@@ -526,3 +526,21 @@ class TestPlugin(unittest.TestCase):
         }
         resource_with_shapefile_esri_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_shapefile_esri_format.copy())
         self.assertEquals('SHAPEFILE', resource_with_shapefile_esri_format_cleaned['format'])
+
+        resource_with_text_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'text (.txt)'
+        }
+        resource_with_text_format_cleaned = ogdch_language_plugin._prepare_resource_format(
+            resource_with_text_format.copy())
+        self.assertEquals('TXT', resource_with_text_format_cleaned['format'])
+
+        resource_with_comma_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'comma ...'
+        }
+        resource_with_comma_format_cleaned = ogdch_language_plugin._prepare_resource_format(
+            resource_with_comma_format.copy())
+        self.assertEquals('CSV', resource_with_comma_format_cleaned['format'])
