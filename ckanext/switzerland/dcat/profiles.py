@@ -1,7 +1,6 @@
 import rdflib
 from rdflib import URIRef, BNode, Literal
 from rdflib.namespace import Namespace, RDFS, RDF, SKOS, XSD
-from pprint import pprint
 
 from datetime import datetime
 import time
