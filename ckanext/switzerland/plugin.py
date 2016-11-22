@@ -259,7 +259,10 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         if not resource_format and resource.get('format') is not None:
             resource_format = resource['format'].split('/')[-1].lower()
 
-        resource['format'] = map_to_valid_format(resource_format)
+        mapped_format = map_to_valid_format(resource_format)
+        if mapped_format:
+            resource['format'] = mapped_format
+
         return resource
 
     def _extract_lang_value(self, value, lang_code):
