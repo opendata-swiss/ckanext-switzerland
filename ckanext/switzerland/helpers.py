@@ -304,6 +304,7 @@ def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')  # noqa
 
 
+# all formats that need to be mapped have to be entered lower-case
 def map_to_valid_format(resource_format):
     format_mapping = {
         'CSV': ['csv', 'aspx'],
@@ -315,9 +316,12 @@ def map_to_valid_format(resource_format):
         'JSON': ['json'],
         'KMZ': ['kmz'],
         'MULTIFORMAT': ['multiformat'],
-        'ODS': ['ods', 'vnd.oas...', 'pc-axis file', 'Sparql-...', 'ESRI Shapefile'], # noqa
+        'ODS': ['ods', 'vnd.oas...'],
+        'PC-AXIS': ['pc-axis file'],
         'PDF': ['pdf'],
         'PNG': ['png'],
+        'RDF': ['sparql-...'],
+        'SHAPEFILE': ['esri shapefile'],
         'TXT': ['text', 'txt'],
         'TIFF': ['tiff'],
         'WCS': ['wcs'],
@@ -330,7 +334,7 @@ def map_to_valid_format(resource_format):
     }
     resource_format_lower = resource_format.lower()
     for key, values in format_mapping.items():
-        if resource_format_lower in (value.lower() for value in values):
+        if resource_format in values:
             return key
     else:
         return None
