@@ -522,6 +522,5 @@ class SwissDCATAPProfile(RDFProfile):
                            Literal(resource_dict['size'])))
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
-        log.error(pprint(catalog_dict))
         g = self.g
         g.add((catalog_ref, RDF.type, DCAT.Catalog))
