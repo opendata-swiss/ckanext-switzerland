@@ -393,35 +393,18 @@ class SwissDCATAPProfile(RDFProfile):
         self._add_list_triples_from_dict(dataset_dict, dataset_ref, items)
 
         # Contact details
-        if any([
-            self._get_dataset_value(dataset_dict, 'contact_uri'),
-            self._get_dataset_value(dataset_dict, 'contact_name'),
-            self._get_dataset_value(dataset_dict, 'contact_email'),
-            self._get_dataset_value(dataset_dict, 'maintainer'),
-            self._get_dataset_value(dataset_dict, 'maintainer_email'),
-            self._get_dataset_value(dataset_dict, 'author'),
-            self._get_dataset_value(dataset_dict, 'author_email'),
-        ]):
-
-            contact_uri = self._get_dataset_value(dataset_dict, 'contact_uri')
-            if contact_uri:
-                contact_details = URIRef(contact_uri)
-            else:
+        if dataset_dict.get('contact_points'):
+            contact_points = self._get_dataset_value(dataset_dict, 'contact_points')  # noqa
+            for contact_point in contact_points:
                 contact_details = BNode()
+                contact_point_email = contact_point['email']
+                contact_point_name = contact_point['name']
 
-            g.add((contact_details, RDF.type, VCARD.Organization))
-            g.add((dataset_ref, DCAT.contactPoint, contact_details))
+                g.add((contact_details, RDF.type, VCARD.Organization))
+                g.add((contact_details, VCARD.hasEmail, URIRef(contact_point_email))) # noqa
+                g.add((contact_details, VCARD.fn, Literal(contact_point_name)))
 
-            items = [
-                ('contact_name', VCARD.fn, ['maintainer', 'author'], Literal),
-            ]
-            maintainer_email = self._get_dataset_value(
-                dataset_dict,
-                'maintainer_email'
-            )
-            g.add((contact_details, VCARD.hasEmail, URIRef(maintainer_email)))
-
-            self._add_triples_from_dict(dataset_dict, contact_details, items)
+                g.add((dataset_ref, DCAT.contactPoint, contact_details))
 
         # Publisher
         if dataset_dict.get('organization'):
