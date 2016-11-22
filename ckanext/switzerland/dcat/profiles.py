@@ -454,6 +454,8 @@ class SwissDCATAPProfile(RDFProfile):
                 ('status', ADMS.status, None, Literal),
                 ('rights', DCT.rights, None, Literal),
                 ('license', DCT.license, None, Literal),
+                ('identifier', DCT.identifier, None, Literal),
+                ('media_type', DCAT.mediaType, None, Literal),
             ]
 
             self._add_triples_from_dict(resource_dict, distribution, items)
