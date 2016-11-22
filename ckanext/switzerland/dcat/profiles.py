@@ -407,14 +407,15 @@ class SwissDCATAPProfile(RDFProfile):
                 g.add((dataset_ref, DCAT.contactPoint, contact_details))
 
         # Publisher
-        if dataset_dict.get('organization'):
-            publisher_name = dataset_dict.get('author')
+        if dataset_dict.get('publishers'):
+            publishers = dataset_dict.get('publishers')
+            for publisher in publishers:
+                publisher_name = publisher['label']
 
-            publisher_details = BNode()
-
-            g.add((publisher_details, RDF.type, RDF.Description))
-            g.add((publisher_details, RDFS.label, Literal(publisher_name)))
-            g.add((dataset_ref, DCT.publisher, publisher_details))
+                publisher_details = BNode()
+                g.add((publisher_details, RDF.type, RDF.Description))
+                g.add((publisher_details, RDFS.label, Literal(publisher_name)))
+                g.add((dataset_ref, DCT.publisher, publisher_details))
 
         # Temporals
         temporals = dataset_dict.get('temporals')
