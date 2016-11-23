@@ -406,7 +406,7 @@ class SwissDCATAPProfile(RDFProfile):
             references = dataset_dict.get('see_alsos')
             for reference in references:
                 reference_identifier = reference['dataset_identifier']
-                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))
+                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier))) # noqa
 
         # Contact details
         if dataset_dict.get('contact_points'):
