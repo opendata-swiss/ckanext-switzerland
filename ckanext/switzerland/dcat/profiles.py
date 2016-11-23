@@ -400,6 +400,14 @@ class SwissDCATAPProfile(RDFProfile):
                 relation = URIRef(relation_url)
                 g.add((relation, RDFS.label, Literal(relation_name)))
                 g.add((dataset_ref, DCT.relation, relation))
+
+        # References
+        if dataset_dict.get('see_alsos'):
+            references = dataset_dict.get('see_alsos')
+            for reference in references:
+                reference_identifier = reference['dataset_identifier']
+                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))
+
         # Contact details
         if dataset_dict.get('contact_points'):
             contact_points = self._get_dataset_value(dataset_dict, 'contact_points')  # noqa
