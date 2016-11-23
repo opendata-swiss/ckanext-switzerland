@@ -12,7 +12,7 @@ from ckanext.switzerland.helpers import (
     get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
     get_political_level, get_dataset_by_identifier, get_readable_file_size,
     simplify_terms_of_use, parse_json, get_piwik_config,
-    ogdch_localised_number, ogdch_group_tree
+    ogdch_localised_number, ogdch_group_tree, map_to_valid_format
 )
 
 import ckan.plugins as plugins
@@ -259,36 +259,11 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         if not resource_format and resource.get('format') is not None:
             resource_format = resource['format'].split('/')[-1].lower()
 
-        resource['format'] = self._map_to_valid_format(resource_format)
+        mapped_format = map_to_valid_format(resource_format)
+        if mapped_format:
+            resource['format'] = mapped_format
+
         return resource
-
-    def _map_to_valid_format(self, resource_format):
-        format_mapping = {
-            'text': 'TXT',
-            'txt': 'TXT',
-            'html': 'HTML',
-            'csv': 'CSV',
-            'xml': 'XML',
-            'json': 'JSON',
-            'geojson': 'GeoJSON',
-            'xls': 'XLS',
-            'xlsx': 'XLS',
-            'zip': 'ZIP',
-            'pdf': 'PDF',
-            'wms': 'WMS',
-            'wcs': 'WCS',
-            'wfs': 'WFS',
-            'wmts': 'WMTS',
-            'kmz': 'KMZ',
-            'geotiff': 'GeoTIFF',
-            'tiff': 'TIFF',
-            'png': 'PNG',
-        }
-
-        if resource_format.lower() in format_mapping:
-            return format_mapping[resource_format.lower()]
-        else:
-            return None
 
     def _extract_lang_value(self, value, lang_code):
         new_value = parse_json(value)
