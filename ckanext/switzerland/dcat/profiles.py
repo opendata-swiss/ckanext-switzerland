@@ -341,7 +341,7 @@ class SwissDCATAPProfile(RDFProfile):
             ('access_rights', DCT.accessRights, None, Literal),
             ('dcat_type', DCT.type, None, Literal),
             ('provenance', DCT.provenance, None, Literal),
-            ('spatial_uri', DCT.spatial, None, Literal),
+            ('spatial', DCT.spatial, None, Literal),
         ]
         self._add_triples_from_dict(dataset_dict, dataset_ref, items)
 
@@ -475,7 +475,7 @@ class SwissDCATAPProfile(RDFProfile):
                 ('license', DCT.license, None, Literal),
                 ('identifier', DCT.identifier, None, Literal),
                 ('media_type', DCAT.mediaType, None, Literal),
-                ('spatial_uri', DCT.spatial, None, Literal),
+                ('spatial', DCT.spatial, None, Literal),
             ]
 
             self._add_triples_from_dict(resource_dict, distribution, items)
