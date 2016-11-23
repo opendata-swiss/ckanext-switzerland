@@ -332,7 +332,7 @@ class SwissDCATAPProfile(RDFProfile):
 
         # Basic fields
         items = [
-            ('notes', DCT.description, None, Literal),
+            ('description', DCT.description, None, Literal),
             ('identifier', DCT.identifier, ['guid', 'id'], Literal),
             ('version', OWL.versionInfo, ['dcat_version'], Literal),
             ('version_notes', ADMS.versionNotes, None, Literal),
