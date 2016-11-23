@@ -170,6 +170,7 @@ class SwissDCATAPProfile(RDFProfile):
                 ('identifier', DCT.identifier),
                 ('accrual_periodicity', DCT.accrualPeriodicity),
                 ('spatial_uri', DCT.spatial),
+                ('spatial', DCT.spatial),
                 ('url', DCAT.landingPage),
                 ):
             value = self._object_value(dataset_ref, predicate)
