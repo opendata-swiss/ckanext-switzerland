@@ -383,7 +383,6 @@ class SwissDCATAPProfile(RDFProfile):
             ('conforms_to', DCT.conformsTo, None, Literal),
             ('alternate_identifier', ADMS.identifier, None, Literal),
             ('documentation', FOAF.page, None, Literal),
-            ('related_resource', DCT.relation, None, Literal),
             ('has_version', DCT.hasVersion, None, Literal),
             ('is_version_of', DCT.isVersionOf, None, Literal),
             ('source', DCT.source, None, Literal),
@@ -391,6 +390,16 @@ class SwissDCATAPProfile(RDFProfile):
         ]
         self._add_list_triples_from_dict(dataset_dict, dataset_ref, items)
 
+        # Relations
+        if dataset_dict.get('relations'):
+            relations = dataset_dict.get('relations')
+            for relation in relations:
+                relation_name = relation['label']
+                relation_url = relation['url']
+
+                relation = URIRef(relation_url)
+                g.add((relation, RDFS.label, Literal(relation_name)))
+                g.add((dataset_ref, DCT.relation, relation))
         # Contact details
         if dataset_dict.get('contact_points'):
             contact_points = self._get_dataset_value(dataset_dict, 'contact_points')  # noqa
