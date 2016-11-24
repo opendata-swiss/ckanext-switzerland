@@ -157,6 +157,18 @@ class SwissDCATAPProfile(RDFProfile):
         except (ValueError, KeyError, TypeError, IndexError):
             return None
 
+    def _add_multilang_value(self, subject, predicate, dataset_key, dataset_dict): # noqa
+        multilang_values = dataset_dict.get(dataset_key)
+        if multilang_values:
+            for key, values in multilang_values.iteritems():
+                if values:
+                    # the values can be either a multilang-dict or they are
+                    # nested in another iterable (e.g. keywords)
+                    if not hasattr(values, '__iter__'):
+                        values = [values]
+                    for value in values:
+                        self.g.add((subject, predicate, Literal(value, lang=key))) # noqa
+
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
         dataset_dict['temporals'] = []
         dataset_dict['tags'] = []
@@ -333,7 +345,6 @@ class SwissDCATAPProfile(RDFProfile):
 
         # Basic fields
         items = [
-            ('description', DCT.description, None, Literal),
             ('identifier', DCT.identifier, ['guid', 'id'], Literal),
             ('version', OWL.versionInfo, ['dcat_version'], Literal),
             ('version_notes', ADMS.versionNotes, None, Literal),
@@ -345,22 +356,14 @@ class SwissDCATAPProfile(RDFProfile):
         ]
         self._add_triples_from_dict(dataset_dict, dataset_ref, items)
 
-        # multilang Dataset-Title
-        multilang_title = dataset_dict.get('title')
-        if multilang_title:
-            for key, value in dataset_dict.get('title').iteritems():
-                if value:
-                    g.add((dataset_ref, DCT.title, Literal(value, lang=key)))
+        self._add_multilang_value(dataset_ref, DCT.description, 'description', dataset_dict) # noqa
+        self._add_multilang_value(dataset_ref, DCT.title, 'title', dataset_dict) # noqa
 
         # LandingPage
         g.add((dataset_ref, DCAT.landingPage,
                Literal(dataset_dict['url'])))
 
-        # multilang Keywords
-        for lang, keywords in dataset_dict.get('keywords').iteritems():
-            if keywords:
-                for keyword in keywords:
-                    g.add((dataset_ref, DCAT.keyword, Literal(keyword, lang=lang)))  # noqa
+        self._add_multilang_value(dataset_ref, DCAT.keyword, 'keywords', dataset_dict) # noqa
 
         # Dates
         items = [
@@ -460,7 +463,7 @@ class SwissDCATAPProfile(RDFProfile):
             ))
 
         # Resources
-        for resource_dict in dataset_dict.get('resources', []):
+        for resource_dict in dataset_dict.get('resources'):
 
             distribution = URIRef(resource_uri(resource_dict))
 
@@ -469,7 +472,6 @@ class SwissDCATAPProfile(RDFProfile):
 
             #  Simple values
             items = [
-                ('description', DCT.description, None, Literal),
                 ('status', ADMS.status, None, Literal),
                 ('rights', DCT.rights, None, Literal),
                 ('license', DCT.license, None, Literal),
@@ -480,14 +482,8 @@ class SwissDCATAPProfile(RDFProfile):
 
             self._add_triples_from_dict(resource_dict, distribution, items)
 
-            # multilang Resource-Title
-            multilang_title = dataset_dict.get('display_name')
-            if multilang_title:
-                for key, value in dataset_dict.get('display_name').iteritems():
-                    if value:
-                        g.add(
-                            (distribution, DCT.title, Literal(value, lang=key)
-                             ))
+            self._add_multilang_value(distribution, DCT.title, 'display_name', dataset_dict) # noqa
+            self._add_multilang_value(distribution, DCT.description, 'description', dataset_dict) # noqa
 
             #  Lists
             items = [
