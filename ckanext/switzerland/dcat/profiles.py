@@ -463,7 +463,7 @@ class SwissDCATAPProfile(RDFProfile):
             ))
 
         # Resources
-        for resource_dict in dataset_dict.get('resources'):
+        for resource_dict in dataset_dict.get('resources', []):
 
             distribution = URIRef(resource_uri(resource_dict))
 
