@@ -428,7 +428,8 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         # log.debug(pprint.pformat(validated_dict))
 
-        search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
@@ -458,6 +459,8 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
                 text_field_items['text_' + lang_code] = [get_localized_value(validated_dict['description'], lang_code)]  # noqa
                 text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])  # noqa
+                text_field_items['text_' + lang_code].extend([r['title'][lang_code] for r in validated_dict['resources'] if r['title'][lang_code]])  # noqa
+                text_field_items['text_' + lang_code].extend([r['description'][lang_code] for r in validated_dict['resources'] if r['description'][lang_code]])  # noqa
 
             # flatten values for text_* fields
             for key, value in text_field_items.iteritems():
