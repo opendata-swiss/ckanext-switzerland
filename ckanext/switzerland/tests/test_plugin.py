@@ -81,7 +81,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'xml'
         }
         resourse_with_download_url_with_invalid_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_invalid_extension.copy())
-        self.assertEquals('xml', resourse_with_download_url_with_invalid_extension_cleaned['format'])
+        self.assertEquals('XML', resourse_with_download_url_with_invalid_extension_cleaned['format'])
 
         resourse_with_download_url_with_valid_extension = {
             'download_url': 'http://download.url/file.zip?param=1',
