@@ -238,6 +238,10 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             for resource in pkg_dict['resources']:
                 resource = self._prepare_resource_format(resource)
 
+                # if format could not be mapped and media_type exists use this value
+                if resource.get('format') is None and resource.get('media_type'):
+                    resource['format'] = resource['media_type'].split('/')[-1]
+
         return pkg_dict
 
     # Generates format of resource and saves it in format field
@@ -261,7 +265,11 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         mapped_format = map_to_valid_format(resource_format)
         if mapped_format:
+            # if format could be successfully mapped write it to format field
             resource['format'] = mapped_format
+        else:
+            # else return None (these will be indexed as N/A)
+            resource['format'] = None
 
         return resource
 
@@ -355,6 +363,11 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
     def before_show(self, res_dict):
         res_dict = super(OgdchResourcePlugin, self).before_view(res_dict)
         res_dict = self._prepare_resource_format(res_dict)
+
+        # if format could not be mapped and media_type exists use this value
+        if res_dict.get('format') is None and res_dict.get('media_type'):
+            res_dict['format'] = res_dict['media_type'].split('/')[-1]
+
         return res_dict
 
     def _ignore_field(self, key):
@@ -477,7 +490,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         formats = set()
         for r in resources:
             resource = self._prepare_resource_format(r)
-            if resource['format'] is not None:
+            if resource['format']:
                 formats.add(resource['format'])
             else:
                 formats.add('N/A')
