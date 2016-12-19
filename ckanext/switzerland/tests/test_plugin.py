@@ -49,7 +49,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'gif'
         }
         resource_with_invalid_media_type_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_invalid_media_type.copy())
-        self.assertEquals('gif', resource_with_invalid_media_type_cleaned['format'])
+        self.assertIsNone(resource_with_invalid_media_type_cleaned['format'])
 
         resource_with_valid_media_type_without_slash = {
             'download_url': None,
