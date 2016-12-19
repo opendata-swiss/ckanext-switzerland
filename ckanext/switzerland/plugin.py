@@ -240,7 +240,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
                 # if format could not be mapped and media_type exists use this value  # noqa
                 if (resource.get('format') is None and
-                    resource.get('media_type')):
+                        resource.get('media_type')):
                     resource['format'] = resource['media_type'].split('/')[-1]
 
         return pkg_dict
