@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2016-09-16 08:32+0000\n"
-"PO-Revision-Date: 2016-09-16 09:31+0000\n"
-"Last-Translator: Jürg Hunziker <juerg.hunziker@gmail.com>\n"
+"PO-Revision-Date: 2016-12-06 10:42+0000\n"
+"Last-Translator: Andreas Weder <Andreas.Weder@gs-edi.admin.ch>\n"
 "Language-Team: Italian (http://www.transifex.com/opendataswiss/opendata-swiss/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: ckanext/switzerland/controller.py:55
 msgid "The dataset {id} could not be found."
-msgstr ""
+msgstr "Il dataset {id} non è stato trovato."
 
 #: ckanext/switzerland/helpers.py:140
 msgid "Irregular"
@@ -311,7 +311,7 @@ msgstr "Discutere"
 
 #: ckanext/switzerland/templates/header.html:45
 msgid "What's opendata.swiss?"
-msgstr "Cosa c'è opendata.swiss?"
+msgstr "Cos'è opendata.swiss?"
 
 #: ckanext/switzerland/templates/header.html:59
 msgid "Search"
@@ -432,19 +432,19 @@ msgstr "Dataset correlati"
 
 #: ckanext/switzerland/templates/package/snippets/resource_view.html:16
 msgid "This resource view is not available at the moment."
-msgstr ""
+msgstr "La visualizzazione della risorsa non è disponibile al momento."
 
 #: ckanext/switzerland/templates/package/snippets/resource_view.html:18
 msgid "Click here for more information."
-msgstr ""
+msgstr "Cliccare qui per maggiori informazioni."
 
 #: ckanext/switzerland/templates/package/snippets/resource_view.html:25
 msgid "Download resource"
-msgstr ""
+msgstr "Scarica la risorsa"
 
 #: ckanext/switzerland/templates/package/snippets/resource_view.html:48
 msgid "Your browser does not support iframes."
-msgstr ""
+msgstr "Il browser in uso non supporta gli iframe."
 
 #: ckanext/switzerland/templates/package/snippets/resources_list.html:15
 msgid "Resources"

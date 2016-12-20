@@ -9,13 +9,14 @@
 # Katherine Patula <katharine.patula@gs-edi.admin.ch>, 2016
 # Simon Meyer <simon.meyer@bar.admin.ch>, 2015
 # Stefan Oderbolz <oderbolz@gmail.com>, 2016
+# Tim Keller, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2016-09-16 08:32+0000\n"
-"PO-Revision-Date: 2016-09-16 09:29+0000\n"
-"Last-Translator: Jürg Hunziker <juerg.hunziker@gmail.com>\n"
+"PO-Revision-Date: 2016-11-18 08:33+0000\n"
+"Last-Translator: Tim Keller\n"
 "Language-Team: French (http://www.transifex.com/opendataswiss/opendata-swiss/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: ckanext/switzerland/controller.py:55
 msgid "The dataset {id} could not be found."
-msgstr ""
+msgstr "L'enregistrement { id } ne peut être trouvé"
 
 #: ckanext/switzerland/helpers.py:140
 msgid "Irregular"
@@ -431,7 +432,7 @@ msgstr "Jeux de données apparentés"
 
 #: ckanext/switzerland/templates/package/snippets/resource_view.html:16
 msgid "This resource view is not available at the moment."
-msgstr ""
+msgstr "Cette vue de ressource n'est pas disponible en ce moment"
 
 #: ckanext/switzerland/templates/package/snippets/resource_view.html:18
 msgid "Click here for more information."

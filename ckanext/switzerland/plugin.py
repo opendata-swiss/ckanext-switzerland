@@ -12,7 +12,7 @@ from ckanext.switzerland.helpers import (
     get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
     get_political_level, get_dataset_by_identifier, get_readable_file_size,
     simplify_terms_of_use, parse_json, get_piwik_config,
-    ogdch_localised_number, ogdch_group_tree
+    ogdch_localised_number, ogdch_group_tree, map_to_valid_format
 )
 
 import ckan.plugins as plugins
@@ -238,6 +238,11 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             for resource in pkg_dict['resources']:
                 resource = self._prepare_resource_format(resource)
 
+                # if format could not be mapped and media_type exists use this value  # noqa
+                if (resource.get('format') is None and
+                        resource.get('media_type')):
+                    resource['format'] = resource['media_type'].split('/')[-1]
+
         return pkg_dict
 
     # Generates format of resource and saves it in format field
@@ -259,36 +264,15 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         if not resource_format and resource.get('format') is not None:
             resource_format = resource['format'].split('/')[-1].lower()
 
-        resource['format'] = self._map_to_valid_format(resource_format)
-        return resource
-
-    def _map_to_valid_format(self, resource_format):
-        format_mapping = {
-            'text': 'TXT',
-            'txt': 'TXT',
-            'html': 'HTML',
-            'csv': 'CSV',
-            'xml': 'XML',
-            'json': 'JSON',
-            'geojson': 'GeoJSON',
-            'xls': 'XLS',
-            'xlsx': 'XLS',
-            'zip': 'ZIP',
-            'pdf': 'PDF',
-            'wms': 'WMS',
-            'wcs': 'WCS',
-            'wfs': 'WFS',
-            'wmts': 'WMTS',
-            'kmz': 'KMZ',
-            'geotiff': 'GeoTIFF',
-            'tiff': 'TIFF',
-            'png': 'PNG',
-        }
-
-        if resource_format.lower() in format_mapping:
-            return format_mapping[resource_format.lower()]
+        mapped_format = map_to_valid_format(resource_format)
+        if mapped_format:
+            # if format could be successfully mapped write it to format field
+            resource['format'] = mapped_format
         else:
-            return None
+            # else return None (these will be indexed as N/A)
+            resource['format'] = None
+
+        return resource
 
     def _extract_lang_value(self, value, lang_code):
         new_value = parse_json(value)
@@ -380,6 +364,11 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
     def before_show(self, res_dict):
         res_dict = super(OgdchResourcePlugin, self).before_view(res_dict)
         res_dict = self._prepare_resource_format(res_dict)
+
+        # if format could not be mapped and media_type exists use this value
+        if res_dict.get('format') is None and res_dict.get('media_type'):
+            res_dict['format'] = res_dict['media_type'].split('/')[-1]
+
         return res_dict
 
     def _ignore_field(self, key):
@@ -453,7 +442,8 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         # log.debug(pprint.pformat(validated_dict))
 
-        search_data['res_name'] = [r['title'] for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
@@ -483,6 +473,8 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
                 text_field_items['text_' + lang_code] = [get_localized_value(validated_dict['description'], lang_code)]  # noqa
                 text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])  # noqa
+                text_field_items['text_' + lang_code].extend([r['title'][lang_code] for r in validated_dict['resources'] if r['title'][lang_code]])  # noqa
+                text_field_items['text_' + lang_code].extend([r['description'][lang_code] for r in validated_dict['resources'] if r['description'][lang_code]])  # noqa
 
             # flatten values for text_* fields
             for key, value in text_field_items.iteritems():
@@ -499,7 +491,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         formats = set()
         for r in resources:
             resource = self._prepare_resource_format(r)
-            if resource['format'] is not None:
+            if resource['format']:
                 formats.add(resource['format'])
             else:
                 formats.add('N/A')
@@ -556,6 +548,20 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             search_params.update({'fq': "%s +dataset_type:dataset" % fq})
 
         return search_params
+
+
+class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IRoutes, inherit=True)
+
+    # IRouter
+    # Redirect organization_read /organization/{id} to custom controller
+    # fix the search on the org page and use Hierarchy if needed
+
+    def before_map(self, map):
+        map.connect('organization_read', '/organization/{id}',
+                    controller='ckanext.switzerland.controller:OgdchOrganizationSearchController',  # noqa
+                    action='read')
+        return map
 
 
 class LangToString(object):
