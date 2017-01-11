@@ -84,6 +84,13 @@ def get_localized_org(org_id=None, include_datasets=False):
 
 
 def localize_json_title(facet_item):
+    # json.loads tries to convert numbers in Strings to integers. At this point
+    # we only need to deal with Strings, so we let them be Strings.
+    try:
+        int(facet_item['display_name'])
+        return facet_item['display_name']
+    except (ValueError, TypeError):
+        pass
     try:
         lang_dict = json.loads(facet_item['display_name'])
         return get_localized_value(
