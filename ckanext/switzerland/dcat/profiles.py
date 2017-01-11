@@ -157,7 +157,7 @@ class SwissDCATAPProfile(RDFProfile):
         except (ValueError, KeyError, TypeError, IndexError):
             return None
 
-    def _add_multilang_value(self, subject, predicate, dataset_key, dataset_dict): # noqa
+    def _add_multilang_value(self, subject, predicate, dataset_key, dataset_dict):  # noqa
         multilang_values = dataset_dict.get(dataset_key)
         if multilang_values:
             try:
@@ -362,14 +362,14 @@ class SwissDCATAPProfile(RDFProfile):
         ]
         self._add_triples_from_dict(dataset_dict, dataset_ref, items)
 
-        self._add_multilang_value(dataset_ref, DCT.description, 'description', dataset_dict) # noqa
-        self._add_multilang_value(dataset_ref, DCT.title, 'title', dataset_dict) # noqa
+        self._add_multilang_value(dataset_ref, DCT.description, 'description', dataset_dict)  # noqa
+        self._add_multilang_value(dataset_ref, DCT.title, 'title', dataset_dict)  # noqa
 
         # LandingPage
         g.add((dataset_ref, DCAT.landingPage,
                Literal(dataset_dict['url'])))
 
-        self._add_multilang_value(dataset_ref, DCAT.keyword, 'keywords', dataset_dict) # noqa
+        self._add_multilang_value(dataset_ref, DCAT.keyword, 'keywords', dataset_dict)  # noqa
 
         # Dates
         items = [
@@ -417,7 +417,7 @@ class SwissDCATAPProfile(RDFProfile):
             references = dataset_dict.get('see_alsos')
             for reference in references:
                 reference_identifier = reference['dataset_identifier']
-                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier))) # noqa
+                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))  # noqa
 
         # Contact details
         if dataset_dict.get('contact_points'):
@@ -428,7 +428,7 @@ class SwissDCATAPProfile(RDFProfile):
                 contact_point_name = contact_point['name']
 
                 g.add((contact_details, RDF.type, VCARD.Organization))
-                g.add((contact_details, VCARD.hasEmail, URIRef(contact_point_email))) # noqa
+                g.add((contact_details, VCARD.hasEmail, URIRef(contact_point_email)))  # noqa
                 g.add((contact_details, VCARD.fn, Literal(contact_point_name)))
 
                 g.add((dataset_ref, DCAT.contactPoint, contact_details))
