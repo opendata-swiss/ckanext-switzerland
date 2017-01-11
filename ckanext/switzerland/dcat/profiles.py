@@ -1,6 +1,6 @@
 import rdflib
 from rdflib import URIRef, BNode, Literal
-from rdflib.namespace import Namespace, RDFS, RDF, SKOS, XSD
+from rdflib.namespace import Namespace, RDFS, RDF, SKOS
 
 from datetime import datetime
 import time
