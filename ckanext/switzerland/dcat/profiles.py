@@ -160,14 +160,20 @@ class SwissDCATAPProfile(RDFProfile):
     def _add_multilang_value(self, subject, predicate, dataset_key, dataset_dict): # noqa
         multilang_values = dataset_dict.get(dataset_key)
         if multilang_values:
-            for key, values in multilang_values.iteritems():
-                if values:
-                    # the values can be either a multilang-dict or they are
-                    # nested in another iterable (e.g. keywords)
-                    if not hasattr(values, '__iter__'):
-                        values = [values]
-                    for value in values:
-                        self.g.add((subject, predicate, Literal(value, lang=key))) # noqa
+            try:
+                for key, values in multilang_values.iteritems():
+                    if values:
+                        # the values can be either a multilang-dict or they are
+                        # nested in another iterable (e.g. keywords)
+                        if not hasattr(values, '__iter__'):
+                            values = [values]
+                        for value in values:
+                            self.g.add((subject, predicate, Literal(value, lang=key)))  # noqa
+            # if multilang_values is not iterable, it is simply added as a non-
+            # translated Literal
+            except AttributeError:
+                self.g.add(
+                    (subject, predicate, Literal(multilang_values)))  # noqa
 
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
         dataset_dict['temporals'] = []
