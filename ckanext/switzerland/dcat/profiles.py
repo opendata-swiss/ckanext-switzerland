@@ -1,6 +1,6 @@
 import rdflib
 from rdflib import URIRef, BNode, Literal
-from rdflib.namespace import Namespace, RDFS, RDF, SKOS, XSD
+from rdflib.namespace import Namespace, RDFS, RDF, SKOS
 
 from datetime import datetime
 import time
@@ -157,17 +157,23 @@ class SwissDCATAPProfile(RDFProfile):
         except (ValueError, KeyError, TypeError, IndexError):
             return None
 
-    def _add_multilang_value(self, subject, predicate, dataset_key, dataset_dict): # noqa
+    def _add_multilang_value(self, subject, predicate, dataset_key, dataset_dict):  # noqa
         multilang_values = dataset_dict.get(dataset_key)
         if multilang_values:
-            for key, values in multilang_values.iteritems():
-                if values:
-                    # the values can be either a multilang-dict or they are
-                    # nested in another iterable (e.g. keywords)
-                    if not hasattr(values, '__iter__'):
-                        values = [values]
-                    for value in values:
-                        self.g.add((subject, predicate, Literal(value, lang=key))) # noqa
+            try:
+                for key, values in multilang_values.iteritems():
+                    if values:
+                        # the values can be either a multilang-dict or they are
+                        # nested in another iterable (e.g. keywords)
+                        if not hasattr(values, '__iter__'):
+                            values = [values]
+                        for value in values:
+                            self.g.add((subject, predicate, Literal(value, lang=key)))  # noqa
+            # if multilang_values is not iterable, it is simply added as a non-
+            # translated Literal
+            except AttributeError:
+                self.g.add(
+                    (subject, predicate, Literal(multilang_values)))  # noqa
 
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
         dataset_dict['temporals'] = []
@@ -356,14 +362,14 @@ class SwissDCATAPProfile(RDFProfile):
         ]
         self._add_triples_from_dict(dataset_dict, dataset_ref, items)
 
-        self._add_multilang_value(dataset_ref, DCT.description, 'description', dataset_dict) # noqa
-        self._add_multilang_value(dataset_ref, DCT.title, 'title', dataset_dict) # noqa
+        self._add_multilang_value(dataset_ref, DCT.description, 'description', dataset_dict)  # noqa
+        self._add_multilang_value(dataset_ref, DCT.title, 'title', dataset_dict)  # noqa
 
         # LandingPage
         g.add((dataset_ref, DCAT.landingPage,
                Literal(dataset_dict['url'])))
 
-        self._add_multilang_value(dataset_ref, DCAT.keyword, 'keywords', dataset_dict) # noqa
+        self._add_multilang_value(dataset_ref, DCAT.keyword, 'keywords', dataset_dict)  # noqa
 
         # Dates
         items = [
@@ -411,7 +417,7 @@ class SwissDCATAPProfile(RDFProfile):
             references = dataset_dict.get('see_alsos')
             for reference in references:
                 reference_identifier = reference['dataset_identifier']
-                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier))) # noqa
+                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))  # noqa
 
         # Contact details
         if dataset_dict.get('contact_points'):
@@ -422,7 +428,7 @@ class SwissDCATAPProfile(RDFProfile):
                 contact_point_name = contact_point['name']
 
                 g.add((contact_details, RDF.type, VCARD.Organization))
-                g.add((contact_details, VCARD.hasEmail, URIRef(contact_point_email))) # noqa
+                g.add((contact_details, VCARD.hasEmail, URIRef(contact_point_email)))  # noqa
                 g.add((contact_details, VCARD.fn, Literal(contact_point_name)))
 
                 g.add((dataset_ref, DCAT.contactPoint, contact_details))
@@ -482,8 +488,8 @@ class SwissDCATAPProfile(RDFProfile):
 
             self._add_triples_from_dict(resource_dict, distribution, items)
 
-            self._add_multilang_value(distribution, DCT.title, 'display_name', dataset_dict) # noqa
-            self._add_multilang_value(distribution, DCT.description, 'description', dataset_dict) # noqa
+            self._add_multilang_value(distribution, DCT.title, 'display_name', resource_dict)  # noqa
+            self._add_multilang_value(distribution, DCT.description, 'description', resource_dict)  # noqa
 
             #  Lists
             items = [
@@ -526,15 +532,10 @@ class SwissDCATAPProfile(RDFProfile):
             self._add_date_triples_from_dict(resource_dict, distribution,
                                              items)
 
-            # Numbers
+            # ByteSize
             if resource_dict.get('byte_size'):
-                try:
-                    g.add((distribution, DCAT.byteSize,
-                           Literal(float(resource_dict['size']),
-                                   datatype=XSD.decimal)))
-                except (ValueError, TypeError):
-                    g.add((distribution, DCAT.byteSize,
-                           Literal(resource_dict['size'])))
+                g.add((distribution, DCAT.byteSize,
+                       Literal(resource_dict['byte_size'])))
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g = self.g
