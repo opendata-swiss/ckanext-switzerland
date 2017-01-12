@@ -1,1 +1,2 @@
+ndg-httpsclient==0.4.2
 requests[security]==2.7.0
