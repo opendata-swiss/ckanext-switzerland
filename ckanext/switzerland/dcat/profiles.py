@@ -420,7 +420,7 @@ class SwissDCATAPProfile(RDFProfile):
                 if not isinstance(reference, dict):
                     continue
                 reference_identifier = reference.get('dataset_identifier')
-                if refererence_identifier:
+                if reference_identifier:
                     g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))  # noqa
 
         # Contact details
