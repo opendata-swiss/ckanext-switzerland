@@ -416,8 +416,12 @@ class SwissDCATAPProfile(RDFProfile):
         if dataset_dict.get('see_alsos'):
             references = dataset_dict.get('see_alsos')
             for reference in references:
-                reference_identifier = reference['dataset_identifier']
-                g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))  # noqa
+                # we only excpect dicts here
+                if not isinstance(reference, dict):
+                    continue
+                reference_identifier = reference.get('dataset_identifier')
+                if refererence_identifier:
+                    g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))  # noqa
 
         # Contact details
         if dataset_dict.get('contact_points'):
