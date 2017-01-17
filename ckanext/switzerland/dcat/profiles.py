@@ -10,7 +10,7 @@ import re
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.dcat.utils import resource_uri
 
-from ckanext.switzerland.helpers import get_langs, map_to_valid_format
+from ckanext.switzerland.helpers import get_langs
 
 import logging
 log = logging.getLogger(__name__)
@@ -513,11 +513,13 @@ class SwissDCATAPProfile(RDFProfile):
             if (url and not download_url) or (url and url != download_url):
                 g.add((distribution, DCAT.accessURL, URIRef(url)))
 
-            # Format from Download-Url
-            if download_url:
-                format_value = str(download_url).rsplit('.', 1)[1]
-                mapped_format = map_to_valid_format(format_value)
-                g.add((distribution, DCT['format'], Literal(mapped_format)))
+            # Format
+            if resource_dict.get('format'):
+                g.add((
+                    distribution,
+                    DCT['format'],
+                    Literal(resource_dict['format'])
+                ))
 
             # Mime-Type
             if resource_dict.get('mimetype'):
