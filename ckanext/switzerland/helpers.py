@@ -323,7 +323,7 @@ def map_to_valid_format(resource_format):
         'JSON': ['json'],
         'KMZ': ['kmz'],
         'MULTIFORMAT': ['multiformat'],
-        'ODS': ['ods', 'vnd.oas...'],
+        'ODS': ['ods', 'vnd.oas...', 'vnd.oasis.opendocument.spreadsheet'],
         'PC-AXIS': ['pc-axis file'],
         'PDF': ['pdf'],
         'PNG': ['png'],
