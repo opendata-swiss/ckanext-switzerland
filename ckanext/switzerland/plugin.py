@@ -563,6 +563,18 @@ class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
                     action='read')
         return map
 
+class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IRoutes, inherit=True)
+
+    # IRouter
+    # Redirect gourp_read /group/{id} to custom controller
+    # fix the search on the group page if search term and facets are combined
+
+    def before_map(self, map):
+        map.connect('group_read', '/group/{id}',
+                    controller='ckanext.switzerland.controller:OgdchGroupSearchController',  # noqa
+                    action='read')
+        return map
 
 class LangToString(object):
     def __init__(self, attribute):
