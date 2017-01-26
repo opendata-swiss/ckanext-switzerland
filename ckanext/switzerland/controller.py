@@ -207,6 +207,7 @@ class OgdchOrganizationSearchController(organization.OrganizationController):
         )
         return
 
+
 class OgdchGroupSearchController(group.GroupController):
     """
     This controller replaces the GroupController controller
@@ -219,7 +220,7 @@ class OgdchGroupSearchController(group.GroupController):
     had to be overridden completely.
     """
 
-    def _read(self, id, limit, group_type):
+    def _read(self, id, limit, group_type):  # noqa
         ''' This is common code used by both read and bulk_process'''
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author,
@@ -234,7 +235,8 @@ class OgdchGroupSearchController(group.GroupController):
         else:
             fq += ' groups:"%s"' % c.group_dict.get('name')
 
-        c.description_formatted = h.render_markdown(c.group_dict.get('description'))
+        c.description_formatted = \
+            h.render_markdown(c.group_dict.get('description'))
 
         context['return_query'] = True
 
@@ -281,7 +283,7 @@ class OgdchGroupSearchController(group.GroupController):
             c.fields = []
             search_extras = {}
             for (param, value) in request.params.items():
-                if not param in ['q', 'page', 'sort'] \
+                if param not in ['q', 'page', 'sort'] \
                         and len(value) and not param.startswith('_'):
                     if not param.startswith('ext_'):
                         c.fields.append((param, value))
@@ -330,7 +332,8 @@ class OgdchGroupSearchController(group.GroupController):
                 'extras': search_extras
             }
 
-            context_ = dict((k, v) for (k, v) in context.items() if k != 'schema')
+            context_ = dict((k, v) for (k, v) in context.items()
+                            if k != 'schema')
             query = get_action('package_search')(context_, data_dict)
 
             c.page = h.Page(
@@ -362,5 +365,8 @@ class OgdchGroupSearchController(group.GroupController):
             c.facets = {}
             c.page = h.Page(collection=[])
 
-        self._setup_template_variables(context, {'id':id},
-            group_type=group_type)
+        self._setup_template_variables(
+            context,
+            {'id': id},
+            group_type=group_type
+        )

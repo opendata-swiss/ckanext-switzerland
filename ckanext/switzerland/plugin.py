@@ -563,6 +563,7 @@ class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
                     action='read')
         return map
 
+
 class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IRoutes, inherit=True)
 
@@ -575,6 +576,7 @@ class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
                     controller='ckanext.switzerland.controller:OgdchGroupSearchController',  # noqa
                     action='read')
         return map
+
 
 class LangToString(object):
     def __init__(self, attribute):
