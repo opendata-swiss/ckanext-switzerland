@@ -28,7 +28,7 @@ class OgdchOrganizationSearchController(organization.OrganizationController):
     in CKAN core.
     In order to replace HierarchyOrganizationController it's important to load
     the ogdch_org_search plugin _after_ the hierarchy_display plugin in the
-    plugin list of the active ini file Unfortunately there are no clean
+    plugin list of the active ini file. Unfortunately there are no clean
     extension points in the OrganizationController, so that the _read() method
     had to be overridden completely.
     """
@@ -99,17 +99,17 @@ class OgdchOrganizationSearchController(organization.OrganizationController):
                         and len(value) and not param.startswith('_'):
                     if not param.startswith('ext_'):
                         c.fields.append((param, value))
-                        q += ' %s: "%s"' % (param, value)
+                        fq += ' %s: "%s"' % (param, value)
                     else:
                         search_extras[param] = value
 
-            fq += 'capacity:"public"'
             user_member_of_orgs = [org['id'] for org
                                    in h.organizations_available('read')]
 
             if (c.group and c.group.id in user_member_of_orgs):
-                fq = ''
                 context['ignore_capacity_check'] = True
+            else:
+                fq += ' capacity:"public"'
 
             facets = OrderedDict()
 
