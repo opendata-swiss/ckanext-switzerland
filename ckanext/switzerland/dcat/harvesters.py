@@ -1,5 +1,6 @@
 import ckan.plugins as p
 
+from ckan.lib.helpers import json
 from ckanext.dcat.harvesters.rdf import DCATRDFHarvester
 from ckanext.dcat.interfaces import IDCATRDFHarvester
 import ckan.model as model
@@ -18,9 +19,20 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             'description': 'Harvester for DCAT-AP Switzerland datasets from an RDF graph'  # noqa
         }
 
+    def _set_config(self, config_str):
+        if config_str:
+            self.config = json.loads(config_str)
+        else:
+            self.config = {}
+        log.debug('Using config: %r' % self.config)
+
     def before_download(self, url, harvest_job):
         # fix broken URL for City of Zurich
         url = url.replace('ogd.global.szh.loc', 'data.stadt-zuerich.ch')
+        try:
+            self._set_config(harvest_job.source.config)
+        except:
+            pass
         return url, []
 
     def _get_guid(self, dataset_dict, source_url=None):  # noqa
@@ -58,6 +70,19 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                             'config (%s)' % (org.id, dataset_dict['owner_org'])
                         )
                         return None
+
+                    if self.config.get('excluded-dataset-identifiers'):
+                        dataset_identifier = guid.split('@')[0]
+                        excluded_dataset_identifiers = self.config.get('excluded-dataset-identifiers')  # noqa
+                        if dataset_identifier in excluded_dataset_identifiers:
+                            log.error(
+                                'The dataset with identifier (%s) is ignored '
+                                'as configured in the harvester-config in '
+                                '"excluded-dataset-identifiers"'
+                                % (dataset_dict['identifier'])
+                            )
+                            return None
+
             except:
                 log.exception("An error occured")
                 return None
