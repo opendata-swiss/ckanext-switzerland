@@ -105,6 +105,6 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
 
     def before_create(self, harvest_object, dataset_dict, temp_dict):
         if self.config.get('excluded-dataset-identifiers'):
-            for excluded_dataset_identifier in self.config.get('excluded-dataset-identifiers'):
-                if excluded_dataset_identifier == dataset_dict.get('identifier'):
+            for excluded_dataset_identifier in self.config.get('excluded-dataset-identifiers'):  # noqa
+                if excluded_dataset_identifier == dataset_dict.get('identifier'):  # noqa
                     dataset_dict = None
