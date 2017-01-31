@@ -70,19 +70,6 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                             'config (%s)' % (org.id, dataset_dict['owner_org'])
                         )
                         return None
-
-                    if self.config.get('excluded-dataset-identifiers'):
-                        dataset_identifier = guid.split('@')[0]
-                        excluded_dataset_identifiers = self.config.get('excluded-dataset-identifiers')  # noqa
-                        if dataset_identifier in excluded_dataset_identifiers:
-                            log.error(
-                                'The dataset with identifier (%s) is ignored '
-                                'as configured in the harvester-config in '
-                                '"excluded-dataset-identifiers"'
-                                % (dataset_dict['identifier'])
-                            )
-                            return None
-
             except:
                 log.exception("An error occured")
                 return None
@@ -115,3 +102,9 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             return super(SwissDCATRDFHarvester, self)._gen_new_name(title['de'])  # noqa
         except TypeError:
             return super(SwissDCATRDFHarvester, self)._gen_new_name(title)  # noqa
+
+    def before_create(self, harvest_object, dataset_dict, temp_dict):
+        if self.config.get('excluded-dataset-identifiers'):
+            for excluded_dataset_identifier in self.config.get('excluded-dataset-identifiers'):
+                if excluded_dataset_identifier == dataset_dict.get('identifier'):
+                    dataset_dict = None
