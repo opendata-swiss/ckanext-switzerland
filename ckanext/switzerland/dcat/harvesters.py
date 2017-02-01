@@ -107,4 +107,4 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         if self.config.get('excluded-dataset-identifiers'):
             for excluded_dataset_identifier in self.config.get('excluded-dataset-identifiers'):  # noqa
                 if excluded_dataset_identifier == dataset_dict.get('identifier'):  # noqa
-                    dataset_dict = None
+                    dataset_dict.clear()
