@@ -115,10 +115,10 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
     def before_create(self, harvest_object, dataset_dict, temp_dict):
         try:
             source_config_obj = json.loads(harvest_object.job.source.config)
-            if source_config_obj.get('excluded_dataset_identifiers'):
-                for excluded_dataset_identifier in source_config_obj.get('excluded_dataset_identifiers'):  # noqa
-                    if excluded_dataset_identifier == dataset_dict.get('identifier'):  # noqa
-                        dataset_dict.clear()
+
+            for excluded_dataset_identifier in source_config_obj.get('excluded_dataset_identifiers', []):  # noqa
+                if excluded_dataset_identifier == dataset_dict.get('identifier'):  # noqa
+                    dataset_dict.clear()
         except ValueError:
             # nothing configured
             pass
