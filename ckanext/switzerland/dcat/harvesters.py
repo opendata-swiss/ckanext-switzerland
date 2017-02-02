@@ -1,5 +1,6 @@
 import ckan.plugins as p
 
+import json
 from ckanext.dcat.harvesters.rdf import DCATRDFHarvester
 from ckanext.dcat.interfaces import IDCATRDFHarvester
 import ckan.model as model
@@ -17,6 +18,26 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             'title': 'DCAT-AP Switzerland RDF Harvester',
             'description': 'Harvester for DCAT-AP Switzerland datasets from an RDF graph'  # noqa
         }
+
+    def validate_config(self, source_config):
+        source_config = super(SwissDCATRDFHarvester, self).validate_config(source_config)  # noqa
+
+        if not source_config:
+            return source_config
+
+        source_config_obj = json.loads(source_config)
+
+        if 'excluded_dataset_identifiers' in source_config_obj:
+            excluded_dataset_identifiers = source_config_obj['excluded_dataset_identifiers']  # noqa
+            if not isinstance(excluded_dataset_identifiers, list):
+                raise ValueError('excluded_dataset_identifiers must be '
+                                 'a list of strings')
+                if not all(isinstance(item, basestring)
+                           for item in excluded_dataset_identifiers):
+                    raise ValueError('excluded_dataset_identifiers must be '
+                                     'a list of strings')
+
+        return source_config
 
     def before_download(self, url, harvest_job):
         # fix broken URL for City of Zurich
@@ -90,3 +111,14 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             return super(SwissDCATRDFHarvester, self)._gen_new_name(title['de'])  # noqa
         except TypeError:
             return super(SwissDCATRDFHarvester, self)._gen_new_name(title)  # noqa
+
+    def before_create(self, harvest_object, dataset_dict, temp_dict):
+        try:
+            source_config_obj = json.loads(harvest_object.job.source.config)
+
+            for excluded_dataset_identifier in source_config_obj.get('excluded_dataset_identifiers', []):  # noqa
+                if excluded_dataset_identifier == dataset_dict.get('identifier'):  # noqa
+                    dataset_dict.clear()
+        except ValueError:
+            # nothing configured
+            pass
