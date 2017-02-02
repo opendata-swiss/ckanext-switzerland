@@ -1,6 +1,6 @@
 import ckan.plugins as p
 
-from ckan.lib.helpers import json
+import json
 from ckanext.dcat.harvesters.rdf import DCATRDFHarvester
 from ckanext.dcat.interfaces import IDCATRDFHarvester
 from ckanext.dcat.processors import RDFParser
@@ -21,30 +21,28 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         }
 
     def validate_config(self, source_config):
+        source_config = super(SwissDCATRDFHarvester, self).validate_config(source_config)  # noqa
+
         if not source_config:
             return source_config
 
         source_config_obj = json.loads(source_config)
-        if 'rdf_format' in source_config_obj:
-            rdf_format = source_config_obj['rdf_format']
-            if not isinstance(rdf_format, basestring):
-                raise ValueError('rdf_format must be a string')
-            supported_formats = RDFParser().supported_formats()
-            if rdf_format not in supported_formats:
-                raise ValueError('rdf_format should be one of: ' + ", ".join(supported_formats))
 
-        self.config = json.loads(source_config)
-        log.debug('Using config: %r' % self.config)
+        if 'excluded_dataset_identifiers' in source_config_obj:
+            excluded_dataset_identifiers = source_config_obj['excluded_dataset_identifiers']  # noqa
+            if not isinstance(excluded_dataset_identifiers, list):
+                raise ValueError('excluded_dataset_identifiers must be '
+                                 'a list of strings')
+                if not all(isinstance(item, basestring)
+                           for item in excluded_dataset_identifiers):
+                    raise ValueError('excluded_dataset_identifiers must be '
+                                 'a list of strings')
 
         return source_config
 
     def before_download(self, url, harvest_job):
         # fix broken URL for City of Zurich
         url = url.replace('ogd.global.szh.loc', 'data.stadt-zuerich.ch')
-        try:
-            self.validate_config(harvest_job.source.config)
-        except:
-            pass
         return url, []
 
     def _get_guid(self, dataset_dict, source_url=None):  # noqa
@@ -116,7 +114,12 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             return super(SwissDCATRDFHarvester, self)._gen_new_name(title)  # noqa
 
     def before_create(self, harvest_object, dataset_dict, temp_dict):
-        if self.config and self.config.get('excluded-dataset-identifiers'):
-            for excluded_dataset_identifier in self.config.get('excluded-dataset-identifiers'):  # noqa
-                if excluded_dataset_identifier == dataset_dict.get('identifier'):  # noqa
-                    dataset_dict.clear()
+        try:
+            source_config_obj = json.loads(harvest_object.job.source.config)
+            if source_config_obj.get('excluded_dataset_identifiers'):
+                for excluded_dataset_identifier in source_config_obj.get('excluded_dataset_identifiers'):  # noqa
+                    if excluded_dataset_identifier == dataset_dict.get('identifier'):  # noqa
+                        dataset_dict.clear()
+        except ValueError:
+            # nothing configured
+            pass
