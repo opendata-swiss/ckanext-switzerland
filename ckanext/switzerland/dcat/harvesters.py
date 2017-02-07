@@ -131,3 +131,36 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         except ValueError:
             # nothing configured
             pass
+
+    def before_update(self, harvest_object, dataset_dict, temp_dict):
+        '''
+        Called just before the ``package_update`` action.
+        It may be used to preprocess the dataset dict.
+
+        If the content of the dataset dict is emptied (i.e. set to ``None``),
+        the dataset will not be updated in CKAN, but simply ignored.
+
+        Implementations may store some temp values in temp_dict, that will be
+        then passed back in the ``after_update`` call.
+
+        :param harvest_object: A ``HarvestObject`` domain object.
+        :type harvest_job: object
+        :param dataset_dict: The dataset dict already parsed by the RDF parser
+                             (and related plugins).
+        :type dataset_dict: dict
+        :param temp_dict: A dictionary, shared among all plugins, for storing
+                          temp data. Such dict will be passed back in the
+                          ``after_update`` call.
+        :type temp_dict: dict
+        '''
+
+        harvest_content = json.loads(harvest_object.content)
+
+        package_id = harvest_content.get('identifier')
+
+        resources = harvest_content.get('resources')
+
+        for resource in resources:
+            package_id
+
+        pass
