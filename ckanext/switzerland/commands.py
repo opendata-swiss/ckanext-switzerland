@@ -1,4 +1,6 @@
+import sys
 import ckan.lib.cli
+import ckan.logic as logic
 
 
 class OgdchCommand(ckan.lib.cli.CkanCommand):
@@ -34,23 +36,29 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
 
     def cleanup_datastore(self):
         # query datastore to get all resources from the _table_metadata
-        result = logic.get_action('datastore_search')({'resource_id': '_table_metadata'})
-        
+        result = logic.get_action('datastore_search')(
+            {'resource_id': '_table_metadata'}
+        )
+
         resource_id_list = []
         for record in result:
             try:
-                logic.get_action('resource_show')({'resource_id': record['name']})
+                logic.get_action('resource_show')(
+                    {'resource_id': record['name']}
+                )
                 print "Resource '%s' found" % record['name']
             except logic.NotFound:
                 resource_id_list.append(record['name'])
-                print "Resource '%s' *not* found (marked for deletion)" % record['name']
+                print "Resource '%s' *not* found" % record['name']
             except KeyError:
                 continue
 
         # delete the rows of the orphaned datastore tables
         delete_count = 0
         for resource_id in resource_id_list:
-            logic.get_action('datastore_delete')({'resource_id': resource_id, 'force': True})
+            logic.get_action('datastore_delete')(
+                {'resource_id': resource_id, 'force': True}
+            )
             print "Table '%s' deleted (not dropped)" % resource_id
             delete_count += 1
 
