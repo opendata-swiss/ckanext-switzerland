@@ -88,6 +88,9 @@ setup(
         ogdch_dcat=ckanext.switzerland.dcat.plugins:OgdchDcatPlugin
         dcat_ch_rdf_harvester=ckanext.switzerland.dcat.harvesters:SwissDCATRDFHarvester
 
+        [paste.paster_command]
+        ogdch=ckanext.switzerland.commands:OgdchCommand
+
         [ckan.rdf.profiles]
         swiss_dcat_ap=ckanext.switzerland.dcat.profiles:SwissDCATAPProfile
     ''',
