@@ -35,8 +35,10 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         print self.__doc__
 
     def cleanup_datastore(self):
+        context = {}
         # query datastore to get all resources from the _table_metadata
         result = logic.get_action('datastore_search')(
+            context,
             {'resource_id': '_table_metadata'}
         )
 
@@ -45,6 +47,7 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             try:
                 logic.get_action('resource_show')(
                     {'resource_id': record['name']}
+                    context,
                 )
                 print "Resource '%s' found" % record['name']
             except logic.NotFound:
@@ -57,6 +60,7 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         delete_count = 0
         for resource_id in resource_id_list:
             logic.get_action('datastore_delete')(
+                context,
                 {'resource_id': resource_id, 'force': True}
             )
             print "Table '%s' deleted (not dropped)" % resource_id
