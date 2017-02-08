@@ -12,6 +12,8 @@ log = logging.getLogger(__name__)
 class SwissDCATRDFHarvester(DCATRDFHarvester):
     p.implements(IDCATRDFHarvester, inherit=True)
 
+    harvest_job = None
+
     def info(self):
         return {
             'name': 'dcat_ch_rdf',
@@ -40,6 +42,9 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         return source_config
 
     def before_download(self, url, harvest_job):
+        # save the harvest_job on the instance
+        self.harvest_job = harvest_job
+
         # fix broken URL for City of Zurich
         url = url.replace('ogd.global.szh.loc', 'data.stadt-zuerich.ch')
         return url, []
@@ -66,18 +71,22 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                     org_name = guid.split('@')[-1]  # get last element
                     org = model.Group.by_name(org_name)
                     if not org:
-                        log.error(
+                        error_msg = (
                             'The organization in the dataset identifier (%s) '
                             'does not not exist. ' % org_name
                         )
+                        log.error(error_msg)
+                        self._save_gather_error(error_msg, self.harvest_job)
                         return None
 
                     if org.id != dataset_dict['owner_org']:
-                        log.error(
+                        error_msg = (
                             'The organization in the dataset identifier (%s) '
                             'does not match the organization in the harvester '
                             'config (%s)' % (org.id, dataset_dict['owner_org'])
                         )
+                        log.error(error_msg)
+                        self._save_gather_error(error_msg, self.harvest_job)
                         return None
             except:
                 log.exception("An error occured")
