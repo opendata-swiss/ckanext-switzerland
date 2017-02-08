@@ -43,11 +43,15 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         )
 
         resource_id_list = []
-        for record in result:
+        for record in result['records']:
             try:
+                # ignore 'alias' records
+                if record['alias_of']:
+                    continue
+
                 logic.get_action('resource_show')(
-                    {'resource_id': record['name']}
                     context,
+                    {'id': record['name']}
                 )
                 print "Resource '%s' found" % record['name']
             except logic.NotFound:
