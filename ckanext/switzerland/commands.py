@@ -1,6 +1,7 @@
 import sys
 import ckan.lib.cli
 import ckan.logic as logic
+import ckan.model as model
 
 
 class OgdchCommand(ckan.lib.cli.CkanCommand):
@@ -35,7 +36,19 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         print self.__doc__
 
     def cleanup_datastore(self):
-        context = {}
+        user = logic.get_action('get_site_user')({'ignore_auth': True}, {})
+        context = {
+            'model': model,
+            'session': model.Session,
+            'user': user['name']
+        }
+        try:
+            logic.check_access('datastore_delete', context)
+            logic.check_access('resource_show', context)
+        except logic.NotAuthorized:
+            print "User is not authorized to perform this action."
+            sys.exit(1)
+
         # query datastore to get all resources from the _table_metadata
         result = logic.get_action('datastore_search')(
             context,
