@@ -1,8 +1,6 @@
 import sys
 import ckan.lib.cli
 import ckan.logic as logic
-
-from ckan.model import Session
 import ckan.model as model
 
 
