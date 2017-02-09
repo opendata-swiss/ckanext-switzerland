@@ -18,7 +18,7 @@
   <div class="actions pull-right hidden-sm hidden-xs">
     <small><a href="{{ url }}"><i class="fa fa-eye"></i> {% if res.has_views %} {{ _('Preview') }}{% else %}{{ _('More information') }}{% endif %}</a></small>
     {% if res.download_url %}
-      <a href="{{ res.download_url }}" class="btn btn-primary btn-xs" role="button" target="_blank">
+      <a href="{{ res.download_url }}" class="btn btn-primary btn-xs piwik-tracked-download" role="button" target="_blank">
         <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
       </a>
     {% else %}
