@@ -17,6 +17,7 @@ from ckanext.switzerland.helpers import (
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+import ckan.model as model
 from ckan import logic
 import ckan.lib.helpers as h
 from ckan.lib.munge import munge_title_to_name
@@ -389,6 +390,27 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
     def before_view(self, pkg_dict):
         if not self.is_supported_package_type(pkg_dict):
             return pkg_dict
+
+        # create resource views if necessary
+        user = logic.get_action('get_site_user')({'ignore_auth': True}, {})
+        context = {
+            'model': model,
+            'session': model.Session,
+            'user': user['name']
+        }
+        logic.check_access('package_create_default_resource_views', context)
+
+        # get the dataset via API, as the pkg_dict does not contain all fields
+        dataset = logic.get_action('package_show')(
+            context,
+            {'id': pkg_dict['id']}
+        )
+
+        # Make sure resource views are created before showing a dataset
+        logic.get_action('package_create_default_resource_views')(
+            context,
+            {'package': dataset}
+        )
 
         return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 
