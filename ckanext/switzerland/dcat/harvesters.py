@@ -151,7 +151,7 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         existing_resource_ids = []
         for existing_resource in existing_resources:
             if existing_resource.get('identifier'):
-                existing_resource_ids.append(existing_resource.get('identifier'))
+                existing_resource_ids.append(existing_resource.get('identifier'))  # noqa
 
         # check if incoming resource-identifier already match
         # with existing resource-identifier
