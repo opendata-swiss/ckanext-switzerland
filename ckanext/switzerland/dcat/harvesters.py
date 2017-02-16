@@ -152,12 +152,14 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         for existing_resource in existing_resources:
             existing_resource_ids.append(existing_resource.get('identifier'))
 
-        # check if incoming resource-identifier already match with existing resource-identifier
+        # check if incoming resource-identifier already match
+        # with existing resource-identifier
         for resource in dataset_dict.get('resources'):
             if resource.get('identifier') in existing_resource_ids:
                 # retrieve ckan-id and set it in dataset_dict
                 for existing_resource in existing_resources:
-                    if existing_resource.get('identifier') == resource.get('identifier'):
+                    if existing_resource.get('identifier') == resource.get(
+                            'identifier'):
                         resource['id'] = existing_resource['id']
 
         pass
