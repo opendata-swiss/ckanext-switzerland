@@ -17,6 +17,7 @@ from ckanext.switzerland.helpers import (
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+import ckan.model as model
 from ckan import logic
 import ckan.lib.helpers as h
 from ckan.lib.munge import munge_title_to_name
@@ -239,8 +240,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
                 resource = self._prepare_resource_format(resource)
 
                 # if format could not be mapped and media_type exists use this value  # noqa
-                if (resource.get('format') is None and
-                        resource.get('media_type')):
+                if (not resource.get('format') and resource.get('media_type')):
                     resource['format'] = resource['media_type'].split('/')[-1]
 
         return pkg_dict
@@ -250,18 +250,18 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         resource_format = ''
 
         # get format from download_url file extension if available
-        if resource.get('download_url') is not None:
+        if resource.get('download_url'):
             path = urlparse.urlparse(resource['download_url']).path
             ext = os.path.splitext(path)[1]
             if ext:
                 resource_format = ext.replace('.', '').lower()
 
         # get format from media_type field if available
-        if not resource_format and resource.get('media_type') is not None:  # noqa
+        if not resource_format and resource.get('media_type'):  # noqa
             resource_format = resource['media_type'].split('/')[-1].lower()
 
         # get format from format field if available (lol)
-        if not resource_format and resource.get('format') is not None:
+        if not resource_format and resource.get('format'):
             resource_format = resource['format'].split('/')[-1].lower()
 
         mapped_format = map_to_valid_format(resource_format)
@@ -269,8 +269,8 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             # if format could be successfully mapped write it to format field
             resource['format'] = mapped_format
         else:
-            # else return None (these will be indexed as N/A)
-            resource['format'] = None
+            # else return empty string (this will be indexed as N/A)
+            resource['format'] = ''
 
         return resource
 
@@ -366,7 +366,7 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
         res_dict = self._prepare_resource_format(res_dict)
 
         # if format could not be mapped and media_type exists use this value
-        if res_dict.get('format') is None and res_dict.get('media_type'):
+        if not res_dict.get('format') and res_dict.get('media_type'):
             res_dict['format'] = res_dict['media_type'].split('/')[-1]
 
         return res_dict
@@ -389,6 +389,27 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
     def before_view(self, pkg_dict):
         if not self.is_supported_package_type(pkg_dict):
             return pkg_dict
+
+        # create resource views if necessary
+        user = logic.get_action('get_site_user')({'ignore_auth': True}, {})
+        context = {
+            'model': model,
+            'session': model.Session,
+            'user': user['name']
+        }
+        logic.check_access('package_create_default_resource_views', context)
+
+        # get the dataset via API, as the pkg_dict does not contain all fields
+        dataset = logic.get_action('package_show')(
+            context,
+            {'id': pkg_dict['id']}
+        )
+
+        # Make sure resource views are created before showing a dataset
+        logic.get_action('package_create_default_resource_views')(
+            context,
+            {'package': dataset}
+        )
 
         return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 

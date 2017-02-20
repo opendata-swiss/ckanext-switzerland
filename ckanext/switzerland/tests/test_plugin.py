@@ -25,7 +25,7 @@ class TestPlugin(unittest.TestCase):
             'format': None
         }
         resource_without_any_formats_cleaned = ogdch_language_plugin._prepare_resource_format(resource_without_any_formats.copy())
-        self.assertIsNone(resource_without_any_formats_cleaned['format'])
+        self.assertEquals('', resource_without_any_formats_cleaned['format'])
 
         resource_with_invalid_format = {
             'download_url': None,
@@ -33,7 +33,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'catgif'
         }
         resource_with_invalid_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_invalid_format.copy())
-        self.assertIsNone(resource_with_invalid_format_cleaned['format'])
+        self.assertEquals('', resource_with_invalid_format_cleaned['format'])
 
         resource_with_valid_format = {
             'download_url': None,
@@ -49,7 +49,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'gif'
         }
         resource_with_invalid_media_type_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_invalid_media_type.copy())
-        self.assertIsNone(resource_with_invalid_media_type_cleaned['format'])
+        self.assertEquals('', resource_with_invalid_media_type_cleaned['format'])
 
         resource_with_valid_media_type_without_slash = {
             'download_url': None,
@@ -81,7 +81,7 @@ class TestPlugin(unittest.TestCase):
             'format': 'xml'
         }
         resourse_with_download_url_with_invalid_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_invalid_extension.copy())
-        self.assertIsNone(resourse_with_download_url_with_invalid_extension_cleaned['format'])
+        self.assertEquals('', resourse_with_download_url_with_invalid_extension_cleaned['format'])
 
         resourse_with_download_url_with_valid_extension = {
             'download_url': 'http://download.url/file.zip?param=1',
