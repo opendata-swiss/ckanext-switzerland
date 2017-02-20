@@ -1,4 +1,5 @@
 import ckan.plugins as p
+import ckan.logic as logic
 
 import json
 from ckanext.dcat.harvesters.rdf import DCATRDFHarvester
@@ -131,3 +132,32 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
         except ValueError:
             # nothing configured
             pass
+
+    def before_update(self, harvest_object, dataset_dict, temp_dict):
+        # get existing pkg_dict with incoming pkg_name
+        site_user = logic.get_action('get_site_user')(
+            {'model': model, 'ignore_auth': True}, {})
+        context = {
+            'model': model,
+            'session': model.Session,
+            'ignore_auth': True,
+            'user': site_user['name'],
+        }
+        existing_pkg = p.toolkit.get_action('package_show')(context, {
+            'id': dataset_dict.get('name')})
+
+        # get existing resource-identifiers
+        existing_resource_ids = set(
+            [r.get('identifier') for r in existing_pkg.get('resources')])
+
+        # check if incoming resource-identifier already match
+        # with existing resource-identifier
+        for resource in dataset_dict.get('resources'):
+            if resource.get('identifier') in existing_resource_ids:
+                # retrieve ckan-id and set it in dataset_dict
+                for existing_resource in existing_pkg.get('resources'):
+                    if existing_resource.get('identifier') == resource.get(
+                            'identifier'):
+                        resource['id'] = existing_resource['id']
+
+        pass
