@@ -77,19 +77,35 @@ class TestPlugin(unittest.TestCase):
 
         resourse_with_download_url_with_invalid_extension = {
             'download_url': 'http://download.url/cat.gif?param=1',
-            'media_type': 'text/xml',
-            'format': 'xml'
+            'media_type': '',
+            'format': ''
         }
         resourse_with_download_url_with_invalid_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_invalid_extension.copy())
         self.assertEquals('', resourse_with_download_url_with_invalid_extension_cleaned['format'])
 
+        resourse_with_download_url_with_invalid_extension_but_format = {
+            'download_url': 'http://download.url/cat.gif?param=1',
+            'media_type': 'text/xml',
+            'format': 'xml'
+        }
+        resourse_with_download_url_with_invalid_extension_but_format_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_invalid_extension_but_format.copy())
+        self.assertEquals('XML', resourse_with_download_url_with_invalid_extension_but_format_cleaned['format'])
+
         resourse_with_download_url_with_valid_extension = {
+            'download_url': 'http://download.url/file.zip?param=1',
+            'media_type': '',
+            'format': ''
+        }
+        resourse_with_download_url_with_valid_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_valid_extension.copy())
+        self.assertEquals('ZIP', resourse_with_download_url_with_valid_extension_cleaned['format'])
+
+        resourse_with_download_url_with_valid_extension_but_format = {
             'download_url': 'http://download.url/file.zip?param=1',
             'media_type': 'text/xml',
             'format': 'xml'
         }
-        resourse_with_download_url_with_valid_extension_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_valid_extension.copy())
-        self.assertEquals('ZIP', resourse_with_download_url_with_valid_extension_cleaned['format'])
+        resourse_with_download_url_with_valid_extension_but_format_cleaned = ogdch_language_plugin._prepare_resource_format(resourse_with_download_url_with_valid_extension_but_format.copy())
+        self.assertEquals('XML', resourse_with_download_url_with_valid_extension_but_format_cleaned['format'])
 
         resource_with_ods_vndoas_format = {
             'download_url': 'http://download.url',
