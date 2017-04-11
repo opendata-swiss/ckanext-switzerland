@@ -314,7 +314,7 @@ def strip_accents(s):
 # all formats that need to be mapped have to be entered lower-case
 def map_to_valid_format(resource_format):
     format_mapping = {
-        'CSV': ['csv', 'aspx', 'text (.csv)', 'comma ...'],
+        'CSV': ['csv', 'text (.csv)', 'comma ...'],
         'GeoJSON': ['geojson'],
         'GeoTIFF': ['geotiff'],
         'GPKG': ['gpkg'],
