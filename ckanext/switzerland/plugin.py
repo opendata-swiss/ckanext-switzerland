@@ -270,7 +270,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         mapped_format = map_to_valid_format(resource_format)
         log.debug(
-            "Mapped resource format '%s' to '%s'" %
+            "Mapped resource format %r to %r" %
             (resource_format, mapped_format)
         )
         if mapped_format:
