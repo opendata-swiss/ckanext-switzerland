@@ -6,6 +6,7 @@ from datetime import datetime
 import time
 
 import re
+import werkzeug.urls
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.dcat.utils import resource_uri
@@ -406,7 +407,7 @@ class SwissDCATAPProfile(RDFProfile):
             relations = dataset_dict.get('relations')
             for relation in relations:
                 relation_name = relation['label']
-                relation_url = relation['url']
+                relation_url = werkzeug.urls.url_fix(relation['url'])
 
                 relation = URIRef(relation_url)
                 g.add((relation, RDFS.label, Literal(relation_name)))
@@ -508,9 +509,11 @@ class SwissDCATAPProfile(RDFProfile):
             url = resource_dict.get('url')
             download_url = resource_dict.get('download_url')
             if download_url:
+                download_url = werkzeug.urls.url_fix(download_url)
                 g.add((distribution, DCAT.downloadURL, URIRef(download_url)))
                 g.add((distribution, DCAT.accessURL, URIRef(download_url)))
             if (url and not download_url) or (url and url != download_url):
+                url = werkzeug.urls.url_fix(url)
                 g.add((distribution, DCAT.accessURL, URIRef(url)))
 
             # Format
