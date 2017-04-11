@@ -340,7 +340,7 @@ def map_to_valid_format(resource_format):
         'ZIP': ['zip'],
     }
     resource_format_lower = resource_format.lower()
-    for key, values in format_mapping.items():
+    for key, values in format_mapping.iteritems():
         if resource_format_lower in values:
             return key
     else:
