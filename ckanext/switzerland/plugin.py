@@ -249,13 +249,6 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _prepare_resource_format(self, resource):
         resource_format = ''
 
-        # get format from download_url file extension if available
-        if resource.get('download_url'):
-            path = urlparse.urlparse(resource['download_url']).path
-            ext = os.path.splitext(path)[1]
-            if ext:
-                resource_format = ext.replace('.', '').lower()
-
         # get format from media_type field if available
         if not resource_format and resource.get('media_type'):  # noqa
             resource_format = resource['media_type'].split('/')[-1].lower()
@@ -264,7 +257,22 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         if not resource_format and resource.get('format'):
             resource_format = resource['format'].split('/')[-1].lower()
 
+        # check if 'media_type' or 'format' can be mapped
+        has_format = (map_to_valid_format(resource_format) is not None)
+
+        # if the fields can't be mapped,
+        # try to parse the download_url as a last resort
+        if not has_format and resource.get('download_url'):
+            path = urlparse.urlparse(resource['download_url']).path
+            ext = os.path.splitext(path)[1]
+            if ext:
+                resource_format = ext.replace('.', '').lower()
+
         mapped_format = map_to_valid_format(resource_format)
+        log.debug(
+            "Mapped resource format '%s' to '%s'" %
+            (resource_format, mapped_format)
+        )
         if mapped_format:
             # if format could be successfully mapped write it to format field
             resource['format'] = mapped_format

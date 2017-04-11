@@ -107,6 +107,14 @@ class TestPlugin(unittest.TestCase):
         resource_with_pcaxis_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_pcaxis_format.copy())
         self.assertEquals('PC-AXIS', resource_with_pcaxis_format_cleaned['format'])
 
+        resource_with_pcaxis_format = {
+            'download_url': 'http://download.url/Download.aspx?file=pc-axis-file-001',
+            'media_type': 'pc-axis file',
+            'format': 'CSV'
+        }
+        resource_with_pcaxis_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_pcaxis_format.copy())
+        self.assertEquals('PC-AXIS', resource_with_pcaxis_format_cleaned['format'])
+
         resource_with_rdf_sparql_format = {
             'download_url': 'http://download.url',
             'media_type': None,
