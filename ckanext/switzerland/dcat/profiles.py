@@ -363,14 +363,30 @@ class SwissDCATAPProfile(RDFProfile):
         ]
         self._add_triples_from_dict(dataset_dict, dataset_ref, items)
 
-        self._add_multilang_value(dataset_ref, DCT.description, 'description', dataset_dict)  # noqa
-        self._add_multilang_value(dataset_ref, DCT.title, 'title', dataset_dict)  # noqa
+        self._add_multilang_value(
+            dataset_ref,
+            DCT.description,
+            'description',
+            dataset_dict
+        )
+        self._add_multilang_value(
+            dataset_ref,
+            DCT.title,
+            'title',
+            dataset_dict
+        )
 
         # LandingPage
         g.add((dataset_ref, DCAT.landingPage,
                Literal(dataset_dict['url'])))
 
-        self._add_multilang_value(dataset_ref, DCAT.keyword, 'keywords', dataset_dict)  # noqa
+        # Keywords
+        self._add_multilang_value(
+            dataset_ref,
+            DCAT.keyword,
+            'keywords',
+            dataset_dict
+        )
 
         # Dates
         items = [
@@ -422,7 +438,11 @@ class SwissDCATAPProfile(RDFProfile):
                     continue
                 reference_identifier = reference.get('dataset_identifier')
                 if reference_identifier:
-                    g.add((dataset_ref, RDFS.seeAlso, Literal(reference_identifier)))  # noqa
+                    g.add((
+                        dataset_ref,
+                        RDFS.seeAlso,
+                        Literal(reference_identifier)
+                    ))
 
         # Contact details
         if dataset_dict.get('contact_points'):
@@ -459,9 +479,17 @@ class SwissDCATAPProfile(RDFProfile):
                     temporal_extent = BNode()
                     g.add((temporal_extent, RDF.type, DCT.PeriodOfTime))
                     if start:
-                        self._add_date_triple(temporal_extent, SCHEMA.startDate, start)  # noqa
+                        self._add_date_triple(
+                            temporal_extent,
+                            SCHEMA.startDate,
+                            start
+                        )
                     if end:
-                        self._add_date_triple(temporal_extent, SCHEMA.endDate, end)  # noqa
+                        self._add_date_triple(
+                            temporal_extent,
+                            SCHEMA.endDate,
+                            end
+                        )
                     g.add((dataset_ref, DCT.temporal, temporal_extent))
 
         # Themes
