@@ -6,12 +6,11 @@ from datetime import datetime
 import time
 
 import re
-import werkzeug.urls
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.dcat.utils import resource_uri
 
-from ckanext.switzerland.helpers import get_langs
+from ckanext.switzerland.helpers import get_langs, uri_to_iri
 
 import logging
 log = logging.getLogger(__name__)
@@ -377,8 +376,13 @@ class SwissDCATAPProfile(RDFProfile):
         )
 
         # LandingPage
+        try:
+            landing_page = uri_to_iri(dataset_dict['url'])
+        except ValueError:
+            landing_page = ''
+
         g.add((dataset_ref, DCAT.landingPage,
-               Literal(dataset_dict['url'])))
+               Literal(landing_page)))
 
         # Keywords
         self._add_multilang_value(
@@ -423,7 +427,11 @@ class SwissDCATAPProfile(RDFProfile):
             relations = dataset_dict.get('relations')
             for relation in relations:
                 relation_name = relation['label']
-                relation_url = werkzeug.urls.url_fix(relation['url'])
+                try:
+                    relation_url = uri_to_iri(relation['url'])
+                except ValueError:
+                    # skip this relation if the URL is invalid
+                    continue
 
                 relation = URIRef(relation_url)
                 g.add((relation, RDFS.label, Literal(relation_name)))
@@ -533,16 +541,30 @@ class SwissDCATAPProfile(RDFProfile):
             self._add_list_triples_from_dict(resource_dict, distribution,
                                              items)
 
-            # URL
-            url = resource_dict.get('url')
+            # Download URL & Access URL
             download_url = resource_dict.get('download_url')
             if download_url:
-                download_url = werkzeug.urls.url_fix(download_url)
-                g.add((distribution, DCAT.downloadURL, URIRef(download_url)))
-                g.add((distribution, DCAT.accessURL, URIRef(download_url)))
+                try:
+                    download_url = uri_to_iri(download_url)
+                    g.add((
+                        distribution,
+                        DCAT.downloadURL,
+                        URIRef(download_url)
+                    ))
+                except ValueError:
+                    # only add valid URL
+                    pass
+
+            url = resource_dict.get('url')
             if (url and not download_url) or (url and url != download_url):
-                url = werkzeug.urls.url_fix(url)
-                g.add((distribution, DCAT.accessURL, URIRef(url)))
+                try:
+                    url = uri_to_iri(url)
+                    g.add((distribution, DCAT.accessURL, URIRef(url)))
+                except ValueError:
+                    # only add valid URL
+                    pass
+            elif download_url:
+                g.add((distribution, DCAT.accessURL, URIRef(download_url)))
 
             # Format
             if resource_dict.get('format'):
