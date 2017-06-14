@@ -1,4 +1,5 @@
 import sys
+import itertools
 import ckan.lib.cli
 import ckan.logic as logic
 import ckan.model as model
@@ -50,9 +51,34 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             sys.exit(1)
 
         # query datastore to get all resources from the _table_metadata
+        resource_id_list = []
+        for offset in itertools.count(start=0, step=100):
+            print "Load metadata records from datastore (offset: %s)" % offset
+            record_list, has_next_page = self._get_datastore_table_page(context, offset)  # noqa
+            resource_id_list.extend(record_list)
+            if not has_next_page:
+                break
+
+        # delete the rows of the orphaned datastore tables
+        delete_count = 0
+        for resource_id in resource_id_list:
+            logic.get_action('datastore_delete')(
+                context,
+                {'resource_id': resource_id, 'force': True}
+            )
+            print "Table '%s' deleted (not dropped)" % resource_id
+            delete_count += 1
+
+        print "Deleted content of %s tables" % delete_count
+
+    def _get_datastore_table_page(self, context, offset=0):
+        # query datastore to get all resources from the _table_metadata
         result = logic.get_action('datastore_search')(
             context,
-            {'resource_id': '_table_metadata'}
+            {
+                'resource_id': '_table_metadata',
+                'offset': offset
+            }
         )
 
         resource_id_list = []
@@ -73,14 +99,7 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             except KeyError:
                 continue
 
-        # delete the rows of the orphaned datastore tables
-        delete_count = 0
-        for resource_id in resource_id_list:
-            logic.get_action('datastore_delete')(
-                context,
-                {'resource_id': resource_id, 'force': True}
-            )
-            print "Table '%s' deleted (not dropped)" % resource_id
-            delete_count += 1
+        # are there more records?
+        has_next_page = (len(result['records']) > 0)
 
-        print "Deleted content of %s tables" % delete_count
+        return (resource_id_list, has_next_page)
