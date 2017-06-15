@@ -269,10 +269,6 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
                 resource_format = ext.replace('.', '').lower()
 
         mapped_format = map_to_valid_format(resource_format)
-        log.debug(
-            "Mapped resource format %r to %r" %
-            (resource_format, mapped_format)
-        )
         if mapped_format:
             # if format could be successfully mapped write it to format field
             resource['format'] = mapped_format
@@ -469,8 +465,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         extract_title = LangToString('title')
         validated_dict = json.loads(search_data['validated_data_dict'])
 
-        # log.debug(pprint.pformat(validated_dict))
-
         search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
@@ -512,7 +506,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         except KeyError:
             pass
 
-        # log.debug(pprint.pformat(search_data))
         return search_data
 
     # generates a set with formats of all resources
