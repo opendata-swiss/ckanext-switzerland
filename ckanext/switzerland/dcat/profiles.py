@@ -322,7 +322,7 @@ class SwissDCATAPProfile(RDFProfile):
             # languages
             for language in self._object_value_list(
                     distribution,
-                    DCAT.language
+                    DCT.language
             ):
                 resource_dict['language'].append(language)
 
