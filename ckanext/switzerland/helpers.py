@@ -5,6 +5,8 @@ import json
 import pylons
 from ckan.common import _
 from babel import numbers
+from werkzeug import urls
+from urlparse import urlparse
 from ckan.lib.helpers import localised_number
 import ckan.lib.i18n as i18n
 
@@ -345,3 +347,16 @@ def map_to_valid_format(resource_format):
             return key
     else:
         return None
+
+
+# convert URI to IRI (used for RDF)
+# this function also validates the URI and throws a ValueError if the
+# provided URI is invalid
+def uri_to_iri(uri):
+    result = urlparse(uri)
+    if not result.scheme or not result.netloc or result.netloc == '-':
+        raise ValueError("Provided URI does not have a valid schema or netloc")
+
+    fixed_uri = urls.url_fix(uri)
+    iri = urls.uri_to_iri(fixed_uri)
+    return iri
