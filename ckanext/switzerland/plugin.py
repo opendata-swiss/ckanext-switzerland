@@ -272,6 +272,8 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         if mapped_format:
             # if format could be successfully mapped write it to format field
             resource['format'] = mapped_format
+        elif not resource.get('download_url'):
+            resource['format'] = 'SERVICE'
         else:
             # else return empty string (this will be indexed as N/A)
             resource['format'] = ''
