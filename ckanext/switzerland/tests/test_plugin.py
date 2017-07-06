@@ -131,6 +131,14 @@ class TestPlugin(unittest.TestCase):
         resource_with_ods_vndoas_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_ods_vndoas_format.copy())
         self.assertEquals('ODS', resource_with_ods_vndoas_format_cleaned['format'])
 
+        resource_with_vndoxml_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        }
+        resource_with_vndoxml_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_vndoxml_format.copy())
+        self.assertEquals('XLS', resource_with_vndoxml_format_cleaned['format'])
+
         resource_with_pcaxis_format = {
             'download_url': 'http://download.url',
             'media_type': None,
