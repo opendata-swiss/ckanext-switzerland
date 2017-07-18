@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-07-12 07:09+0000\n"
-"PO-Revision-Date: 2017-07-12 07:32+0000\n"
+"POT-Creation-Date: 2017-07-18 07:07+0000\n"
+"PO-Revision-Date: 2017-07-18 07:10+0000\n"
 "Last-Translator: Stefanie Taepke <s_t@me.com>\n"
 "Language-Team: Italian (http://www.transifex.com/opendataswiss/opendata-swiss/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -325,9 +325,9 @@ msgstr "Cerca"
 
 #: ckanext/switzerland/templates/recline_view.html:12
 msgid ""
-"This ressource cannot be previewed. The file is too big or the format is not"
-" recognized."
-msgstr ""
+"The preview of this resource is not available. The file is too big or its "
+"format is not recognized."
+msgstr "La funziona di preview per questa risorsa non è disponibile. Le dimensioni del file sono eccessive o il formato non è riconosciuto."
 
 #: ckanext/switzerland/templates/recline_view.html:12
 msgid "Loading..."
