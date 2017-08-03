@@ -159,6 +159,20 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(1, self.find_position_of_org(result_orgs, u'ÉÉÉÉÉ (EN)'))  # noqa
         self.assertEqual(2, self.find_position_of_org(result_orgs, u'üüüüü (EN)'))  # noqa
 
+    def test_uri_to_iri_valid(self):
+        uri = 'https://www.etat.ge.ch/geoportail/pro/?res=map&visiblelayerindexes={"CATALOGUE":[0632]}'  # noqa
+        result = helpers.uri_to_iri(uri)
+        self.assertEqual(
+            'https://www.etat.ge.ch/geoportail/pro/?res=map&visiblelayerindexes=%7B%22CATALOGUE%22%3A%5B0632%5D%7D',  #noqa
+            result
+        )
+
+    def test_uri_to_iri_invalid(self):
+        # 'test' is not a valid URI-like string
+        uri = 'test'  # noqa
+        with self.assertRaises(Exception):
+            helpers.uri_to_iri(uri)
+
     def find_position_of_org(self, org_list, title):
         index = next(
             (i for i, org in enumerate(org_list) if
