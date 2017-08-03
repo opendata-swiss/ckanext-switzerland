@@ -19,21 +19,37 @@ class TestPlugin(unittest.TestCase):
     def test_prepare_resource_format(self):
         ogdch_language_plugin = plugin.OgdchLanguagePlugin()
 
-        resource_without_any_formats = {
+        resource_with_no_format_and_no_download_url = {
             'download_url': None,
             'media_type': None,
             'format': None
         }
-        resource_without_any_formats_cleaned = ogdch_language_plugin._prepare_resource_format(resource_without_any_formats.copy())
-        self.assertEquals('', resource_without_any_formats_cleaned['format'])
+        resource_with_no_format_and_no_download_url_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_no_format_and_no_download_url.copy())
+        self.assertEquals('SERVICE', resource_with_no_format_and_no_download_url_cleaned['format'])
 
-        resource_with_invalid_format = {
+        resource_with_invalid_format_and_with_download_url = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'dogvideo'
+        }
+        resource_with_invalid_format_and_with_download_url_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_invalid_format_and_with_download_url.copy())
+        self.assertEquals('', resource_with_invalid_format_and_with_download_url_cleaned['format'])
+
+        resource_without_any_formats_with_download_url = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': None
+        }
+        resource_without_any_formats_with_download_url_cleaned = ogdch_language_plugin._prepare_resource_format(resource_without_any_formats_with_download_url.copy())
+        self.assertEquals('', resource_without_any_formats_with_download_url_cleaned['format'])
+
+        resource_with_invalid_format_and_no_download_url = {
             'download_url': None,
             'media_type': None,
             'format': 'catgif'
         }
-        resource_with_invalid_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_invalid_format.copy())
-        self.assertEquals('', resource_with_invalid_format_cleaned['format'])
+        resource_with_invalid_format_and_no_download_url_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_invalid_format_and_no_download_url.copy())
+        self.assertEquals('SERVICE', resource_with_invalid_format_and_no_download_url_cleaned['format'])
 
         resource_with_valid_format = {
             'download_url': None,
@@ -44,7 +60,7 @@ class TestPlugin(unittest.TestCase):
         self.assertEquals('XML', resource_with_valid_format_cleaned['format'])
 
         resource_with_invalid_media_type = {
-            'download_url': None,
+            'download_url': 'http://download.url',
             'media_type': 'cat/gif',
             'format': 'gif'
         }
@@ -114,6 +130,14 @@ class TestPlugin(unittest.TestCase):
         }
         resource_with_ods_vndoas_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_ods_vndoas_format.copy())
         self.assertEquals('ODS', resource_with_ods_vndoas_format_cleaned['format'])
+
+        resource_with_vndoxml_format = {
+            'download_url': 'http://download.url',
+            'media_type': None,
+            'format': 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        }
+        resource_with_vndoxml_format_cleaned = ogdch_language_plugin._prepare_resource_format(resource_with_vndoxml_format.copy())
+        self.assertEquals('XLS', resource_with_vndoxml_format_cleaned['format'])
 
         resource_with_pcaxis_format = {
             'download_url': 'http://download.url',

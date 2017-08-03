@@ -330,14 +330,14 @@ def map_to_valid_format(resource_format):
         'PDF': ['pdf'],
         'PNG': ['png'],
         'RDF': ['sparql-...'],
-        'SHAPEFILE': ['esri shapefile', 'esri geodatabase (....', 'esri file geodatabase', 'esri arcinfo ascii ...'], # noqa
+        'SHAPEFILE': ['esri shapefile', 'esri geodatabase (....', 'esri file geodatabase', 'esri arcinfo ascii ...'],  # noqa
         'TXT': ['text', 'txt', 'text (.txt)', 'plain'],
         'TIFF': ['tiff'],
         'WCS': ['wcs'],
         'WFS': ['wfs'],
         'WMS': ['wms'],
         'WMTS': ['wmts'],
-        'XLS': ['xls', 'xlsx'],
+        'XLS': ['xls', 'xlsx', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'],  # noqa
         'XML': ['xml'],
         'ZIP': ['zip'],
     }
