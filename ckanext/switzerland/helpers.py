@@ -5,7 +5,6 @@ import json
 import pylons
 from ckan.common import _
 from babel import numbers
-from werkzeug import urls
 import iribaker
 from urlparse import urlparse
 from ckan.lib.helpers import localised_number
@@ -359,8 +358,7 @@ def uri_to_iri(uri):
         raise ValueError("Provided URI does not have a valid schema or netloc")
 
     try:
-        fixed_uri = urls.url_fix(uri)
-        iri = iribaker.to_iri(fixed_uri)
+        iri = iribaker.to_iri(uri)
         return iri
     except:
         raise ValueError("Provided URI can't be converted to IRI")

@@ -163,7 +163,7 @@ class TestHelpers(unittest.TestCase):
         uri = 'https://www.etat.ge.ch/geoportail/pro/?res=map&visiblelayerindexes={"CATALOGUE":[0632]}'  # noqa
         result = helpers.uri_to_iri(uri)
         self.assertEqual(
-            'https://www.etat.ge.ch/geoportail/pro/?res=map&visiblelayerindexes=%7B%22CATALOGUE%22:%5B0632%5D%7D',  #noqa
+            'https://www.etat.ge.ch/geoportail/pro/?res=map&visiblelayerindexes=%7B%22CATALOGUE%22%3A%5B0632%5D%7D',  #noqa
             result
         )
 
