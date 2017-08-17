@@ -147,17 +147,14 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             'id': dataset_dict.get('name')})
 
         # get existing resource-identifiers
-        existing_resource_ids = set(
-            [r.get('identifier') for r in existing_pkg.get('resources') if r.get('identifier', '')])  # noqa
+        existing_resources = existing_pkg.get('resources')
+        resource_mapping = {r.get('identifier'): r.get('id') for r in existing_resources if r.get('identifier')}  # noqa
 
-        # check if incoming resource-identifier already match
-        # with existing resource-identifier
+        # Try to match existing identifiers with new ones
+        # Note: in ckanext-dcat a mapping is already done based on the URI
+        #       which will be overwritten here, i.e. the mapping by identifier
+        #       has precedence
         for resource in dataset_dict.get('resources'):
-            if resource.get('identifier') in existing_resource_ids:
-                # retrieve ckan-id and set it in dataset_dict
-                for existing_resource in existing_pkg.get('resources'):
-                    if existing_resource.get('identifier') == resource.get(
-                            'identifier'):
-                        resource['id'] = existing_resource['id']
-
-        pass
+            identifier = resource.get('identifier')
+            if identifier and identifier in resource_mapping:
+                resource['id'] = resource_mapping[identifier]
