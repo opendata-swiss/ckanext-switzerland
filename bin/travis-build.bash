@@ -51,6 +51,7 @@ cd -
 
 echo "Installing ckanext-ckanext-switzerland and its requirements..."
 python setup.py develop
+pip install -r requirements.txt
 pip install -r dev-requirements.txt
 
 echo "Moving test.ini into a subdir..."
