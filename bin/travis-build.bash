@@ -42,6 +42,13 @@ cd ckan
 paster db init -c test-core.ini
 cd -
 
+echo "Installing ckanext-scheming and its requirements..."
+git clone https://github.com/ckan/ckanext-scheming
+cd ckanext-scheming
+python setup.py develop
+pip install -r requirements.txt
+cd -
+
 echo "Installing ckanext-ckanext-switzerland and its requirements..."
 python setup.py develop
 pip install -r dev-requirements.txt
