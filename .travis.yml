@@ -1,4 +1,5 @@
 sudo: required
+dist: precise
 
 language: python
 
@@ -11,6 +12,6 @@ env:
     - CKANVERSION=2.5
 
 install:
-    - bash travis-build.bash
+    - bash bin/travis-build.bash
 
-script: ./build.sh
+script: bin/travis-run.sh
