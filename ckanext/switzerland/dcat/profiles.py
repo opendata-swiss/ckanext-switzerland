@@ -108,11 +108,10 @@ class SwissDCATAPProfile(RDFProfile):
 
         keywords = {}
 
-        for lang in get_langs():
-            keywords[lang] = []
-
         for keyword_node in self.g.objects(subject, predicate):
-            keywords[keyword_node.language].append(unicode(keyword_node))
+            lang = keyword_node.language
+            keyword = unicode(keyword_node)
+            keywords.setdefault(lang, []).append(keyword)
 
         return keywords
 
