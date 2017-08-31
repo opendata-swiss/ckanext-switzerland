@@ -9,6 +9,7 @@ import re
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.dcat.utils import resource_uri
+from ckan.lib.munge import munge_tag
 
 from ckanext.switzerland.helpers import get_langs, uri_to_iri
 
@@ -110,7 +111,7 @@ class SwissDCATAPProfile(RDFProfile):
 
         for keyword_node in self.g.objects(subject, predicate):
             lang = keyword_node.language
-            keyword = unicode(keyword_node)
+            keyword = munge_tag(unicode(keyword_node))
             keywords.setdefault(lang, []).append(keyword)
 
         return keywords
@@ -175,6 +176,8 @@ class SwissDCATAPProfile(RDFProfile):
                     (subject, predicate, Literal(multilang_values)))  # noqa
 
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
+        log.debug("Parsing dataset '%r'" % dataset_ref)
+
         dataset_dict['temporals'] = []
         dataset_dict['tags'] = []
         dataset_dict['extras'] = []
@@ -215,7 +218,7 @@ class SwissDCATAPProfile(RDFProfile):
         # Tags
         keywords = self._object_value_list(dataset_ref, DCAT.keyword) or []
         for keyword in keywords:
-            dataset_dict['tags'].append({'name': keyword})
+            dataset_dict['tags'].append({'name': munge_tag(unicode(keyword))})
 
         # Keywords
         dataset_dict['keywords'] = self._keywords(dataset_ref, DCAT.keyword)
@@ -260,14 +263,14 @@ class SwissDCATAPProfile(RDFProfile):
         # Dataset URI (explicitly show the missing ones)
         dataset_uri = (unicode(dataset_ref)
                        if isinstance(dataset_ref, rdflib.term.URIRef)
-                       else None)
+                       else '')
         dataset_dict['extras'].append({'key': 'uri', 'value': dataset_uri})
 
         # Resources
         for distribution in self._distributions(dataset_ref):
 
             resource_dict = {
-                'media_type': None,
+                'media_type': '',
                 'language': [],
             }
 
@@ -315,7 +318,7 @@ class SwissDCATAPProfile(RDFProfile):
             resource_dict['url'] = (self._object_value(distribution,
                                                        DCAT.accessURL) or
                                     self._object_value(distribution,
-                                                       DCAT.downloadURL))
+                                                       DCAT.downloadURL) or '')
 
             # languages
             for language in self._object_value_list(
@@ -333,13 +336,17 @@ class SwissDCATAPProfile(RDFProfile):
             resource_dict['uri'] = (unicode(distribution)
                                     if isinstance(distribution,
                                                   rdflib.term.URIRef)
-                                    else None)
+                                    else '')
 
             dataset_dict['resources'].append(resource_dict)
+
+        log.debug("Parsed dataset '%r': %s" % (dataset_ref, dataset_dict))
 
         return dataset_dict
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):  # noqa
+
+        log.debug("Create graph from dataset '%s'" % dataset_dict['name'])
 
         g = self.g
 
