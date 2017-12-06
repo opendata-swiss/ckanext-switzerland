@@ -53,6 +53,34 @@ python setup.py develop
 pip install -r requirements.txt
 cd -
 
+echo "Installing ckanext-fluent and its requirements..."
+git clone https://github.com/ckan/ckanext-fluent
+cd ckanext-fluent
+python setup.py develop
+cd -
+
+echo "Installing ckanext-hierarchy and its requirements..."
+git clone https://github.com/opendata-swiss/ckanext-hierarchy
+cd ckanext-hierarchy
+python setup.py develop
+cd -
+
+echo "Installing ckanext-harvest and its requirements..."
+git clone https://github.com/ckan/ckanext-harvest
+cd ckanext-harvest
+python setup.py develop
+pip install -r pip-requirements.txt
+paster harvester initdb -c ../ckan/test-core.ini
+cd -
+
+echo "Installing ckanext-dcat and its requirements..."
+git clone https://github.com/ckan/ckanext-dcat
+cd ckanext-dcat
+python setup.py develop
+pip install -r requirements.txt
+pip install -r dev-requirements.txt
+cd -
+
 echo "Installing ckanext-ckanext-switzerland and its requirements..."
 python setup.py develop
 pip install -r requirements.txt

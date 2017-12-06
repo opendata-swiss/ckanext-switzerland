@@ -13,6 +13,7 @@ env:
     - CKANVERSION=2.6
 
 services:
+    - redis-server
     - postgresql
 
 install:
