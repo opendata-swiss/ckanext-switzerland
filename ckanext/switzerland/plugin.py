@@ -142,6 +142,10 @@ class OgdchPlugin(plugins.SingletonPlugin):
         }
 
 
+class FormatMappingNotLoadedError(Exception):
+    pass
+
+
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
     """
     Handles language dictionaries in data_dict (pkg_dict).
@@ -152,11 +156,15 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
     def update_config(self, config):
         try:
-            with open(os.path.join(__location__, 'mapping.yaml'),
-                      'r') as format_mapping_file:
+            mapping_path = os.path.join(__location__, 'mapping.yaml')
+            with open(mapping_path, 'r') as format_mapping_file:
                 self.format_mapping = yaml.safe_load(format_mapping_file)
-        except IOError:
-            self.format_mapping = {}
+        except (IOError, yaml.YAMLError) as exception:
+            raise FormatMappingNotLoadedError(
+                'Loading Format-Mapping from Path: (%s) '
+                'failed with Exception: (%s)'
+                % (mapping_path, exception)
+            )
 
     def get_format_mapping(self):
         return self.format_mapping

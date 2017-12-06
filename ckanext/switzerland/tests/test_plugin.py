@@ -24,12 +24,9 @@ class TestPlugin(unittest.TestCase):
         return
 
     def _load_test_format_mapping(self):
-        try:
-            with open(os.path.join(__location__, 'test_mapping.yaml'),
-                      'r') as format_mapping_file:
-                return yaml.safe_load(format_mapping_file)
-        except IOError:
-            raise IOError
+        with open(os.path.join(__location__, 'test_mapping.yaml'),
+                  'r') as format_mapping_file:
+            return yaml.safe_load(format_mapping_file)
 
     def test_prepare_resource_format(self):
         ogdch_language_plugin = plugin.OgdchLanguagePlugin()
