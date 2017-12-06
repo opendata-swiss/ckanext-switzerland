@@ -1,6 +1,7 @@
 from urllib import urlencode
 import logging
 
+from ckan.plugins import toolkit as tk
 import ckan.model as model
 import ckan.logic as logic
 import ckan.lib.maintain as maintain
@@ -9,6 +10,7 @@ from ckan.common import c, _, g, request, OrderedDict
 import ckan.lib.helpers as h
 import ckan.authz as authz
 import ckan.lib.search as search
+import ckan.lib.base as base
 
 from ckanext.hierarchy.controller import _children_name_list
 import ckan.controllers.organization as organization
@@ -19,6 +21,9 @@ import ckan.controllers.group as group
 lookup_group_controller = ckan.lib.plugins.lookup_group_controller
 log = logging.getLogger(__name__)
 get_action = logic.get_action
+NotFound = logic.NotFound
+redirect = base.redirect
+abort = tk.abort
 
 
 class OgdchOrganizationSearchController(organization.OrganizationController):
@@ -370,3 +375,23 @@ class OgdchGroupSearchController(group.GroupController):
             {'id': id},
             group_type=group_type
         )
+
+class OgdchPermaController(base.BaseController):
+    """
+    This controller handles the permalinks
+    """
+
+    def read(self, id):
+        try:
+            dataset = logic.get_action('ogdch_dataset_by_identifier')(
+                {'for_view': True},
+                {'identifier': id}
+            ) 
+            # redirect to add dataset resources
+	    url = h.url_for(controller='package',
+			    action='read',
+			    id=dataset['name'])
+	    redirect(url)
+
+        except NotFound:
+            abort(404, _('Dataset not found'))
