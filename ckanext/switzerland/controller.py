@@ -376,6 +376,7 @@ class OgdchGroupSearchController(group.GroupController):
             group_type=group_type
         )
 
+
 class OgdchPermaController(base.BaseController):
     """
     This controller handles the permalinks
@@ -386,12 +387,11 @@ class OgdchPermaController(base.BaseController):
             dataset = logic.get_action('ogdch_dataset_by_identifier')(
                 {'for_view': True},
                 {'identifier': id}
-            ) 
+            )
             # redirect to add dataset resources
-	    url = h.url_for(controller='package',
-			    action='read',
-			    id=dataset['name'])
-	    redirect(url)
-
+            url = h.url_for(controller='package',
+                            action='read',
+                            id=dataset['name'])
+            redirect(url)
         except NotFound:
             abort(404, _('Dataset not found'))
