@@ -313,34 +313,8 @@ def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')  # noqa
 
 
-# all formats that need to be mapped have to be entered lower-case
-def map_to_valid_format(resource_format):
-    format_mapping = {
-        'CSV': ['csv', 'text (.csv)', 'comma ...'],
-        'GeoJSON': ['geojson'],
-        'GeoTIFF': ['geotiff'],
-        'GPKG': ['gpkg'],
-        'HTML': ['html'],
-        'INTERLIS': ['interlis'],
-        'JSON': ['json'],
-        'KMZ': ['kmz'],
-        'MULTIFORMAT': ['multiformat'],
-        'ODS': ['ods', 'vnd.oas...', 'vnd.oasis.opendocument.spreadsheet'],
-        'PC-AXIS': ['pc-axis file'],
-        'PDF': ['pdf'],
-        'PNG': ['png'],
-        'RDF': ['sparql-...'],
-        'SHAPEFILE': ['esri shapefile', 'esri geodatabase (....', 'esri file geodatabase', 'esri arcinfo ascii ...'],  # noqa
-        'TXT': ['text', 'txt', 'text (.txt)', 'plain'],
-        'TIFF': ['tiff'],
-        'WCS': ['wcs'],
-        'WFS': ['wfs'],
-        'WMS': ['wms'],
-        'WMTS': ['wmts'],
-        'XLS': ['xls', 'xlsx', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'],  # noqa
-        'XML': ['xml'],
-        'ZIP': ['zip'],
-    }
+# all formats that need to be mapped have to be entered in the mapping.yaml
+def map_to_valid_format(resource_format, format_mapping):
     resource_format_lower = resource_format.lower()
     for key, values in format_mapping.iteritems():
         if resource_format_lower in values:

@@ -1,0 +1,60 @@
+CSV:
+  - 'csv'
+  - 'text (.csv)'
+  - 'comma ...'
+GeoJSON:
+  - 'geojson'
+GeoTIFF:
+  - 'geotiff'
+GPKG:
+  - 'gpkg'
+HTML:
+  - 'html'
+INTERLIS:
+  - 'interlis'
+JSON:
+  - 'json'
+KMZ:
+  - 'kmz'
+MULTIFORMAT:
+  - 'multiformat'
+ODS:
+  - 'ods'
+  - 'vnd.oas...'
+  - 'vnd.oasis.opendocument.spreadsheet'
+PC-AXIS:
+  - 'pc-axis file'
+PDF:
+  - 'pdf'
+PNG:
+  - 'png'
+RDF:
+  - 'sparql-...'
+SHAPEFILE:
+  - 'esri shapefile'
+  - 'esri geodatabase (....'
+  - 'esri file geodatabase'
+  - 'esri arcinfo ascii ...'
+TXT:
+  - 'text'
+  - 'txt'
+  - 'text (.txt)'
+  - 'plain'
+TIFF:
+  - 'tiff'
+WCS:
+  - 'wcs'
+WFS:
+  - 'wfs'
+WMS:
+  - 'wms'
+WMTS:
+  - 'wmts'
+XLS:
+  - 'xls'
+  - 'xlsx'
+  - 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+XML:
+  - 'xml'
+ZIP:
+  - 'zip'
