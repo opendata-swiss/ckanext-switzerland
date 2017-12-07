@@ -8,15 +8,16 @@
 # Andreas Weder <Andreas.Weder@gs-edi.admin.ch>, 2016
 # Jürg Hunziker <juerg.hunziker@gmail.com>, 2016
 # Mauro Bagnaschi <mauro.bagnaschi@gs-edi.admin.ch>, 2016
+# Philippe Savary <philippe.savary@liip.ch>, 2017
 # Stefanie Taepke <s_t@me.com>, 2016-2017
 # Stefan Oderbolz <oderbolz@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-07-18 07:07+0000\n"
-"PO-Revision-Date: 2017-07-18 07:10+0000\n"
-"Last-Translator: Stefanie Taepke <s_t@me.com>\n"
+"POT-Creation-Date: 2017-12-06 09:59+0000\n"
+"PO-Revision-Date: 2017-12-07 09:57+0000\n"
+"Last-Translator: Philippe Savary <philippe.savary@liip.ch>\n"
 "Language-Team: Italian (http://www.transifex.com/opendataswiss/opendata-swiss/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -140,20 +141,23 @@ msgid "Other"
 msgstr "Altro"
 
 #: ckanext/switzerland/helpers.py:188
-msgid "Open data"
-msgstr "Dati aperti"
+msgid "Open use"
+msgstr "Libero utilizzo"
 
 #: ckanext/switzerland/helpers.py:192
-msgid "Reference required"
-msgstr "Fonte richiesta"
+msgid "Open use. Must provide the source."
+msgstr "Libero utilizzo. Indicazione della fonte obbligatoria."
 
 #: ckanext/switzerland/helpers.py:196
-msgid "Commercial use with permission allowed"
-msgstr "Utilizzo commerciale ammesso previa autorizzazione"
+msgid ""
+"Open use. Use for commercial purposes requires permission of the data owner."
+msgstr "Libero utilizzo. Utilizzo a fini commerciali ammesso soltanto previo consenso del titolare dei dati."
 
 #: ckanext/switzerland/helpers.py:200
-msgid "Reference required / Commercial use with permission allowed"
-msgstr "Fonte richiesta / Utilizzo commerciale ammesso previa autorizzazione"
+msgid ""
+"Open use. Must provide the source. Use for commercial purposes requires "
+"permission of the data owner."
+msgstr "Libero utilizzo. Indicazione della fonte obbligatoria. Utilizzo a fini commerciali ammesso soltanto previo consenso del titolare dei dati."
 
 #: ckanext/switzerland/helpers.py:204
 msgid "Closed data"

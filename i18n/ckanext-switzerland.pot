@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-07-18 07:07+0000\n"
+"POT-Creation-Date: 2017-12-06 09:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,19 +133,23 @@ msgid "Other"
 msgstr ""
 
 #: ckanext/switzerland/helpers.py:188
-msgid "Open data"
+msgid "Open use"
 msgstr ""
 
 #: ckanext/switzerland/helpers.py:192
-msgid "Reference required"
+msgid "Open use. Must provide the source."
 msgstr ""
 
 #: ckanext/switzerland/helpers.py:196
-msgid "Commercial use with permission allowed"
+msgid ""
+"Open use. Use for commercial purposes requires permission of the data "
+"owner."
 msgstr ""
 
 #: ckanext/switzerland/helpers.py:200
-msgid "Reference required / Commercial use with permission allowed"
+msgid ""
+"Open use. Must provide the source. Use for commercial purposes requires "
+"permission of the data owner."
 msgstr ""
 
 #: ckanext/switzerland/helpers.py:204
