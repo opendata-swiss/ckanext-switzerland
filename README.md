@@ -76,3 +76,8 @@ do:
     python setup.py develop
     pip install -r dev-requirements.txt
     pip install -r requirements.txt
+
+## Update Format-Mapping
+
+To update the Format-Mapping edit the [mapping.yaml](/ckanext/switzerland/mapping.yaml), following the [YAML-Syntax](http://docs.ansible.com/ansible/latest/YAMLSyntax.html). You can check if your changes are valid by pasting the contents of the required changes into a Syntax-Checker, e.g. [YAML Syntax-Checker](http://www.yamllint.com/).
+Submit a Pull-Request following our [Contribution-Guidelines](CONTRIBUTING.md).

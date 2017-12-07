@@ -3,6 +3,13 @@ import ckanext.switzerland.plugin as plugin
 from nose.tools import *  # noqa
 import mock
 import sys
+import os
+import yaml
+
+__location__ = os.path.realpath(os.path.join(
+    os.getcwd(),
+    os.path.dirname(__file__))
+)
 
 if sys.version_info < (2, 7):
     import unittest2 as unittest
@@ -16,8 +23,15 @@ class TestPlugin(unittest.TestCase):
     def tearDown(self):
         return
 
+    def _load_test_format_mapping(self):
+        with open(os.path.join(__location__, 'test_mapping.yaml'),
+                  'r') as format_mapping_file:
+            return yaml.safe_load(format_mapping_file)
+
     def test_prepare_resource_format(self):
         ogdch_language_plugin = plugin.OgdchLanguagePlugin()
+
+        ogdch_language_plugin.format_mapping = self._load_test_format_mapping()
 
         resource_with_no_format_and_no_download_url = {
             'download_url': None,

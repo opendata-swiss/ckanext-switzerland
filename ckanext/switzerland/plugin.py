@@ -30,7 +30,13 @@ from webhelpers import paginate
 import urlparse
 import os
 import logging
+import yaml
 log = logging.getLogger(__name__)
+
+__location__ = os.path.realpath(os.path.join(
+    os.getcwd(),
+    os.path.dirname(__file__))
+)
 
 
 class OgdchPlugin(plugins.SingletonPlugin):
@@ -136,10 +142,32 @@ class OgdchPlugin(plugins.SingletonPlugin):
         }
 
 
+class FormatMappingNotLoadedError(Exception):
+    pass
+
+
 class OgdchLanguagePlugin(plugins.SingletonPlugin):
     """
     Handles language dictionaries in data_dict (pkg_dict).
     """
+    plugins.implements(plugins.IConfigurer)
+
+    # IConfigurer
+
+    def update_config(self, config):
+        try:
+            mapping_path = os.path.join(__location__, 'mapping.yaml')
+            with open(mapping_path, 'r') as format_mapping_file:
+                self.format_mapping = yaml.safe_load(format_mapping_file)
+        except (IOError, yaml.YAMLError) as exception:
+            raise FormatMappingNotLoadedError(
+                'Loading Format-Mapping from Path: (%s) '
+                'failed with Exception: (%s)'
+                % (mapping_path, exception)
+            )
+
+    def get_format_mapping(self):
+        return self.format_mapping
 
     def before_view(self, pkg_dict):
         pkg_dict = self._prepare_package_json(pkg_dict)
@@ -258,7 +286,10 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             resource_format = resource['format'].split('/')[-1].lower()
 
         # check if 'media_type' or 'format' can be mapped
-        has_format = (map_to_valid_format(resource_format) is not None)
+        has_format = (map_to_valid_format(
+            resource_format,
+            self.get_format_mapping()
+        ) is not None)
 
         # if the fields can't be mapped,
         # try to parse the download_url as a last resort
@@ -268,7 +299,10 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             if ext:
                 resource_format = ext.replace('.', '').lower()
 
-        mapped_format = map_to_valid_format(resource_format)
+        mapped_format = map_to_valid_format(
+            resource_format,
+            self.get_format_mapping()
+        )
         if mapped_format:
             # if format could be successfully mapped write it to format field
             resource['format'] = mapped_format
