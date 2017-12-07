@@ -22,7 +22,6 @@ lookup_group_controller = ckan.lib.plugins.lookup_group_controller
 log = logging.getLogger(__name__)
 get_action = logic.get_action
 NotFound = logic.NotFound
-redirect = base.redirect
 abort = tk.abort
 
 
@@ -383,15 +382,20 @@ class OgdchPermaController(base.BaseController):
     """
 
     def read(self, id):
+        """
+        This action redirects requests to /perma/{identifier} to
+        the corresponding /dataset/{slug} route
+        """
         try:
             dataset = logic.get_action('ogdch_dataset_by_identifier')(
                 {'for_view': True},
                 {'identifier': id}
             )
-            # redirect to add dataset resources
-            url = h.url_for(controller='package',
+            # redirect to dataset detail page
+            url = h.url_for(qualified=True,
+                            controller='package',
                             action='read',
                             id=dataset['name'])
-            redirect(url)
+            tk.redirect_to(url)
         except NotFound:
             abort(404, _('Dataset not found'))
