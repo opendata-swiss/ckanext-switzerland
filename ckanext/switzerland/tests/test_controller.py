@@ -78,3 +78,13 @@ class TestController(helpers.FunctionalTestBase):
         assert_equal(response.status_int, 302)
         assert_equal(response.headers.get('Location'), 'http://test.ckan.net/dataset/test-dataset')
 
+    def test_invalid_redirect(self):
+
+        app = self._get_test_app()
+
+        url = url_for('perma_redirect', id='non-existent-id@unknown')
+        assert_equal(url, '/perma/non-existent-id%40unknown')
+
+        # expect a 404 response
+        response = app.get(url, status=404)
+
