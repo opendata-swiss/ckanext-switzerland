@@ -185,19 +185,19 @@ def get_political_level(political_level):
 def get_terms_of_use_icon(terms_of_use):
     term_to_image_mapping = {
         'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': {  # noqa
-            'title': _('Open data'),
+            'title': _('Open use'),
             'icon': 'terms_open',
         },
         'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': {  # noqa
-            'title': _('Reference required'),
+            'title': _('Open use. Must provide the source.'),
             'icon': 'terms_by',
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': {  # noqa
-            'title': _('Commercial use with permission allowed'),
+            'title': _('Open use. Use for commercial purposes requires permission of the data owner.'),  # noqa
             'icon': 'terms_ask',
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': {  # noqa
-            'title': _('Reference required / Commercial use with permission allowed'),  # noqa
+            'title': _('Open use. Must provide the source. Use for commercial purposes requires permission of the data owner.'),  # noqa
             'icon': 'terms_by-ask',
         },
         'ClosedData': {
