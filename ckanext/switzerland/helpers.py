@@ -193,7 +193,7 @@ def get_terms_of_use_icon(terms_of_use):
             'icon': 'terms_by',
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': {  # noqa
-            'title': _('Open use. Use for commercial purposes requires permission of the data owner.'),
+            'title': _('Open use. Use for commercial purposes requires permission of the data owner.'),  # noqa
             'icon': 'terms_ask',
         },
         'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': {  # noqa
