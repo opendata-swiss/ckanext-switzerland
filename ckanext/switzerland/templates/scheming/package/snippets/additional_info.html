@@ -24,4 +24,8 @@
       </dd>
     {%- endif -%}
   {%- endfor -%}
+<dt class="dataset-label">Metadata Download</dt>
+<dd class="dataset-details"><a href="/api/3/action/package_show?id={{ pkg_dict.name }}">Download JSON</a></dd>
+<dd class="dataset-details"><a href="{{ h.url_for('/dataset/') }}{{ pkg_dict.name }}.xml">Download XML</a></dd>
+<dd class="dataset-details"><a href="{{ h.url_for('/dataset/') }}{{ pkg_dict.name }}.csv">Download CSV</a></dd>
 {% endblock %}
