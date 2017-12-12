@@ -5,14 +5,18 @@ echo "This is travis-build.bash..."
 
 echo "Installing the packages that CKAN requires..."
 sudo apt-get update -qq
-sudo apt-get install postgresql-$PGVERSION solr-jetty libcommons-fileupload-java:amd64=1.2.2-1
+sudo apt-get install solr-jetty libcommons-fileupload-java
 
 echo "Installing CKAN and its Python dependencies..."
 git clone https://github.com/ckan/ckan
 cd ckan
-if [ $CKANVERSION != 'master' ]
+if [ $CKANVERSION == 'master' ]
 then
-    git checkout release-v$CKANVERSION-latest
+    echo "CKAN version: master"
+else
+    CKAN_TAG=$(git tag | grep ^ckan-$CKANVERSION | sort --version-sort | tail -n 1)
+    git checkout $CKAN_TAG
+    echo "CKAN version: ${CKAN_TAG#ckan-}"
 fi
 
 # install the recommended version of setuptools
@@ -47,6 +51,34 @@ git clone https://github.com/ckan/ckanext-scheming
 cd ckanext-scheming
 python setup.py develop
 pip install -r requirements.txt
+cd -
+
+echo "Installing ckanext-fluent and its requirements..."
+git clone https://github.com/ckan/ckanext-fluent
+cd ckanext-fluent
+python setup.py develop
+cd -
+
+echo "Installing ckanext-hierarchy and its requirements..."
+git clone https://github.com/opendata-swiss/ckanext-hierarchy
+cd ckanext-hierarchy
+python setup.py develop
+cd -
+
+echo "Installing ckanext-harvest and its requirements..."
+git clone https://github.com/ckan/ckanext-harvest
+cd ckanext-harvest
+python setup.py develop
+pip install -r pip-requirements.txt
+paster harvester initdb -c ../ckan/test-core.ini
+cd -
+
+echo "Installing ckanext-dcat and its requirements..."
+git clone https://github.com/ckan/ckanext-dcat
+cd ckanext-dcat
+python setup.py develop
+pip install -r requirements.txt
+pip install -r dev-requirements.txt
 cd -
 
 echo "Installing ckanext-ckanext-switzerland and its requirements..."

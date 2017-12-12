@@ -417,6 +417,7 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
 
 class OgdchPackagePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IRoutes, inherit=True)
 
     def is_supported_package_type(self, pkg_dict):
         # only package type 'dataset' is supported (not harvesters!)
@@ -424,6 +425,14 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             return (pkg_dict['type'] == 'dataset')
         except KeyError:
             return False
+
+    # IRouter
+    # create perma-link route
+    def before_map(self, map):
+        map.connect('perma_redirect', '/perma/{id}',
+                    controller='ckanext.switzerland.controller:OgdchPermaController',  # noqa
+                    action='read')
+        return map
 
     # IPackageController
     def before_view(self, pkg_dict):
