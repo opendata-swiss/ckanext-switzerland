@@ -16,6 +16,7 @@ from ckanext.switzerland.helpers import (
 )
 
 import ckan.plugins as plugins
+from ckan.lib.plugins import DefaultTranslation
 import ckan.plugins.toolkit as toolkit
 import ckan.model as model
 from ckan import logic
@@ -39,14 +40,21 @@ __location__ = os.path.realpath(os.path.join(
 )
 
 
-class OgdchPlugin(plugins.SingletonPlugin):
+class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.ITranslation)
 
-    # IConfigurer
+    # ITranslation
+
+    def i18n_locales(self):
+        return get_langs()
+
+    def i18n_domain(self):
+        return 'ckanext-switzerland'
 
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
