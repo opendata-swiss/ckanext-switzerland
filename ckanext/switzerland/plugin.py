@@ -571,7 +571,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             else:
                 formats.add('N/A')
 
-        return formats
+        return list(formats)
 
     # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
