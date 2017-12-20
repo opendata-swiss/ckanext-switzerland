@@ -1,7 +1,11 @@
 from ckanext.dcat.plugins import DCATPlugin
 from ckan import plugins
 import os
-import sys
+
+__location__ = os.path.realpath(os.path.join(
+    os.getcwd(),
+    os.path.dirname(__file__))
+)
 
 
 class OgdchDcatPlugin(DCATPlugin):
@@ -14,11 +18,22 @@ class OgdchDcatPlugin(DCATPlugin):
         The default implementation assumes the plugin is
         ckanext/myplugin/plugin.py and the translations are stored in
         i18n/
+
+        Due to this issue (https://github.com/ckan/ckanext-dcat/issues/107)
+        we need to override the ckanext-dcat-i18n-path relative to the
+        location of this file.
         '''
-        # assume plugin is called ckanext.<myplugin>.<...>.PluginClass
-        extension_module_name = 'ckanext.dcat'
-        module = sys.modules[extension_module_name]
-        return os.path.join(os.path.dirname(module.__file__), 'i18n')
+        return os.path.join(
+            __location__,
+            '..',
+            '..',
+            '..',
+            '..',
+            'ckanext-dcat',
+            'ckanext',
+            'dcat',
+            'i18n'
+        )
 
     def after_show(self, context, data_dict):
         """
