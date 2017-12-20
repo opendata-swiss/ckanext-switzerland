@@ -46,15 +46,6 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.ITranslation)
-
-    # ITranslation
-
-    def i18n_locales(self):
-        return get_langs()
-
-    def i18n_domain(self):
-        return 'ckanext-switzerland'
 
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
