@@ -1,6 +1,7 @@
 {% extends "package/snippets/additional_info.html" %}
 
 {%- set exclude_fields = [
+    'identifier',
     'id',
     'title',
     'name',
@@ -16,6 +17,12 @@
     ] -%}
 
 {% block package_additional_info %}
+  <dt class="dataset-label">{{ _('Identifier') }}</dt>
+  <dd class="dataset-details">
+      <a href="{{ h.url_for('perma_redirect', id=pkg_dict.identifier) }}">
+          {{ pkg_dict.identifier }}
+      </a>
+  </dd>
   {%- for field in schema.dataset_fields -%}
     {%- if field.field_name not in exclude_fields and field.display_snippet is not none -%}
       <dt class="dataset-label">{{ h.scheming_language_text(field.label) }}</dt>
@@ -24,13 +31,13 @@
       </dd>
     {%- endif -%}
   {%- endfor -%}
-<dt class="dataset-label">{{ _('Metadata Access') }}</dt>
-<dd class="dataset-details">
-    <a href="/api/3/action/package_show?id={{ pkg_dict.name }}" class="btn btn-primary btn-xs" role="button" target="_blank" >
-        <i class="fa fa-external-link"></i> {{ _('API (JSON)') }}
-    </a>
-    <a href="{{ h.url_for('dcat_dataset', _id=pkg_dict.name, _format='xml') }}" class="btn btn-primary btn-xs" role="button" target="_blank" download="{{ pkg_dict.name }}-metadata">
-        <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download XML') }}
-    </a>
-</dd>
+  <dt class="dataset-label">{{ _('Metadata Access') }}</dt>
+  <dd class="dataset-details">
+      <a href="/api/3/action/package_show?id={{ pkg_dict.name }}" class="btn btn-primary btn-xs" role="button" target="_blank" >
+          <i class="fa fa-external-link"></i> {{ _('API (JSON)') }}
+      </a>
+      <a href="{{ h.url_for('dcat_dataset', _id=pkg_dict.name, _format='xml') }}" class="btn btn-primary btn-xs" role="button" target="_blank" download="{{ pkg_dict.name }}-metadata">
+          <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download XML') }}
+      </a>
+  </dd>
 {% endblock %}
