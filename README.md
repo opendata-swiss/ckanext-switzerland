@@ -5,7 +5,7 @@ CKAN extension for DCAT-AP Switzerland, templates and different plugins for [ope
 
 ## Requirements
 
-- CKAN 2.4+
+- CKAN 2.6+
 - ckanext-scheming
 - ckanext-fluent
 
