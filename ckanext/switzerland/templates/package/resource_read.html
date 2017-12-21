@@ -80,11 +80,11 @@
       </div>
       <div class="col-lg-3 col-sm-12 text-lg-right">
         {% if res.download_url %}
-          <a href="{{ res.download_url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" organization="{{ c.package.name }}" format="{{ res.format }}">
+          <a href="{{ res.download_url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" data-organization="{{ c.package.name }}" data-format="{{ res.format }}">
             <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
           </a>
         {% else %}
-          <a href="{{ res.url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" organization="{{ c.package.name }}" format="{{ res.format }}">
+          <a href="{{ res.url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" data-organization="{{ c.package.name }}" data-format="{{ res.format }}">
             <i class="fa fa-external-link"></i> {{ _('Go to resource') }}
           </a>
         {% endif %}
