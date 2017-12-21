@@ -106,8 +106,10 @@ class SwissDCATAPProfile(RDFProfile):
         return relations
 
     def _keywords(self, subject, predicate):
-
         keywords = {}
+        # initialize the keywords with empty lists for all languages
+        for lang in get_langs():
+            keywords[lang] = []
 
         for keyword_node in self.g.objects(subject, predicate):
             lang = keyword_node.language
