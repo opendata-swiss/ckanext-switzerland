@@ -88,10 +88,21 @@ setup(
         ogdch_dcat=ckanext.switzerland.dcat.plugins:OgdchDcatPlugin
         dcat_ch_rdf_harvester=ckanext.switzerland.dcat.harvesters:SwissDCATRDFHarvester
 
+        [babel.extractors]
+                ckan = ckan.lib.extract:extract_ckan
+
         [paste.paster_command]
         ogdch=ckanext.switzerland.commands:OgdchCommand
 
         [ckan.rdf.profiles]
         swiss_dcat_ap=ckanext.switzerland.dcat.profiles:SwissDCATAPProfile
     ''',
+
+    message_extractors={
+        'ckanext': [
+            ('**.py', 'python', None),
+            ('**.js', 'javascript', None),
+            ('**/templates/**.html', 'ckan', None),
+        ],
+    }
 )

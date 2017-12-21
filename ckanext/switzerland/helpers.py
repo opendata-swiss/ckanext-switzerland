@@ -2,7 +2,6 @@ import ckan.plugins.toolkit as tk
 import ckan.logic as logic
 import requests
 import json
-import pylons
 from ckan.common import _
 from babel import numbers
 import iribaker
@@ -59,7 +58,7 @@ def get_tweet_count():
 
 
 def _call_wp_api(action):
-    api_url = pylons.config.get('ckanext.switzerland.wp_ajax_url', None)
+    api_url = tk.config.get('ckanext.switzerland.wp_ajax_url', None)
     try:
         """
         this call does not verify the SSL cert, because it is missing on
@@ -122,7 +121,7 @@ def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
 
     # if no specific lang is requested, read from environment
     if desired_lang_code is None:
-        desired_lang_code = pylons.request.environ['CKAN_LANG']
+        desired_lang_code = tk.request.environ['CKAN_LANG']
 
     try:
         # return desired lang if available
@@ -265,8 +264,8 @@ def get_content_headers(url):
 
 def get_piwik_config():
     return {
-        'url': pylons.config.get('piwik.url', False),
-        'site_id': pylons.config.get('piwik.site_id', False)
+        'url': tk.config.get('piwik.url', False),
+        'site_id': tk.config.get('piwik.site_id', False)
     }
 
 
