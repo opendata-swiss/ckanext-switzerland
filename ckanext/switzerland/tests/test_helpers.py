@@ -70,7 +70,7 @@ class TestHelpers(unittest.TestCase):
         # if en does not exist, fallback to de
         self.assertEquals(lang_dict['de'], result)
 
-    @mock.patch('pylons.request')
+    @mock.patch('ckan.plugins.toolkit.request')
     def test_get_localized_value_no_lang(self, mock_request):
         mock_request.environ = {'CKAN_LANG': 'fr'}
 
