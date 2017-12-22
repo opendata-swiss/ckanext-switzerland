@@ -45,6 +45,12 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.ITranslation)
+
+    # ITranslation
+
+    def i18n_domain(self):
+        return 'ckanext-switzerland'
 
     # IConfigurer
 
