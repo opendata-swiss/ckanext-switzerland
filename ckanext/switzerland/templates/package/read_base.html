@@ -1,3 +1,6 @@
+{% set piwik_config = h.get_piwik_config() %}
+
+
 {% extends "package/base.html" %}
 
 {% block meta_description %}<meta name="description" content="{{ pkg.description|forceescape|trim }}" />{% endblock %}
@@ -13,4 +16,12 @@
 {% endblock %}
 
 {% block primary_content %}
+{% endblock %}
+{%  block body_extras %}$
+  {{ super() }}
+  <script type="text/javascript">
+      customDimensionVisit = {};
+      customDimensionVisit['dimension'+'{{ piwik_config.custom_dimension_visit_dataset_id or 0 }}'] = '{{ pkg.organization.name }}';
+      _paq.push(['trackPageView', ' {{ pkg.name }}', customDimensionVisit]);
+  </script>
 {% endblock %}

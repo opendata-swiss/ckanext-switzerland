@@ -46,6 +46,8 @@
   <!-- Piwik -->
   <script type="text/javascript">
     var _paq = _paq || [];
+    var customDimensionActionDatasetId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}
+    var customDimensionActionFormatId = {{ piwik_config.custom_dimension_action_format_id or 0 }}
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {
