@@ -38,6 +38,11 @@
 
 {%- block scripts %}
   <script type='text/javascript' src='https://code.jquery.com/jquery-1.11.1.min.js?ver=1.11.1'></script>
+  {% set piwik_config = h.get_piwik_config() %}
+  <script type="text/javascript">
+    var customDimensionActionDatasetId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }};
+    var customDimensionActionFormatId = {{ piwik_config.custom_dimension_action_format_id or 0 }};
+  </script>
   <script type='text/javascript' src='/content/themes/wp-ogdch-theme/assets/js/app.min.js?ver=1.0.0'></script>
 {% endblock -%}
 
@@ -46,8 +51,6 @@
   <!-- Piwik -->
   <script type="text/javascript">
     var _paq = _paq || [];
-    var customDimensionActionDatasetId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}
-    var customDimensionActionFormatId = {{ piwik_config.custom_dimension_action_format_id or 0 }}
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
     (function() {
