@@ -1,6 +1,5 @@
 {% set piwik_config = h.get_piwik_config() %}
 
-
 {% extends "package/base.html" %}
 
 {% block meta_description %}<meta name="description" content="{{ pkg.description|forceescape|trim }}" />{% endblock %}
@@ -17,7 +16,7 @@
 
 {% block primary_content %}
 {% endblock %}
-{%  block body_extras %}$
+{% block body_extras %}
   {{ super() }}
   <script type="text/javascript">
       customDimensionVisit = {};
