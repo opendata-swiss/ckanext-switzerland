@@ -22,6 +22,6 @@
   <script type="text/javascript">
       customDimensionVisit = {};
       customDimensionVisit['dimension'+'{{ piwik_config.custom_dimension_visit_dataset_id or 0 }}'] = '{{ pkg.organization.name }}';
-      _paq.push(['trackPageView', ' {{ pkg.name }}', customDimensionVisit]);
+      _paq.push(['trackPageView', '{{ pkg.name }}', customDimensionVisit]);
   </script>
 {% endblock %}
