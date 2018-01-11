@@ -12,14 +12,14 @@ from ckanext.switzerland.helpers import (
     get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
     get_political_level, get_dataset_by_identifier, get_readable_file_size,
     simplify_terms_of_use, parse_json, get_piwik_config,
-    ogdch_localised_number, ogdch_render_tree, ogdch_group_tree, map_to_valid_format
+    ogdch_localised_number, ogdch_render_tree, ogdch_group_tree,
+    map_to_valid_format
 )
 
 import ckan.plugins as plugins
 from ckan.lib.plugins import DefaultTranslation
 import ckanext.datapusher.interfaces as dpi
 import ckan.plugins.toolkit as toolkit
-import ckan.model as model
 from ckan import logic
 import ckan.lib.helpers as h
 from ckan.lib.munge import munge_title_to_name
@@ -603,10 +603,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
     def after_upload(self, context, resource_dict, dataset_dict):
         # create resource views after a successful upload to the DataStore
-        tk.get_action('resource_create_default_resource_views')(
+        toolkit.get_action('resource_create_default_resource_views')(
             context,
             {
-	        'resource': resource_dict,
+                'resource': resource_dict,
                 'package': dataset_dict,
             }
         )
