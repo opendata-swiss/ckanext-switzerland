@@ -17,6 +17,7 @@ from ckanext.switzerland.helpers import (
 
 import ckan.plugins as plugins
 from ckan.lib.plugins import DefaultTranslation
+import ckanext.datapusher.interfaces as dpi
 import ckan.plugins.toolkit as toolkit
 import ckan.model as model
 from ckan import logic
@@ -424,6 +425,7 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
 class OgdchPackagePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(dpi.IDataPusher, inherit=True)
 
     def is_supported_package_type(self, pkg_dict):
         # only package type 'dataset' is supported (not harvesters!)
@@ -441,32 +443,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         return map
 
     # IPackageController
-    def before_view(self, pkg_dict):
-        if not self.is_supported_package_type(pkg_dict):
-            return pkg_dict
-
-        # create resource views if necessary
-        user = logic.get_action('get_site_user')({'ignore_auth': True}, {})
-        context = {
-            'model': model,
-            'session': model.Session,
-            'user': user['name']
-        }
-        logic.check_access('package_create_default_resource_views', context)
-
-        # get the dataset via API, as the pkg_dict does not contain all fields
-        dataset = logic.get_action('package_show')(
-            context,
-            {'id': pkg_dict['id']}
-        )
-
-        # Make sure resource views are created before showing a dataset
-        logic.get_action('package_create_default_resource_views')(
-            context,
-            {'package': dataset}
-        )
-
-        return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 
 #     TODO: before_view isn't called in API requests -> after_show is
 #           BUT (!) after_show is also called when packages get indexed
@@ -621,6 +597,18 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
             search_params.update({'fq': "%s +dataset_type:dataset" % fq})
 
         return search_params
+
+    # IDataPusher
+
+    def after_upload(self, context, resource_dict, dataset_dict):
+        # create resource views after a successful upload to the DataStore
+        tk.get_action('resource_create_default_resource_views')(
+            context,
+            {
+	        'resource': resource_dict,
+                'package': dataset_dict,
+            }
+        )
 
 
 class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
