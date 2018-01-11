@@ -11,7 +11,9 @@ Example:
      {% if  c.q %}
      	{% set top_nodes = h.group_tree_highlight(organizations, h.group_tree(type_='organization')) %}
      {% else %}
-     	{% set top_nodes = h.ogdch_group_tree(type_='organization') %}
+        {# we use ogdch_render_tree instead of the organization_tree template to speed up the rendering #}
+        <div class="organization-hierarchy empty-search">
+        {{ h.ogdch_render_tree()|safe }}
+        </div>
      {% endif %}
-     {% snippet 'organization/snippets/organization_tree.html', top_nodes=top_nodes, use_longnames=True %}
 </div>

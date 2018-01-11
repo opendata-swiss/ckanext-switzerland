@@ -280,6 +280,35 @@ def ogdch_localised_number(number):
         return localised_number(number)
 
 
+def ogdch_render_tree():
+    '''Returns HTML for a hierarchy of all publishers'''
+    top_nodes = ogdch_group_tree()
+    return _render_tree(top_nodes)
+
+
+def _render_tree(top_nodes):
+    '''Renders a tree of nodes. 10x faster than Jinja/organization_tree.html
+    Note: avoids the slow url_for routine.
+    '''
+    html = '<ul id="organizations-list">'
+    for node in top_nodes:
+        html += _render_tree_node(node)
+    return html + '</ul>'
+
+
+def _render_tree_node(node):
+    html = '<div class="organization-row">'
+    html += '<a href="/organization/%s">%s</a>' % (node['name'], node['title'])
+    html += '</div>'
+    if node['children']:
+        html += '<ul>'
+        for child in node['children']:
+            html += _render_tree_node(child)
+        html += '</ul>'
+    html = '<li id="node_%s" class="organization">%s</li>' % (node['name'], html)  # noqa
+    return html
+
+
 def ogdch_group_tree(type_='organization'):
     organizations = tk.get_action('group_tree')(
         {},
