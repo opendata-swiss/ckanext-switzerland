@@ -86,6 +86,16 @@
       "preset": "ogdch_date"
     },
     {
+      "field_name": "expected_update",
+      "label": {
+        "en": "Date of expected update",
+        "de": "Vorraussichtlich nächste Aktualisierung",
+        "fr": "Date of expected update",
+        "it": "Date of expected update"
+      },
+      "preset": "ogdch_date"
+    },
+    {
       "field_name": "owner_org",
       "label": {
         "en": "Organization",

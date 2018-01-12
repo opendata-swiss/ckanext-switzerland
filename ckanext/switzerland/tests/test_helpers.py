@@ -5,6 +5,7 @@ import mock
 import ckanext.switzerland.helpers as helpers
 import sys
 from copy import deepcopy
+from datetime import datetime, timedelta
 
 if sys.version_info < (2, 7):
     import unittest2 as unittest
@@ -37,6 +38,26 @@ organizations = [{'children': [],
                   'title': u'{"fr": "Swisstopo FR", "de": "Swisstopo DE", "en": "ÉÉÉÉÉ (EN)", "it": "Swisstopo IT"}'}]  # noqa
 
 organization_title = u'{"fr": "Swisstopo FR", "de": "Swisstopo DE", "en": "Swisstopo EN", "it": "Swisstopo IT"}'  # noqa
+
+frequencies = {
+        'http://purl.org/cld/freq/completelyIrregular': None,  # noqa
+        'http://purl.org/cld/freq/continuous': None,  # noqa
+        'http://purl.org/cld/freq/daily': timedelta(days=1),  # noqa
+        'http://purl.org/cld/freq/threeTimesAWeek': timedelta(days=3),  # noqa
+        'http://purl.org/cld/freq/semiweekly': timedelta(days=4),  # noqa
+        'http://purl.org/cld/freq/weekly': timedelta(days=7),  # noqa
+        'http://purl.org/cld/freq/threeTimesAMonth': timedelta(days=10),  # noqa
+        'http://purl.org/cld/freq/biweekly': timedelta(days=14),  # noqa
+        'http://purl.org/cld/freq/semimonthly': timedelta(days=15),  # noqa
+        'http://purl.org/cld/freq/monthly': timedelta(days=30),  # noqa
+        'http://purl.org/cld/freq/bimonthly': timedelta(days=60),  # noqa
+        'http://purl.org/cld/freq/quarterly': timedelta(days=91),  # noqa
+        'http://purl.org/cld/freq/threeTimesAYear': timedelta(days=122),  # noqa
+        'http://purl.org/cld/freq/semiannual': timedelta(days=183),  # noqa
+        'http://purl.org/cld/freq/annual': timedelta(days=365),  # noqa
+        'http://purl.org/cld/freq/biennial': timedelta(days=730),  # noqa
+        'http://purl.org/cld/freq/triennial': timedelta(days=1095),  # noqa
+    }
 
 class TestHelpers(unittest.TestCase):
     def test_simplify_terms_of_use_open(self):
@@ -179,3 +200,23 @@ class TestHelpers(unittest.TestCase):
              org['title'] == title),
             -1)
         return index
+
+    def test_get_expected_update(self):
+        modified_set = '2016-09-20T00:00:00'
+        modified_empty = ''
+        modified_invalid = '9. September 2015'
+
+        period_irregular = 'http://purl.org/cld/freq/completelyIrregular'
+        period_continuous = 'http://purl.org/cld/freq/continuous'
+        period_empty = ''
+        period_invalid = 'something_that_does_not_match'
+        period_annual = 'http://purl.org/cld/freq/annual'
+
+        self.assertEquals('2017-09-20T00:00:00', helpers.get_expected_update(modified_set, period_annual))  #noqa
+        self.assertEquals(None, helpers.get_expected_update(modified_empty, period_annual))  #noqa
+        self.assertEquals(None, helpers.get_expected_update(modified_invalid, period_annual))  #noqa
+
+        self.assertEquals(None, helpers.get_expected_update(modified_set, period_irregular))  #noqa
+        self.assertEquals(None, helpers.get_expected_update(modified_set, period_continuous))  #noqa
+        self.assertEquals(None, helpers.get_expected_update(modified_set, period_empty))  #noqa
+        self.assertEquals(None, helpers.get_expected_update(modified_set, period_invalid))  #noqa

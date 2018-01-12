@@ -8,6 +8,7 @@ import iribaker
 from urlparse import urlparse
 from ckan.lib.helpers import localised_number
 import ckan.lib.i18n as i18n
+from datetime import datetime, timedelta
 
 import unicodedata
 
@@ -367,3 +368,46 @@ def uri_to_iri(uri):
         return iri
     except:
         raise ValueError("Provided URI can't be converted to IRI")
+
+
+def get_timedelta_by_frequency(accrual_periodicity):
+
+    time_deltas = {
+        'http://purl.org/cld/freq/completelyIrregular': None,  # noqa
+        'http://purl.org/cld/freq/continuous': None,  # noqa
+        'http://purl.org/cld/freq/daily': timedelta(days=1),  # noqa
+        'http://purl.org/cld/freq/threeTimesAWeek': timedelta(days=2),  # noqa
+        'http://purl.org/cld/freq/semiweekly': timedelta(days=4),  # noqa
+        'http://purl.org/cld/freq/weekly': timedelta(days=7),  # noqa
+        'http://purl.org/cld/freq/threeTimesAMonth': timedelta(days=10),  # noqa
+        'http://purl.org/cld/freq/biweekly': timedelta(days=14),  # noqa
+        'http://purl.org/cld/freq/semimonthly': timedelta(days=15),  # noqa
+        'http://purl.org/cld/freq/monthly': timedelta(days=30),  # noqa
+        'http://purl.org/cld/freq/bimonthly': timedelta(days=60),  # noqa
+        'http://purl.org/cld/freq/quarterly': timedelta(days=91),  # noqa
+        'http://purl.org/cld/freq/threeTimesAYear': timedelta(days=122),  # noqa
+        'http://purl.org/cld/freq/semiannual': timedelta(days=183),  # noqa
+        'http://purl.org/cld/freq/annual': timedelta(days=365),  # noqa
+        'http://purl.org/cld/freq/biennial': timedelta(days=730),  # noqa
+        'http://purl.org/cld/freq/triennial': timedelta(days=1095),  # noqa
+    }
+    try:
+        return time_deltas[accrual_periodicity]
+    except KeyError:
+        return None
+
+
+def get_expected_update(modified, accrual_periodicity):
+    time_pattern = '%Y-%m-%dT%H:%M:%S'
+
+    try:
+        updated_datetime = datetime.strptime(modified, time_pattern)
+        time_delta = get_timedelta_by_frequency(accrual_periodicity)
+
+        if time_delta:
+            next_expected_datetime = updated_datetime + time_delta
+            log.error(next_expected_datetime.strftime(time_pattern))
+            return next_expected_datetime.strftime(time_pattern)
+    except ValueError:
+        pass
+    return None

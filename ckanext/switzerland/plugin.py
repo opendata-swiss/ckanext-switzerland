@@ -13,7 +13,7 @@ from ckanext.switzerland.helpers import (
     get_political_level, get_dataset_by_identifier, get_readable_file_size,
     simplify_terms_of_use, parse_json, get_piwik_config,
     ogdch_localised_number, ogdch_render_tree, ogdch_group_tree,
-    map_to_valid_format
+    map_to_valid_format, get_expected_update
 )
 
 import ckan.plugins as plugins
@@ -444,6 +444,17 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         return map
 
     # IPackageController
+    def before_view(self, pkg_dict):
+        if not self.is_supported_package_type(pkg_dict):
+            return pkg_dict
+
+        if pkg_dict.get('modified') and pkg_dict.get('accrual_periodicity'):
+            pkg_dict['expected_update'] = get_expected_update(
+                pkg_dict.get('modified'),
+                pkg_dict.get('accrual_periodicity')
+            ) or None
+
+        return super(OgdchPackagePlugin, self).before_view(pkg_dict)
 
 #     TODO: before_view isn't called in API requests -> after_show is
 #           BUT (!) after_show is also called when packages get indexed
