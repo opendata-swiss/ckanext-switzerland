@@ -32,9 +32,11 @@ RDF:
   - 'sparql-...'
 SHAPEFILE:
   - 'esri shapefile'
+  - 'esri shapefile (.shp)'
   - 'esri geodatabase (....'
   - 'esri file geodatabase'
   - 'esri arcinfo ascii ...'
+  - 'esri personal geodatabase (.mdb)'
 TXT:
   - 'text'
   - 'txt'
@@ -48,6 +50,9 @@ WFS:
   - 'wfs'
 WMS:
   - 'wms'
+WORLDFILE:
+  - 'geotiff/worldfile (.tif/.tfw)'
+  - 'jpeg/worldfile (.jpg/.jgw)'
 WMTS:
   - 'wmts'
 XLS:
