@@ -1,3 +1,18 @@
+<!-- Contribute -->
+<section class="contribute inverted-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <p class="lead">{{ _('Want to get involved?') }}</p>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <a class="btn btn-default-inverted" href="{{ h.url('/faq') }}" role="button">{{ _('Learn how to publish data') }}</a>
+        <a class="btn btn-default-inverted last" href="{{ h.url('/contact') }}" role="button">{{ _('I have a question') }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="page-footer">
   <div class="container">
     <div class="row">
@@ -36,15 +51,6 @@
           </div>
           <p>{{ ungettext('Application', 'Applications', app_count) }}</p>
         </a>
-      </div>
-    </div>
-    <div class="row top-buffer">
-      <div class="col-md-4 col-xs-12">
-        <p class="lead">{{ _('How can you get involved?') }}</p>
-      </div>
-      <div class="col-md-8 col-xs-12">
-        <a class="btn btn-primary" href="{{ h.url('/faq') }}" role="button">{{ _('I want to publish data') }}</a>
-        <a class="btn btn-primary last" href="{{ h.url('/contact') }}" role="button">{{ _('I have developed an application') }}</a>
       </div>
     </div>
     <div class="row top-buffer">
