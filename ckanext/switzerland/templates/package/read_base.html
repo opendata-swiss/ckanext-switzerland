@@ -17,10 +17,10 @@
 {% block primary_content %}
 {% endblock %}
 {% block body_extras %}
-  {{ super() }}
   <script type="text/javascript">
-      customDimensionVisit = {};
-      customDimensionVisit['dimension'+'{{ piwik_config.custom_dimension_visit_dataset_id or 0 }}'] = '{{ pkg.organization.name }}';
-      _paq.push(['trackPageView', '{{ pkg.name }}', customDimensionVisit]);
+      var _paq = _paq || [];
+      _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_organization_id or 0 }}, customDimensionValue = '{{ pkg.organization.name }}']);
+      _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}, customDimensionValue = '{{ pkg.name }}']);
   </script>
+  {{ super() }}
 {% endblock %}
