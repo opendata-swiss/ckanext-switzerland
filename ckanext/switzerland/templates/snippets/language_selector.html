@@ -1,7 +1,7 @@
 {% set current_url = request.environ.CKAN_CURRENT_URL %}
 {% set current_lang = h.lang() %}
 {% set current_locale = h.get_locales_dict()[current_lang] %}
-<div class="btn-group"> 
+<div class="btn-group dropup">
    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
      {{ (current_locale.display_name or current_locale.english_name) | capitalize }} <span class="caret"></span>
    </button>
