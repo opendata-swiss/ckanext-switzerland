@@ -80,13 +80,15 @@ within_tertiary
                     {% set count = count_label(item['count']) if count_label else ('%d' % item['count']) %}
                     {% set terms_of_use = h.get_terms_of_use_icon(label) %}
                     <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %} break-word">
-                      <a href="{{ href }}" title="{{ terms_of_use.title }}">
-                        {% if terms_of_use %}
+                      {% if terms_of_use %}
+                        <a href="{{ href }}" title="{{ terms_of_use.title }}">
                           <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.png'" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" /> <span class="small">{{ count }}</span>
-                        {% else %}
+                        </a>
+                      {% else %}
+                        <a href="{{ href }}" title="{{ label }}">
                           {{ label }}
-                        {% endif %}
-                      </a>
+                        </a>
+                      {% endif %}
                     </li>
                   {% endfor %}
                   </ul>
