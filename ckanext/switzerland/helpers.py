@@ -237,6 +237,8 @@ def get_dataset_by_identifier(identifier):
 
 
 def get_readable_file_size(num, suffix='B'):
+    if not num:
+        return False
     try:
         for unit in ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z']:
             num = float(num)
