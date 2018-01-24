@@ -142,7 +142,7 @@
     {
       "preset_name": "file_size",
       "values": {
-        "validators": "ignore_empty natural_number_validator",
+        "validators": "default(0) natural_number_validator",
         "display_snippet": "file_size.html"
       }
     }
