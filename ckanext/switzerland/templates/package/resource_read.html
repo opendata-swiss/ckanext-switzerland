@@ -149,12 +149,12 @@
       </div>
     </section>
   {% endif %}
-{% block body_extras %}
-<script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_organization_id or 0 }}, customDimensionValue = '{{ c.package.organization.name }}']);
-    _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}, customDimensionValue = '{{ c.package.name }}']);
-</script>
-{{ super() }}
 {% endblock %}
+{% block body_extras %}
+  <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_organization_id or 0 }}, customDimensionValue = '{{ c.package.organization.name }}']);
+      _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}, customDimensionValue = '{{ c.package.name }}']);
+  </script>
+  {{ super() }}
 {% endblock %}
