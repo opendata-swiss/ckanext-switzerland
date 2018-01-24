@@ -40,3 +40,5 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+/ckanext/switzerland/i18n/*/LC_MESSAGES/ckanext-switzerland.mo
