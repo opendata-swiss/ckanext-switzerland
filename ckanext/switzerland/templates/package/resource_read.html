@@ -4,6 +4,7 @@
 {% set pkg_title = c.package.title or c.package.name %}
 {% set res_title = res.title or pkg_title %}
 {% set res_description = res.description or c.package.description %}
+{% set piwik_config = h.get_piwik_config() %}
 
 {% block meta_description %}<meta name="description" content="{{ res_description|forceescape|trim }}" />{% endblock %}
 
@@ -80,11 +81,11 @@
       </div>
       <div class="col-lg-3 col-sm-12 text-lg-right">
         {% if res.download_url %}
-          <a href="{{ res.download_url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" data-organization="{{ c.package.organization.name }}" data-dataset="{{ res.name }}" data-format="{{ res.format }}">
+          <a href="{{ res.download_url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" data-format="{{ res.format }}">
             <i class="fa fa-arrow-circle-o-down"></i> {{ _('Download') }}
           </a>
         {% else %}
-          <a href="{{ res.url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" data-organization="{{ c.package.organization.name }}" data-dataset="{{ res.name }}" data-format="{{ res.format }}">
+          <a href="{{ res.url }}" class="btn btn-primary btn-lg piwik-tracked-download" role="button" target="_blank" data-format="{{ res.format }}">
             <i class="fa fa-external-link"></i> {{ _('Go to resource') }}
           </a>
         {% endif %}
@@ -112,7 +113,6 @@
       </div>
     </div>
   </section>
-
   {% set resource_preview = h.resource_preview(c.resource, c.package) %}
   {% set views_created = res.has_views or resource_preview %}
   {% if views_created %}
@@ -149,4 +149,12 @@
       </div>
     </section>
   {% endif %}
+{% endblock %}
+{% block body_extras %}
+  <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_organization_id or 0 }}, customDimensionValue = '{{ c.package.organization.name }}']);
+      _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}, customDimensionValue = '{{ c.package.name }}']);
+  </script>
+  {{ super() }}
 {% endblock %}
