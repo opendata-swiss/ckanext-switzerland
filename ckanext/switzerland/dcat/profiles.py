@@ -4,10 +4,12 @@ from rdflib.namespace import Namespace, RDFS, RDF, SKOS
 
 from datetime import datetime
 
+from ckantoolkit import config
+
 import re
 
-from ckanext.dcat.profiles import RDFProfile
-from ckanext.dcat.utils import resource_uri
+from ckanext.dcat.profiles import RDFProfile, SchemaOrgProfile
+from ckanext.dcat.utils import resource_uri, publisher_uri_from_dataset_dict
 from ckan.lib.munge import munge_tag
 
 from ckanext.switzerland.helpers import get_langs, uri_to_iri
@@ -46,12 +48,59 @@ namespaces = {
     'xml': XML,
 }
 
-ogd_theme_base_url = 'http://opendata.swiss/themes/'
+ogd_theme_base_url = 'http://opendata.swiss/themes'
 
 slug_id_pattern = re.compile('[^/]+(?=/$|$)')
 
+class MultiLangProfile(RDFProfile):
+    def _add_multilang_value(self, subject, predicate, dataset_key=None, dataset_dict=None, multilang_values=None):  # noqa
+        if not multilang_values and dataset_dict and dataset_key: 
+            multilang_values = dataset_dict.get(dataset_key)
+        if multilang_values:
+            try:
+                for key, values in multilang_values.iteritems():
+                    if values:
+                        # the values can be either a multilang-dict or they are
+                        # nested in another iterable (e.g. keywords)
+                        if not hasattr(values, '__iter__'):
+                            values = [values]
 
-class SwissDCATAPProfile(RDFProfile):
+                        for value in values:
+                            self.g.add((subject, predicate, Literal(value, lang=key)))  # noqa
+            # if multilang_values is not iterable, it is simply added as a non-
+            # translated Literal
+            except AttributeError:
+                self.g.add(
+                    (subject, predicate, Literal(multilang_values)))  # noqa
+
+    def _add_multilang_triples_from_dict(self, _dict, subject, items):
+        for item in items:
+            key, predicate, fallbacks, _type = item
+            self._add_multilang_triple_from_dict(_dict, subject, predicate, key,
+                                       fallbacks=fallbacks)
+
+    def _add_multilang_triple_from_dict(self, _dict, subject, predicate, key, fallbacks=None):  # noqa
+        '''
+        Adds a new multilang triple to the graph with the provided parameters
+
+        The subject and predicate of the triple are passed as the relevant
+        RDFLib objects (URIRef or BNode). The object is always a literal value,
+        which is extracted from the dict using the provided key (see
+        `_get_dict_value`). If the value for the key is not found, then
+        additional fallback keys are checked.
+        '''
+        value = self._get_dict_value(_dict, key)
+        if not value and fallbacks:
+            for fallback in fallbacks:
+                value = self._get_dict_value(_dict, fallback)
+                if value:
+                    break
+
+        if value:
+            self._add_multilang_value(subject, predicate, multilang_values=value)
+
+
+class SwissDCATAPProfile(MultiLangProfile):
     '''
     An RDF profile for the DCAT-AP Switzerland recommendation for data portals
 
@@ -162,24 +211,6 @@ class SwissDCATAPProfile(RDFProfile):
             return int((d - epoch).total_seconds())
         except (ValueError, KeyError, TypeError, IndexError):
             return None
-
-    def _add_multilang_value(self, subject, predicate, dataset_key, dataset_dict):  # noqa
-        multilang_values = dataset_dict.get(dataset_key)
-        if multilang_values:
-            try:
-                for key, values in multilang_values.iteritems():
-                    if values:
-                        # the values can be either a multilang-dict or they are
-                        # nested in another iterable (e.g. keywords)
-                        if not hasattr(values, '__iter__'):
-                            values = [values]
-                        for value in values:
-                            self.g.add((subject, predicate, Literal(value, lang=key)))  # noqa
-            # if multilang_values is not iterable, it is simply added as a non-
-            # translated Literal
-            except AttributeError:
-                self.g.add(
-                    (subject, predicate, Literal(multilang_values)))  # noqa
 
     def parse_dataset(self, dataset_dict, dataset_ref):  # noqa
         log.debug("Parsing dataset '%r'" % dataset_ref)
@@ -518,7 +549,7 @@ class SwissDCATAPProfile(RDFProfile):
             g.add((
                 dataset_ref,
                 DCAT.theme,
-                URIRef(ogd_theme_base_url + group_name.get('name'))
+                URIRef('%s/%s' % (ogd_theme_base_url, group_name.get('name')))
             ))
 
         # Resources
@@ -611,3 +642,113 @@ class SwissDCATAPProfile(RDFProfile):
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g = self.g
         g.add((catalog_ref, RDF.type, DCAT.Catalog))
+
+
+class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
+    def _basic_fields_graph(self, dataset_ref, dataset_dict):
+        items = [
+            ('identifier', SCHEMA.identifier, None, Literal),
+            ('version', SCHEMA.version, ['dcat_version'], Literal),
+            ('issued', SCHEMA.datePublished, ['metadata_created'], Literal),
+            ('modified', SCHEMA.dateModified, ['metadata_modified'], Literal),
+        ]
+        self._add_triples_from_dict(dataset_dict, dataset_ref, items)
+
+        items = [
+            ('title', SCHEMA.name, None, Literal),
+            ('notes', SCHEMA.description, None, Literal),
+        ]
+        self._add_multilang_triples_from_dict(dataset_dict, dataset_ref, items)
+
+    def _list_fields_graph(self, dataset_ref, dataset_dict):
+        items = [
+            ('language', SCHEMA.inLanguage, None, Literal),
+        ]
+        self._add_list_triples_from_dict(dataset_dict, dataset_ref, items)
+
+        # theme for groups
+        themes = []
+        for group in dataset_dict.get('groups', []):
+            themes.append('%s/%s' % (ogd_theme_base_url, group['name']))
+
+        self._add_list_triple(dataset_ref, SCHEMA.about, themes, URIRef),
+
+    def _publisher_graph(self, dataset_ref, dataset_dict):
+        if any([
+            self._get_dataset_value(dataset_dict, 'publisher_uri'),
+            self._get_dataset_value(dataset_dict, 'publisher_name'),
+            dataset_dict.get('organization'),
+        ]):
+
+            publisher_uri = publisher_uri_from_dataset_dict(dataset_dict)
+            if publisher_uri:
+                publisher_details = URIRef(publisher_uri)
+            else:
+                # No organization nor publisher_uri
+                publisher_details = BNode()
+
+            self.g.add((publisher_details, RDF.type, SCHEMA.Organization))
+            self.g.add((dataset_ref, SCHEMA.publisher, publisher_details))
+
+
+            publisher_name = self._get_dataset_value(dataset_dict, 'publisher_name')
+            if not publisher_name and dataset_dict.get('organization'):
+                publisher_name = dataset_dict['organization']['title']
+                self._add_multilang_value(
+                    publisher_details,
+                    SCHEMA.name,
+                    multilang_values=publisher_name
+                )
+            else:
+                g.add((publisher_details, SCHEMA.name, Literal(publisher_name)))
+
+            contact_point = BNode()
+            self.g.add((publisher_details, SCHEMA.contactPoint, contact_point))
+
+            self.g.add((contact_point, SCHEMA.contactType, Literal('customer service')))
+
+            publisher_url = self._get_dataset_value(dataset_dict, 'publisher_url')
+            if not publisher_url and dataset_dict.get('organization'):
+                publisher_url = dataset_dict['organization'].get('url') or config.get('ckan.site_url', '')
+
+            self.g.add((contact_point, SCHEMA.url, Literal(publisher_url)))
+            items = [
+                ('publisher_email', SCHEMA.email, ['contact_email', 'maintainer_email', 'author_email'], Literal),
+                ('publisher_name', SCHEMA.name, ['contact_name', 'maintainer', 'author'], Literal),
+            ]
+
+            self._add_triples_from_dict(dataset_dict, contact_point, items)
+
+    def _temporal_graph(self, dataset_ref, dataset_dict):
+        # schema.org temporalCoverage only allows to specify one temporal
+        # DCAT-AP Switzerland allows to specify multiple
+        # for the mapping we always use the first one
+        temporals = self._get_dataset_value(dataset_dict, 'temporals')
+        try:
+            start = temporals[0].get('start_date')
+            end = temporals[0].get('end_date')
+        except (IndexError, KeyError, TypeError):
+            # do not add temporals if there are none
+            return
+        if start or end:
+            if start and end:
+                self.g.add((dataset_ref, SCHEMA.temporalCoverage, Literal('%s/%s' % (start, end))))
+            elif start:
+                self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, start)
+            elif end:
+                self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, end)
+
+    def _distribution_basic_fields_graph(self, distribution, resource_dict):
+        items = [
+            ('issued', SCHEMA.datePublished, None, Literal),
+            ('modified', SCHEMA.dateModified, None, Literal),
+        ]
+
+        self._add_triples_from_dict(resource_dict, distribution, items)
+
+        items = [
+            ('title', SCHEMA.name, None, Literal),
+            ('description', SCHEMA.description, None, Literal),
+        ]
+        self._add_multilang_triples_from_dict(resource_dict, distribution, items)
+
