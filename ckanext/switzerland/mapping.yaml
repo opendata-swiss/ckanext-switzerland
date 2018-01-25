@@ -53,6 +53,7 @@ WMS:
 WORLDFILE:
   - 'geotiff/worldfile (.tif/.tfw)'
   - 'jpeg/worldfile (.jpg/.jgw)'
+  - '.tfw)'
 WMTS:
   - 'wmts'
 XLS:
