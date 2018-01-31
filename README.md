@@ -11,12 +11,12 @@ CKAN extension for DCAT-AP Switzerland, templates and different plugins for [ope
 
 ## Update translations
 
-To generate a new ckanext-switzerland.pot file use the following command::
+To generate a new ckanext-switzerland.pot file use the following command:
 
     vagrant ssh
     source /home/vagrant/pyenv/bin/activate
     cd /var/www/ckanext/ckanext-switzerland/
-    python setup.py extract_messages --mapping-file babel.cfg --output i18n/ckanext-switzerland.pot
+    python setup.py extract_messages
 
 Or follow the official CKAN guide at https://github.com/ckan/ckan/wiki/Translations-and-Extensions
 
@@ -37,11 +37,11 @@ paster --plugin=ckanext-switzerland ogdch cleanup_datastore -c /var/www/ckan/dev
 
 To install ckanext-switzerland:
 
-1. Activate your CKAN virtual environment, for example::
+1. Activate your CKAN virtual environment, for example:
 
      . /usr/lib/ckan/default/bin/activate
 
-2. Install the ckanext-switzerland Python package into your virtual environment::
+2. Install the ckanext-switzerland Python package into your virtual environment:
 
      pip install ckanext-switzerland
 
@@ -49,10 +49,9 @@ To install ckanext-switzerland:
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
 
      sudo service apache2 reload
-
 
 ## Config Settings
 
@@ -64,7 +63,6 @@ This extension uses the following config options (.ini file)
     # piwik config
     piwik.site_id = 1
     piwik.url = piwik.opendata.swiss
-
 
 ## Development Installation
 
