@@ -300,7 +300,7 @@ def _render_tree(top_nodes):
 
 def _render_tree_node(node):
     html = '<div class="organization-row">'
-    html += '<a href="/%s/organization/%s">%s</a>' % (i18n.get_lang(), node['name'], node['title'])
+    html += '<a href="/%s/organization/%s">%s</a>' % (i18n.get_lang(), node['name'], node['title'])  # noqa
     html += '</div>'
     if node['children']:
         html += '<ul>'
