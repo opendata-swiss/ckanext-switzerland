@@ -1,20 +1,8 @@
 # coding=UTF-8
 
 from ckanext.switzerland import validators as v
-from ckanext.switzerland.logic import (
-    ogdch_dataset_count, ogdch_dataset_terms_of_use,
-    ogdch_dataset_by_identifier, ogdch_content_headers
-)
-from ckanext.switzerland.helpers import (
-    get_dataset_count, get_group_count, get_app_count,
-    get_org_count, get_tweet_count, get_localized_value,
-    get_localized_org, localize_json_title, get_langs,
-    get_frequency_name, get_terms_of_use_icon, get_dataset_terms_of_use,
-    get_political_level, get_dataset_by_identifier, get_readable_file_size,
-    simplify_terms_of_use, parse_json, get_piwik_config,
-    ogdch_localised_number, ogdch_render_tree, ogdch_group_tree,
-    map_to_valid_format
-)
+from ckanext.switzerland import logic as l
+import ckanext.switzerland.helpers as sh
 
 import ckan.plugins as plugins
 from ckan.lib.plugins import DefaultTranslation
@@ -72,7 +60,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_multiple_choice': v.ogdch_multiple_choice,
             'ogdch_unique_identifier': v.ogdch_unique_identifier,
             'temporals_to_datetime_output': v.temporals_to_datetime_output,
-            'parse_json': parse_json,
+            'parse_json': sh.parse_json,
         }
 
     # IFacets
@@ -117,10 +105,10 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
         Expose new API methods
         """
         return {
-            'ogdch_dataset_count': ogdch_dataset_count,
-            'ogdch_dataset_terms_of_use': ogdch_dataset_terms_of_use,
-            'ogdch_dataset_by_identifier': ogdch_dataset_by_identifier,
-            'ogdch_content_headers': ogdch_content_headers,
+            'ogdch_dataset_count': l.ogdch_dataset_count,
+            'ogdch_dataset_terms_of_use': l.ogdch_dataset_terms_of_use,
+            'ogdch_dataset_by_identifier': l.ogdch_dataset_by_identifier,
+            'ogdch_content_headers': l.ogdch_content_headers,
         }
 
     # ITemplateHelpers
@@ -130,23 +118,22 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
         Provide template helper functions
         """
         return {
-            'get_dataset_count': get_dataset_count,
-            'get_group_count': get_group_count,
-            'get_app_count': get_app_count,
-            'get_org_count': get_org_count,
-            'get_tweet_count': get_tweet_count,
-            'get_localized_org': get_localized_org,
-            'localize_json_title': localize_json_title,
-            'get_frequency_name': get_frequency_name,
-            'get_political_level': get_political_level,
-            'get_terms_of_use_icon': get_terms_of_use_icon,
-            'get_dataset_terms_of_use': get_dataset_terms_of_use,
-            'get_dataset_by_identifier': get_dataset_by_identifier,
-            'get_readable_file_size': get_readable_file_size,
-            'get_piwik_config': get_piwik_config,
-            'ogdch_localised_number': ogdch_localised_number,
-            'ogdch_render_tree': ogdch_render_tree,
-            'ogdch_group_tree': ogdch_group_tree,
+            'get_dataset_count': sh.get_dataset_count,
+            'get_group_count': sh.get_group_count,
+            'get_app_count': sh.get_app_count,
+            'get_org_count': sh.get_org_count,
+            'get_localized_org': sh.get_localized_org,
+            'localize_json_title': sh.localize_json_title,
+            'get_frequency_name': sh.get_frequency_name,
+            'get_political_level': sh.get_political_level,
+            'get_terms_of_use_icon': sh.get_terms_of_use_icon,
+            'get_dataset_terms_of_use': sh.get_dataset_terms_of_use,
+            'get_dataset_by_identifier': sh.get_dataset_by_identifier,
+            'get_readable_file_size': sh.get_readable_file_size,
+            'get_piwik_config': sh.get_piwik_config,
+            'ogdch_localised_number': sh.ogdch_localised_number,
+            'ogdch_render_tree': sh.ogdch_render_tree,
+            'ogdch_group_tree': sh.ogdch_group_tree,
         }
 
 
@@ -221,7 +208,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
     def _package_parse_json_strings(self, pkg_dict):
         # try to parse all values as JSON
         for key, value in pkg_dict.iteritems():
-            pkg_dict[key] = parse_json(value)
+            pkg_dict[key] = sh.parse_json(value)
 
         # groups
         if 'groups' in pkg_dict and pkg_dict['groups'] is not None:
@@ -232,12 +219,12 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
                 """
                 group['title'] = group['display_name']
                 for field in group:
-                    group[field] = parse_json(group[field])
+                    group[field] = sh.parse_json(group[field])
 
         # organization
         if 'organization' in pkg_dict and pkg_dict['organization'] is not None:
             for field in pkg_dict['organization']:
-                pkg_dict['organization'][field] = parse_json(
+                pkg_dict['organization'][field] = sh.parse_json(
                     pkg_dict['organization'][field]
                 )
 
@@ -294,7 +281,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             resource_format = resource['format'].split('/')[-1].lower()
 
         # check if 'media_type' or 'format' can be mapped
-        has_format = (map_to_valid_format(
+        has_format = (sh.map_to_valid_format(
             resource_format,
             self.get_format_mapping()
         ) is not None)
@@ -307,7 +294,7 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
             if ext:
                 resource_format = ext.replace('.', '').lower()
 
-        mapped_format = map_to_valid_format(
+        mapped_format = sh.map_to_valid_format(
             resource_format,
             self.get_format_mapping()
         )
@@ -323,10 +310,14 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
         return resource
 
     def _extract_lang_value(self, value, lang_code):
-        new_value = parse_json(value)
+        new_value = sh.parse_json(value)
 
         if isinstance(new_value, dict):
-            return get_localized_value(new_value, lang_code, default_value='')
+            return sh.get_localized_value(
+                new_value,
+                lang_code,
+                default_value=''
+            )
         return value
 
     def _package_reduce_to_requested_language(self, pkg_dict, desired_lang_code):  # noqa
@@ -470,7 +461,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                 """
                 group['title'] = group['display_name']
                 for field in group:
-                    group[field] = parse_json(group[field])
+                    group[field] = sh.parse_json(group[field])
 
         # load organization from API to get all fields defined in schema
         # by default, CKAN loads organizations only from the database
@@ -496,7 +487,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
-        search_data['res_rights'] = [simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
+        search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
         search_data['description'] = LangToString('description')(validated_dict)  # noqa
         if 'political_level' in validated_dict[u'organization']:
@@ -505,24 +496,24 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         try:
             # index language-specific values (or it's fallback)
             text_field_items = {}
-            for lang_code in get_langs():
-                search_data['title_' + lang_code] = get_localized_value(
+            for lang_code in sh.get_langs():
+                search_data['title_' + lang_code] = sh.get_localized_value(
                     validated_dict['title'],
                     lang_code
                 )
                 search_data['title_string_' + lang_code] = munge_title_to_name(
-                    get_localized_value(validated_dict['title'], lang_code)
+                    sh.get_localized_value(validated_dict['title'], lang_code)
                 )
-                search_data['description_' + lang_code] = get_localized_value(
+                search_data['description_' + lang_code] = sh.get_localized_value(  # noqa
                     validated_dict['description'],
                     lang_code
                 )
-                search_data['keywords_' + lang_code] = get_localized_value(
+                search_data['keywords_' + lang_code] = sh.get_localized_value(
                     validated_dict['keywords'],
                     lang_code
                 )
 
-                text_field_items['text_' + lang_code] = [get_localized_value(validated_dict['description'], lang_code)]  # noqa
+                text_field_items['text_' + lang_code] = [sh.get_localized_value(validated_dict['description'], lang_code)]  # noqa
                 text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])  # noqa
                 text_field_items['text_' + lang_code].extend([r['title'][lang_code] for r in validated_dict['resources'] if r['title'][lang_code]])  # noqa
                 text_field_items['text_' + lang_code].extend([r['description'][lang_code] for r in validated_dict['resources'] if r['description'][lang_code]])  # noqa
@@ -558,7 +549,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         search in correct language-specific field and boost
         results in current language
         '''
-        lang_set = get_langs()
+        lang_set = sh.get_langs()
         try:
             current_lang = toolkit.request.environ['CKAN_LANG']
         except TypeError as err:
