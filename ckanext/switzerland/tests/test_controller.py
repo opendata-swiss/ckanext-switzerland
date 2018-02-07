@@ -111,7 +111,7 @@ class TestController(helpers.FunctionalTestBase):
         url = url_for('organizations_index')
         assert_equal(url, '/organization')
 
-        response = app.get(url, status=200,  extra_environ={'CKAN_LANG': 'it'})
+        response = app.get(url, status=200,  extra_environ={'CKAN_LANG': 'it', 'CKAN_CURRENT_URL': url})
 
         assert '/it/organization/test-org' in response
 
