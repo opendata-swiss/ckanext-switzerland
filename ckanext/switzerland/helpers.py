@@ -47,14 +47,7 @@ def get_app_count():
     result = _call_wp_api('app_statistics')
     if result is not None:
         return result['data']['app_count']
-    return 'N/A'
-
-
-def get_tweet_count():
-    result = _call_wp_api('tweet_statistics')
-    if result is not None:
-        return result['data']['tweet_count']
-    return 'N/A'
+    return 0
 
 
 def _call_wp_api(action):
