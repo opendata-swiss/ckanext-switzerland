@@ -22,7 +22,15 @@ class TestController(helpers.FunctionalTestBase):
         context = {'model': model, 'session': model.Session,
                    'user': user, 'ignore_auth': True}
         # create an org
-        self.org = {'name': 'test-org'}
+        self.org = {
+            'name': 'test-org',
+            'title': {
+                'de': 'Test Org DE',
+                'fr': 'Test Org FR',
+                'it': 'Test Org IT',
+                'en': 'Test Org EN',
+            }
+        }
         tk.get_action('organization_create')(context, self.org)
 
         # create a valid DCAT-AP Switzerland compliant dataset
