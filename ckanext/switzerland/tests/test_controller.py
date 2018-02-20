@@ -22,7 +22,15 @@ class TestController(helpers.FunctionalTestBase):
         context = {'model': model, 'session': model.Session,
                    'user': user, 'ignore_auth': True}
         # create an org
-        self.org = {'name': 'test-org'}
+        self.org = {
+            'name': 'test-org',
+            'title': {
+                'de': 'Test Org DE',
+                'fr': 'Test Org FR',
+                'it': 'Test Org IT',
+                'en': 'Test Org EN',
+            }
+        }
         tk.get_action('organization_create')(context, self.org)
 
         # create a valid DCAT-AP Switzerland compliant dataset
@@ -87,4 +95,39 @@ class TestController(helpers.FunctionalTestBase):
 
         # expect a 404 response
         response = app.get(url, status=404)
+
+    def test_org_list_links(self):
+        app = self._get_test_app()
+
+        # no locale, should default to EN
+        url = url_for('organizations_index')
+        assert_equal(url, '/organization')
+
+        response = app.get(url, status=200)
+
+        assert '/en/organization/test-org' in response
+
+        # set locale via CKAN_LANG to IT
+        url = url_for('organizations_index')
+        assert_equal(url, '/organization')
+
+        response = app.get(url, status=200, extra_environ={'CKAN_LANG': 'it', 'CKAN_CURRENT_URL': url})
+
+        assert '/it/organization/test-org' in response
+
+        # locale DE
+        url = url_for('organizations_index', locale='de')
+        assert_equal(url, '/de/organization')
+
+        response = app.get(url, status=200)
+
+        assert '/de/organization/test-org' in response
+
+        # locale FR
+        url = url_for('organizations_index', locale='fr')
+        assert_equal(url, '/fr/organization')
+
+        response = app.get(url, status=200)
+
+        assert '/fr/organization/test-org' in response
 

@@ -31,8 +31,13 @@
       <div class="col-sm-3 col-xs-6">
         <a href="{{ h.url('/app') }}">
           {% set app_count = h.get_app_count() %}
+          {% set app_display = app_count %}
+
+          {% if app_count == 0 %}
+            {% set app_display = 'N/A' %}
+          {% endif %}
           <div class="statsnumber">
-            {{ app_count }} <i class="fa fa-puzzle-piece"></i>
+            {{ app_display }} <i class="fa fa-puzzle-piece"></i>
           </div>
           <p>{{ ungettext('Application', 'Applications', app_count) }}</p>
         </a>
