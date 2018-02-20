@@ -1,3 +1,18 @@
+<!-- Contribute -->
+<section class="contribute inverted-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <p class="lead">{{ _('Get involved') }}</p>
+        <p><a href="{{ h.url('/faq') }}">{{ _('Frequently Asked Questions') }}</a></p>
+      </div>
+      <div class="col-md-6 col-xs-12 buttons">
+        <a class="btn btn-default-inverted" href="https://handbook.opendata.swiss/" role="button">{{ _('Learn to publish data') }}</a>
+        <a class="btn btn-default-inverted last" href="{{ h.url('/contact') }}" role="button">{{ _('Share your application') }}</a>
+    </div>
+  </div>
+</section>
+
 <footer class="page-footer">
   <div class="container">
     <div class="row">
@@ -44,57 +59,34 @@
       </div>
     </div>
     <div class="row top-buffer">
-      <div class="col-md-4 col-xs-12">
-        <p class="lead">{{ _('How can you get involved?') }}</p>
-      </div>
-      <div class="col-md-8 col-xs-12">
-        <a class="btn btn-primary" href="{{ h.url('/faq') }}" role="button">{{ _('I want to publish data') }}</a>
-        <a class="btn btn-primary last" href="{{ h.url('/contact') }}" role="button">{{ _('I have developed an application') }}</a>
-      </div>
-    </div>
-    <div class="row top-buffer">
-      <div class="col-md-2 col-xs-12">
-        {% snippet "snippets/language_selector.html" %}
-      </div>
-      <div class="col-md-2 col-xs-6">
-        <div>
-          <ul class="list-unstyled">
-            <li><a href="{{ h.url('/about') }}">{{ _('About') }}</a></li>
-            <li><a href="{{ h.url('/faq') }}">{{ _('FAQ') }}</a></li>
-            <li><a href="{{ h.url('/contact') }}">{{ _('Contact') }}</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-2 col-xs-6">
-        <div>
-          <ul class="list-unstyled">
-            <li><a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Data') }}</a></li>
-            <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
-            <li><a href="{{ h.url('/app') }}">{{ _('Applications') }}</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-2 col-xs-6">
-        <div>
-          <ul class="list-unstyled">
-            <li><a href="{{ h.url('/legal-framework') }}">{{ _('Legal framework') }}</a></li>
-            <li><a href="http://docs.ckan.org/en/latest/api/index.html" target="_blank">{{ _('API') }}</a></li>
-            <li><a href="https://github.com/opendata-swiss" target="_blank">{{ _('Sourcecode') }}</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="row top-buffer">
-      <div class="col-xs-12">
+      <div class="col-xs-12 col-md-6 bottom-buffer">
         <h2>{{ _('A joint project of the Confederation and the cantons') }}</h2>
-        <p>{{ _('The opendata.swiss portal is a joint project of the Confederation, cantons, communes and other organizations with a mandate from the state. It makes open government data available to the general public in a central catalogue. opendata.swiss is operated by the Swiss Federal Archives.') }}</p>
+        <p class="small">{{ _('The opendata.swiss portal is a joint project of the Confederation, cantons, communes and other organizations with a mandate from the state. It makes open government data available to the general public in a central catalogue. opendata.swiss is operated by the Swiss Federal Archives.') }}</p>
       </div>
-    </div>
-    <div id="logos" class="row top-buffer">
-      <div class="col-xs-12">
+      <div id="logos" class="col-xs-12 col-md-6">
         <img class="logo-confederation" src="/content/themes/wp-ogdch-theme/assets/images/logo-confederation.png" />
         <img class="logo-egovernment" src="/content/themes/wp-ogdch-theme/assets/images/logo-tf-egovernment-{{ h.lang() }}.png" />
       </div>
     </div>
   </div>
 </footer>
+
+<div class="page-footer-navigation">
+  <div class="container">
+    <div class="language-switcher">
+      {% snippet "snippets/language_selector.html" %}
+    </div>
+    <div class="footer-navigation">
+      <ul class="list-inline">
+        <li><a href="{{ h.url('/about') }}">{{ _('About') }}</a></li>
+        <li><a href="{{ h.url('/faq') }}">{{ _('FAQ') }}</a></li>
+        <li><a href="{{ h.url('/contact') }}">{{ _('Contact') }}</a></li>
+        <li><a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Data') }}</a></li>
+        <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
+        <li><a href="{{ h.url('/app') }}">{{ _('Applications') }}</a></li>
+        <li><a href="{{ h.url('/legal-framework') }}">{{ _('Legal framework') }}</a></li>
+        <li><a href="https://github.com/opendata-swiss" target="_blank">{{ _('Sourcecode') }}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
