@@ -3,12 +3,12 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-xs-12">
-        <p class="lead">{{ _('Want to get involved?') }}</p>
+        <p class="lead">{{ _('Get involved') }}</p>
+        <p><a href="{{ h.url('/faq') }}">{{ _('Check Frequently Asked Questions') }}</a></p>
       </div>
-      <div class="col-md-6 col-xs-12">
-        <a class="btn btn-default-inverted" href="{{ h.url('/faq') }}" role="button">{{ _('Learn how to publish data') }}</a>
-        <a class="btn btn-default-inverted last" href="{{ h.url('/contact') }}" role="button">{{ _('I have a question') }}</a>
-      </div>
+      <div class="col-md-6 col-xs-12 buttons">
+        <a class="btn btn-default-inverted" href="https://handbook.opendata.swiss/" role="button">{{ _('Learn to publish data') }}</a>
+        <a class="btn btn-default-inverted last" href="{{ h.url('/contact') }}" role="button">{{ _('Share your application') }}</a>
     </div>
   </div>
 </section>
