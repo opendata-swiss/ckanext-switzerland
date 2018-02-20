@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-01-15 10:55+0000\n"
+"POT-Creation-Date: 2018-02-20 10:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Generated-By: Babel 2.3.4\n"
 
 #: ckanext/switzerland/controller.py:123 ckanext/switzerland/controller.py:308
-#: ckanext/switzerland/plugin.py:85 ckanext/switzerland/plugin.py:97
-#: ckanext/switzerland/templates/footer.html:67
+#: ckanext/switzerland/plugin.py:73 ckanext/switzerland/plugin.py:85
+#: ckanext/switzerland/templates/footer.html:85
 #: ckanext/switzerland/templates/header.html:34
 #: ckanext/switzerland/templates/organization/index.html:8
 #: ckanext/switzerland/templates/organization/index.html:11
@@ -39,8 +39,8 @@ msgid "Tags"
 msgstr ""
 
 #: ckanext/switzerland/controller.py:126 ckanext/switzerland/controller.py:311
-#: ckanext/switzerland/plugin.py:88 ckanext/switzerland/plugin.py:100
-#: ckanext/switzerland/plugin.py:111
+#: ckanext/switzerland/plugin.py:76 ckanext/switzerland/plugin.py:88
+#: ckanext/switzerland/plugin.py:99
 msgid "Formats"
 msgstr ""
 
@@ -52,113 +52,113 @@ msgstr ""
 msgid "Dataset not found"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:150
+#: ckanext/switzerland/helpers.py:143
 msgid "Irregular"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:151
+#: ckanext/switzerland/helpers.py:144
 msgid "Continuous"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:152
+#: ckanext/switzerland/helpers.py:145
 msgid "Daily"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:153
+#: ckanext/switzerland/helpers.py:146
 msgid "Three times a week"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:154
+#: ckanext/switzerland/helpers.py:147
 msgid "Semi weekly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:155
+#: ckanext/switzerland/helpers.py:148
 msgid "Weekly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:156
+#: ckanext/switzerland/helpers.py:149
 msgid "Three times a month"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:157
+#: ckanext/switzerland/helpers.py:150
 msgid "Biweekly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:158
+#: ckanext/switzerland/helpers.py:151
 msgid "Semimonthly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:159
+#: ckanext/switzerland/helpers.py:152
 msgid "Monthly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:160
+#: ckanext/switzerland/helpers.py:153
 msgid "Bimonthly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:161
+#: ckanext/switzerland/helpers.py:154
 msgid "Quarterly"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:162
+#: ckanext/switzerland/helpers.py:155
 msgid "Three times a year"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:163
+#: ckanext/switzerland/helpers.py:156
 msgid "Semi Annual"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:164
+#: ckanext/switzerland/helpers.py:157
 msgid "Annual"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:165
+#: ckanext/switzerland/helpers.py:158
 msgid "Biennial"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:166
+#: ckanext/switzerland/helpers.py:159
 msgid "Triennial"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:176
+#: ckanext/switzerland/helpers.py:169
 msgid "Confederation"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:177
+#: ckanext/switzerland/helpers.py:170
 msgid "Canton"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:178
+#: ckanext/switzerland/helpers.py:171
 msgid "Commune"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:179
+#: ckanext/switzerland/helpers.py:172
 msgid "Other"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:187
+#: ckanext/switzerland/helpers.py:180
 msgid "Open use"
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:191
+#: ckanext/switzerland/helpers.py:184
 msgid "Open use. Must provide the source."
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:195
+#: ckanext/switzerland/helpers.py:188
 msgid "Open use. Use for commercial purposes requires permission of the data owner."
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:199
+#: ckanext/switzerland/helpers.py:192
 msgid ""
 "Open use. Must provide the source. Use for commercial purposes requires "
 "permission of the data owner."
 msgstr ""
 
-#: ckanext/switzerland/helpers.py:203
+#: ckanext/switzerland/helpers.py:196
 msgid "Closed data"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:83 ckanext/switzerland/plugin.py:108
+#: ckanext/switzerland/plugin.py:71 ckanext/switzerland/plugin.py:96
 #: ckanext/switzerland/templates/group/index.html:3
 #: ckanext/switzerland/templates/group/index.html:6
 #: ckanext/switzerland/templates/group/index.html:10
@@ -167,18 +167,18 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:84 ckanext/switzerland/plugin.py:96
-#: ckanext/switzerland/plugin.py:109
+#: ckanext/switzerland/plugin.py:72 ckanext/switzerland/plugin.py:84
+#: ckanext/switzerland/plugin.py:97
 msgid "Keywords"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:86 ckanext/switzerland/plugin.py:98
+#: ckanext/switzerland/plugin.py:74 ckanext/switzerland/plugin.py:86
 msgid "Political levels"
 msgstr ""
 
-#: ckanext/switzerland/plugin.py:87 ckanext/switzerland/plugin.py:99
-#: ckanext/switzerland/plugin.py:110 ckanext/switzerland/templates/header.html:46
-#: ckanext/switzerland/templates/package/resource_read.html:41
+#: ckanext/switzerland/plugin.py:75 ckanext/switzerland/plugin.py:87
+#: ckanext/switzerland/plugin.py:98 ckanext/switzerland/templates/header.html:46
+#: ckanext/switzerland/templates/package/resource_read.html:42
 #: ckanext/switzerland/templates/package/snippets/description.html:31
 msgid "Terms of use"
 msgstr ""
@@ -219,61 +219,76 @@ msgid ""
 "shuttle to make you feel better!"
 msgstr ""
 
+#: ckanext/switzerland/templates/footer.html:6
+msgid "Get involved"
+msgstr ""
+
+#: ckanext/switzerland/templates/footer.html:7
+msgid "Frequently Asked Questions"
+msgstr ""
+
 #: ckanext/switzerland/templates/footer.html:10
+msgid "Learn to publish data"
+msgstr ""
+
+#: ckanext/switzerland/templates/footer.html:11
+msgid "Share your application"
+msgstr ""
+
+#: ckanext/switzerland/templates/footer.html:25
 msgid "Dataset"
 msgid_plural "Datasets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/switzerland/templates/footer.html:19
-#: ckanext/switzerland/templates/package/resource_read.html:56
+#: ckanext/switzerland/templates/footer.html:34
+#: ckanext/switzerland/templates/package/resource_read.html:57
 #: ckanext/switzerland/templates/package/snippets/description.html:47
 msgid "Organization"
 msgid_plural "Organizations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/switzerland/templates/footer.html:28
+#: ckanext/switzerland/templates/footer.html:43
 msgid "Category"
 msgid_plural "Categories"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/switzerland/templates/footer.html:37
+#: ckanext/switzerland/templates/footer.html:57
 msgid "Application"
 msgid_plural "Applications"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/switzerland/templates/footer.html:43
-msgid "How can you get involved?"
+#: ckanext/switzerland/templates/footer.html:63
+msgid "A joint project of the Confederation and the cantons"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:46
-#: ckanext/switzerland/templates/organization/index.html:25
-msgid "I want to publish data"
+#: ckanext/switzerland/templates/footer.html:64
+msgid ""
+"The opendata.swiss portal is a joint project of the Confederation, cantons, "
+"communes and other organizations with a mandate from the state. It makes open"
+" government data available to the general public in a central catalogue. "
+"opendata.swiss is operated by the Swiss Federal Archives."
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:47
-msgid "I have developed an application"
-msgstr ""
-
-#: ckanext/switzerland/templates/footer.html:57
+#: ckanext/switzerland/templates/footer.html:81
 #: ckanext/switzerland/templates/header.html:40
 msgid "About"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:58
+#: ckanext/switzerland/templates/footer.html:82
 #: ckanext/switzerland/templates/header.html:49
 msgid "FAQ"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:59
+#: ckanext/switzerland/templates/footer.html:83
 #: ckanext/switzerland/templates/header.html:52
 msgid "Contact"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:66
+#: ckanext/switzerland/templates/footer.html:84
 #: ckanext/switzerland/templates/header.html:33
 #: ckanext/switzerland/templates/package/base.html:8
 #: ckanext/switzerland/templates/package/base.html:16
@@ -284,33 +299,17 @@ msgstr ""
 msgid "Data"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:68
+#: ckanext/switzerland/templates/footer.html:86
 #: ckanext/switzerland/templates/header.html:37
 msgid "Applications"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:75
+#: ckanext/switzerland/templates/footer.html:87
 msgid "Legal framework"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:76
-msgid "API"
-msgstr ""
-
-#: ckanext/switzerland/templates/footer.html:77
+#: ckanext/switzerland/templates/footer.html:88
 msgid "Sourcecode"
-msgstr ""
-
-#: ckanext/switzerland/templates/footer.html:84
-msgid "A joint project of the Confederation and the cantons"
-msgstr ""
-
-#: ckanext/switzerland/templates/footer.html:85
-msgid ""
-"The opendata.swiss portal is a joint project of the Confederation, cantons, "
-"communes and other organizations with a mandate from the state. It makes open"
-" government data available to the general public in a central catalogue. "
-"opendata.swiss is operated by the Swiss Federal Archives."
 msgstr ""
 
 #: ckanext/switzerland/templates/header.html:43
@@ -371,6 +370,10 @@ msgstr ""
 msgid "Which organizations publish their data?"
 msgstr ""
 
+#: ckanext/switzerland/templates/organization/index.html:25
+msgid "I want to publish data"
+msgstr ""
+
 #: ckanext/switzerland/templates/organization/index.html:46
 #: ckanext/switzerland/templates/organization/index.html:76
 msgid "organization"
@@ -406,36 +409,36 @@ msgstr ""
 msgid "Deleted"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:28
+#: ckanext/switzerland/templates/package/resource_read.html:29
 #: ckanext/switzerland/templates/package/snippets/description.html:15
 msgid "Last updated"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:63
+#: ckanext/switzerland/templates/package/resource_read.html:64
 #: ckanext/switzerland/templates/package/snippets/description.html:54
 msgid "No organization available"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:70
+#: ckanext/switzerland/templates/package/resource_read.html:71
 msgid "Format"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:84
-#: ckanext/switzerland/templates/package/snippets/resource_item.html:22
+#: ckanext/switzerland/templates/package/resource_read.html:85
+#: ckanext/switzerland/templates/package/snippets/resource_item.html:23
 msgid "Download"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:88
-#: ckanext/switzerland/templates/package/snippets/resource_item.html:26
+#: ckanext/switzerland/templates/package/resource_read.html:89
+#: ckanext/switzerland/templates/package/snippets/resource_item.html:27
 msgid "Go to resource"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:96
+#: ckanext/switzerland/templates/package/resource_read.html:97
 #: ckanext/switzerland/templates/package/snippets/description.html:79
 msgid "Description"
 msgstr ""
 
-#: ckanext/switzerland/templates/package/resource_read.html:106
+#: ckanext/switzerland/templates/package/resource_read.html:107
 #: ckanext/switzerland/templates/package/snippets/additional_info.html:4
 msgid "Additional information"
 msgstr ""
@@ -498,15 +501,15 @@ msgstr ""
 msgid "Download XML"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/facet_list.html:129
+#: ckanext/switzerland/templates/snippets/facet_list.html:131
 msgid "Show More {facet_type}"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/facet_list.html:132
+#: ckanext/switzerland/templates/snippets/facet_list.html:134
 msgid "Show Less {facet_type}"
 msgstr ""
 
-#: ckanext/switzerland/templates/snippets/facet_list.html:135
+#: ckanext/switzerland/templates/snippets/facet_list.html:137
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 
