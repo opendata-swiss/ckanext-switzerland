@@ -77,13 +77,14 @@
       {% snippet "snippets/language_selector.html" %}
     </div>
     <div class="footer-navigation">
-      <ul class="list-inline">
+      <ul class="list-inline small">
         <li><a href="{{ h.url('/about') }}">{{ _('About') }}</a></li>
         <li><a href="{{ h.url('/faq') }}">{{ _('FAQ') }}</a></li>
         <li><a href="{{ h.url('/contact') }}">{{ _('Contact') }}</a></li>
         <li><a href="{{ h.url_for(controller='package', action='search') }}">{{ _('Data') }}</a></li>
         <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
         <li><a href="{{ h.url('/app') }}">{{ _('Applications') }}</a></li>
+        <li><a href="{{ h.url('/terms-of-use') }}">{{ _('Terms of use') }}</a></li>
         <li><a href="{{ h.url('/legal-framework') }}">{{ _('Legal framework') }}</a></li>
         <li><a href="https://github.com/opendata-swiss" target="_blank">{{ _('Sourcecode') }}</a></li>
       </ul>

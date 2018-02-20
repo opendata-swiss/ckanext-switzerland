@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-switzerland 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-02-20 10:46+0000\n"
+"POT-Creation-Date: 2018-02-20 14:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,8 @@ msgid "Political levels"
 msgstr ""
 
 #: ckanext/switzerland/plugin.py:75 ckanext/switzerland/plugin.py:87
-#: ckanext/switzerland/plugin.py:98 ckanext/switzerland/templates/header.html:46
+#: ckanext/switzerland/plugin.py:98 ckanext/switzerland/templates/footer.html:87
+#: ckanext/switzerland/templates/header.html:46
 #: ckanext/switzerland/templates/package/resource_read.html:42
 #: ckanext/switzerland/templates/package/snippets/description.html:31
 msgid "Terms of use"
@@ -304,11 +305,11 @@ msgstr ""
 msgid "Applications"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:87
+#: ckanext/switzerland/templates/footer.html:88
 msgid "Legal framework"
 msgstr ""
 
-#: ckanext/switzerland/templates/footer.html:88
+#: ckanext/switzerland/templates/footer.html:89
 msgid "Sourcecode"
 msgstr ""
 
