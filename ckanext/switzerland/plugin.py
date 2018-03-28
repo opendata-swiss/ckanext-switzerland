@@ -636,15 +636,18 @@ class LangToString(object):
         self.attribute = attribute
 
     def __call__(self, data_dict):
-        lang = data_dict[self.attribute]
-        return (
-            '%s - %s - %s - %s' % (
-                lang.get('de', ''),
-                lang.get('fr', ''),
-                lang.get('it', ''),
-                lang.get('en', '')
+        try:
+            lang = data_dict[self.attribute]
+            return (
+                '%s - %s - %s - %s' % (
+                    lang.get('de', ''),
+                    lang.get('fr', ''),
+                    lang.get('it', ''),
+                    lang.get('en', '')
+                )
             )
-        )
+        except KeyError:
+            return ''
 
 
 # Monkeypatch to style CKAN pagination
