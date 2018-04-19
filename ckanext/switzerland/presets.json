@@ -119,7 +119,7 @@
       "values": {
         "form_snippet": "multiple_checkbox.html",
         "display_snippet": "languages.html",
-        "validators": "ogdch_multiple_choice",
+        "validators": "ogdch_language",
         "output_validators": "scheming_multiple_choice_output"
       }
     },

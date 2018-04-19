@@ -57,7 +57,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'multilingual_text_output': v.multilingual_text_output,
             'list_of_dicts': v.list_of_dicts,
             'timestamp_to_datetime': v.timestamp_to_datetime,
-            'ogdch_multiple_choice': v.ogdch_multiple_choice,
+            'ogdch_language': v.ogdch_language,
             'ogdch_unique_identifier': v.ogdch_unique_identifier,
             'temporals_to_datetime_output': v.temporals_to_datetime_output,
             'parse_json': sh.parse_json,

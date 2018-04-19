@@ -4,6 +4,7 @@ from ckanext.scheming.validation import scheming_validator
 from ckanext.switzerland.helpers import parse_json
 from ckan.logic import NotFound, get_action
 import json
+import re
 import datetime
 import logging
 log = logging.getLogger(__name__)
@@ -121,7 +122,7 @@ def multiple_text_output(value):
 
 
 @scheming_validator
-def ogdch_multiple_choice(field, schema):
+def ogdch_language(field, schema):
     """
     Accept zero or more values from a list of choices and convert
     to a json list for storage:
@@ -129,6 +130,7 @@ def ogdch_multiple_choice(field, schema):
        ["choice-a", "choice-b"]
     2. a single string for single item selection in form submissions:
        "choice-a"
+    3. An ISO 639-1 two-letter language code (like en, de)
     """
     choice_values = set(c['value'] for c in field['choices'])
 
@@ -152,10 +154,12 @@ def ogdch_multiple_choice(field, schema):
 
         selected = set()
         for element in value:
-            if element in choice_values:
+            # they are either explicit in the choice list or
+            # match the ISO 639-1 two-letter pattern
+            if (element in choice_values) or (re.match("^[a-z]{2}$", element)):
                 selected.add(element)
                 continue
-            errors[key].append(_('unexpected choice "%s"') % element)
+            errors[key].append(_('invalid language "%s"') % element)
 
         if not errors[key]:
             data[key] = json.dumps([
