@@ -3,7 +3,6 @@ from rdflib import URIRef, BNode, Literal
 from rdflib.namespace import Namespace, RDFS, RDF, SKOS
 
 from datetime import datetime
-import time
 
 import re
 
@@ -155,7 +154,12 @@ class SwissDCATAPProfile(RDFProfile):
                 datetime_value[0:len('YYYY-MM-DD')],
                 '%Y-%m-%d'
             )
-            return int(time.mktime(d.timetuple()))
+            # we have to calculate this manually since the
+            # time library of Python 2.7 does not support
+            # years < 1900, see OGD-751 and the time docs
+            # https://docs.python.org/2.7/library/time.html
+            epoch = datetime(1970, 1, 1)
+            return int((d - epoch).total_seconds())
         except (ValueError, KeyError, TypeError, IndexError):
             return None
 

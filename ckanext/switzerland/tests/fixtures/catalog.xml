@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:hydra="http://www.w3.org/ns/hydra/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dcat="http://www.w3.org/ns/dcat#" xmlns:schema="http://schema.org/" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:odrs="http://schema.theodi.org/odrs#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dct="http://purl.org/dc/terms/">
+  <dcat:Catalog>
+    <dct:description>BFS - OGD Collection</dct:description>
+    <dct:title>BFS - OGD Collection</dct:title>
+    <dcat:dataset>
+      <dcat:Dataset>
+        <dcat:keyword xml:lang="en">Statistical basis and overviews</dcat:keyword>
+        <dcat:distribution>
+          <dcat:Distribution>
+            <dct:title xml:lang="de">Statistisches Jahrbuch der Schweiz 1894</dct:title>
+            <dcat:accessURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.bfs.admin.ch/bfsstatic/dam/assets/346251/master</dcat:accessURL>
+            <dct:language>fr</dct:language>
+            <dct:identifier>346251-master@bundesamt-fur-statistik-bfs</dct:identifier>
+            <dct:title xml:lang="fr">Annuaire statistique de la Suisse 1894</dct:title>
+            <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+            <dcat:downloadURL>https://www.bfs.admin.ch/bfsstatic/dam/assets/346251/master</dcat:downloadURL>
+            <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1893-12-31T23:00:00Z</dct:issued>
+            <dct:language>de</dct:language>
+            <dcat:mediaType>application/pdf</dcat:mediaType>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dct:language>fr</dct:language>
+        <dct:publisher rdf:resource="https://www.bfs.admin.ch/"/>
+        <dcat:keyword xml:lang="it">Basi statistiche e presentazioni generali</dcat:keyword>
+        <dcat:keyword xml:lang="it">Pubblicazione</dcat:keyword>
+        <dcat:contactPoint>
+          <vcard:Organization>
+            <vcard:hasEmail rdf:resource="mailto:auskunftsdienst@bfs.admin.ch"/>
+            <vcard:fn>info@bfs.admin.ch</vcard:fn>
+          </vcard:Organization>
+        </dcat:contactPoint>
+        <dct:spatial>Schweiz</dct:spatial>
+        <dcat:keyword xml:lang="rm">Basas statisticas e survistas</dcat:keyword>
+        <dcat:keyword xml:lang="de">Statistische Grundlagen und Übersichten</dcat:keyword>
+        <dct:title xml:lang="fr">Annuaire statistique de la Suisse 1894</dct:title>
+        <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+        <dcat:keyword xml:lang="de">Publikation</dcat:keyword>
+        <dcat:distribution>
+          <dcat:Distribution>
+            <dcat:mediaType>text/html</dcat:mediaType>
+            <dct:title xml:lang="fr">Annuaire statistique de la Suisse 1894</dct:title>
+            <dct:language>fr</dct:language>
+            <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1893-12-31T23:00:00Z</dct:issued>
+            <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+            <dcat:accessURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.bfs.admin.ch/asset/fr/hs-b-00.01-jb-1894</dcat:accessURL>
+            <dct:identifier>346251-fr@bundesamt-fur-statistik-bfs</dct:identifier>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dct:identifier>346252@bundesamt-fur-statistik-bfs</dct:identifier>
+        <dct:temporal>
+          <dct:PeriodOfTime>
+            <schema:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1894-12-31</schema:endDate>
+            <schema:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1894-01-01</schema:startDate>
+          </dct:PeriodOfTime>
+        </dct:temporal>
+        <rdfs:seeAlso>4682791@bundesamt-fur-statistik-bfs</rdfs:seeAlso>
+        <dct:language>de</dct:language>
+        <dcat:landingPage>https://www.bfs.admin.ch/bfs/de/home/statistiken.html</dcat:landingPage>
+        <dct:relation rdf:resource="https://www.admin.ch/opc/de/classified-compilation/19920252/index.html"/>
+        <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1893-12-31T23:00:00Z</dct:issued>
+        <dcat:keyword xml:lang="fr">Bases statistiques et généralités</dcat:keyword>
+        <dct:title xml:lang="de">Statistisches Jahrbuch der Schweiz 1894</dct:title>
+        <dcat:distribution>
+          <dcat:Distribution>
+            <dcat:mediaType>text/html</dcat:mediaType>
+            <dct:title xml:lang="de">Statistisches Jahrbuch der Schweiz 1894</dct:title>
+            <dct:language>de</dct:language>
+            <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1893-12-31T23:00:00Z</dct:issued>
+            <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+            <dcat:accessURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.bfs.admin.ch/asset/de/hs-b-00.01-jb-1894</dcat:accessURL>
+            <dct:identifier>346251-de@bundesamt-fur-statistik-bfs</dct:identifier>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dcat:keyword xml:lang="fr">Publication</dcat:keyword>
+        <dcat:keyword xml:lang="en">Publication</dcat:keyword>
+        <dcat:theme rdf:resource="http://opendata.swiss/themes/statistical-basis"/>
+      </dcat:Dataset>
+    </dcat:dataset>
+    <dcat:dataset>
+      <dcat:Dataset>
+        <dcat:keyword xml:lang="en">Statistical basis and overviews</dcat:keyword>
+        <dcat:landingPage>https://www.bfs.admin.ch/bfs/de/home/statistiken.html</dcat:landingPage>
+        <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1900-12-31T23:00:00Z</dct:issued>
+        <dcat:keyword xml:lang="fr">Bases statistiques et généralités</dcat:keyword>
+        <dct:publisher rdf:resource="https://www.bfs.admin.ch/"/>
+        <dct:language>de</dct:language>
+        <dct:spatial>Schweiz</dct:spatial>
+        <dcat:keyword xml:lang="it">Pubblicazione</dcat:keyword>
+        <dcat:keyword xml:lang="de">Statistische Grundlagen und Übersichten</dcat:keyword>
+        <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+        <dcat:keyword xml:lang="rm">Basas statisticas e survistas</dcat:keyword>
+        <dcat:contactPoint>
+          <vcard:Organization>
+            <vcard:hasEmail rdf:resource="mailto:auskunftsdienst@bfs.admin.ch"/>
+            <vcard:fn>info@bfs.admin.ch</vcard:fn>
+          </vcard:Organization>
+        </dcat:contactPoint>
+        <dct:title xml:lang="fr">Annuaire statistique de la Suisse 1901</dct:title>
+        <dct:title xml:lang="de">Statistisches Jahrbuch der Schweiz 1901</dct:title>
+        <dcat:theme rdf:resource="http://opendata.swiss/themes/statistical-basis"/>
+        <dcat:distribution>
+          <dcat:Distribution>
+            <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1900-12-31T23:00:00Z</dct:issued>
+            <dct:language>fr</dct:language>
+            <dcat:downloadURL>https://www.bfs.admin.ch/bfsstatic/dam/assets/346265/master</dcat:downloadURL>
+            <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+            <dcat:accessURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.bfs.admin.ch/bfsstatic/dam/assets/346265/master</dcat:accessURL>
+            <dct:language>de</dct:language>
+            <dcat:mediaType>application/pdf</dcat:mediaType>
+            <dct:title xml:lang="de">Statistisches Jahrbuch der Schweiz 1901</dct:title>
+            <dct:title xml:lang="fr">Annuaire statistique de la Suisse 1901</dct:title>
+            <dct:identifier>346265-master@bundesamt-fur-statistik-bfs</dct:identifier>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dcat:keyword xml:lang="de">Publikation</dcat:keyword>
+        <dcat:keyword xml:lang="it">Basi statistiche e presentazioni generali</dcat:keyword>
+        <dcat:distribution>
+          <dcat:Distribution>
+            <dcat:mediaType>text/html</dcat:mediaType>
+            <dct:title xml:lang="de">Statistisches Jahrbuch der Schweiz 1901</dct:title>
+            <dct:language>de</dct:language>
+            <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1900-12-31T23:00:00Z</dct:issued>
+            <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+            <dcat:accessURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.bfs.admin.ch/asset/de/hs-b-00.01-jb-1901</dcat:accessURL>
+            <dct:identifier>346265-de@bundesamt-fur-statistik-bfs</dct:identifier>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dcat:distribution>
+          <dcat:Distribution>
+            <dcat:mediaType>text/html</dcat:mediaType>
+            <dct:title xml:lang="fr">Annuaire statistique de la Suisse 1901</dct:title>
+            <dct:language>fr</dct:language>
+            <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">1900-12-31T23:00:00Z</dct:issued>
+            <dct:rights>NonCommercialAllowed-CommercialAllowed-ReferenceRequired</dct:rights>
+            <dcat:accessURL rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">https://www.bfs.admin.ch/asset/fr/hs-b-00.01-jb-1901</dcat:accessURL>
+            <dct:identifier>346265-fr@bundesamt-fur-statistik-bfs</dct:identifier>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dcat:keyword xml:lang="fr">Publication</dcat:keyword>
+        <dcat:keyword xml:lang="en">Publication</dcat:keyword>
+        <rdfs:seeAlso>4682791@bundesamt-fur-statistik-bfs</rdfs:seeAlso>
+        <dct:identifier>346266@bundesamt-fur-statistik-bfs</dct:identifier>
+        <dct:relation rdf:resource="https://www.admin.ch/opc/de/classified-compilation/19920252/index.html"/>
+        <dct:temporal>
+          <dct:PeriodOfTime>
+            <schema:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1901-12-31</schema:endDate>
+            <schema:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1901-01-01</schema:startDate>
+          </dct:PeriodOfTime>
+        </dct:temporal>
+        <dct:language>fr</dct:language>
+      </dcat:Dataset>
+    </dcat:dataset>
+  </dcat:Catalog>
+</rdf:RDF>
