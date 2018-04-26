@@ -20,6 +20,7 @@ import urlparse
 import os
 import logging
 import yaml
+from unidecode import unidecode
 log = logging.getLogger(__name__)
 
 __location__ = os.path.realpath(os.path.join(
@@ -594,6 +595,11 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         fq = search_params.get('fq', '')
         if 'dataset_type:' not in fq:
             search_params.update({'fq': "%s +dataset_type:dataset" % fq})
+
+        # remove all UTF-8 charcters and replace them by their ascii equivalent
+        q = search_params.get('q')
+        if q:
+            search_params['q'] = unidecode(q)
 
         return search_params
 
