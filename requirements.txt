@@ -2,3 +2,4 @@ requests[security]==2.7.0
 urllib3[secure]==1.19.1
 iribaker==0.1.2
 pyyaml==3.11
+Unidecode==1.0.22
