@@ -493,6 +493,13 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         if 'political_level' in validated_dict[u'organization']:
             search_data['political_level'] = validated_dict[u'organization'][u'political_level']  # noqa
 
+        # make sure we're not dealing with NoneType
+        if search_data['metadata_created'] is None:
+            search_data['metadata_created'] = ''
+
+        if search_data['metadata_modified'] is None:
+            search_data['metadata_modified'] = ''
+
         try:
             # index language-specific values (or it's fallback)
             text_field_items = {}
