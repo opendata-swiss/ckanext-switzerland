@@ -6,17 +6,15 @@ import ckan.model as model
 import ckan.logic as logic
 import ckan.lib.maintain as maintain
 import ckan.lib.plugins
-from ckan.common import c, _, g, request, response, OrderedDict
+from ckan.common import c, _, g, request, OrderedDict
 import ckan.lib.helpers as h
 import ckan.authz as authz
 import ckan.lib.search as search
 import ckan.lib.base as base
 from ckan.controllers.api import ApiController
-from ConfigParser import ConfigParser
 from email.mime.text import MIMEText
 from urlparse import urlparse
 
-import pylons
 import json
 import smtplib
 import requests
@@ -417,7 +415,7 @@ class DiscourseController(ApiController):
 
         discourse_post = json.loads(request.body)
 
-        ckan_site_url = urlparse(pylons.config.get('ckan.site_url', None))
+        ckan_site_url = urlparse(tk.config.get('ckan.site_url', None))
         ckan_hostname = ckan_site_url.hostname
 
         discourse_topic_url = urlparse(discourse_post[1]['referrer'])
@@ -454,15 +452,16 @@ class DiscourseController(ApiController):
 
     def _notify_contactpoints(self, discourse_topic_url, dataset_url, package):
 
-        smtp_host = pylons.config.get('smtp.server', None)
-        smtp_port = pylons.config.get('smtp.host', None)
+        ckan_site_url = tk.config.get('ckan.site_url', '')
+        smtp_host = tk.config.get('smtp.server', None)
+        smtp_port = tk.config.get('smtp.host', None)
         from_mail = 'no-reply@opendata.swiss'
 
         for contact in package['contact_points']:
             receiver_mail = contact['email']
             receiver_name = contact['name']
 
-            dataset_url = ckan_site_url + '/dataset/' + package['name']
+            dataset_url = '%s/dataset/%s' % (ckan_site_url, package['name'])
 
             mail = 'Hello ' + receiver_name + '!\n\n'
             mail += 'A new post was created on Discourse at: '
@@ -482,4 +481,3 @@ class DiscourseController(ApiController):
             s = smtplib.SMTP(smtp_host, smtp_port)
             s.sendmail(from_mail, receiver_mail, msg.as_string())
             s.quit()
-
