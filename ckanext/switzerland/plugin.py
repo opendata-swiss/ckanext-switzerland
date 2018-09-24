@@ -603,9 +603,9 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # therefore no results are returned. If the terms are transliterated to
         # ascii everything works since the documents are anyway index as ascii
         # using an ASCIIFoldingFilterFactory.
-        # As long as we don't mess up any special solr markup or fields with 
+        # As long as we don't mess up any special solr markup or fields with
         # UTF-8 characters, this should be save.
-        # TODO: Remove once solr and/or CKAN is upgraded, check if search for 
+        # TODO: Remove once solr and/or CKAN is upgraded, check if search for
         # terms with umlauts works again
         q = search_params.get('q')
         if q:
