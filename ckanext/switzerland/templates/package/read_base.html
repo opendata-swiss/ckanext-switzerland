@@ -9,6 +9,7 @@
 {% block links -%}
   {{ super() }}
   <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for('dataset_read', id=pkg.id, format='rdf', qualified=True) }}"/>
+  <link rel="alternate" type="application/ld+json" href="{{ h.url_for('dcat_dataset', _id=pkg.id, _format='jsonld', qualified=True) }}"/>
 {% endblock -%}
 
 {% block content_primary_nav %}
@@ -22,5 +23,14 @@
       _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_organization_id or 0 }}, customDimensionValue = '{{ pkg.organization.name }}']);
       _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}, customDimensionValue = '{{ pkg.name }}']);
   </script>
+
+  {% block structured_data %}
+    {% if h.helper_available('structured_data') %}
+    <script type="application/ld+json">
+    {{ h.structured_data(pkg.id, ['swiss_schemaorg'])|safe }}
+    </script>
+    {% endif %}
+  {% endblock %}
+
   {{ super() }}
 {% endblock %}

@@ -6,9 +6,10 @@ from datetime import datetime
 
 import re
 
-from ckanext.dcat.profiles import RDFProfile
+from ckanext.dcat.profiles import RDFProfile, SchemaOrgProfile
 from ckanext.dcat.utils import resource_uri
 from ckan.lib.munge import munge_tag
+from ckan.lib.helpers import url_for
 
 from ckanext.switzerland.helpers import get_langs, uri_to_iri
 
@@ -611,3 +612,17 @@ class SwissDCATAPProfile(RDFProfile):
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         g = self.g
         g.add((catalog_ref, RDF.type, DCAT.Catalog))
+
+
+class SwissProfile(object):
+    def _rights(self, ckan_license_id):
+        return ckan_license_id
+
+
+class SwissSchemaOrgProfile(SchemaOrgProfile, SwissProfile):
+    def additional_fields(self, dataset_ref, dataset_dict):
+        # identifier
+        dataset_url = url_for('dataset_read',
+                              id=dataset_dict['name'],
+                              qualified=True)
+        self.g.add((dataset_ref, SCHEMA.identifier, Literal(dataset_url)))
