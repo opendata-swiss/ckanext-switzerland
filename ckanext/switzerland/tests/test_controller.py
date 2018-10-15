@@ -101,7 +101,7 @@ class TestController(helpers.FunctionalTestBase):
 
         # no locale, should default to EN
         url = url_for('organizations_index')
-        assert_equal(url, '/organization')
+        assert url.startswith('/organization'), "URL does not start with /organization"
 
         response = app.get(url, status=200)
 

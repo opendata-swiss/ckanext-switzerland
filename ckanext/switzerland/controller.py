@@ -384,8 +384,6 @@ class OgdchPermaController(base.BaseController):
                 {'identifier': id}
             )
             # redirect to dataset detail page
-            tk.redirect_to(controller='package',
-                           action='read',
-                           id=dataset['name'])
+            tk.redirect_to('dataset_read', id=dataset['name'])
         except NotFound:
             abort(404, _('Dataset not found'))
