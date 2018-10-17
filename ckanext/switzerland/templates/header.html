@@ -21,7 +21,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="{{ h.url('home') }}">
-        <img src="/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.png'" class="navbar-brand-image" alt="{{ app_globals.site_title }}" title="{{ app_globals.site_title }}" />
+        <img src="/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/logo_horizontal.png'" class="navbar-brand-image" alt="{{ g.site_title }}" title="{{ g.site_title }}" />
       </a>
     </div>
 
@@ -54,7 +54,7 @@
             </ul>
           </li>
           <li class="search">
-            <a href="{{ h.url_for(controller='package', action='search') }}" title="{{ _('Search') }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+            <a href="{{ h.url_for('dataset.search') }}" title="{{ _('Search') }}"><i class="fa fa-search" aria-hidden="true"></i></a>
           </li>
         </ul>
       </div>

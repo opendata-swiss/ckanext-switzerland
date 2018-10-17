@@ -13,11 +13,11 @@
       <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
       <li>{% link_for organization.title|truncate(30), controller='organization', action='read', id=organization.name %}</li>
     {% else %}
-      <li>{% link_for _('Data'), controller='package', action='search' %}</li>
+      <li>{% link_for _('Data'), 'search' %}</li>
     {% endif %}
     {% set pkg_title = pkg.title or pkg.name %}
-    <li{{ self.breadcrumb_content_selected() }}>{% link_for pkg_title|truncate(30), controller='package', action='read', id=pkg.name %}</li>
+    <li{{ self.breadcrumb_content_selected() }}>{% link_for pkg_title|truncate(30), 'dataset_read', id=pkg.name %}</li>
   {% else %}
-    <li>{% link_for _('Data'), controller='package', action='search' %}</li>
+    <li>{% link_for _('Data'), 'search' %}</li>
   {% endif %}
 {% endblock %}

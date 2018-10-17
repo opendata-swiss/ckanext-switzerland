@@ -4,13 +4,13 @@ import logging
 from ckan.plugins import toolkit as tk
 import ckan.model as model
 import ckan.logic as logic
-import ckan.lib.maintain as maintain
 import ckan.lib.plugins
-from ckan.common import c, _, g, request, OrderedDict
+from ckan.common import c, config, _, request, OrderedDict
 import ckan.lib.helpers as h
 import ckan.authz as authz
 import ckan.lib.search as search
 import ckan.lib.base as base
+from six import string_types
 
 from ckanext.hierarchy.controller import _children_name_list
 import ckan.controllers.organization as organization
@@ -127,7 +127,7 @@ class OgdchOrganizationSearchController(organization.OrganizationController):
                 'license_id': _('Licenses')
             }
 
-            for facet in g.facets:
+            for facet in h.facets():
                 if facet in default_facet_titles:
                     facets[facet] = default_facet_titles[facet]
                 else:
@@ -184,15 +184,14 @@ class OgdchOrganizationSearchController(organization.OrganizationController):
             )
 
             c.group_dict['package_count'] = query['count']
-            c.facets = query['facets']
-            maintain.deprecate_context_item('facets',
-                                            'Use `c.search_facets` instead.')
 
             c.search_facets = query['search_facets']
             c.search_facets_limits = {}
-            for facet in c.facets.keys():
+            for facet in c.search_facets.keys():
                 limit = int(request.params.get('_%s_limit' % facet,
-                            g.facets_default_number))
+                                               config.get(
+                                                   'search.facets.default',
+                                                   10)))
                 c.search_facets_limits[facet] = limit
             c.page.items = query['results']
 
@@ -201,7 +200,7 @@ class OgdchOrganizationSearchController(organization.OrganizationController):
         except search.SearchError, se:
             log.error('Group search error: %r', se.args)
             c.query_error = True
-            c.facets = {}
+            c.search_facets = {}
             c.page = h.Page(collection=[])
 
         self._setup_template_variables(
@@ -232,12 +231,11 @@ class OgdchGroupSearchController(group.GroupController):
                    'for_view': True, 'extras_as_string': True}
 
         q = c.q = request.params.get('q', '')
-        fq = ''
         # Search within group
         if c.group_dict.get('is_organization'):
-            fq += ' owner_org:"%s"' % c.group_dict.get('id')
+            fq = 'owner_org:"%s"' % c.group_dict.get('id')
         else:
-            fq += ' groups:"%s"' % c.group_dict.get('name')
+            fq = 'groups:"%s"' % c.group_dict.get('name')
 
         c.description_formatted = \
             h.render_markdown(c.group_dict.get('description'))
@@ -259,7 +257,7 @@ class OgdchGroupSearchController(group.GroupController):
             controller = lookup_group_controller(group_type)
             action = 'bulk_process' if c.action == 'bulk_process' else 'read'
             url = h.url_for(controller=controller, action=action, id=id)
-            params = [(k, v.encode('utf-8') if isinstance(v, basestring)
+            params = [(k, v.encode('utf-8') if isinstance(v, string_types)
                        else str(v)) for k, v in params]
             return url + u'?' + urlencode(params)
 
@@ -272,8 +270,9 @@ class OgdchGroupSearchController(group.GroupController):
         c.drill_down_url = drill_down_url
 
         def remove_field(key, value=None, replace=None):
+            controller = lookup_group_controller(group_type)
             return h.remove_url_param(key, value=value, replace=replace,
-                                      controller='group', action='read',
+                                      controller=controller, action='read',
                                       extras=dict(id=c.group_dict.get('name')))
 
         c.remove_field = remove_field
@@ -285,6 +284,7 @@ class OgdchGroupSearchController(group.GroupController):
 
         try:
             c.fields = []
+            c.fields_grouped = {}
             search_extras = {}
             for (param, value) in request.params.items():
                 if param not in ['q', 'page', 'sort'] \
@@ -292,16 +292,12 @@ class OgdchGroupSearchController(group.GroupController):
                     if not param.startswith('ext_'):
                         c.fields.append((param, value))
                         fq += ' %s: "%s"' % (param, value)
+                        if param not in c.fields_grouped:
+                            c.fields_grouped[param] = [value]
+                        else:
+                            c.fields_grouped[param].append(value)
                     else:
                         search_extras[param] = value
-
-            user_member_of_orgs = [org['id'] for org
-                                   in h.organizations_available('read')]
-
-            if (c.group and c.group.id in user_member_of_orgs):
-                context['ignore_capacity_check'] = True
-            else:
-                fq += ' capacity:"public"'
 
             facets = OrderedDict()
 
@@ -311,7 +307,7 @@ class OgdchGroupSearchController(group.GroupController):
                                     'res_format': _('Formats'),
                                     'license_id': _('Licenses')}
 
-            for facet in g.facets:
+            for facet in h.facets():
                 if facet in default_facet_titles:
                     facets[facet] = default_facet_titles[facet]
                 else:
@@ -320,15 +316,12 @@ class OgdchGroupSearchController(group.GroupController):
             # Facet titles
             self._update_facet_titles(facets, group_type)
 
-            if 'capacity' in facets and (group_type != 'organization' or
-                                         not user_member_of_orgs):
-                del facets['capacity']
-
             c.facet_titles = facets
 
             data_dict = {
                 'q': q,
                 'fq': fq,
+                'include_private': True,
                 'facet.field': facets.keys(),
                 'rows': limit,
                 'sort': sort_by,
@@ -349,24 +342,23 @@ class OgdchGroupSearchController(group.GroupController):
             )
 
             c.group_dict['package_count'] = query['count']
-            c.facets = query['facets']
-            maintain.deprecate_context_item('facets',
-                                            'Use `c.search_facets` instead.')
 
             c.search_facets = query['search_facets']
             c.search_facets_limits = {}
-            for facet in c.facets.keys():
+            for facet in c.search_facets.keys():
                 limit = int(request.params.get('_%s_limit' % facet,
-                                               g.facets_default_number))
+                                               config.get(
+                                                   'search.facets.default',
+                                                   10)))
                 c.search_facets_limits[facet] = limit
             c.page.items = query['results']
 
             c.sort_by_selected = sort_by
 
-        except search.SearchError, se:
+        except search.SearchError as se:
             log.error('Group search error: %r', se.args)
             c.query_error = True
-            c.facets = {}
+            c.search_facets = {}
             c.page = h.Page(collection=[])
 
         self._setup_template_variables(
@@ -392,8 +384,6 @@ class OgdchPermaController(base.BaseController):
                 {'identifier': id}
             )
             # redirect to dataset detail page
-            tk.redirect_to(controller='package',
-                           action='read',
-                           id=dataset['name'])
+            tk.redirect_to('dataset_read', id=dataset['name'])
         except NotFound:
             abort(404, _('Dataset not found'))

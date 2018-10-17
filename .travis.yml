@@ -8,7 +8,7 @@ python:
 
 env:
     - CKANVERSION=master
-    - CKANVERSION=2.6
+    - CKANVERSION=2.8
 
 services:
     - redis-server
