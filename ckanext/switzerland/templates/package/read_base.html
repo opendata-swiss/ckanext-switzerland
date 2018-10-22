@@ -26,7 +26,7 @@
   {% block structured_data %}
     {% if h.helper_available('structured_data') %}
     <script type="application/ld+json">
-    {{ h.structured_data(pkg.id, ['schemaorg'])|safe }}
+    {{ h.structured_data(pkg.id, ['swiss_schemaorg'])|safe }}
     </script>
     {% endif %}
   {% endblock %}

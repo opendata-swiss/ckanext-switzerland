@@ -651,6 +651,8 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
             ('version', SCHEMA.version, ['dcat_version'], Literal),
             ('issued', SCHEMA.datePublished, ['metadata_created'], Literal),
             ('modified', SCHEMA.dateModified, ['metadata_modified'], Literal),
+            ('author', SCHEMA.author, ['contact_name', 'maintainer'], Literal),
+            ('url', SCHEMA.sameAs, None, Literal),
         ]
         self._add_triples_from_dict(dataset_dict, dataset_ref, items)
 
@@ -665,13 +667,6 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
             ('language', SCHEMA.inLanguage, None, Literal),
         ]
         self._add_list_triples_from_dict(dataset_dict, dataset_ref, items)
-
-        # theme for groups
-        themes = []
-        for group in dataset_dict.get('groups', []):
-            themes.append('%s/%s' % (ogd_theme_base_url, group['name']))
-
-        self._add_list_triple(dataset_ref, SCHEMA.about, themes, URIRef),
 
     def _publisher_graph(self, dataset_ref, dataset_dict):
         if any([
@@ -689,6 +684,7 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
 
             self.g.add((publisher_details, RDF.type, SCHEMA.Organization))
             self.g.add((dataset_ref, SCHEMA.publisher, publisher_details))
+            self.g.add((dataset_ref, SCHEMA.sourceOrganization, publisher_details))
 
 
             publisher_name = self._get_dataset_value(dataset_dict, 'publisher_name')
@@ -737,6 +733,13 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
                 self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, start)
             elif end:
                 self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, end)
+
+    def _tags_graph(self, dataset_ref, dataset_dict):
+        for tag in dataset_dict.get('keywords', []):
+	    items = [
+		('keywords', SCHEMA.keywords, None, Literal),
+	    ]
+            self._add_multilang_triples_from_dict(dataset_dict, dataset_ref, items)
 
     def _distribution_basic_fields_graph(self, distribution, resource_dict):
         items = [
