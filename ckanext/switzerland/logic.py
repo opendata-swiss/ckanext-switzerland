@@ -1,7 +1,9 @@
+import pysolr
 from collections import OrderedDict
 from ckan.plugins.toolkit import get_or_bust, side_effect_free
-from ckan.logic import NotFound
+from ckan.logic import ActionError, NotFound, ValidationError
 import ckan.plugins.toolkit as tk
+from ckan.lib.search.common import make_connection
 from ckanext.switzerland.helpers import get_content_headers
 
 import logging
@@ -100,3 +102,25 @@ def ogdch_dataset_by_identifier(context, data_dict):
         return result['results'][0]
     except (KeyError, IndexError, TypeError):
         raise NotFound
+
+
+@side_effect_free
+def ogdch_autosuggest(context, data_dict):
+    q = get_or_bust(data_dict, 'q')
+    lang = get_or_bust(data_dict, 'lang')
+    if lang not in ['en', 'it', 'de', 'fr']:
+        raise ValidationError('lang must be one of [en, it, de, fr]')
+
+    handler = '/suggest_%s' % lang
+    suggester = 'ckanSuggester_%s' % lang
+
+    solr = make_connection()
+    try:
+        log.debug('Loading suggestions for %s (lang: %s)' % (q, lang))
+        results = solr.search('', search_handler=handler, **{'suggest.q': q, 'suggest.count': 10})
+        suggestions = results.raw_response['suggest'][suggester].values()[0]
+        terms = [suggestion['term'] for suggestion in suggestions['suggestions']]
+        return list(set(terms))
+    except pysolr.SolrError as e:
+        log.exception('Could not load suggestions from solr')
+    raise ActionError('Error retrieving suggestions from solr')

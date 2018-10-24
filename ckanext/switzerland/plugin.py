@@ -110,6 +110,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_dataset_terms_of_use': l.ogdch_dataset_terms_of_use,
             'ogdch_dataset_by_identifier': l.ogdch_dataset_by_identifier,
             'ogdch_content_headers': l.ogdch_content_headers,
+            'ogdch_autosuggest': l.ogdch_autosuggest,
         }
 
     # ITemplateHelpers
@@ -494,6 +495,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         validated_dict = json.loads(search_data['validated_data_dict'])
 
         search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_en'] = [sh.get_localized_value(r['title'], 'en') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_de'] = [sh.get_localized_value(r['title'], 'de') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_fr'] = [sh.get_localized_value(r['title'], 'fr') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_it'] = [sh.get_localized_value(r['title'], 'it') for r in validated_dict[u'resources']]  # noqa
         search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
