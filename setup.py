@@ -96,6 +96,7 @@ setup(
 
         [ckan.rdf.profiles]
         swiss_dcat_ap=ckanext.switzerland.dcat.profiles:SwissDCATAPProfile
+        swiss_schemaorg=ckanext.switzerland.dcat.profiles:SwissSchemaOrgProfile
     ''',
 
     message_extractors={

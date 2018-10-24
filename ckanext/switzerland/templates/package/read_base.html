@@ -23,4 +23,11 @@
       _paq.push(['setCustomDimension', customDimensionId = {{ piwik_config.custom_dimension_action_dataset_id or 0 }}, customDimensionValue = '{{ pkg.name }}']);
   </script>
   {{ super() }}
+  {% block structured_data %}
+    {% if h.helper_available('structured_data') %}
+    <script type="application/ld+json">
+    {{ h.structured_data(pkg.id, ['swiss_schemaorg'])|safe }}
+    </script>
+    {% endif %}
+  {% endblock %}
 {% endblock %}
