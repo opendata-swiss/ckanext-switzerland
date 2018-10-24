@@ -52,9 +52,10 @@ ogd_theme_base_url = 'http://opendata.swiss/themes'
 
 slug_id_pattern = re.compile('[^/]+(?=/$|$)')
 
+
 class MultiLangProfile(RDFProfile):
     def _add_multilang_value(self, subject, predicate, dataset_key=None, dataset_dict=None, multilang_values=None):  # noqa
-        if not multilang_values and dataset_dict and dataset_key: 
+        if not multilang_values and dataset_dict and dataset_key:
             multilang_values = dataset_dict.get(dataset_key)
         if multilang_values:
             try:
@@ -76,8 +77,13 @@ class MultiLangProfile(RDFProfile):
     def _add_multilang_triples_from_dict(self, _dict, subject, items):
         for item in items:
             key, predicate, fallbacks, _type = item
-            self._add_multilang_triple_from_dict(_dict, subject, predicate, key,
-                                       fallbacks=fallbacks)
+            self._add_multilang_triple_from_dict(
+                _dict,
+                subject,
+                predicate,
+                key,
+                fallbacks=fallbacks
+            )
 
     def _add_multilang_triple_from_dict(self, _dict, subject, predicate, key, fallbacks=None):  # noqa
         '''
@@ -97,7 +103,11 @@ class MultiLangProfile(RDFProfile):
                     break
 
         if value:
-            self._add_multilang_value(subject, predicate, multilang_values=value)
+            self._add_multilang_value(
+                subject,
+                predicate,
+                multilang_values=value
+            )
 
 
 class SwissDCATAPProfile(MultiLangProfile):
@@ -684,10 +694,12 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
 
             self.g.add((publisher_details, RDF.type, SCHEMA.Organization))
             self.g.add((dataset_ref, SCHEMA.publisher, publisher_details))
-            self.g.add((dataset_ref, SCHEMA.sourceOrganization, publisher_details))
+            self.g.add((dataset_ref, SCHEMA.sourceOrganization, publisher_details))  # noqa
 
-
-            publisher_name = self._get_dataset_value(dataset_dict, 'publisher_name')
+            publisher_name = self._get_dataset_value(
+                dataset_dict,
+                'publisher_name'
+            )
             if not publisher_name and dataset_dict.get('organization'):
                 publisher_name = dataset_dict['organization']['title']
                 self._add_multilang_value(
@@ -696,21 +708,21 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
                     multilang_values=publisher_name
                 )
             else:
-                g.add((publisher_details, SCHEMA.name, Literal(publisher_name)))
+                g.add((publisher_details, SCHEMA.name, Literal(publisher_name)))  # noqa
 
             contact_point = BNode()
             self.g.add((publisher_details, SCHEMA.contactPoint, contact_point))
 
-            self.g.add((contact_point, SCHEMA.contactType, Literal('customer service')))
+            self.g.add((contact_point, SCHEMA.contactType, Literal('customer service')))  # noqa
 
-            publisher_url = self._get_dataset_value(dataset_dict, 'publisher_url')
+            publisher_url = self._get_dataset_value(dataset_dict, 'publisher_url')  # noqa
             if not publisher_url and dataset_dict.get('organization'):
-                publisher_url = dataset_dict['organization'].get('url') or config.get('ckan.site_url', '')
+                publisher_url = dataset_dict['organization'].get('url') or config.get('ckan.site_url', '')  # noqa
 
             self.g.add((contact_point, SCHEMA.url, Literal(publisher_url)))
             items = [
-                ('publisher_email', SCHEMA.email, ['contact_email', 'maintainer_email', 'author_email'], Literal),
-                ('publisher_name', SCHEMA.name, ['contact_name', 'maintainer', 'author'], Literal),
+                ('publisher_email', SCHEMA.email, ['contact_email', 'maintainer_email', 'author_email'], Literal),  # noqa
+                ('publisher_name', SCHEMA.name, ['contact_name', 'maintainer', 'author'], Literal),  # noqa
             ]
 
             self._add_triples_from_dict(dataset_dict, contact_point, items)
@@ -728,18 +740,22 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
             return
         if start or end:
             if start and end:
-                self.g.add((dataset_ref, SCHEMA.temporalCoverage, Literal('%s/%s' % (start, end))))
+                self.g.add((dataset_ref, SCHEMA.temporalCoverage, Literal('%s/%s' % (start, end))))  # noqa
             elif start:
-                self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, start)
+                self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, start)  # noqa
             elif end:
-                self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, end)
+                self._add_date_triple(dataset_ref, SCHEMA.temporalCoverage, end)  # noqa
 
     def _tags_graph(self, dataset_ref, dataset_dict):
         for tag in dataset_dict.get('keywords', []):
-	    items = [
-		('keywords', SCHEMA.keywords, None, Literal),
-	    ]
-            self._add_multilang_triples_from_dict(dataset_dict, dataset_ref, items)
+            items = [
+                ('keywords', SCHEMA.keywords, None, Literal),
+            ]
+            self._add_multilang_triples_from_dict(
+                dataset_dict,
+                dataset_ref,
+                items
+            )
 
     def _distribution_basic_fields_graph(self, distribution, resource_dict):
         items = [
@@ -753,5 +769,8 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
             ('title', SCHEMA.name, None, Literal),
             ('description', SCHEMA.description, None, Literal),
         ]
-        self._add_multilang_triples_from_dict(resource_dict, distribution, items)
-
+        self._add_multilang_triples_from_dict(
+            resource_dict,
+            distribution,
+            items
+        )

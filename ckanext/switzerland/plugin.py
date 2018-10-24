@@ -208,8 +208,6 @@ class OgdchLanguagePlugin(plugins.SingletonPlugin):
 
         return pkg_dict
 
-
-
     def _get_request_language(self):
         try:
             return toolkit.request.environ['CKAN_LANG']
