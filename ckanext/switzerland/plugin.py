@@ -497,6 +497,14 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         search_data['res_name_de'] = [sh.get_localized_value(r['title'], 'de') for r in validated_dict[u'resources']]  # noqa
         search_data['res_name_fr'] = [sh.get_localized_value(r['title'], 'fr') for r in validated_dict[u'resources']]  # noqa
         search_data['res_name_it'] = [sh.get_localized_value(r['title'], 'it') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_en'] = [sh.get_localized_value(r['description'], 'en') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_de'] = [sh.get_localized_value(r['description'], 'de') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_fr'] = [sh.get_localized_value(r['description'], 'fr') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_it'] = [sh.get_localized_value(r['description'], 'it') for r in validated_dict[u'resources']]  # noqa
+        search_data['groups_en'] = [sh.get_localized_value(g['display_name'], 'en') for g in validated_dict[u'groups']]  # noqa
+        search_data['groups_de'] = [sh.get_localized_value(g['display_name'], 'de') for g in validated_dict[u'groups']]  # noqa
+        search_data['groups_fr'] = [sh.get_localized_value(g['display_name'], 'fr') for g in validated_dict[u'groups']]  # noqa
+        search_data['groups_it'] = [sh.get_localized_value(g['display_name'], 'it') for g in validated_dict[u'groups']]  # noqa
         search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
@@ -531,15 +539,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                     validated_dict['keywords'],
                     lang_code
                 )
-
-                text_field_items['text_' + lang_code] = [sh.get_localized_value(validated_dict['description'], lang_code)]  # noqa
-                text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])  # noqa
-                text_field_items['text_' + lang_code].extend([r['title'][lang_code] for r in validated_dict['resources'] if r['title'][lang_code]])  # noqa
-                text_field_items['text_' + lang_code].extend([r['description'][lang_code] for r in validated_dict['resources'] if r['description'][lang_code]])  # noqa
-
-            # flatten values for text_* fields
-            for key, value in text_field_items.iteritems():
-                search_data[key] = ' '.join(value)
+                search_data['organization_' + lang_code] = sh.get_localized_value(
+                    validated_dict['organization']['title'],
+                    lang_code
+                )
 
         except KeyError:
             pass
