@@ -117,10 +117,14 @@ def ogdch_autosuggest(context, data_dict):
     solr = make_connection()
     try:
         log.debug('Loading suggestions for %s (lang: %s)' % (q, lang))
-        results = solr.search('', search_handler=handler, **{'suggest.q': q, 'suggest.count': 10})
-        suggestions = results.raw_response['suggest'][suggester].values()[0]
-        terms = [suggestion['term'] for suggestion in suggestions['suggestions']]
+        results = solr.search(
+            '',
+            search_handler=handler,
+            **{'suggest.q': q, 'suggest.count': 10}
+        )
+        suggestions = results.raw_response['suggest'][suggester].values()[0]  # noqa
+        terms = [suggestion['term'] for suggestion in suggestions['suggestions']]  # noqa
         return list(set(terms))
     except pysolr.SolrError as e:
-        log.exception('Could not load suggestions from solr')
+        log.exception('Could not load suggestions from solr: %s' % e)
     raise ActionError('Error retrieving suggestions from solr')

@@ -522,7 +522,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         try:
             # index language-specific values (or it's fallback)
-            text_field_items = {}
             for lang_code in sh.get_langs():
                 search_data['title_' + lang_code] = sh.get_localized_value(
                     validated_dict['title'],
@@ -539,7 +538,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                     validated_dict['keywords'],
                     lang_code
                 )
-                search_data['organization_' + lang_code] = sh.get_localized_value(
+                search_data['organization_' + lang_code] = sh.get_localized_value(  # noqa
                     validated_dict['organization']['title'],
                     lang_code
                 )
@@ -589,8 +588,11 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # treat current lang differenly so remove from set
         lang_set.remove(current_lang)
 
+        # add default query field(s)
+        query_fields = 'text'
+
         # weight current lang more highly
-        query_fields = 'text title_%s^8 text_%s^4' % (current_lang, current_lang)
+        query_fields += ' title_%s^8 text_%s^4' % (current_lang, current_lang)
 
         for lang in lang_set:
             query_fields += ' title_%s^2 text_%s' % (lang, lang)
