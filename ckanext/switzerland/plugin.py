@@ -20,7 +20,6 @@ import urlparse
 import os
 import logging
 import yaml
-from unidecode import unidecode
 log = logging.getLogger(__name__)
 
 __location__ = os.path.realpath(os.path.join(
@@ -607,21 +606,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         fq = search_params.get('fq', '')
         if 'dataset_type:' not in fq:
             search_params.update({'fq': "%s +dataset_type:dataset" % fq})
-
-        # remove all UTF-8 charcters and replace them by their ascii equivalent
-        # this is needed to fix search with umlaut and accents (see OGD-758).
-        # This is just a patch for the symptom rather than the real cause
-        # it seems pysolr or solr doesn't correctly handle UTF-8 queries and
-        # therefore no results are returned. If the terms are transliterated to
-        # ascii everything works since the documents are anyway index as ascii
-        # using an ASCIIFoldingFilterFactory.
-        # As long as we don't mess up any special solr markup or fields with
-        # UTF-8 characters, this should be save.
-        # TODO: Remove once solr and/or CKAN is upgraded, check if search for
-        # terms with umlauts works again
-        q = search_params.get('q')
-        if q:
-            search_params['q'] = unidecode(q)
 
         return search_params
 
