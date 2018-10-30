@@ -20,7 +20,6 @@ import urlparse
 import os
 import logging
 import yaml
-from unidecode import unidecode
 log = logging.getLogger(__name__)
 
 __location__ = os.path.realpath(os.path.join(
@@ -47,7 +46,6 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
-        toolkit.add_resource('fanstatic', 'switzerland')
 
     # IValidators
 
@@ -110,6 +108,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_dataset_terms_of_use': l.ogdch_dataset_terms_of_use,
             'ogdch_dataset_by_identifier': l.ogdch_dataset_by_identifier,
             'ogdch_content_headers': l.ogdch_content_headers,
+            'ogdch_autosuggest': l.ogdch_autosuggest,
         }
 
     # ITemplateHelpers
@@ -494,6 +493,18 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         validated_dict = json.loads(search_data['validated_data_dict'])
 
         search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_en'] = [sh.get_localized_value(r['title'], 'en') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_de'] = [sh.get_localized_value(r['title'], 'de') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_fr'] = [sh.get_localized_value(r['title'], 'fr') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_name_it'] = [sh.get_localized_value(r['title'], 'it') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_en'] = [sh.get_localized_value(r['description'], 'en') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_de'] = [sh.get_localized_value(r['description'], 'de') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_fr'] = [sh.get_localized_value(r['description'], 'fr') for r in validated_dict[u'resources']]  # noqa
+        search_data['res_description_it'] = [sh.get_localized_value(r['description'], 'it') for r in validated_dict[u'resources']]  # noqa
+        search_data['groups_en'] = [sh.get_localized_value(g['display_name'], 'en') for g in validated_dict[u'groups']]  # noqa
+        search_data['groups_de'] = [sh.get_localized_value(g['display_name'], 'de') for g in validated_dict[u'groups']]  # noqa
+        search_data['groups_fr'] = [sh.get_localized_value(g['display_name'], 'fr') for g in validated_dict[u'groups']]  # noqa
+        search_data['groups_it'] = [sh.get_localized_value(g['display_name'], 'it') for g in validated_dict[u'groups']]  # noqa
         search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
         search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
@@ -511,7 +522,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         try:
             # index language-specific values (or it's fallback)
-            text_field_items = {}
             for lang_code in sh.get_langs():
                 search_data['title_' + lang_code] = sh.get_localized_value(
                     validated_dict['title'],
@@ -528,15 +538,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                     validated_dict['keywords'],
                     lang_code
                 )
-
-                text_field_items['text_' + lang_code] = [sh.get_localized_value(validated_dict['description'], lang_code)]  # noqa
-                text_field_items['text_' + lang_code].extend(search_data['keywords_' + lang_code])  # noqa
-                text_field_items['text_' + lang_code].extend([r['title'][lang_code] for r in validated_dict['resources'] if r['title'][lang_code]])  # noqa
-                text_field_items['text_' + lang_code].extend([r['description'][lang_code] for r in validated_dict['resources'] if r['description'][lang_code]])  # noqa
-
-            # flatten values for text_* fields
-            for key, value in text_field_items.iteritems():
-                search_data[key] = ' '.join(value)
+                search_data['organization_' + lang_code] = sh.get_localized_value(  # noqa
+                    validated_dict['organization']['title'],
+                    lang_code
+                )
 
         except KeyError:
             pass
@@ -583,8 +588,11 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         # treat current lang differenly so remove from set
         lang_set.remove(current_lang)
 
+        # add default query field(s)
+        query_fields = 'text'
+
         # weight current lang more highly
-        query_fields = 'title_%s^8 text_%s^4' % (current_lang, current_lang)
+        query_fields += ' title_%s^8 text_%s^4' % (current_lang, current_lang)
 
         for lang in lang_set:
             query_fields += ' title_%s^2 text_%s' % (lang, lang)
@@ -603,21 +611,6 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         fq = search_params.get('fq', '')
         if 'dataset_type:' not in fq:
             search_params.update({'fq': "%s +dataset_type:dataset" % fq})
-
-        # remove all UTF-8 charcters and replace them by their ascii equivalent
-        # this is needed to fix search with umlaut and accents (see OGD-758).
-        # This is just a patch for the symptom rather than the real cause
-        # it seems pysolr or solr doesn't correctly handle UTF-8 queries and
-        # therefore no results are returned. If the terms are transliterated to
-        # ascii everything works since the documents are anyway index as ascii
-        # using an ASCIIFoldingFilterFactory.
-        # As long as we don't mess up any special solr markup or fields with
-        # UTF-8 characters, this should be save.
-        # TODO: Remove once solr and/or CKAN is upgraded, check if search for
-        # terms with umlauts works again
-        q = search_params.get('q')
-        if q:
-            search_params['q'] = unidecode(q)
 
         return search_params
 
