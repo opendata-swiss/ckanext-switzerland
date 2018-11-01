@@ -513,6 +513,11 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         if 'political_level' in validated_dict[u'organization']:
             search_data['political_level'] = validated_dict[u'organization'][u'political_level']  # noqa
 
+        search_data['identifier'] = validated_dict.get('identifier')
+        search_data['contact_points'] = [c['name'] for c in validated_dict.get('contact_points', [])]  # noqa
+        search_data['publishers'] = [p['label'] for p in validated_dict.get('publishers', [])]  # noqa
+        search_data['see_alsos'] = [d['dataset_identifier'] for d in validated_dict.get('see_alsos', [])]  # noqa
+
         # make sure we're not dealing with NoneType
         if search_data['metadata_created'] is None:
             search_data['metadata_created'] = ''

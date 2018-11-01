@@ -25,10 +25,6 @@
     <link rel='stylesheet' id='font_source_sans_pro_600italic-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:600italic' type='text/css' media='all' />
   <![endif]-->
   <link rel='stylesheet' id='app-css'  href='/content/themes/wp-ogdch-theme/assets/css/app.css?ver=1.0.0' type='text/css' media='all' />
-  <link rel='stylesheet' href='/vendor/jquery-ui-autocomplete/jquery-ui.css' type='text/css' />
-  <link rel='stylesheet' href='/vendor/jquery-ui-autocomplete/jquery-ui.structure.css' type='text/css' />
-  <link rel='stylesheet' href='/vendor/jquery-ui-autocomplete/jquery-ui.theme.css' type='text/css' />
-  <link rel='stylesheet' href='/scripts/search_suggestions.css' type='text/css' />
 {% endblock %}
 
 {% block head_extras %}
@@ -42,9 +38,6 @@
 
 {%- block scripts %}
   <script type='text/javascript' src='https://code.jquery.com/jquery-1.11.1.min.js?ver=1.11.1'></script>
-  <script type='text/javascript' src='/vendor/jquery-ui-autocomplete/jquery-ui.js'></script>
-  <script type='text/javascript' src='/vendor/jquery.ui.autocomplete.html.js'></script>
-  <script type='text/javascript' src='/scripts/search_suggestions.js'></script>
   {% set piwik_config = h.get_piwik_config() %}
   <script type="text/javascript">
     var customDimensionActionFormatId = {{ piwik_config.custom_dimension_action_format_id or 0 }};
