@@ -111,7 +111,7 @@ def ogdch_autosuggest(context, data_dict):
 
     # parse language from values like de_CH
     if len(lang) > 2:
-        lang = lang[:2] 
+        lang = lang[:2]
 
     if lang not in ['en', 'it', 'de', 'fr']:
         raise ValidationError('lang must be one of [en, it, de, fr]')
