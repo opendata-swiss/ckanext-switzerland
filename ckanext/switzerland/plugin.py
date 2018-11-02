@@ -516,7 +516,16 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         search_data['identifier'] = validated_dict.get('identifier')
         search_data['contact_points'] = [c['name'] for c in validated_dict.get('contact_points', [])]  # noqa
         search_data['publishers'] = [p['label'] for p in validated_dict.get('publishers', [])]  # noqa
-        search_data['see_alsos'] = [d['dataset_identifier'] for d in validated_dict.get('see_alsos', [])]  # noqa
+
+        # TODO: Remove the try-except-block.
+        # This fixes the index while we have 'wrong' relations on
+        # datasets harvested with an old version of ckanext-geocat
+        try:
+            search_data['see_alsos'] = [d['dataset_identifier'] for d in validated_dict.get('see_alsos', [])]  # noqa
+        except TypeError:
+            search_data['see_alsos'] = [d for d in
+                                        validated_dict.get('see_alsos',
+                                                           [])]  # noqa
 
         # make sure we're not dealing with NoneType
         if search_data['metadata_created'] is None:
