@@ -617,6 +617,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         if 'dataset_type:' not in fq:
             search_params.update({'fq': "%s +dataset_type:dataset" % fq})
 
+        # remove colon followed by a space from q to avoid false negatives
+        q = search_params.get('q', '')
+        search_params['q'] = re.sub(":\s", " ", q)
+
         return search_params
 
     # IDataPusher
