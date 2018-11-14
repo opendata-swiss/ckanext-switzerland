@@ -125,7 +125,7 @@ def ogdch_autosuggest(context, data_dict):
         results = solr.search(
             '',
             search_handler=handler,
-            **{'suggest.q': q, 'suggest.count': 10}
+            **{'suggest.q': q, 'suggest.count': 10, 'suggest.cfq': 'public'}
         )
         suggestions = results.raw_response['suggest'][suggester].values()[0]  # noqa
         terms = [suggestion['term'] for suggestion in suggestions['suggestions']]  # noqa
