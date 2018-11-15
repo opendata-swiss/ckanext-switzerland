@@ -44,6 +44,9 @@ TXT:
   - 'plain'
 TIFF:
   - 'tiff'
+TSV:
+  - 'text/tab-separated-values'
+  - 'tab-separated-values'
 WCS:
   - 'wcs'
 WFS:
@@ -60,6 +63,7 @@ XLS:
   - 'xls'
   - 'xlsx'
   - 'vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  - 'vnd.ms-excel'
 XML:
   - 'xml'
 ZIP:
