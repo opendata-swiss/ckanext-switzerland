@@ -1,4 +1,6 @@
 import pysolr
+import re
+from unidecode import unidecode
 from collections import OrderedDict
 from ckan.plugins.toolkit import get_or_bust, side_effect_free
 from ckan.logic import ActionError, NotFound, ValidationError
@@ -127,7 +129,9 @@ def ogdch_autosuggest(context, data_dict):
 
     solr = make_connection()
     try:
-        log.debug('Loading suggestions for %s (lang: %s)' % (q, lang))
+        log.debug(
+            'Loading suggestions for %s (lang: %s, fq: %s)' % (q, lang, fq)
+        )
         results = solr.search(
             '',
             search_handler=handler,
@@ -135,7 +139,20 @@ def ogdch_autosuggest(context, data_dict):
         )
         suggestions = results.raw_response['suggest'][suggester].values()[0]  # noqa
 
-        terms = [suggestion['term'] for suggestion in suggestions['suggestions']]  # noqa
+        def highlight(term, q):
+            if '<b>' in term:
+                return term
+            clean_q = unidecode(q)
+            clean_term = unidecode(term)
+
+            re_q = re.escape(clean_q)
+            m = re.search(re_q, clean_term, re.I)
+            if m:
+                replace_text = term[m.start():m.end()]
+                term = term.replace(replace_text, '<b>%s</b>' % replace_text)
+            return term
+
+        terms = [highlight(suggestion['term'], q) for suggestion in suggestions['suggestions']]  # noqa
         return list(set(terms))
     except pysolr.SolrError as e:
         log.exception('Could not load suggestions from solr: %s' % e)
