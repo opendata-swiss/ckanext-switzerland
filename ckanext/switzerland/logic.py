@@ -108,6 +108,12 @@ def ogdch_dataset_by_identifier(context, data_dict):
 def ogdch_autosuggest(context, data_dict):
     q = get_or_bust(data_dict, 'q')
     lang = get_or_bust(data_dict, 'lang')
+    fq = data_dict.get('fq', '')
+
+    if fq:
+        fq = 'NOT private AND %s' % fq
+    else:
+        fq = 'NOT private'
 
     # parse language from values like de_CH
     if len(lang) > 2:
@@ -125,9 +131,10 @@ def ogdch_autosuggest(context, data_dict):
         results = solr.search(
             '',
             search_handler=handler,
-            **{'suggest.q': q, 'suggest.count': 10}
+            **{'suggest.q': q, 'suggest.count': 10, 'suggest.cfq': fq}
         )
         suggestions = results.raw_response['suggest'][suggester].values()[0]  # noqa
+
         terms = [suggestion['term'] for suggestion in suggestions['suggestions']]  # noqa
         return list(set(terms))
     except pysolr.SolrError as e:
