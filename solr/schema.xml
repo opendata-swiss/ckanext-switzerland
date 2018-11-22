@@ -310,6 +310,7 @@ schema. In this case the version should be set to the next CKAN version number.
     <field name="title_string_fr" type="string" indexed="true" stored="true" />
     <field name="title_string_it" type="string" indexed="true" stored="true" />
     <field name="title_string_en" type="string" indexed="true" stored="true" />
+    <field name="suggest_context" type="suggestText" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Multilingual -->
     <field name="text_en" type="text_en" indexed="true" stored="false" multiValued="true"/>
@@ -417,6 +418,14 @@ schema. In this case the version should be set to the next CKAN version number.
 <copyField source="res_description_it" dest="text_it"/>
 
 <!-- Suggestion fields -->
+<copyField source="capacity" dest="suggest_context"/>
+<copyField source="groups" dest="suggest_context"/>
+<copyField source="tags" dest="suggest_context"/>
+<copyField source="organization" dest="suggest_context"/>
+<copyField source="political_level" dest="suggest_context"/>
+<copyField source="res_rights" dest="suggest_context"/>
+<copyField source="res_format" dest="suggest_context"/>
+
 <copyField source="title_en" dest="suggest_en"/>
 <copyField source="keywords_en" dest="suggest_en"/>
 <copyField source="groups_en" dest="suggest_en"/>
