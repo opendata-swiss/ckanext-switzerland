@@ -560,6 +560,22 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         except KeyError:
             pass
 
+        # clean terms for suggest context
+        def clean_suggestion(term):
+            return term.replace('-', '')
+
+        search_data['suggest_groups'] = [clean_suggestion(t['name']) for t in validated_dict['groups']]
+        search_data['suggest_organization'] = clean_suggestion(validated_dict['organization']['name'])
+
+        search_data['suggest_tags'] = []
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_de']])
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_fr']])
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_it']])
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_en']])
+
+        search_data['suggest_res_rights'] = [clean_suggestion(t) for t in search_data['res_rights']]
+        search_data['suggest_res_format'] = [clean_suggestion(t) for t in search_data['res_format']]
+
         return search_data
 
     # generates a set with formats of all resources
