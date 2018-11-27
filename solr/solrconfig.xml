@@ -983,11 +983,12 @@
  <searchComponent name="suggest_de" class="solr.SuggestComponent">
   <lst name="suggester">
     <str name="name">ckanSuggester_de</str>
-    <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+    <str name="lookupImpl">BlendedInfixLookupFactory</str>
     <str name="indexPath">suggester_infix_dir_de</str>
     <str name="dictionaryImpl">DocumentDictionaryFactory</str>
     <str name="field">suggest_de</str>
     <str name="suggestAnalyzerFieldType">suggestText</str>
+    <str name="contextField">suggest_context</str>
     <str name="buildOnStartup">false</str>
     <str name="buildOnCommit">false</str>
   </lst>
@@ -995,11 +996,12 @@
  <searchComponent name="suggest_en" class="solr.SuggestComponent">
   <lst name="suggester">
     <str name="name">ckanSuggester_en</str>
-    <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+    <str name="lookupImpl">BlendedInfixLookupFactory</str>
     <str name="indexPath">suggester_infix_dir_en</str>
     <str name="dictionaryImpl">DocumentDictionaryFactory</str>
     <str name="field">suggest_en</str>
     <str name="suggestAnalyzerFieldType">suggestText</str>
+    <str name="contextField">suggest_context</str>
     <str name="buildOnStartup">false</str>
     <str name="buildOnCommit">false</str>
   </lst>
@@ -1007,11 +1009,12 @@
  <searchComponent name="suggest_fr" class="solr.SuggestComponent">
   <lst name="suggester">
     <str name="name">ckanSuggester_fr</str>
-    <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+    <str name="lookupImpl">BlendedInfixLookupFactory</str>
     <str name="indexPath">suggester_infix_dir_fr</str>
     <str name="dictionaryImpl">DocumentDictionaryFactory</str>
     <str name="field">suggest_fr</str>
     <str name="suggestAnalyzerFieldType">suggestText</str>
+    <str name="contextField">suggest_context</str>
     <str name="buildOnStartup">false</str>
     <str name="buildOnCommit">false</str>
   </lst>
@@ -1019,11 +1022,12 @@
  <searchComponent name="suggest_it" class="solr.SuggestComponent">
   <lst name="suggester">
     <str name="name">ckanSuggester_it</str>
-    <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+    <str name="lookupImpl">BlendedInfixLookupFactory</str>
     <str name="indexPath">suggester_infix_dir_it</str>
     <str name="dictionaryImpl">DocumentDictionaryFactory</str>
     <str name="field">suggest_it</str>
     <str name="suggestAnalyzerFieldType">suggestText</str>
+    <str name="contextField">suggest_context</str>
     <str name="buildOnStartup">false</str>
     <str name="buildOnCommit">false</str>
   </lst>

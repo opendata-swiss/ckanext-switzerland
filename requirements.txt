@@ -4,3 +4,4 @@ iribaker==0.1.2
 pyyaml==3.11
 ckantoolkit==0.0.3
 pysolr==3.6.0
+Unidecode==1.0.22

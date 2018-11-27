@@ -560,6 +560,12 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         except KeyError:
             pass
 
+        # clean terms for suggest context
+        search_data = self._prepare_suggest_context(
+            search_data,
+            validated_dict
+        )
+
         return search_data
 
     # generates a set with formats of all resources
@@ -573,6 +579,24 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
                 formats.add('N/A')
 
         return list(formats)
+
+    def _prepare_suggest_context(self, search_data, pkg_dict):
+        def clean_suggestion(term):
+            return term.replace('-', '')
+
+        search_data['suggest_groups'] = [clean_suggestion(t['name']) for t in pkg_dict['groups']]  # noqa
+        search_data['suggest_organization'] = clean_suggestion(pkg_dict['organization']['name'])  # noqa
+
+        search_data['suggest_tags'] = []
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_de']])  # noqa
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_fr']])  # noqa
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_it']])  # noqa
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_en']])  # noqa
+
+        search_data['suggest_res_rights'] = [clean_suggestion(t) for t in search_data['res_rights']]  # noqa
+        search_data['suggest_res_format'] = [clean_suggestion(t) for t in search_data['res_format']]  # noqa
+
+        return search_data
 
     # borrowed from ckanext-multilingual (core extension)
     def before_search(self, search_params):
