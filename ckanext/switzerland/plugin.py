@@ -588,10 +588,10 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         search_data['suggest_organization'] = clean_suggestion(pkg_dict['organization']['name'])  # noqa
 
         search_data['suggest_tags'] = []
-        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_de']])  # noqa
-        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_fr']])  # noqa
-        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_it']])  # noqa
-        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data['keywords_en']])  # noqa
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data.get('keywords_de', [])])  # noqa
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data.get('keywords_fr', [])])  # noqa
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data.get('keywords_it', [])])  # noqa
+        search_data['suggest_tags'].extend([clean_suggestion(t) for t in search_data.get('keywords_en', [])])  # noqa
 
         search_data['suggest_res_rights'] = [clean_suggestion(t) for t in search_data['res_rights']]  # noqa
         search_data['suggest_res_format'] = [clean_suggestion(t) for t in search_data['res_format']]  # noqa
