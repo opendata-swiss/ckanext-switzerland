@@ -680,6 +680,9 @@ class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
         map.connect('organization_read', '/organization/{id}',
                     controller='ckanext.switzerland.controller:OgdchOrganizationSearchController',  # noqa
                     action='read')
+        map.connect('organization_index', '/organization',
+                    controller='ckanext.switzerland.controller:OgdchOrganizationSearchController',  # noqa
+                    action='index')
         return map
 
 
