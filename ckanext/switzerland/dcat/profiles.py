@@ -65,14 +65,15 @@ class MultiLangProfile(RDFProfile):
                         # nested in another iterable (e.g. keywords)
                         if not hasattr(values, '__iter__'):
                             values = [values]
-
                         for value in values:
                             self.g.add((subject, predicate, Literal(value, lang=key)))  # noqa
+                    # add default for each language
+                    else:
+                        self.g.add((subject, predicate, Literal('', lang=key)))  # noqa
             # if multilang_values is not iterable, it is simply added as a non-
             # translated Literal
             except AttributeError:
-                self.g.add(
-                    (subject, predicate, Literal(multilang_values)))  # noqa
+                self.g.add((subject, predicate, Literal(multilang_values)))
 
     def _add_multilang_triples_from_dict(self, _dict, subject, items):
         for item in items:
@@ -668,7 +669,7 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
 
         items = [
             ('title', SCHEMA.name, None, Literal),
-            ('notes', SCHEMA.description, None, Literal),
+            ('description', SCHEMA.description, None, Literal),
         ]
         self._add_multilang_triples_from_dict(dataset_dict, dataset_ref, items)
 
