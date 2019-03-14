@@ -13,19 +13,20 @@
 # Stefan Oderbolz <oderbolz@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version:  opendata.swiss\n"
+"Project-Id-Version: opendata.swiss\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-03-14 12:06+0000\n"
-"PO-Revision-Date: 2018-02-20 11:01+0000\n"
+"PO-Revision-Date: 2019-03-14 13:44+0100\n"
 "Last-Translator: Jürg Hunziker <juerg.hunziker@gmail.com>\n"
 "Language: it\n"
-"Language-Team: Italian (http://www.transifex.com/opendataswiss/opendata-"
-"swiss/language/it/)\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language-Team: Italian (http://www.transifex.com/opendataswiss/opendata-swiss/"
+"language/it/)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: ckanext/switzerland/controller.py:126 ckanext/switzerland/controller.py:381
 #: ckanext/switzerland/plugin.py:72 ckanext/switzerland/plugin.py:84
@@ -159,11 +160,10 @@ msgstr "Libero utilizzo. Indicazione della fonte obbligatoria."
 
 #: ckanext/switzerland/helpers.py:188
 msgid ""
-"Open use. Use for commercial purposes requires permission of the data "
-"owner."
+"Open use. Use for commercial purposes requires permission of the data owner."
 msgstr ""
-"Libero utilizzo. Utilizzo a fini commerciali ammesso soltanto previo "
-"consenso del titolare dei dati."
+"Libero utilizzo. Utilizzo a fini commerciali ammesso soltanto previo consenso "
+"del titolare dei dati."
 
 #: ckanext/switzerland/helpers.py:192
 msgid ""
@@ -196,8 +196,7 @@ msgid "Political levels"
 msgstr "Livelli politici"
 
 #: ckanext/switzerland/plugin.py:74 ckanext/switzerland/plugin.py:86
-#: ckanext/switzerland/plugin.py:97
-#: ckanext/switzerland/templates/footer.html:87
+#: ckanext/switzerland/plugin.py:97 ckanext/switzerland/templates/footer.html:87
 #: ckanext/switzerland/templates/header.html:46
 #: ckanext/switzerland/templates/package/resource_read.html:42
 #: ckanext/switzerland/templates/package/snippets/description.html:31
@@ -236,11 +235,11 @@ msgstr "Pagina non trovata"
 
 #: ckanext/switzerland/templates/error_document_template.html:18
 msgid ""
-"Ooops... The page you're looking for isn't available. Here is a cool "
-"space shuttle to make you feel better!"
+"Ooops... The page you're looking for isn't available. Here is a cool space "
+"shuttle to make you feel better!"
 msgstr ""
-"Ops... La pagina cercata non è disponibile. Si consoli con un bello space"
-" shuttle!"
+"Ops... La pagina cercata non è disponibile. Si consoli con un bello space "
+"shuttle!"
 
 #: ckanext/switzerland/templates/footer.html:6
 msgid "Get involved"
@@ -290,18 +289,16 @@ msgstr "Un progetto comune di Confederazione e Cantoni"
 
 #: ckanext/switzerland/templates/footer.html:64
 msgid ""
-"The opendata.swiss portal is a joint project of the Confederation, "
-"cantons, communes and other organizations with a mandate from the state. "
-"It makes open government data available to the general public in a "
-"central catalogue. opendata.swiss is operated by the Federal Statistical "
-"Office."
+"The opendata.swiss portal is a joint project of the Confederation, cantons, "
+"communes and other organizations with a mandate from the state. It makes open "
+"government data available to the general public in a central catalogue. "
+"opendata.swiss is operated by the Federal Statistical Office."
 msgstr ""
-"Mettere a disposizione della collettività i dati aperti "
-"dell’amministrazione pubblica in un repertorio centralizzato: è questo "
-"l’obiettivo perseguito con il portale opendata.swiss, un progetto comune "
-"di Confederazione, Cantoni, Comuni e di altre organizzazioni che "
-"adempiono un mandato statale. La gestione del portale è affidata "
-"all’Ufficio federale di statistica."
+"Mettere a disposizione della collettività i dati aperti dell’amministrazione "
+"pubblica in un repertorio centralizzato: è questo l’obiettivo perseguito con il "
+"portale opendata.swiss, un progetto comune di Confederazione, Cantoni, Comuni e "
+"di altre organizzazioni che adempiono un mandato statale. La gestione del "
+"portale è affidata all’Ufficio federale di statistica."
 
 #: ckanext/switzerland/templates/footer.html:81
 #: ckanext/switzerland/templates/header.html:40
@@ -352,11 +349,11 @@ msgstr "Cerca"
 
 #: ckanext/switzerland/templates/recline_view.html:12
 msgid ""
-"The preview of this resource is not available. The file is too big or its"
-" format is not recognized."
+"The preview of this resource is not available. The file is too big or its "
+"format is not recognized."
 msgstr ""
-"La funziona di preview per questa risorsa non è disponibile. Le "
-"dimensioni del file sono eccessive o il formato non è riconosciuto."
+"La funziona di preview per questa risorsa non è disponibile. Le dimensioni del "
+"file sono eccessive o il formato non è riconosciuto."
 
 #: ckanext/switzerland/templates/recline_view.html:12
 msgid "Loading..."
@@ -388,15 +385,15 @@ msgstr[1] "{num} dataset"
 
 #: ckanext/switzerland/templates/organization/index.html:8
 msgid ""
-"Authorities from the Confederation, cantons and communes as well as third"
-" parties that perform tasks on behalf of the state can publish their open"
-" data on the opendata.swiss portal. Is your organization missing from the"
-" list? Get involved."
+"Authorities from the Confederation, cantons and communes as well as third "
+"parties that perform tasks on behalf of the state can publish their open data "
+"on the opendata.swiss portal. Is your organization missing from the list? Get "
+"involved."
 msgstr ""
-"Le autorità federali, cantonali e comunali, come pure le organizzazioni "
-"che svolgono compiti statali possono pubblicare i loro dati aperti sul "
-"portale opendata.swiss. La sua organizzazione non figura sull’elenco? "
-"Diventi anche lei parte di opendata.swiss!"
+"Le autorità federali, cantonali e comunali, come pure le organizzazioni che "
+"svolgono compiti statali possono pubblicare i loro dati aperti sul portale "
+"opendata.swiss. La sua organizzazione non figura sull’elenco? Diventi anche lei "
+"parte di opendata.swiss!"
 
 #: ckanext/switzerland/templates/organization/index.html:9
 msgid "Search organizations..."
@@ -632,4 +629,3 @@ msgstr "Nessuna organizzazione trovata"
 
 #~ msgid "unexpected choice \"%s\""
 #~ msgstr "selezione inattesa \"%s\""
-
