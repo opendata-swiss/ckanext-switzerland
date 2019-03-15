@@ -1,5 +1,5 @@
 requests[security]==2.20.0
-urllib3[secure]==1.23
+urllib3[secure]==1.22
 iribaker==0.1.2
 pyyaml==3.11
 ckantoolkit==0.0.3
