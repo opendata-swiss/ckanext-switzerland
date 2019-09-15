@@ -60,6 +60,9 @@ This extension uses the following config options (.ini file)
     # the URL of the WordPress AJAX interface
     ckanext.switzerland.wp_ajax_url = https://opendata.swiss/cms/wp-admin/admin-ajax.php
 
+    # number of harvest jobs to keep per harvest source when cleaning up harvest objects   
+    ckanext.switzerland.number_harvest_jobs_per_source = 2
+
     # piwik config
     piwik.site_id = 1
     piwik.url = piwik.opendata.swiss
