@@ -3,6 +3,7 @@ set -e
 
 echo "This is travis-build.bash..."
 
+# fix travis setup
 echo "Installing the packages that CKAN requires..."
 sudo apt-get update -qq
 sudo apt-get install solr-jetty libcommons-fileupload-java
