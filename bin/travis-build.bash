@@ -6,7 +6,9 @@ echo "This is travis-build.bash..."
 # fix travis setup
 echo "Installing the packages that CKAN requires..."
 sudo apt-get update -qq
+echo "Update of packages performed"
 sudo apt-get install solr-jetty
+echo "after installing solr-jetty"
 
 echo "Installing CKAN and its Python dependencies..."
 git clone https://github.com/ckan/ckan
