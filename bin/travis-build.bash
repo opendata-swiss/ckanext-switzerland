@@ -5,6 +5,7 @@ echo "This is travis-build.bash..."
 
 # fix travis setup
 echo "Installing the packages that CKAN requires..."
+echo "hello this line is new"
 sudo apt-get update -qq
 echo "Update of packages performed"
 sudo apt-get install solr-jetty
