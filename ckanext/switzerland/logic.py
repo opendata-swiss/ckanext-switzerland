@@ -1,7 +1,6 @@
 import pysolr
 import itertools
 import re
-import ckan.logic as logic
 from unidecode import unidecode
 from collections import OrderedDict
 from ckan.plugins.toolkit import get_or_bust, side_effect_free
@@ -11,8 +10,7 @@ from ckan.lib.search.common import make_connection
 from ckanext.switzerland.helpers import get_content_headers
 from collections import defaultdict
 import ckan.model as model
-from ckanext.harvest.model import (HarvestSource, HarvestJob, HarvestObject,
-                                   HarvestObjectExtra)
+from ckanext.harvest.model import HarvestSource, HarvestJob, HarvestObject
 
 import logging
 log = logging.getLogger(__name__)
@@ -176,7 +174,8 @@ def ogdch_clean_harvester_jobs(context, data_dict):
     """
 
     # check access rights
-    logic.check_access('harvest_sources_clear', context, data_dict)
+    tk.check_access('harvest_sources_clear', context, data_dict)
+    model = context['model']
 
     # get sources to clear from data_dict
     if 'harvest_source_id' in data_dict:
@@ -190,7 +189,7 @@ def ogdch_clean_harvester_jobs(context, data_dict):
         all_sources = model.Session.query(HarvestSource.id).all()
         sources_to_clear = list(itertools.chain(*all_sources))
 
-    log.info('Got sources to clear: {}'.format(','.join(sources_to_clear)))
+    log.info('Harvest sources clearing called for: {}'.format(','.join(sources_to_clear)))
 
     # get number of jobs to keep form data_dict
     if 'number_of_jobs_to_keep' in data_dict:
@@ -199,7 +198,7 @@ def ogdch_clean_harvester_jobs(context, data_dict):
         log.error('Configuration missing for number of jobs to keep when clearing harvest sources')
         raise ValidationError('Configuration missing for number of jobs to keep when clearing harvest sources')
 
-    log.info('Got config for number of most recent jobs per source to keep: {}'.format(number_of_jobs_to_keep))
+    log.info('Number of most recent jobs per source to keep: {}'.format(number_of_jobs_to_keep))
 
     # init list of jobs and objects to delete
     delete_jobs_ids_all = []
@@ -217,10 +216,10 @@ def ogdch_clean_harvester_jobs(context, data_dict):
 
         # log all job for a source with the decision to delete or keep them
         log.info('Clear harvest source {}'.format(source))
-        log.info('- jobs_to_keep: {}'.format(','.join(keep_jobs_ids)))
+        log.debug('- jobs_to_keep: {}'.format(','.join(keep_jobs_ids)))
         for job in delete_jobs[:number_of_jobs_to_keep]:
             log.debug('    - job {}: created:{}, status:{}'.format(job.id, job.created, job.status))
-        log.info('- jobs to delete: {}'.format(','.join(delete_jobs_ids)))
+        log.debug('- jobs to delete: {}'.format(','.join(delete_jobs_ids)))
         for job in delete_jobs[number_of_jobs_to_keep:]:
             log.debug('    - job {}: created:{}, status:{}'.format(job.id, job.created, job.status))
 
@@ -228,13 +227,18 @@ def ogdch_clean_harvester_jobs(context, data_dict):
         delete_jobs_ids_all.extend(delete_jobs_ids)
 
     # log all jobs to delete
-    log.info('Jobs to delete in total {}'.format(delete_jobs_ids_all))
+    log.info('{} harvest jobs to delete in total: {}'.format(
+        len(delete_jobs_ids_all), delete_jobs_ids_all))
 
     if delete_jobs_ids_all:
         # get harvest objects for harvest jobs
         delete_objects = model.Session.query(HarvestObject.id) \
            .filter(HarvestObject.harvest_job_id.in_(delete_jobs_ids_all)).all()
         delete_objects_ids_all = list(itertools.chain(*delete_objects))
+
+        # log all objects to delete
+        log.debug('{} harvest objects to delete in total: {}'.format(
+            len(delete_objects_ids_all), delete_objects_ids_all))
 
         # perform delete
         sql = '''begin;
@@ -246,23 +250,12 @@ def ogdch_clean_harvester_jobs(context, data_dict):
         commit;
         '''.format(delete_objects_values="','".join(delete_objects_ids_all),
                    delete_jobs_values="','".join(delete_jobs_ids_all))
-        model = context['model']
-        model.Session.execute(sql)
-
-        # lo delete
-        log.info('Clear {} harvest jobs'.format(len(delete_jobs_ids_all)))
-        log.info('Clear {} harvest objects'.format(len(delete_objects_ids_all)))
+        result = model.Session.execute(sql)
 
         # reindex after deletions
-        logic.get_action('harvest_sources_reindex')(context, {})
+        tk.get_action('harvest_sources_reindex')(context, {})
 
     # return result of action
     return {'cleared_sources': sources_to_clear,
             'deleted_nr_jobs': len(delete_jobs_ids_all),
             'deleted_nr_objects': len(delete_objects_ids_all)}
-
-
-
-
-
-
