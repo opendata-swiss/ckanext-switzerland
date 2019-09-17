@@ -7,7 +7,6 @@ import ckan.model as model
 import ckan.plugins.toolkit as tk
 
 
-
 class OgdchCommand(ckan.lib.cli.CkanCommand):
     '''Command for opendata.swiss
     Usage:
@@ -18,12 +17,17 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         # Cleanup datastore
         paster ogdch cleanup_datastore
         # Cleanup harvester jobs and objects:
-        # - deletes the all harvest jobs and objects except the latest
-        # - how many jobs to keep can be set in the ckan config
-        paster ogdch cleanup_harvesters [{source_id}]
+        # - deletes the all harvest jobs and objects except the latest n
+        # - the default number of jobs to keep is 10
+        paster ogdch cleanup_harvesters [{source_id}] [--keep={n}}]
     '''
     summary = __doc__.split('\n')[0]
     usage = __doc__
+
+    def __init__(self, name):
+        super(ckan.lib.cli.CkanCommand, self).__init__(name)
+        self.parser.add_option('--keep', action="store", type="int", dest='nr_of_jobs_to_keep',
+                               default=10, help='The number of jobs to keep when clearing harvesters')
 
     def command(self):
         # load pylons config
@@ -129,7 +133,8 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
     def cleanup_harvesters(self, source=None):
         """
         command to call the harvester clearing
-        :param source: int (optional)
+        :argument source: string (optional)
+        :argument number_of_jobs_to_keep: int (optional)
         """
         # get source to clear from arguments
         source_id = None; data_dict = {}
@@ -139,6 +144,9 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             print('clearing for harvest source {}'.format(source_id))
         else:
             print('clearing all harvest sources')
+
+        # get named argument
+        data_dict['number_of_jobs_to_keep'] = self.options.nr_of_jobs_to_keep
 
         # set context
         context = {'model': model,
@@ -153,18 +161,6 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         except logic.NotAuthorized:
             print("User is not authorized to perform this action.")
             sys.exit(1)
-
-        # get configuration
-        config_harvest_jobs_name = 'ckanext.switzerland.number_harvest_jobs_per_source'
-        config_harvest_jobs_value = tk.config.get(config_harvest_jobs_name, 1)
-        try:
-            number_of_jobs_to_keep = int(config_harvest_jobs_value)
-        except ValueError:
-            log.error('Invalid configuration for {}: {}'.format(config_harvest_jobs_name, config_harvest_jobs_value))
-            raise ValidationError('Invalid configuration for {}: {}'.format(
-                config_harvest_jobs_name, config_harvest_jobs_value))
-        else:
-            data_dict['number_of_jobs_to_keep'] = number_of_jobs_to_keep
 
         # perform the clearing
         clearing_result = logic.get_action('ogdch_clean_harvester_jobs')(context, data_dict)
