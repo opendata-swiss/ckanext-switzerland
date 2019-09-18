@@ -1,5 +1,5 @@
 sudo: required
-dist: precise
+dist: trusty
 
 language: python
 
@@ -7,7 +7,6 @@ python:
 - '2.7'
 
 env:
-    - CKANVERSION=master
     - CKANVERSION=2.8
 
 services:
