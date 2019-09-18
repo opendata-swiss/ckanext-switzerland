@@ -109,7 +109,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_dataset_by_identifier': l.ogdch_dataset_by_identifier,
             'ogdch_content_headers': l.ogdch_content_headers,
             'ogdch_autosuggest': l.ogdch_autosuggest,
-            'ogdch_clean_harvester_jobs': l.ogdch_clean_harvester_jobs,
+            'ogdch_cleanup_harvestjobs': l.ogdch_cleanup_harvestjobs,
         }
 
     # ITemplateHelpers

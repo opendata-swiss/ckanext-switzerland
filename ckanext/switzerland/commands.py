@@ -4,7 +4,6 @@ import traceback
 import ckan.lib.cli
 import ckan.logic as logic
 import ckan.model as model
-import ckan.plugins.toolkit as tk
 
 
 class OgdchCommand(ckan.lib.cli.CkanCommand):
@@ -17,17 +16,19 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         # Cleanup datastore
         paster ogdch cleanup_datastore
         # Cleanup harvester jobs and objects:
-        # - deletes the all harvest jobs and objects except the latest n
+        # - deletes all the harvest jobs and objects except the latest n
         # - the default number of jobs to keep is 10
-        paster ogdch cleanup_harvesters [{source_id}] [--keep={n}}]
+        paster ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}]
     '''
     summary = __doc__.split('\n')[0]
     usage = __doc__
 
     def __init__(self, name):
         super(ckan.lib.cli.CkanCommand, self).__init__(name)
-        self.parser.add_option('--keep', action="store", type="int", dest='nr_of_jobs_to_keep',
-                               default=10, help='The number of jobs to keep when clearing harvesters')
+        self.parser.add_option(
+            '--keep', action="store", type="int", dest='nr_of_jobs_to_keep',
+            default=10,
+            help='The number of latest harvest jobs to keep')
 
     def command(self):
         # load pylons config
@@ -35,7 +36,7 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         options = {
             'cleanup_datastore': self.cleanup_datastore,
             'help': self.help,
-            'cleanup_harvesters': self.cleanup_harvesters,
+            'cleanup_harvestjobs': self.cleanup_harvestjobs,
         }
 
         try:
@@ -130,20 +131,21 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
 
         return (resource_id_list, has_next_page)
 
-    def cleanup_harvesters(self, source=None):
+    def cleanup_harvestjobs(self, source=None):
         """
-        command to call the harvester clearing
+        command for the harvester job cleanup
         :argument source: string (optional)
         :argument number_of_jobs_to_keep: int (optional)
         """
-        # get source to clear from arguments
-        source_id = None; data_dict = {}
+        # get source from arguments
+        source_id = None
+        data_dict = {}
         if len(self.args) >= 2:
             source_id = unicode(self.args[1])
             data_dict['harvest_source_id'] = source_id
-            print('clearing for harvest source {}'.format(source_id))
+            print('cleaning up jobs for harvest source {}'.format(source_id))
         else:
-            print('clearing all harvest sources')
+            print('cleaning up jobs for all harvest sources')
 
         # get named argument
         data_dict['number_of_jobs_to_keep'] = self.options.nr_of_jobs_to_keep
@@ -162,10 +164,18 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             print("User is not authorized to perform this action.")
             sys.exit(1)
 
-        # perform the clearing
-        clearing_result = logic.get_action('ogdch_clean_harvester_jobs')(context, data_dict)
+        # perform the harvest job cleanup
+        cleanup_result = logic.get_action(
+            'ogdch_cleanup_harvestjobs')(context, data_dict)
 
-        # print the clearing result
-        print('Clearing for harvest sources: {}'.format(','.join(clearing_result['cleared_sources'])))
-        print('- deleted {} harvest jobs'.format(clearing_result['deleted_nr_jobs']))
-        print('- deleted {} harvest objects'.format(clearing_result['deleted_nr_objects']))
+        # print the result of the harvest job cleanup
+        print('Cleaning up jobs for harvest sources: \n{}'.format(
+            '\n'.join(cleanup_result['sources'])))
+        print('- keeping latest {} jobs per source'.format(
+            data_dict['number_of_jobs_to_keep']))
+        print('- deleted {} harvest jobs:'.format(
+            cleanup_result['deleted_nr_jobs']))
+        print('- job ids of deleted harvest jobs: \n{}'.format(
+            '\n'.join(cleanup_result['deleted_jobs'])))
+        print('- deleted {} harvest objects'.format(
+            cleanup_result['deleted_nr_objects']))
