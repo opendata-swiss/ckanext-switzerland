@@ -34,19 +34,12 @@ pip install -r dev-requirements.txt
 cd -
 
 echo "Setting up Solr..."
-#echo "Setting up Solr..."
-#printf "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nJAVA_HOME=$JAVA_HOME" | sudo tee /etc/default/jetty
-#if [ $CKANVERSION == 'master' ]
-#then
-#    sed -i s/2\.7/2.8/g solr_schema.xml
-#fi
-#sudo cp solr_schema.xml /etc/solr/conf/schema.xml
-#sudo service jetty restart
+# solr is multicore for tests on ckan master now, but it's easier to run tests
+# on Travis single-core still.
+# see https://github.com/ckan/ckan/issues/2972
+sed -i -e 's/solr_url.*/solr_url = http:\/\/127.0.0.1:8983\/solr/' ckan/test-core.ini
 printf "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nJAVA_HOME=$JAVA_HOME" | sudo tee /etc/default/jetty
-echo "output of the find of schema.xml files:"
-sudo find . -name 'schema.xml'
-echo "now copying the solr schema"
-sudo cp solr/schema.xml /etc/solr/conf/schema.xml
+sudo cp ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
 sudo service jetty restart
 
 echo "Creating the PostgreSQL user and database..."
