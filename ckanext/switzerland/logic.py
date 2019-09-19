@@ -204,6 +204,10 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
     log.info('Number of most recent jobs per source to keep: {}'.format(
         number_of_jobs_to_keep))
 
+    dryrun = data_dict.get("dryrun", False)
+    log.debug('Dryrun without actual database change: {}'.format(
+        dryrun))
+
     # init list of jobs and objects to delete
     delete_jobs_ids_all = []
     delete_objects_ids_all = []
@@ -265,10 +269,13 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
         commit;
         '''.format(delete_objects_values="','".join(delete_objects_ids_all),
                    delete_jobs_values="','".join(delete_jobs_ids_all))
-        model.Session.execute(sql)
 
-        # reindex after deletions
-        tk.get_action('harvest_sources_reindex')(context, {})
+        # only execute the sql if it is not a dry run
+        if not dryrun:
+            model.Session.execute(sql)
+
+            # reindex after deletions
+            tk.get_action('harvest_sources_reindex')(context, {})
 
     # return result of action
     return {'sources': sources_to_cleanup,

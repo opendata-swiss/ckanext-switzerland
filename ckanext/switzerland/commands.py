@@ -18,7 +18,7 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         # Cleanup harvester jobs and objects:
         # - deletes all the harvest jobs and objects except the latest n
         # - the default number of jobs to keep is 10
-        paster ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}]
+        paster ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}] [--dryrun}]
     '''
     summary = __doc__.split('\n')[0]
     usage = __doc__
@@ -29,6 +29,10 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             '--keep', action="store", type="int", dest='nr_of_jobs_to_keep',
             default=10,
             help='The number of latest harvest jobs to keep')
+        self.parser.add_option(
+            '--dryrun', action="store_true", dest='dryrun',
+            default=False,
+            help='dryrun of cleanup harvestjobs')
 
     def command(self):
         # load pylons config
@@ -147,8 +151,9 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         else:
             print('cleaning up jobs for all harvest sources')
 
-        # get named argument
+        # get named arguments
         data_dict['number_of_jobs_to_keep'] = self.options.nr_of_jobs_to_keep
+        data_dict['dryrun'] = self.options.dryrun
 
         # set context
         context = {'model': model,
