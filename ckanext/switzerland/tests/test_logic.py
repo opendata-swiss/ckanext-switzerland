@@ -1,5 +1,4 @@
 import json
-import factories
 import unittest
 from mock import patch
 from nose.tools import assert_equal, assert_raises
@@ -11,7 +10,7 @@ from ckan import model
 
 
 class TestActions(ActionBase):
-    def test_cleanup_harvest_source_job_history_clear(self):
+    def test_cleanup_harvestjobs_for_one_source(self):
         # prepare
         source = factories.HarvestSourceObj(**SOURCE_DICT.copy())
         job = factories.HarvestJobObj(source=source)
@@ -37,7 +36,7 @@ class TestActions(ActionBase):
         assert_equal(dataset_from_db.id, dataset['id'])
         """
 
-    def test_harvest_sources_job_history_clear(self):
+    def test_cleanup_harvestjobs_for_all_sources(self):
         # prepare
         data_dict = SOURCE_DICT.copy()
         source_1 = factories.HarvestSourceObj(**data_dict)
