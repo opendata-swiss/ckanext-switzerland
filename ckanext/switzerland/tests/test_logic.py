@@ -3,7 +3,7 @@ import unittest
 from mock import patch
 from nose.tools import assert_equal, assert_raises
 from nose.plugins.skip import SkipTest
-from ckanext.harvest.tests.test_action import ActionBase
+from ckanext.harvest.tests.test_action import ActionBase, SOURCE_DICT
 from ckanext.harvest.tests import factories
 from ckan.plugins import toolkit
 from ckan import model
