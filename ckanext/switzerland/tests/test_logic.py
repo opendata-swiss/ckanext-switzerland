@@ -5,7 +5,7 @@ from mock import patch
 from nose.tools import assert_equal, assert_raises
 from nose.plugins.skip import SkipTest
 from ckanext.harvest.tests.test_logic import ActionBase
-from ckan.tests import factories as ckan_factories
+from ckanext.harvest.tests import factories
 from ckan.plugins import toolkit
 from ckan import model
 
