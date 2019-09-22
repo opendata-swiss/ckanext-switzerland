@@ -184,13 +184,9 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
                 harvest_source_id))
             raise NotFound('Harvest source {} does not exist'.format(
                 harvest_source_id))
-        sources_to_cleanup = [source.id]
+        sources_to_cleanup = [source]
     else:
-        all_sources = model.Session.query(HarvestSource.id).all()
-        sources_to_cleanup = list(itertools.chain(*all_sources))
-
-    log.info('Harvest job cleanup called for sources: {}'.format(
-        ','.join(sources_to_cleanup)))
+        sources_to_cleanup = model.Session.query(HarvestSource).all()
 
     # get number of jobs to keep form data_dict
     if 'number_of_jobs_to_keep' in data_dict:
@@ -201,84 +197,78 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
         raise ValidationError(
             'Configuration missing for number of harvest jobs to keep')
 
-    log.info('Number of most recent jobs per source to keep: {}'.format(
-        number_of_jobs_to_keep))
-
     dryrun = data_dict.get("dryrun", False)
-    log.debug('Dryrun without actual database change: {}'.format(
-        dryrun))
 
-    # init list of jobs and objects to delete
-    delete_jobs_ids_all = []
-    delete_objects_ids_all = []
+    log.info('Harvest job cleanup called for sources: {},'
+             'configuration: {}'.format(
+                 ', '.join([s.id for s in sources_to_cleanup]),
+                 data_dict))
 
+    # store cleanup result
+    cleanup_result = {}
     for source in sources_to_cleanup:
+
         # get jobs ordered by their creations date
         delete_jobs = model.Session.query(HarvestJob) \
-            .filter(HarvestJob.source_id == source) \
-            .order_by(HarvestJob.created.desc()).all()
+            .filter(HarvestJob.source_id == source.id) \
+            .filter(HarvestJob.status == 'Finished') \
+            .order_by(HarvestJob.created.desc()).all()[number_of_jobs_to_keep:]
 
         # decide which jobs to keep or delete on their order
-        delete_jobs_ids = \
-            [job.id for job in delete_jobs][number_of_jobs_to_keep:]
-        keep_jobs_ids = \
-            [job.id for job in delete_jobs][:number_of_jobs_to_keep]
+        delete_jobs_ids = [job.id for job in delete_jobs]
 
-        # log all job for a source with the decision to delete or keep them
-        log.info('Cleanup harvest jobs for source {}'.format(source))
-        log.debug('- jobs_to_keep: {}'.format(
-            ','.join(keep_jobs_ids)))
-        for job in delete_jobs[:number_of_jobs_to_keep]:
-            log.debug('    - job {}: created:{}, status:{}'.format(
-                job.id, job.created, job.status))
-        log.debug('- jobs to delete: {}'.format(
-            ','.join(delete_jobs_ids)))
-        for job in delete_jobs[number_of_jobs_to_keep:]:
-            log.debug('    - job {}: created:{}, status:{}'.format(
-                job.id, job.created, job.status))
+        if not delete_jobs:
+            log.debug(
+                'Cleanup harvest jobs for source {}: nothing to do'
+                .format(source.id))
+        else:
+            # log all job for a source with the decision to delete or keep them
+            log.debug('Cleanup harvest jobs for source {}: delete jobs: {}'
+                      .format(source.id, delete_jobs_ids))
 
-        # add to list of jobs to delete
-        delete_jobs_ids_all.extend(delete_jobs_ids)
+            # get harvest objects for harvest jobs
+            delete_objects_ids = \
+                model.Session.query(HarvestObject.id) \
+                .filter(HarvestObject.harvest_job_id.in_(
+                    delete_jobs_ids)).all()
+            delete_objects_ids = list(itertools.chain(
+                *delete_objects_ids))
 
-    # log all jobs to delete
-    log.info('{} harvest jobs to delete in total: {}'.format(
-        len(delete_jobs_ids_all), delete_jobs_ids_all))
+            # log all objects to delete
+            log.debug(
+                'Cleanup harvest objects for source {}: delete {} objects'
+                .format(source.id, len(delete_objects_ids)))
 
-    if delete_jobs_ids_all:
-        # get harvest objects for harvest jobs
-        delete_objects = model.Session.query(HarvestObject.id) \
-           .filter(HarvestObject.harvest_job_id.in_(delete_jobs_ids_all)).all()
-        delete_objects_ids_all = list(itertools.chain(*delete_objects))
+            # perform delete
+            sql = '''begin;
+            delete from harvest_object_error
+            where harvest_object_id in ('{delete_objects_values}');
+            delete from harvest_object_extra
+            where harvest_object_id in ('{delete_objects_values}');
+            delete from harvest_object
+            where id in ('{delete_objects_values}');
+            delete from harvest_gather_error
+            where harvest_job_id in ('{delete_jobs_values}');
+            delete from harvest_job
+            where id in ('{delete_jobs_values}');
+            commit;
+            '''.format(delete_objects_values="','".join(delete_objects_ids),
+                       delete_jobs_values="','".join(delete_jobs_ids))
 
-        # log all objects to delete
-        log.debug('{} harvest objects to delete in total: {}'.format(
-            len(delete_objects_ids_all), delete_objects_ids_all))
+            # only execute the sql if it is not a dry run
+            if not dryrun:
+                model.Session.execute(sql)
 
-        # perform delete
-        sql = '''begin;
-        delete from harvest_object_error
-        where harvest_object_id in ('{delete_objects_values}');
-        delete from harvest_object_extra
-        where harvest_object_id in ('{delete_objects_values}');
-        delete from harvest_object
-        where id in ('{delete_objects_values}');
-        delete from harvest_gather_error
-        where harvest_job_id in ('{delete_jobs_values}');
-        delete from harvest_job
-        where id in ('{delete_jobs_values}');
-        commit;
-        '''.format(delete_objects_values="','".join(delete_objects_ids_all),
-                   delete_jobs_values="','".join(delete_jobs_ids_all))
+                # reindex after deletions
+                tk.get_action('harvest_sources_reindex')(context, {})
 
-        # only execute the sql if it is not a dry run
-        if not dryrun:
-            model.Session.execute(sql)
+            # fill result
+            cleanup_result[source.id] = {
+                'deleted_jobs': delete_jobs,
+                'deleted_nr_objects': len(delete_objects_ids)}
 
-            # reindex after deletions
-            tk.get_action('harvest_sources_reindex')(context, {})
+            log.error('cleaned resource {}'.format(source.id))
 
     # return result of action
     return {'sources': sources_to_cleanup,
-            'deleted_jobs': delete_jobs_ids_all,
-            'deleted_nr_jobs': len(delete_jobs_ids_all),
-            'deleted_nr_objects': len(delete_objects_ids_all)}
+            'cleanup': cleanup_result}

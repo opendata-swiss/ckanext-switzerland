@@ -38,10 +38,11 @@ paster --plugin=ckanext-switzerland ogdch cleanup_datastore -c /var/www/ckan/dev
 This commands deletes the harvest jobs and objects per source and overall leaving only the latest n,
 where n and the source are optional arguments. The command is supposed to be used in a cron job to 
 provide for a regular cleanup of harvest jobs, so that the database is not overloaded with unneeded data
-of past job runs.
+of past job runs. It has a dryrun option so that it can be tested what will get be deleted in the 
+database before the actual database changes are performed.
 
 ```bash
-paster --plugin=ckanext-switzerland ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}] -c /var/www/ckan/development.ini
+paster --plugin=ckanext-switzerland ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}] [--dryrun] -c /var/www/ckan/development.ini
 ```
 
 ## Installation
