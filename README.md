@@ -24,13 +24,25 @@ All translations are done via Transifex. To compile the po files use the followi
 
 ## Command
 
-This extension currently provides one paster command, to cleanup the datastore database.
+This extension currently provides two paster commands: 
+### Command to cleanup the datastore database.
 [Datastore currently does not delete tables](https://github.com/ckan/ckan/issues/3422) when the corresponding resource is deleted.
 This command finds these orphaned tables and deletes its rows to free the space in the database.
 It is meant to be run regularly by a cronjob.
 
 ```bash
 paster --plugin=ckanext-switzerland ogdch cleanup_datastore -c /var/www/ckan/development.ini
+```
+
+### Command to cleanup the harvest jobs.
+This commands deletes the harvest jobs and objects per source and overall leaving only the latest n,
+where n and the source are optional arguments. The command is supposed to be used in a cron job to 
+provide for a regular cleanup of harvest jobs, so that the database is not overloaded with unneeded data
+of past job runs. It has a dryrun option so that it can be tested what will get be deleted in the 
+database before the actual database changes are performed.
+
+```bash
+paster --plugin=ckanext-switzerland ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}] [--dryrun] -c /var/www/ckan/development.ini
 ```
 
 ## Installation
@@ -59,6 +71,9 @@ This extension uses the following config options (.ini file)
 
     # the URL of the WordPress AJAX interface
     ckanext.switzerland.wp_ajax_url = https://opendata.swiss/cms/wp-admin/admin-ajax.php
+
+    # number of harvest jobs to keep per harvest source when cleaning up harvest objects   
+    ckanext.switzerland.number_harvest_jobs_per_source = 2
 
     # piwik config
     piwik.site_id = 1
