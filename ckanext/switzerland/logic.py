@@ -260,7 +260,8 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
                 model.Session.execute(sql)
 
                 # reindex after deletions
-                tk.get_action('harvest_sources_reindex')(context, {})
+                tk.get_action('harvest_source_reindex')(
+                    context, {'id': source.id})
 
             # fill result
             cleanup_result[source.id] = {
