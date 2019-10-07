@@ -35,10 +35,10 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             if not isinstance(excluded_dataset_identifiers, list):
                 raise ValueError('excluded_dataset_identifiers must be '
                                  'a list of strings')
-                if not all(isinstance(item, basestring)
-                           for item in excluded_dataset_identifiers):
-                    raise ValueError('excluded_dataset_identifiers must be '
-                                     'a list of strings')
+            if not all(isinstance(item, basestring)
+                       for item in excluded_dataset_identifiers):
+                raise ValueError('excluded_dataset_identifiers must be '
+                                 'a list of strings')
 
         return source_config
 
