@@ -508,7 +508,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
         search_data['groups_it'] = [sh.get_localized_value(g['display_name'], 'it') for g in validated_dict[u'groups']]  # noqa
         search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
         search_data['res_format'] = self._prepare_formats_for_index(validated_dict[u'resources'])  # noqa
-        search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources']]  # noqa
+        search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources'] if 'rights' in r.keys()]  # noqa
         search_data['title_string'] = extract_title(validated_dict)
         search_data['description'] = LangToString('description')(validated_dict)  # noqa
         if 'political_level' in validated_dict[u'organization']:
