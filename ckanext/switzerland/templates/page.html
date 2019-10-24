@@ -16,38 +16,40 @@
     {% block maintag %}<div id="content" role="main" class="{% block maintag_class %}{% endblock %}">{% endblock %}
 
       {% block main_content %}
-        {% block page_header %}
-          <header class="page-header">
+        {% block primary %}
+          {% block page_header %}
+            <header class="page-header">
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-12">
+                    {% block breadcrumb %}
+                      {% if self.breadcrumb_content() | trim %}
+                      <ol class="breadcrumb">
+                        {% snippet 'snippets/home_breadcrumb_item.html' %}
+                        {% block breadcrumb_content %}{% endblock %}
+                      </ol>
+                      {% endif %}
+                    {% endblock %}
+                    {% block page_title %}
+                    {% endblock %}
+                  </div>
+                </div>
+              </div>
+            </header>
+          {% endblock %}
+
+          {% block primary_content %}
+            {#
+            Insert main content here
+            #}
             <div class="container">
               <div class="row">
                 <div class="col-xs-12">
-                  {% block breadcrumb %}
-                    {% if self.breadcrumb_content() | trim %}
-                    <ol class="breadcrumb">
-                      {% snippet 'snippets/home_breadcrumb_item.html' %}
-                      {% block breadcrumb_content %}{% endblock %}
-                    </ol>
-                    {% endif %}
-                  {% endblock %}
-                  {% block page_title %}
-                  {% endblock %}
+                  {% block primary_content_inner %}{% endblock %}
                 </div>
               </div>
             </div>
-          </header>
-        {% endblock %}
-
-        {% block primary_content %}
-          {#
-          Insert main content here
-          #}
-          <div class="container">
-            <div class="row">
-              <div class="col-xs-12">
-                {% block primary_content_inner %}{% endblock %}
-              </div>
-            </div>
-          </div>
+          {% endblock %}
         {% endblock %}
       {% endblock %}
     </div>

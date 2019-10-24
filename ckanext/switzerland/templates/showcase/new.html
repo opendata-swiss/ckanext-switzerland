@@ -1,0 +1,28 @@
+{% extends "showcase/edit_base.html" %}
+
+{% block subtitle %}{{ _('Create Showcase') }}{% endblock %}
+
+{% block content_primary_nav %}
+  {{ h.build_nav_icon('ckanext_showcase_edit', _('Edit showcase'), id=pkg.name) }}
+{% endblock %}
+
+{% block primary_content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+      {% block primary_content_inner %}
+        {% block form %}
+        {#- passing c to a snippet is bad but is required here
+        for backwards compatibility with old templates and
+        plugins using setup_template_variables() -#}
+        {{- h.snippet(form_snippet, c=c, **form_vars) -}}
+        {% endblock %}
+      {% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block secondary_content %}
+  {{ h.snippet('showcase/snippets/helper.html') }}
+{% endblock %}
