@@ -3,6 +3,7 @@ from rdflib import URIRef, BNode, Literal
 from rdflib.namespace import Namespace, RDFS, RDF, SKOS
 
 from datetime import datetime
+from collections import defaultdict
 
 from ckantoolkit import config
 
@@ -31,6 +32,8 @@ OWL = Namespace('http://www.w3.org/2002/07/owl#')
 SPDX = Namespace('http://spdx.org/rdf/terms#')
 XML = Namespace('http://www.w3.org/2001/XMLSchema')
 
+SHACL = Namespace("http://www.w3.org/ns/shacl#")
+
 GEOJSON_IMT = 'https://www.iana.org/assignments/media-types/application/vnd.geo+json'  # noqa
 
 namespaces = {
@@ -46,6 +49,7 @@ namespaces = {
     'gsp': GSP,
     'owl': OWL,
     'xml': XML,
+    'sh': SHACL,
 }
 
 ogd_theme_base_url = 'http://opendata.swiss/themes'
@@ -775,3 +779,56 @@ class SwissSchemaOrgProfile(SchemaOrgProfile, MultiLangProfile):
             distribution,
             items
         )
+
+
+class SHACLResultProfile(object):
+
+    def __init__(self, graph):
+        self.r = graph
+
+    def shaclresults(self):
+        error_dict = defaultdict(list)
+        for result_ref in self.r.subjects(RDF.type, SHACL.ValidationResult):
+            result_dict = self._shaclresult(result_ref)
+            focusnode = self.r.value(result_ref, SHACL.focusNode)
+            if isinstance(focusnode, URIRef):
+                node = unicode(focusnode)
+            else:
+                node = 'catalog'
+            value = ""
+            if 'value' in result_dict:
+                value = ", Value: [{}]".format(result_dict['value'])
+            message = """{} [{}]: [{}]: '{}' {} ({})""".format(
+                        result_dict.get('severity', ''),
+                        node,
+                        result_dict.get('path', ''),
+                        result_dict.get('message', ''),
+                        value,
+                        result_dict.get('constraint', ''))
+            error_dict[node].append(message)
+        return error_dict
+
+    def _shaclresult(self, result_ref):
+        log.debug("Parsing shacl result '%r'" % result_ref)
+        result_dict = {}
+        for key, predicate in (
+                ('message', SHACL.resultMessage),
+                ('value', SHACL.value),
+                ('path', SHACL.resultPath),
+                ('detail', SHACL.resultDetail),
+                ('severity', SHACL.resultSeverity),
+                ('constraint', SHACL.sourceConstraintComponent),
+        ):
+            value = self._object_value(result_ref, predicate)
+            if value:
+                result_dict[key] = value
+        return result_dict
+
+    def _object_value(self, subject, predicate):
+        o = self.r.value(subject, predicate)
+        if isinstance(o, rdflib.Literal):
+            return unicode(o)
+        elif isinstance(o, rdflib.URIRef):
+            return self.r.namespace_manager.qname(o)
+        else:
+            return None
