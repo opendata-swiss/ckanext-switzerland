@@ -45,6 +45,38 @@ database before the actual database changes are performed.
 paster --plugin=ckanext-switzerland ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}] [--dryrun] -c /var/www/ckan/development.ini
 ```
 
+## Harvesters
+
+### Swiss Dcat Harvester 
+
+The plugin implements a Swiss version of the Dcat Harvester.
+
+### Shacl Validation
+The Swiss Dcat Harvester offers a validation where the data is tested against a shacl shape graph.
+- the validation currently uses https://jena.apache.org/documentation/shacl/index.html
+- the path to the tool and the results should be in the ckan configuration file:
+```
+ckanext.switzerland.shacl_command_path = /opt/apache-jena-3.13.1/bin/shacl
+ckanext.switzerland.shacl_result_path = /home/liipadmin/shaclresults
+``` 
+- the validation output is reported per harvest source id and harvest job in the result directory
+- the results are cleaned up along with the harvestjobs by the command `ogdch cleanup_harvestjobs`, see above.
+- the validation is performed when the the harvester is given a configuration parameter `"shacl_validation_file":"<shacl filename>" 
+- the possible validation files are in the directoy `dcat/shaclshapes`
+- currently the shapes graphs are taken from: https://github.com/factsmission/dcat-ap-ch-shacl.
+- the shacl results are displayed as gather errors
+- they can also be found in the result directory for the source and job: there the input pages of the harvesters are listed in turtle along with the shacl validation results that is derived per page
+- even when the parsing of the shacl validation result fails (the job errors will show this), the results can be accessed in the result directory as turtle.
+
+#### Known issues
+- currently the validation is performed my a commandline tool. The parsing of the result from file has sometimes random errors, since the commandline tool sometime produces results that can not be parsed back to python. WHen that occurs, just run the harvest job again.
+- when ogdch is upgraded to python3 it should be considered to move to https://github.com/RDFLib/pySHACL for the validation, so that can be directly done in python
+
+#### Known Issues
+- ramdomly the parsing of the shacl result of the apache jena report file will fail. 
+- Then just repeat and it may go through the next time
+- because of this random failures the validation should not be constantly on in production
+
 ## Installation
 
 To install ckanext-switzerland:

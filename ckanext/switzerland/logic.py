@@ -8,6 +8,7 @@ from ckan.logic import ActionError, NotFound, ValidationError
 import ckan.plugins.toolkit as tk
 from ckan.lib.search.common import make_connection
 from ckanext.switzerland.helpers import get_content_headers
+import ckanext.switzerland.dcat.helpers as tk_dcat
 from ckanext.harvest.model import HarvestSource, HarvestJob, HarvestObject
 
 import logging
@@ -263,12 +264,19 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
                 tk.get_action('harvest_source_reindex')(
                     context, {'id': source.id})
 
+                # cleanup shacl validation results
+                tk_dcat.clean_shacl_result_dirs(
+                    harvest_source_id=source.id,
+                    deleted_jobs_ids=delete_jobs_ids)
+
             # fill result
             cleanup_result[source.id] = {
                 'deleted_jobs': delete_jobs,
                 'deleted_nr_objects': len(delete_objects_ids)}
 
-            log.error('cleaned resource {}'.format(source.id))
+            log.error(
+                'cleaned resource and shacl result directories {}'
+                .format(source.id))
 
     # return result of action
     return {'sources': sources_to_cleanup,
