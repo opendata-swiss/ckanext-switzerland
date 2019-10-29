@@ -36,6 +36,7 @@ class BaseParseTest(object):
             return f.read()
 
 
+
 class TestSwissDCATAPProfileParsing(BaseParseTest):
 
     def test_dataset_all_fields(self):

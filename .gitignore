@@ -42,3 +42,7 @@ coverage.xml
 docs/_build/
 
 /ckanext/switzerland/i18n/*/LC_MESSAGES/ckanext-switzerland.mo
+
+# ignore generated n3 files
+shacl/output/*/*.n3
+shacl/output/*/*.ttl

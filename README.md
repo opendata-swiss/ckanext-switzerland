@@ -45,6 +45,28 @@ database before the actual database changes are performed.
 paster --plugin=ckanext-switzerland ogdch cleanup_harvestjobs [{source_id}] [--keep={n}}] [--dryrun] -c /var/www/ckan/development.ini
 ```
 
+## Harvesters
+
+### Swiss Dcat Harvester 
+
+The plugin implements a Swiss version of the Dcat Harvester.
+
+### Shacl Validation
+The Swiss Dcat Harvester offers a validation where the data is tested against a shacl shape graph.
+- the validation currentl uses https://jena.apache.org/documentation/shacl/index.html
+- the path to the tool should be in the ckan development.ini file
+- the shacl shape graph should be in the directory `shacl`
+- the validation output can be found in `shacl/output/<harvest_source_id>` as `page-<nr>-.<shapefile>.ttl
+- the validation is performed when the the harvester is given a configuration parameter `"shacl_validation_file":"<shacl filename>" 
+- when ogdch is upgraded to python3 it should be considered to move to https://github.com/RDFLib/pySHACL for the validation, so that can be directly done in python
+- Currently the graph included is taken from: https://github.com/factsmission/dcat-ap-ch-shacl.
+- The results are then processed as gather errors and written on the the list of harvest job errors.
+
+#### Known Issues
+- ramdomly the parsing of the shacl result of the apache jena report file will fail. 
+- Then just repeat and it may go through the next time
+- because of this random failures the validation should not be constantly on in production
+
 ## Installation
 
 To install ckanext-switzerland:
