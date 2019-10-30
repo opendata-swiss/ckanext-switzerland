@@ -1,0 +1,23 @@
+{#
+Renders a list of resources with icons and view links.
+
+resources - A list of resources to render
+pkg - A package object that the resources belong to.
+
+Example:
+
+  {% snippet "package/snippets/resources_list.html", pkg=pkg, showcases=pkg.showcases %}
+
+#}
+<section id="dataset-showcases" class="container showcases">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>{{ _('Showcases') }}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      {{ h.build_nav('dataset_showcase_list', _('Showcases'), id=pkg.name) }}
+    </div>
+  </div>
+</section>

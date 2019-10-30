@@ -1,0 +1,69 @@
+{#
+Displays information for given package
+
+pkg    - The showcase package dict that owns the resources.
+
+Example:
+
+  {% snippet "package/snippets/info.html", pkg=pkg %}
+
+#}
+{% block package_info %}
+  {% if pkg %}
+    <section class="module module-narrow">
+      <div class="module context-info">
+        <div class="module-content">
+          {% block package_info_inner %}
+          <div class="row">
+            {% if pkg.author %}
+              <div class="col-md-3 col-sm-6">
+                <dl>
+                  <dt>{{ _('Submitted by') }}</dt>
+                  <dd>
+                    <p>{{ pkg.author }}</p>
+                  </dd>
+                </dl>
+              </div>
+            {% endif %}
+            {% if tags %}
+              <div class="col-md-3 col-sm-6">
+                <dl>
+                  <dt>{{ _('Tags') }}</dt>
+                  <dd>
+                    {% for tag in tags %}
+                      <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                    </ul>
+                  </dd>
+                </dl>
+              </div>
+            {% endif %}
+            {% if pkg.url %}
+            <div class="col-md-3 col-sm-6">
+              <a class="btn btn-primary" href="{{ pkg.url }}" target="_blank">
+                <i class="fa fa-external-link icon-external-link"></i> {{ _('Launch website') }}
+              </a>
+            </div>
+            {% endif %}
+          {% endblock %}
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="module module-narrow">
+      <h3 class="module-heading"><i class="fa fa-sitemap icon-medium icon-sitemap"></i> {{ _('Datasets in Showcase') }}</h3>
+      {% if showcase_pkgs %}
+        <ul class="nav nav-simple">
+        {% for package in showcase_pkgs %}
+          {% set truncate_title = truncate_title or 80 %}
+          {% set title = package.title or package.name %}
+          <li class="nav-item">{{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}</li>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <p class="module-content empty">{{_('There are no Datasets in this Showcase')}}</p>
+      {% endif %}
+    </section>
+  {% endif %}
+{% endblock %}

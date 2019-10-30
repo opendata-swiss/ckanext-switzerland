@@ -32,6 +32,10 @@
     {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
   {% endblock %}
 
+  {% block package_showcases %}
+    {% snippet "package/snippets/showcases_list.html", pkg=pkg, resources=pkg.resources %}
+  {% endblock %}
+
   {% block package_additional_info %}
     {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
   {% endblock %}
