@@ -10,7 +10,6 @@ except ImportError:
 
 from ckanext.switzerland.dcat.profiles import (SHACL, SHACLResultProfile)
 
-
 eq_ = nose.tools.eq_
 assert_true = nose.tools.assert_true
 
@@ -75,8 +74,4 @@ class BaseParseTest(object):
 
         p = SHACLResultProfile(r)
         assert(len(p.shaclresults())) == 2
-
-        eq_(len(p.r), 0)
-
-
-        eq_(len(p.r), 2)
+        assert(True == False)
