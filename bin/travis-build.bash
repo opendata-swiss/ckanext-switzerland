@@ -7,6 +7,11 @@ echo "Installing the packages that CKAN requires..."
 sudo apt-get update -qq
 sudo apt-get install solr-jetty libcommons-fileupload-java
 
+echo "Installing topbraid/shacl"
+wget http://central.maven.org/maven2/org/topbraid/shacl/1.3.0/shacl-1.3.0-bin.zip
+unzip shacl-1.3.0-bin.zip
+# chmod +x shacl-1.3.0/bin/shaclvalidate.sh
+
 echo "Installing CKAN and its Python dependencies..."
 git clone https://github.com/ckan/ckan
 cd ckan
