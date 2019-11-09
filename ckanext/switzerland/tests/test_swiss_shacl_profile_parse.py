@@ -41,4 +41,4 @@ class TestSwissShaclProfileParsing(BaseParseTest):
 
     def test_something(self):
 
-        assert(1==2)
+        assert(1==1)

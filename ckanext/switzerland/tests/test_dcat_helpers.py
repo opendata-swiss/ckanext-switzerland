@@ -1,27 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import os
+import unittest
 from datetime import datetime
 
 import nose
 
-from rdflib import Graph, URIRef, BNode, Literal
-from rdflib.namespace import RDF
-
-try:
-    from ckan.tests import helpers
-except ImportError:
-    from ckan.new_tests import helpers
-
-from ckanext.dcat.processors import RDFParser
-from ckanext.switzerland.dcat.profiles import (DCAT, DCT)
+import ckanext.switzerland.dcat.helpers as tk_dcat
 
 eq_ = nose.tools.eq_
 assert_true = nose.tools.assert_true
 
 
-class TestDcatShaclHelpers(object):
-
-    def test_something_more(self):
-
-        assert(1==2)
+class TestHelpers(unittest.TestCase):
+    def test_get_shacl_page_identifier(self):
+        page_count = 2
+        result = tk_dcat._get_shacl_page_identifier(page_count)
+        self.assertEquals(result, 'page-2')
