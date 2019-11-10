@@ -1,34 +1,23 @@
 # -*- coding: utf-8 -*-
 
 import os
-from datetime import datetime
 
-import nose
+import unittest
 import rdflib
 
-from rdflib import Graph, URIRef, BNode, Literal
-from rdflib.namespace import RDF
-
-try:
-    from ckan.tests import helpers
-except ImportError:
-    from ckan.new_tests import helpers
-
-from ckanext.dcat.processors import RDFParser
-from ckanext.switzerland.dcat.profiles import (DCAT, DCT)
-
-eq_ = nose.tools.eq_
-assert_true = nose.tools.assert_true
+from ckanext.switzerland.dcat.profiles import SHACL
 
 
-class TestSwissShaclProfileParsing(object):
+class TestSwissShaclProfileParsing(unittest.TestCase):
 
     def setup(self):
         resultfile = os.path.join(os.path.dirname(__file__),
                             'fixtures',
                             'shacl-data.ttl')
         self.r = rdflib.Graph()
-        self.r = rdflib.parse(resultfile, format='turtle')
+        self.r.parse(resultfile, format='turtle')
+        self.r.bind('sh', SHACL)
+        self.r.namespace_manager = rdflib.NamespaceManager(self.r)
 
-    def test_something(self):
-        assert(1==1)
+    def test_len_shacl_result(self):
+        self.assertEqual(len(self.r), 58)

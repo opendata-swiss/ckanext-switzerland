@@ -11,11 +11,8 @@ from rdflib.namespace import Namespace, NamespaceManager
 from ckanext.dcat.utils import url_to_rdflib_format
 from ckanext.dcat.processors import RDFParserException, RDFParser
 
-from profiles import SHACLResultProfile
+from profiles import SHACLResultProfile, SHACL
 import helpers as tk_dcat
-
-
-SHACL = Namespace("http://www.w3.org/ns/shacl#")
 
 log = logging.getLogger(__name__)
 
