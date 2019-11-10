@@ -45,3 +45,5 @@ class TestSwissShaclProfileParsing(unittest.TestCase):
              u'https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json',
              u'https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json']
         )
+        errors = sum([len(v) for k,v in result.items()])
+        self.assertEqual(errors, 94)

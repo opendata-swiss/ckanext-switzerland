@@ -818,7 +818,6 @@ class SHACLResultProfile(object):
             ref_processed_count += 1
         log.debug("SHACL: {} number of shacl results processed and grouped"
                   .format(ref_processed_count))
-        import pdb; pdb.set_trace()
         return error_dict_grouped_by_node
 
     def _shaclresult(self, result_ref):
