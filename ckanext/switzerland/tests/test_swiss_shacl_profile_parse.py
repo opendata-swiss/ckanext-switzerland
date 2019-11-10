@@ -17,6 +17,8 @@ class TestSwissShaclProfileParsing(unittest.TestCase):
         self.r = rdflib.Graph()
         self.r.parse(resultfile, format='turtle')
         self.r.bind('sh', SHACL)
+        print("hello from setup")
+        print(len(self.r))
         self.r.namespace_manager = rdflib.NamespaceManager(self.r)
 
     def test_len_shacl_result(self):
