@@ -6,7 +6,7 @@ import subprocess
 
 import rdflib
 import rdflib.parser
-from rdflib.namespace import Namespace, NamespaceManager
+from rdflib.namespace import NamespaceManager
 
 from ckanext.dcat.utils import url_to_rdflib_format
 from ckanext.dcat.processors import RDFParserException, RDFParser
