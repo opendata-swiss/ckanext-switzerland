@@ -1,0 +1,821 @@
+@prefix :      <http://tbd.data.admin.ch/shacl#> .
+@prefix schema: <http://schema.org/> .
+@prefix adms:  <http://www.w3.org/ns/adms#> .
+@prefix odrs:  <http://schema.theodi.org/odrs#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix xml:   <http://www.w3.org/XML/1998/namespace> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:    <http://purl.org/dc/elements/1.1/> .
+
+[ a            sh:ValidationReport ;
+  sh:conforms  false ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008> ;
+                 sh:resultMessage              "ClassConstraint[<http://xmlns.com/foaf/0.1/Agent>]: Expected class :<http://xmlns.com/foaf/0.1/Agent> for _:B4cff542a5aec7113bc5e4a7d09db1db9" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b2 ;
+                 sh:value                      [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"geojson\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "geojson"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"geojson\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "geojson"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/json\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/zip\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/zip"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"shp\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "shp"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  _:b6 ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:themeTaxonomy ;
+                 sh:resultSeverity             sh:Warning ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/json\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"json\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2004/02/skos/core#Concept>]: Expected class :<http://www.w3.org/2004/02/skos/core#Concept> for <http://opendata.swiss/themes/culture>" ;
+                 sh:resultPath                 dcat:theme ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b7 ;
+                 sh:value                      <http://opendata.swiss/themes/culture>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  _:b6 ;
+                 sh:resultMessage              "Or[NodeShape[8655d8955382c32d5213c9e1201d40fc], NodeShape[b423729957da6755dc8718bd8aec08f9]] has 0 conforming shapes at focusNode _:Baad7a0a7ad000c840c35464bffa26f46" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :CatalogShape ;
+                 sh:value                      _:b6
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/json\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004> ;
+                 sh:resultMessage              "ClassConstraint[<http://xmlns.com/foaf/0.1/Document>]: Expected class :<http://xmlns.com/foaf/0.1/Document> for \"https://data.bs.ch/explore/dataset/100004/\"" ;
+                 sh:resultPath                 dcat:landingPage ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b8 ;
+                 sh:value                      "https://data.bs.ch/explore/dataset/100004/"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2004/02/skos/core#Concept>]: Expected class :<http://www.w3.org/2004/02/skos/core#Concept> for <http://opendata.swiss/themes/mobility>" ;
+                 sh:resultPath                 dcat:theme ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b7 ;
+                 sh:value                      <http://opendata.swiss/themes/mobility>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2006/vcard/ns#Kind>]: Expected class :<http://www.w3.org/2006/vcard/ns#Kind> for _:B82f765d15a8fb7c2409f756c3d3efabe" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b9 ;
+                 sh:value                      [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/zip\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/zip"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"csv\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "csv"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2006/vcard/ns#Kind>]: Expected class :<http://www.w3.org/2006/vcard/ns#Kind> for _:B7ec77eb8e07bdec05003670ea3b1381a" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b9 ;
+                 sh:value                      [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2004/02/skos/core#Concept>]: Expected class :<http://www.w3.org/2004/02/skos/core#Concept> for <http://opendata.swiss/themes/mobility>" ;
+                 sh:resultPath                 dcat:theme ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b7 ;
+                 sh:value                      <http://opendata.swiss/themes/mobility>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2004/02/skos/core#Concept>]: Expected class :<http://www.w3.org/2004/02/skos/core#Concept> for <http://opendata.swiss/themes/energy>" ;
+                 sh:resultPath                 dcat:theme ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b7 ;
+                 sh:value                      <http://opendata.swiss/themes/energy>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  _:b6 ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:title ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"geojson\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "geojson"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008> ;
+                 sh:resultMessage              "ClassConstraint[<http://xmlns.com/foaf/0.1/Document>]: Expected class :<http://xmlns.com/foaf/0.1/Document> for \"https://data.bs.ch/explore/dataset/100008/\"" ;
+                 sh:resultPath                 dcat:landingPage ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b8 ;
+                 sh:value                      "https://data.bs.ch/explore/dataset/100008/"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"csv\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "csv"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005> ;
+                 sh:resultMessage              "ClassConstraint[<http://xmlns.com/foaf/0.1/Agent>]: Expected class :<http://xmlns.com/foaf/0.1/Agent> for _:B75bd7ba625a2b01911edb9cc421a08a4" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b2 ;
+                 sh:value                      [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/json\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004> ;
+                 sh:resultMessage              "ClassConstraint[<http://xmlns.com/foaf/0.1/Agent>]: Expected class :<http://xmlns.com/foaf/0.1/Agent> for _:B39f9091b4fab265e94a9378723c3c4ed" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b2 ;
+                 sh:value                      [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/zip\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/zip"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  _:b6 ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  _:b6 ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 foaf:homepage ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2004/02/skos/core#Concept>]: Expected class :<http://www.w3.org/2004/02/skos/core#Concept> for <http://opendata.swiss/themes/industry>" ;
+                 sh:resultPath                 dcat:theme ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b7 ;
+                 sh:value                      <http://opendata.swiss/themes/industry>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"json\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  _:b6 ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:issued ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"shp\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "shp"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005> ;
+                 sh:resultMessage              "ClassConstraint[<http://xmlns.com/foaf/0.1/Document>]: Expected class :<http://xmlns.com/foaf/0.1/Document> for \"https://data.bs.ch/explore/dataset/100005/\"" ;
+                 sh:resultPath                 dcat:landingPage ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b8 ;
+                 sh:value                      "https://data.bs.ch/explore/dataset/100005/"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/json\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004> ;
+                 sh:resultMessage              "ClassConstraint[<http://www.w3.org/2004/02/skos/core#Concept>]: Expected class :<http://www.w3.org/2004/02/skos/core#Concept> for <http://opendata.swiss/themes/energy>" ;
+                 sh:resultPath                 dcat:theme ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b7 ;
+                 sh:value                      <http://opendata.swiss/themes/energy>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"text/csv\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "text/csv"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"csv\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "csv"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"text/csv\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "text/csv"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  _:b6 ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:description ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                [] 
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"application/json\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "application/json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dct:publisher ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b1
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b0
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"json\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "json"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json> ;
+                 sh:resultMessage              "ClassConstraint[rdfs:Resource]: Expected class :rdfs:Resource for \"https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json\"^^xsd:anyURI" ;
+                 sh:resultPath                 dcat:accessURL ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b4 ;
+                 sh:value                      "https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json"^^xsd:anyURI
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp> ;
+                 sh:resultMessage              "Or[NodeShape[1bf49cb78ee38aeed63f75931780b1d3], NodeShape[ef9372f70f5bc5cfa535ed9ff51a479f]] has 0 conforming shapes at focusNode <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp>" ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:XoneConstraintComponent ;
+                 sh:sourceShape                :DistributionShape ;
+                 sh:value                      <https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp>
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"text/csv\"" ;
+                 sh:resultPath                 dcat:mediaType ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b5 ;
+                 sh:value                      "text/csv"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp> ;
+                 sh:resultMessage              "ClassConstraint[<http://purl.org/dc/terms/MediaTypeOrExtent>]: Expected class :<http://purl.org/dc/terms/MediaTypeOrExtent> for \"shp\"" ;
+                 sh:resultPath                 dct:format ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:ClassConstraintComponent ;
+                 sh:sourceShape                _:b3 ;
+                 sh:value                      "shp"
+               ] ;
+  sh:result    [ a                             sh:ValidationResult ;
+                 sh:focusNode                  <https://data.bs.ch/api/v2/catalog/datasets/100004> ;
+                 sh:resultMessage              "minCount[1]: Invalid cardinality: expected min 1: Got count = 0" ;
+                 sh:resultPath                 dcat:contactPoint ;
+                 sh:resultSeverity             sh:Violation ;
+                 sh:sourceConstraintComponent  sh:MinCountConstraintComponent ;
+                 sh:sourceShape                _:b9
+               ]
+] .
