@@ -20,5 +20,28 @@ class TestSwissShaclProfileParsing(unittest.TestCase):
         self.r.bind('sh', SHACL)
         self.r.namespace_manager = NamespaceManager(self.r)
 
-    def test_len_shacl_result(self):
-        self.assertEqual(len(self.r), 58)
+    def test_shacl_result_reading(self):
+        self.assertEqual(len(self.r), 804)
+
+    def test_shaclresults_grouped_by_node(self):
+        result = self.r.shaclresults_grouped_by_node(self)
+        self.assertEqual(len(result.keys()), 16)
+        self.assertListEqual(
+            result.keys(),
+            [u'https://data.bs.ch/api/v2/catalog/datasets/100004/exports/json',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100004',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100005',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100008',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100005/exports/geojson',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100008/exports/geojson',
+             'catalog',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100004/exports/shp',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100008/exports/csv',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100008/exports/shp',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100005/exports/csv',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100004/exports/csv',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100005/exports/shp',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100004/exports/geojson',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100008/exports/json',
+             u'https://data.bs.ch/api/v2/catalog/datasets/100005/exports/json']
+        )
