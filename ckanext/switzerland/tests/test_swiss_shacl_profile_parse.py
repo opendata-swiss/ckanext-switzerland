@@ -10,7 +10,7 @@ from ckanext.switzerland.dcat.profiles import SHACL
 
 class TestSwissShaclProfileParsing(unittest.TestCase):
 
-    def setup(self):
+    def setUp(self):
         resultfile = os.path.join(os.path.dirname(__file__),
                             'fixtures',
                             'shacl-data.ttl')
