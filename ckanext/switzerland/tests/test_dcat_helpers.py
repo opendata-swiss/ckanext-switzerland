@@ -63,17 +63,3 @@ class TestDcatShaclHelpers(unittest.TestCase):
             os.path.join(
                 self.shacldir, 'ech-0200.shacl.ttl')
         )
-
-    def test_clean_shacl_dirs(self):
-        harvest_source_id = '93488cd9'
-        deleted_jobs_ids = ['12', '23']
-        os.makedirs(os.path.join(self.resultdir, '93488cd9', '12'))
-        os.makedirs(os.path.join(self.resultdir, '93488cd9', '23'))
-        os.makedirs(os.path.join(self.resultdir, '93488cd9', '34'))
-        os.makedirs(os.path.join(self.resultdir, '56778d34', '12'))
-        tk_dcat.clean_shacl_result_dirs(
-            harvest_source_id, deleted_jobs_ids)
-        self.assertFalse(os.path.isdir(os.path.join(self.resultdir, '93488cd9', '12')))
-        self.assertFalse(os.path.isdir(os.path.join(self.resultdir, '93488cd9', '23')))
-        self.assertTrue(os.path.isdir(os.path.join(self.resultdir, '93488cd9', '34')))
-        self.assertTrue(os.path.isdir(os.path.join(self.resultdir, '56778d34', '12')))

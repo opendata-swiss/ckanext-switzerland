@@ -21,22 +21,14 @@ eq_ = nose.tools.eq_
 assert_true = nose.tools.assert_true
 
 
-class BaseParseTest(object):
-
-    def _get_file_contents(self, file_name):
-        path = os.path.join(os.path.dirname(__file__),
-                            'fixtures',
-                            file_name)
-        with open(path, 'r') as f:
-            return f.read()
-
-
-class TestSwissShaclProfileParsing(BaseParseTest):
+class TestSwissShaclProfileParsing(object):
 
     def setup(self):
+        resultfile = os.path.join(os.path.dirname(__file__),
+                            'fixtures',
+                            'shacl-data.ttl')
         self.r = rdflib.Graph()
-        self.r = rdflib.parse(file, format='turtle')
+        self.r = rdflib.parse(resultfile, format='turtle')
 
-        contents = self._get_file_contents('1901.xml')
-
+    def test_something(self):
         assert(1==1)
