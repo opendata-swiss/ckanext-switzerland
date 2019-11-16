@@ -24,37 +24,6 @@ class TestDcatShaclHelpers(unittest.TestCase):
         result = tk_dcat.get_shacl_shapedir()
         self.assertIsNotNone(result)
 
-    def test_get_shacl_data_file_path(self):
-        harvest_source_id = '93488cd9'
-        harvest_job_id = '908cd623'
-        page_count = 3
-        format = 'ttl'
-        result = tk_dcat.get_shacl_data_file_path(
-            harvest_source_id,
-            harvest_job_id, page_count, format)
-        self.assertEqual(
-            result,
-            os.path.join(
-                self.resultdir, '93488cd9', '908cd623',
-                'page-3.ttl' )
-        )
-
-    def test_get_shacl_result_file_path(self):
-        harvest_source_id = '93488cd9'
-        harvest_job_id = '908cd623'
-        page_count = 3
-        shapefile = 'ech-0200.shacl.ttl'
-        format = 'ttl'
-        result = tk_dcat.get_shacl_result_file_path(
-            harvest_source_id,
-            harvest_job_id, page_count, shapefile, format)
-        self.assertEqual(
-            result,
-            os.path.join(
-                self.resultdir, '93488cd9', '908cd623',
-                'ech-0200.page-3.ttl')
-        )
-
     def test_get_shacl_shape_file_path(self):
         shapefile = 'ech-0200.shacl.ttl'
         result = tk_dcat.get_shacl_shape_file_path(shapefile)

@@ -1,12 +1,10 @@
+import csv
 import logging
 import xml
-from collections import defaultdict
+import os
 
 import rdflib
-import rdflib.parser
-from rdflib.namespace import NamespaceManager, Namespace
-from rdflib import URIRef
-from rdflib.namespace import RDF
+from rdflib.namespace import RDF, NamespaceManager, Namespace
 
 from ckanext.dcat.processors import RDFParserException
 
@@ -15,68 +13,65 @@ SHACL = Namespace("http://www.w3.org/ns/shacl#")
 log = logging.getLogger(__name__)
 
 
+class SHACLParserException(RDFParserException):
+    pass
+
+
 class ShaclParser(object):
 
-    def __init__(self, resultpath):
+    def __init__(self, resultpath, harvest_source_id):
+        self.harvest_source_id = harvest_source_id
+        self.csvfile = self._get_csv_path(resultpath)
         self.g = rdflib.Graph()
         try:
             self.g.parse(resultpath, format='turtle')
         except (SyntaxError, xml.sax.SAXParseException,
                 rdflib.plugin.PluginException, TypeError), e:
-
-            raise RDFParserException(e)
+            raise SHACLParserException(e)
         log.debug(
             "SHACL result graph parsed: length: {}"
             .format(len(self.g)))
         self.g.bind('sh', SHACL)
         self.g.namespace_manager = NamespaceManager(self.g)
+        self.shaclkeys = ['sh_focusnode',
+                          'sh_severity',
+                          'sh_path',
+                          'sh_constraint',
+                          'sh_message',
+                          'sh_value',
+                          'sh_shape',
+                          'sh_detail']
+        self.shaclpredicates = [SHACL.focusNode,
+                                SHACL.resultSeverity,
+                                SHACL.resultPath,
+                                SHACL.sourceConstraintComponent,
+                                SHACL.resultMessage,
+                                SHACL.value,
+                                SHACL.sourceShape,
+                                SHACL.resultDetail]
+        self.csv_headers = ['harvest_source_id', 'parseerror']
+        self.csv_headers.extend(self.shaclkeys)
+        self.shaclerrors = []
 
-    def errors_grouped_by_node(self):
+    def parse(self):
         """parsing the shacl results"""
-        error_dict_grouped_by_node = defaultdict(list)
-        ref_processed_count = 0
         for result_ref in self.g.subjects(RDF.type, SHACL.ValidationResult):
             result_dict = self._shaclresult(result_ref)
-            focusnode = self.g.value(result_ref, SHACL.focusNode)
-            if isinstance(focusnode, URIRef):
-                node = unicode(focusnode)
-            else:
-                node = ('catalog')
-            try:
-                value = ""
-                if 'value' in result_dict:
-                    value = ", Value: [{}]".format(
-                        result_dict['value'].encode('utf-8'))
-                message = """[{}]: {}: [{}]: '{}' {} ({})""".format(
-                        node.encode('utf-8'),
-                        result_dict.get('severity', ''),
-                        result_dict.get('path', ''),
-                        result_dict.get('message', '').encode('utf-8'),
-                        value,
-                        result_dict.get('constraint', '').encode('utf-8'))
-            except UnicodeEncodeError as e:
-                log.error("SHACL error for parsing results"
-                          .format(e))
-                raise
-            else:
-                error_dict_grouped_by_node[node].append(message)
-            ref_processed_count += 1
-        log.debug("SHACL: {} number of shacl results processed and grouped"
-                  .format(ref_processed_count))
-        return error_dict_grouped_by_node
+            self.shaclerrors.append(result_dict)
+        self.shaclerrors.sort()
+        log.debug("SHACL: {} number of shacl results processed"
+                  .format(len(self.shaclerrors)))
 
     def _shaclresult(self, result_ref):
         """parsing a shacl result"""
         result_dict = {}
-        for key, predicate in (
-                ('message', SHACL.resultMessage),
-                ('value', SHACL.value),
-                ('path', SHACL.resultPath),
-                ('detail', SHACL.resultDetail),
-                ('severity', SHACL.resultSeverity),
-                ('constraint', SHACL.sourceConstraintComponent),
-        ):
+        for key, predicate in zip(self.shaclkeys, self.shaclpredicates):
             value = self._object_value(result_ref, predicate)
+            if predicate in [
+                'sh_message', 'sh_value',
+                'sh_constraint', 'sh_shape'
+            ]:
+                value = self._make_string_safe(value)
             if value:
                 result_dict[key] = value
         return result_dict
@@ -84,9 +79,70 @@ class ShaclParser(object):
     def _object_value(self, subject, predicate):
         """get the value of an object using the namespace"""
         o = self.g.value(subject, predicate)
-        if isinstance(o, rdflib.Literal):
-            return unicode(o)
-        elif isinstance(o, rdflib.URIRef):
+        try:
+            if isinstance(o, rdflib.Literal):
+                return unicode(o)
+            elif isinstance(o, rdflib.URIRef):
+                return unicode(o)
+            elif isinstance(o, rdflib.BNode):
+                return o
+            elif isinstance(o, rdflib.URIRef):
+                return self._decode_urirefs(o)
+            else:
+                return None
+        except Exception as e:
+            return "ShaclResultParseError: {}".format(e)
+
+    def _get_csv_path(self, resultpath):
+        path, filename = os.path.split(resultpath)
+        return os.path.join(
+            path, filename.replace('ttl', 'csv'))
+
+    def _make_string_safe(self, value):
+        try:
+            return value.encode('utf-8')
+        except Exception as e:
+            return "ShaclResultParseError: {}".format(e)
+
+    def _decode_urirefs(self, o):
+        try:
             return self.g.namespace_manager.qname(o)
-        else:
-            return None
+        except Exception as e:
+            try:
+                return str(o)
+            except Exception as e:
+                return "ShaclResultParseError: {}".format(e)
+
+    def write_csv_file(self):
+        with open(self.csvfile, 'w') as csvfile:
+            writer = csv.DictWriter(
+                csvfile, fieldnames=self.csv_headers,
+                delimiter='|', restval='')
+            writer.writeheader()
+            for error_dict in self.shaclerrors:
+                error_dict['harvest_source_id'] = self.harvest_source_id
+                try:
+                    writer.writerow(error_dict)
+                except UnicodeEncodeError as e:
+                    error_dict = {
+                        'harvest_source_id': error_dict['harvest_source_id'],
+                        'parseerror': e
+                    }
+                    writer.writerow(error_dict)
+
+    def _get_error_message(self, result_dict):
+        try:
+            message = "[{}] : ".format(result_dict['sh_focusnode'])
+            for key in self.shaclkeys[1:]:
+                value = result_dict.get(key, '')
+                if value:
+                    message += "({}): {}; ".format(key, value)
+        except UnicodeEncodeError as e:
+            return "ShaclResultParseError: {}".format(e)
+        return message
+
+    def shacl_error_messages(self):
+        shacl_error_messages = []
+        for error_dict in self.shaclerrors:
+            shacl_error_messages.append(self._get_error_message(error_dict))
+        return shacl_error_messages
