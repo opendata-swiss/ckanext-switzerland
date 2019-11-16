@@ -1,0 +1,142 @@
+@prefix : <http://tbd.data.admin.ch/shacl#> .
+
+@prefix adms: <http://www.w3.org/ns/adms#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <http://schema.org/>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+
+<> sh:entailment <http://www.w3.org/ns/entailment/RDFS> .
+
+:MandatoryCatalog
+  rdf:type sh:NodeShape ;
+  rdfs:comment "Mandatory catalog"@en ;
+  rdfs:label "Mandatory catalog"@en ;
+  sh:property [
+      sh:minCount 1 ;
+      sh:path [
+          sh:inversePath rdf:type ;
+        ] ;
+    ] ;
+  sh:targetNode dcat:Catalog ;
+.
+
+:CatalogShape
+  rdf:type sh:NodeShape ;
+  sh:name "Catalog"@en ;
+  sh:targetClass dcat:Catalog ;
+  sh:property [
+      sh:path dct:title ;
+      sh:minCount 1 ;
+      sh:languageIn ( "en" "fr" "it" "de");
+      sh:nodeKind sh:Literal ;
+      sh:severity sh:Violation ;
+    ] ;
+  sh:property [
+      sh:path dct:description ;
+      sh:minCount 1 ;
+      sh:languageIn ( "en" "fr" "it" "de");
+      sh:nodeKind sh:Literal ;
+      sh:severity sh:Violation ;
+    ] ;
+  sh:property [
+      sh:path dct:issued ;
+      sh:maxCount 1 ;
+      sh:minCount 1 ;
+      sh:severity sh:Violation ;
+      sh:node :DateType ;
+    ] ;
+  sh:property [
+      sh:path dct:modified ;
+      sh:maxCount 1 ;
+      sh:severity sh:Violation ;
+      sh:node :DateType ;
+    ] ;
+  sh:property [
+      sh:path foaf:homepage ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:severity sh:Violation ;
+    ] ;
+  sh:property [
+      sh:path dct:publisher ;
+      sh:class foaf:Agent ;
+      sh:maxCount 1 ;
+      sh:minCount 1 ;
+      sh:severity sh:Violation ;
+    ] ;
+  sh:property [
+      sh:path dcat:themeTaxonomy ;
+      sh:class skos:Concept-Scheme ;
+      sh:minCount 1 ;
+      sh:severity sh:Warning ;
+    ] ;
+  sh:property [
+      sh:path dcat:dataset ;
+      sh:class dcat:Dataset ;
+      sh:minCount 1 ;
+      sh:severity sh:Violation ;
+    ] ;
+  sh:xone (
+      [
+        sh:property [
+          sh:path dct:license ;
+          sh:class dct:LicenseDocument ;
+          sh:minCount 1 ;
+      	  sh:maxCount 1 ;
+        ]
+      ]
+      [
+        sh:property [
+          sh:path dct:rights ;
+          sh:class dct:RightsStatement ;
+	        sh:minCount 1 ;
+      	  sh:maxCount 1 ;
+        ]
+      ]
+  ) ;
+  sh:property [
+      sh:path dct:language ;
+      sh:class dct:LinguisticSystem ;
+    ] ;
+  sh:property [
+      sh:path dct:spatial ;
+      sh:class dct:Location ;
+      sh:severity sh:Violation ;
+    ] ;
+  sh:property [
+      sh:path dcat:record ;
+      sh:class dcat:CatalogRecord ;
+      sh:severity sh:Violation ;
+    ] ;
+.
+
+
+### SHAPES
+
+:DateType
+  rdf:type sh:NodeShape ;
+  rdfs:comment "Date time date shape checks that a datatype property receives a date or dateTime literal" ;
+  rdfs:label "Date" ;
+  sh:message "The values must be data typed as xsd:date or xsd:dateTime." ;
+  sh:or (
+       [
+           sh:datatype xsd:date ;
+       ]
+       [
+           sh:datatype xsd:dateTime ;
+       ]
+   )
+.
+
+:DecimalType
+  rdf:type sh:NodeShape ;
+  rdfs:label "Decimal" ;
+  sh:datatype xsd:decimal
+.

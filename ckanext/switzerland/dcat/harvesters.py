@@ -13,6 +13,7 @@ from ckanext.dcat.interfaces import IDCATRDFHarvester
 from ckanext.harvest.model import HarvestObject
 
 from processors import SwissDCATRDFParser
+from shaclprocessor import SHACLParserException
 import helpers as tk_dcat
 
 import logging
@@ -189,7 +190,7 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             if identifier and identifier in resource_mapping:
                 resource['id'] = resource_mapping[identifier]
 
-    def gather_stage(self, harvest_job): # noqa
+    def gather_stage(self, harvest_job):  # noqa
         """This method was copied from ckanext-dcat/harvesters/rdf.py
         in order to get access to the parsed data and avoid double
         parsing it. The parts that are specialized are marked by
@@ -267,27 +268,21 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                 if gather_config['shacl_validation']:
                     # in case of shacl validation errors they are
                     # reported as gather errors per page that was parsed
-                    msg_count = 0
-                    shacl_error_dict = \
-                        parser.shaclresults.errors_grouped_by_node()
-                    if shacl_error_dict:
-                        log.debug('SHACL error node count: {0}'
-                                  .format(len(shacl_error_dict.keys())))
-                        for node in shacl_error_dict.keys():
-                            for message in shacl_error_dict[node]:
-                                msg_count += 1
-                                self._save_gather_error(
-                                    message, harvest_job)
-                        log.debug('SHACL error message count: {0}'
-                                  .format(msg_count))
-                        self._save_gather_error(
-                            "there were {0} shacl shape errors in total on page {1}" # noqa
-                            .format(msg_count, page_count),
-                            harvest_job)
+                    shaclparser = parser.shaclparser
+                    shaclparser.parse()
+                    for error_message in shaclparser.shacl_error_messages():
+                        self._save_gather_error(error_message, harvest_job)
+                    shaclparser.write_csv_file()
+
+            except SHACLParserException as e:
+                self._save_gather_error(
+                    'Error parsing shacl results: {0}'
+                    .format(e), harvest_job)
 
             except RDFParserException, e:
-                self._save_gather_error('Error parsing the RDF file: {0}'
-                                        .format(e), harvest_job)
+                self._save_gather_error(
+                    'Error parsing the RDF file: {0}'
+                    .format(e), harvest_job)
                 return []
 
             try:
@@ -311,8 +306,9 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
 
                     if not guid:
                         self._save_gather_error(
-                            'Could not get a unique identifier for dataset: {0}' # noqa
-                                .format(dataset), harvest_job)
+                            """Could not get a unique identifier
+                            for dataset: {0}"""
+                            .format(dataset), harvest_job)
                         continue
 
                     dataset['extras'].append({'key': 'guid', 'value': guid})
