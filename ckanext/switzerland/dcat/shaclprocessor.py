@@ -1,5 +1,7 @@
+import csv
 import logging
 import xml
+import os
 from collections import defaultdict
 
 import rdflib
@@ -19,6 +21,9 @@ class ShaclParser(object):
 
     def __init__(self, resultpath):
         self.g = rdflib.Graph()
+        resultpath = resultpath
+        path, filename = os.path.split(resultpath)
+        self.csvfile = os.path.join(path, filename.replace('ttl', 'csv'))
         try:
             self.g.parse(resultpath, format='turtle')
         except (SyntaxError, xml.sax.SAXParseException,
@@ -34,7 +39,9 @@ class ShaclParser(object):
     def errors_grouped_by_node(self):
         """parsing the shacl results"""
         error_dict_grouped_by_node = defaultdict(list)
+        csv_data = [['focusnode', 'message', 'value', 'constraint', 'path', 'severity']]
         ref_processed_count = 0
+
         for result_ref in self.g.subjects(RDF.type, SHACL.ValidationResult):
             result_dict = self._shaclresult(result_ref)
             focusnode = self.g.value(result_ref, SHACL.focusNode)
@@ -43,24 +50,38 @@ class ShaclParser(object):
             else:
                 node = ('catalog')
             try:
-                value = ""
+                result_value = ""
                 if 'value' in result_dict:
-                    value = ", Value: [{}]".format(
+                    result_value = ", Value: [{}]".format(
                         result_dict['value'].encode('utf-8'))
+                result_node = node.encode('utf-8')
+                result_path = result_dict.get('path', '')
+                result_severity = result_dict.get('severity', ''),
+                result_message = result_dict.get('message', '').encode('utf-8')
+                result_constraint = result_dict.get('constraint', '').encode('utf-8')
                 message = """[{}]: {}: [{}]: '{}' {} ({})""".format(
-                        node.encode('utf-8'),
-                        result_dict.get('severity', ''),
-                        result_dict.get('path', ''),
-                        result_dict.get('message', '').encode('utf-8'),
-                        value,
-                        result_dict.get('constraint', '').encode('utf-8'))
+                        result_node,
+                        result_severity,
+                        result_path,
+                        result_message,
+                        result_value,
+                        result_constraint)
+                csv_line = [
+                    result_node, result_message, result_value,
+                    result_constraint, result_path, result_severity
+                ]
             except UnicodeEncodeError as e:
                 log.error("SHACL error for parsing results"
                           .format(e))
                 raise
             else:
+                csv_data.append(csv_line)
                 error_dict_grouped_by_node[node].append(message)
             ref_processed_count += 1
+
+        with open(self.csvfile, 'w') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(csv_data)
         log.debug("SHACL: {} number of shacl results processed and grouped"
                   .format(ref_processed_count))
         return error_dict_grouped_by_node
