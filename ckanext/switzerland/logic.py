@@ -1,18 +1,29 @@
 import pysolr
 import itertools
+import json
 import re
+import csv
+import subprocess
+import rdflib
 from unidecode import unidecode
 from collections import OrderedDict
 from ckan.plugins.toolkit import get_or_bust, side_effect_free
 from ckan.logic import ActionError, NotFound, ValidationError
+from ckan.exceptions import CkanConfigurationException
 import ckan.plugins.toolkit as tk
 from ckan.lib.search.common import make_connection
-from ckanext.switzerland.helpers import get_content_headers
-import ckanext.switzerland.dcat.helpers as tk_dcat
 from ckanext.harvest.model import HarvestSource, HarvestJob, HarvestObject
+from ckanext.dcat.processors import RDFParserException
+from ckanext.switzerland.dcat.shaclprocessor import (
+    ShaclParser, SHACLParserException)
+import helpers as ogdch_helpers
 
 import logging
 log = logging.getLogger(__name__)
+
+FORMAT_TURTLE = 'ttl'
+DATA_IDENTIFIER = 'data'
+RESULT_IDENTIFIER = 'result'
 
 
 @side_effect_free
@@ -47,7 +58,7 @@ def ogdch_content_headers(context, data_dict):
     Returns some headers of a remote resource
     '''
     url = get_or_bust(data_dict, 'url')
-    response = get_content_headers(url)
+    response = ogdch_helpers.get_content_headers(url)
     return {
         'status_code': response.status_code,
         'content-length': response.headers.get('content-length', ''),
@@ -264,11 +275,6 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
                 tk.get_action('harvest_source_reindex')(
                     context, {'id': source.id})
 
-                # cleanup shacl validation results
-                tk_dcat.clean_shacl_result_dirs(
-                    harvest_source_id=source.id,
-                    deleted_jobs_ids=delete_jobs_ids)
-
             # fill result
             cleanup_result[source.id] = {
                 'deleted_jobs': delete_jobs,
@@ -281,3 +287,104 @@ def ogdch_cleanup_harvestjobs(context, data_dict):
     # return result of action
     return {'sources': sources_to_cleanup,
             'cleanup': cleanup_result}
+
+
+def ogdch_shacl_validate(context, data_dict):  # noqa
+    """
+    validates a harvest source against a shacl shape
+    """
+
+    # get sources from data_dict
+    if 'harvest_source_id' in data_dict:
+        harvest_source_id = data_dict['harvest_source_id']
+        harvest_source = HarvestSource.get(harvest_source_id)
+        if not harvest_source:
+            raise NotFound('Harvest source {} does not exist'.format(
+                harvest_source_id))
+    else:
+        raise NotFound('Configuration missing for harvest source')
+
+    datapath = data_dict['datapath']
+    resultpath = data_dict['resultpath']
+    shapefilepath = data_dict['shapefilepath']
+    csvpath = data_dict['csvpath']
+    shaclcommand = data_dict['shaclcommand']
+
+    log.info('shacl_validate called for source: {},'
+             'configuration: {}'
+             .format(harvest_source_id, data_dict))
+
+    # get rdf parse config for harvest source
+    rdf_format = json.loads(harvest_source.config)\
+        .get("rdf_format", "xml")
+
+    # parse harvest_source
+    data_rdfgraph = rdflib.Graph()
+
+    # parse data from harvest source url
+    try:
+        data_rdfgraph.parse(harvest_source.url, format=rdf_format)
+    except RDFParserException, e:
+        raise RDFParserException(
+            'Error parsing the RDF file during shacl validation: {0}'
+            .format(e))
+
+    log.debug("parsed source url {} with format {}"
+              .format(harvest_source.url, rdf_format))
+
+    # write parsed data to file
+    try:
+        with open(datapath, 'w') as datawriter:
+            datawriter.write(data_rdfgraph.serialize(format='turtle'))
+    except CkanConfigurationException as e:
+        raise CkanConfigurationException(
+            'Configuration during shacl validation: {0}'
+            .format(e))
+
+    log.debug("datagraph was serialized to turtle: {}"
+              .format(datapath))
+
+    # execute the shacl command
+    try:
+        with open(resultpath, 'w') as resultwriter:
+            subprocess.call(
+                [shaclcommand,
+                 "validate",
+                 "--shapes", shapefilepath,
+                 "--data", datapath],
+                stdout=resultwriter)
+    except CkanConfigurationException as e:
+        raise CkanConfigurationException(
+            'Configuration during shacl validation: {0}'
+            .format(e))
+
+    log.debug("shacl command was executed: {}"
+              .format(resultpath))
+
+    shaclparser = ShaclParser(resultpath, harvest_source_id)
+    try:
+        shaclparser.parse()
+    except SHACLParserException as e:
+        raise CkanConfigurationException(
+            'Exception parsing result: {0}. Please try again.'
+            .format(e))
+
+    log.debug("shacl parser is initialized: {}"
+              .format(resultpath, harvest_source_id))
+
+    # write shacl errors to csv file
+    with open(csvpath, 'w') as csvfile:
+        writer = csv.DictWriter(
+            csvfile, fieldnames=shaclparser.resultdictkeys,
+            delimiter='|', restval='')
+        writer.writeheader()
+        for resultdict in shaclparser.shaclresults():
+            try:
+                writer.writerow(resultdict)
+            except UnicodeEncodeError as e:
+                resultdict = {
+                    shaclparser.resultdictkey_harvestsourceid:
+                        harvest_source_id,
+                    shaclparser.resultdictkey_parseerror: e
+                }
+                writer.writerow(resultdict)

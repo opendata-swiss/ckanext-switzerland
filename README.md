@@ -54,22 +54,40 @@ The plugin implements a Swiss version of the Dcat Harvester.
 ### Shacl Validation
 The Swiss Dcat Harvester offers a validation where the data is tested against a shacl shape graph.
 - the validation currently uses https://jena.apache.org/documentation/shacl/index.html
-- the path to the tool and the results should be in the ckan configuration file:
+- these parameters need to be in the ckan configuration file:
 ```
 ckanext.switzerland.shacl_command_path = /opt/apache-jena-3.13.1/bin/shacl
-ckanext.switzerland.shacl_result_path = /home/liipadmin/shaclresults
+ckanext.switzerland.shacl_results_path = /home/liipadmin/shaclresults
+ckanext.switzerland.shacl_shapes_path = /home/liipadmin/shaclshapes
 ``` 
-- the validation output is reported per harvest source id and harvest job in the result directory
-- the results are cleaned up along with the harvestjobs by the command `ogdch cleanup_harvestjobs`, see above.
-- the validation is performed when the the harvester is given a configuration parameter `"shacl_validation_file":"<shacl filename>"
-- the possible validation files are in the directoy `dcat/shaclshapes`
-- currently the shapes graphs are taken from: https://github.com/factsmission/dcat-ap-ch-shacl.
-- the shacl results are displayed as gather errors
-- they can also be found in the result directory for the source and job: there the input pages of the harvesters are listed in turtle along with the shacl validation results that is derived per page
-- even when the parsing of the shacl validation result fails (the job errors will show this), the results can be accessed in the result directory as turtle.
+The validation is implemented as a command:
 
-#### Known issues
-- currently the validation is performed by a commandline tool. The parsing of the result from file has sometimes random errors, since the commandline tool sometime produces results that can not be parsed back to python. When that occurs, just run the harvest job again.
+```bash
+paster --plugin=ckanext-switzerland ogdch shacl_validate {source_id} [--shapefile={shapefilename}}] -c /var/www/ckan/development.ini
+```
+The command `/opt/apache-jena-3.13.1/bin/shacl` from https://jena.apache.org/documentation/shacl/index.html is expected to be implemented at `ckanext.switzerland.shacl_command_path` 
+
+All shacl shapes are expected to be in `ckanext.switzerland.shacl_shapes_path`
+- the default shapefile is `ech-0200.shacl.ttl` from https://github.com/factsmission/dcat-ap-ch-shacl
+
+
+There are 3 output files written to `ckanext.switzerland.shacl_results_path`: 
+- they are gathered under a directory `<harvest_source_id>` 
+- `data.ttl` is the harvest source serialized as turtle
+- `result.ttl` is the raw output of the apache-jena shacl validation command
+- `result.csv` is a csv file with all shacl validation errors
+
+The csv file has the following headers:
+- `sh_focusnode` : SHACL.focusNode
+- `sh_path` : SHACL.resultPath
+- `sh_severity` : SHACL.resultSeverity
+- `sh_constraint` : SHACL.sourceConstraintComponent
+- `sh_message` : SHACL.resultMessage
+- `sh_detail` : SHACL.resultDetail
+- `sh_shape` : SHACL.sourceShape
+- `sh_value`: SHACL.value
+- `harvest_source_id`: harvest_source_id
+- `parseerror`: parse errors that occurred
 
 ## Installation
 
