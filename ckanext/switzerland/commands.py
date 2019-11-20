@@ -40,7 +40,7 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         #   configuration file
 
         paster ogdch shacl_validate
-            {source_id} --shape={name of the shape file}
+            {source_id} --shapefile={name of the shape file}
     '''
     summary = __doc__.split('\n')[0]
     usage = __doc__
@@ -263,14 +263,15 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         """
         # checking arguments
         data_dict = {}
-        print('\nCommand Shacl Validation:\n')
         if len(self.args) >= 2:
             source_id = unicode(self.args[1])
         else:
+            print('\nCommand Shacl Validation:\n')
             print('- Aborting: Please provide a harvest source')
             sys.exit(1)
 
         if not self.options.shapefile:
+            print('\nCommand Shacl Validation:\n')
             print('- Aborting: Please provide a shapefile name')
             sys.exit(1)
 
@@ -306,13 +307,27 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
         admin_user = logic.get_action('get_site_user')(context, {})
         context['user'] = admin_user['name']
 
-        # test authorization
-        try:
-            logic.check_access('harvest_sources_clear', context, data_dict)
-        except logic.NotAuthorized:
-            print("User is not authorized to perform this action.")
-            sys.exit(1)
-
         # perform shacl validation
-        logic.get_action(
-            'ogdch_shacl_validate')(context, data_dict)
+        try:
+            logic.get_action(
+                'ogdch_shacl_validate')(context, data_dict)
+        except Exception as e:
+            self._print_shacl_exception(e)
+        else:
+            self._print_shacl_validation_result(data_dict)
+
+    def _print_shacl_validation_result(self, data_dict):
+        print('\nCommand Shacl Validation:')
+        print('---------------------------\n')
+        print('- data has been serialized:\n{}\n'
+              .format(data_dict['datapath']))
+        print('- raw shaclresult:\n{}\n'
+              .format(data_dict['resultpath']))
+        print('- csv file with shacl errors has been written:\n{}\n'
+              .format(data_dict['csvpath']))
+
+    def _print_shacl_exception(self, e):
+        print('\nCommand Shacl Validation:')
+        print('---------------------------\n')
+        print('- the following exception occured:\n{}\n'
+              .format(e))

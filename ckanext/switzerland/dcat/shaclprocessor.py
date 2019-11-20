@@ -120,8 +120,6 @@ class ShaclParser(object):
         try:
             if isinstance(o, rdflib.Literal):
                 return unicode(o)
-            elif isinstance(o, rdflib.URIRef):
-                return unicode(o)
             elif isinstance(o, rdflib.BNode):
                 return o
             elif isinstance(o, rdflib.URIRef):

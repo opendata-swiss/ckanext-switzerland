@@ -293,8 +293,6 @@ def ogdch_shacl_validate(context, data_dict):  # noqa
     """
     validates a harvest source against a shacl shape
     """
-    # check access rights
-    tk.check_access('harvest_sources_clear', context, data_dict)
 
     # get sources from data_dict
     if 'harvest_source_id' in data_dict:
@@ -371,7 +369,7 @@ def ogdch_shacl_validate(context, data_dict):  # noqa
             'Exception parsing result: {0}. Please try again.'
             .format(e))
 
-    log.debug("shacl parser is initilized: {}"
+    log.debug("shacl parser is initialized: {}"
               .format(resultpath, harvest_source_id))
 
     # write shacl errors to csv file
