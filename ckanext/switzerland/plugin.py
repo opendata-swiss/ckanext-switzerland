@@ -110,6 +110,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_content_headers': l.ogdch_content_headers,
             'ogdch_autosuggest': l.ogdch_autosuggest,
             'ogdch_cleanup_harvestjobs': l.ogdch_cleanup_harvestjobs,
+            'ogdch_shacl_validate': l.ogdch_shacl_validate,
         }
 
     # ITemplateHelpers

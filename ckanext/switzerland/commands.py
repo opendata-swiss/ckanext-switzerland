@@ -1,9 +1,11 @@
 import sys
+import os
 import itertools
 import traceback
 import ckan.lib.cli
 import ckan.logic as logic
 import ckan.model as model
+import helpers as ogdch_helpers
 
 
 class OgdchCommand(ckan.lib.cli.CkanCommand):
@@ -11,17 +13,34 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
     Usage:
         # General usage
         paster --plugin=ckanext-switzerland <command> -c <path to config file>
+
         # Show this help
         paster ogdch help
+
         # Cleanup datastore
         paster ogdch cleanup_datastore
+
         # Cleanup harvester jobs and objects:
         # - deletes all the harvest jobs and objects except the latest n
         # - the default number of jobs to keep is 10
         # - the command can be performed with a dryrun option where the
         #   database will remain unchainged
+
         paster ogdch cleanup_harvestjobs
             [{source_id}] [--keep={n}}] [--dryrun}]
+        # Shacl validate harvest source
+        # - validates a harvest source against a shacl shape file
+        # - output a csv file of shacl shape validation errors
+        # - the command can be performed with a verbose option where
+        #   also the data and the data results remain, so that it can be
+        #   hand checked if wanted
+        # - the shape file is expected in the shaclshape directory
+        # - the results are written in the shaclresults directory
+        # - both of these directories are specified in the ckan
+        #   configuration file
+
+        paster ogdch shacl_validate
+            {source_id} --shape={name of the shape file}
     '''
     summary = __doc__.split('\n')[0]
     usage = __doc__
@@ -36,6 +55,10 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             '--dryrun', action="store_true", dest='dryrun',
             default=False,
             help='dryrun of cleanup harvestjobs')
+        self.parser.add_option(
+            '--shapefile', action="store_true", dest='shapefile',
+            default='ech-0200.shacl.ttl',
+            help='shaclshape file name for shacl shape validation')
 
     def command(self):
         # load pylons config
@@ -44,6 +67,7 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             'cleanup_datastore': self.cleanup_datastore,
             'help': self.help,
             'cleanup_harvestjobs': self.cleanup_harvestjobs,
+            'shacl_validate': self.shacl_validate,
         }
 
         try:
@@ -231,3 +255,64 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
                           job.id,
                           job.created.strftime('%Y-%m-%d %H:%M:%S'),
                           job.status))
+
+    def shacl_validate(self, source=None):
+        """
+        command for the harvester job cleanup
+        :argument source: string (optional)
+        """
+        # checking arguments
+        data_dict = {}
+        print('\nCommand Shacl Validation:\n')
+        if len(self.args) >= 2:
+            source_id = unicode(self.args[1])
+        else:
+            print('- Aborting: Please provide a harvest source')
+            sys.exit(1)
+
+        if not self.options.shapefile:
+            print('- Aborting: Please provide a shapefile name')
+            sys.exit(1)
+
+        shapedir = ogdch_helpers.get_shacl_shapesdir_from_config()
+        shapefilepath = os.path.join(
+            shapedir, self.options.shapefile)
+        if not os.path.exists(shapefilepath):
+            print('Shacl shape file does not exist in path {}'
+                  .format(shapefilepath))
+            sys.exit(1)
+
+        # loading arguments into config
+        data_dict['harvest_source_id'] = source_id
+        data_dict['shapefile'] = self.options.shapefile
+
+        # setting up other filepathes
+        data_dict['shapefilepath'] = shapefilepath
+        data_dict['resultdir'] = \
+            ogdch_helpers.make_shacl_results_dir(source_id)
+        data_dict['shaclcommand'] = \
+            ogdch_helpers.get_shacl_command_from_config()
+        data_dict['datapath'] = ogdch_helpers.get_shacl_file_path(
+            data_dict['resultdir'], 'data', 'ttl')
+        data_dict['resultpath'] = ogdch_helpers.get_shacl_file_path(
+            data_dict['resultdir'], 'result', 'ttl')
+        data_dict['csvpath'] = ogdch_helpers.get_shacl_file_path(
+            data_dict['resultdir'], 'result', 'csv')
+
+        # set context
+        context = {'model': model,
+                   'session': model.Session,
+                   'ignore_auth': True}
+        admin_user = logic.get_action('get_site_user')(context, {})
+        context['user'] = admin_user['name']
+
+        # test authorization
+        try:
+            logic.check_access('harvest_sources_clear', context, data_dict)
+        except logic.NotAuthorized:
+            print("User is not authorized to perform this action.")
+            sys.exit(1)
+
+        # perform shacl validation
+        logic.get_action(
+            'ogdch_shacl_validate')(context, data_dict)

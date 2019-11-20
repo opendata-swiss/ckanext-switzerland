@@ -1,28 +1,14 @@
 import json
-import os
-import subprocess
 
 import ckan.plugins as p
 import ckan.logic as logic
 import ckan.model as model
-from ckan.exceptions import CkanConfigurationException
 
 from ckanext.dcat.harvesters.rdf import DCATRDFHarvester
-from ckanext.dcat.processors import RDFParser, RDFParserException
-from ckanext.dcat.utils import url_to_rdflib_format
 from ckanext.dcat.interfaces import IDCATRDFHarvester
-
-from shaclprocessor import ShaclParser, SHACLParserException
-import helpers as tk_dcat
 
 import logging
 log = logging.getLogger(__name__)
-
-SHACLREPORTLEVEL_SUMMARY = 'summary'
-SHACLREPORTLEVEL_DETAIL = 'detail'
-FORMAT_TURTLE = 'ttl'
-DATA_IDENTIFIER = 'data'
-RESULT_IDENTIFIER = 'result'
 
 
 class SwissDCATRDFHarvester(DCATRDFHarvester):
@@ -55,40 +41,12 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
                 raise ValueError('excluded_dataset_identifiers must be '
                                  'a list of strings')
 
-        if 'shacl_validation_file' in source_config_obj:
-            shapedir = tk_dcat.get_shacl_shapedir()
-            shapefilepath = os.path.join(
-                shapedir, source_config_obj['shacl_validation_file'])
-            if not os.path.exists(shapefilepath):
-                raise ValueError('Shacl shape file does not exist in path {}'
-                                 .format(shapefilepath))
-
-        if 'shacl_report_level' in source_config_obj:
-            shacl_report_level = source_config_obj['shacl_report_level']
-            if shacl_report_level not in [SHACLREPORTLEVEL_SUMMARY,
-                                          SHACLREPORTLEVEL_DETAIL]:
-                raise ValueError('"shacl_report_level" must be {} or {}'
-                                 .format(SHACLREPORTLEVEL_SUMMARY,
-                                         SHACLREPORTLEVEL_DETAIL))
         return source_config
-
-    def _prepare_shacl_validation(self, harvest_job):
-        """sets config for the gather stage"""
-        if harvest_job.source.config:
-            config = json.loads(harvest_job.source.config)
-            self.rdf_format = url_to_rdflib_format(config.get("rdf_format"))
-            self.shacl_validation_file = \
-                config.get("shacl_validation_file", None)
-            self.shacl_report_level = config.get("shacl_report_level", None)
-        self.resultdir = tk_dcat.make_shacl_result_job_dir(
-            harvest_job.source_id, harvest_job.id)
-        tk_dcat.make_shacl_result_job_dir(
-            harvest_job.source_id, harvest_job.id)
-        log.debug("shacl resultdir prepared {}".format(self.resultdir))
 
     def before_download(self, url, harvest_job):
         # save the harvest_job on the instance
         self.harvest_job = harvest_job
+
         # fix broken URL for City of Zurich
         url = url.replace('ogd.global.szh.loc', 'data.stadt-zuerich.ch')
         return url, []
@@ -201,83 +159,3 @@ class SwissDCATRDFHarvester(DCATRDFHarvester):
             identifier = resource.get('identifier')
             if identifier and identifier in resource_mapping:
                 resource['id'] = resource_mapping[identifier]
-
-    def after_download(self, content, harvest_job):
-
-        if not hasattr(self, 'resultdir'):
-            # save config for shacl validation
-            self._prepare_shacl_validation(harvest_job)
-
-        log.debug("""SHACL resultdir should exist now {}"""
-                  .format(self.resultdir))
-
-        after_download_errors = []
-
-        # perform shacl validation
-        contentparser = RDFParser()
-        try:
-            contentparser.parse(content, _format=self.rdf_format)
-
-            # TODO use pyshacl instead of file-io when
-            #      ckan is on python version 3
-            shacl_command = tk_dcat.get_shacl_command_from_config()
-
-            datapath = tk_dcat.get_shacl_file_path(
-                self.resultdir,
-                DATA_IDENTIFIER,
-                FORMAT_TURTLE)
-
-            resultpath = tk_dcat.get_shacl_file_path(
-                self.resultdir,
-                RESULT_IDENTIFIER,
-                FORMAT_TURTLE)
-
-            shapefilepath = tk_dcat.get_shacl_shape_file_path(
-                self.shacl_validation_file)
-
-            log.debug("""SHACL performing shacl evaluation:
-                      evaluating {} against {}"""
-                      .format(datapath, self.shacl_validation_file))
-
-            with open(datapath, 'w') as datawriter:
-                datawriter.write(contentparser.g.serialize(format='turtle'))
-            log.debug("SHACL data serialized as turtle: {}"
-                      .format(datapath))
-
-            with open(resultpath, 'w') as resultwriter:
-                subprocess.call(
-                    [shacl_command,
-                     "validate",
-                     "--shapes", shapefilepath,
-                     "--data", datapath],
-                    stdout=resultwriter)
-
-            shaclparser = ShaclParser(
-                resultpath, harvest_job.source_id)
-            shaclparser.parse()
-
-            if self.shacl_report_level == SHACLREPORTLEVEL_DETAIL:
-                after_download_errors.extend(
-                    shaclparser.shacl_error_messages())
-            else:
-                after_download_errors.append(
-                    "there were {} shacl errors on the page"
-                    .format(len(shaclparser.shacl_error_messages())))
-
-            shaclparser.write_csv_file()
-
-        except SHACLParserException as e:
-            after_download_errors.append(
-                'Error parsing shacl results: {0}'
-                .format(e))
-
-        except CkanConfigurationException as e:
-            after_download_errors.append(
-                'Configuration during shacl validation: {0}'
-                .format(e))
-        except RDFParserException, e:
-            after_download_errors.append(
-                'Error parsing the RDF file during shacl validation: {0}'
-                .format(e))
-
-        return content, after_download_errors

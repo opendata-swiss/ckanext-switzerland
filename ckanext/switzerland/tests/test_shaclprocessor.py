@@ -24,8 +24,7 @@ class TestSwissShaclProfileParsing(unittest.TestCase):
         self.assertEqual(len(self.shaclparser.g), 804)
 
     def test_shaclresults_parse(self):
-        errors = []
         error_count = 0
-        for error in self.shaclparser.shacl_error_messages():
+        for _error in self.shaclparser.shaclresults():
             error_count += 1
         self.assertEqual(error_count, 94)
