@@ -15,6 +15,8 @@
 
 {% set placeholder = placeholder if placeholder else _('Search datasets...') %}
 
+<form {% if form_id %}id="{{ form_id }}" {% endif %}class="search-form{% if no_bottom_border %} no-bottom-border{% endif %}" method="get" data-module="select-switch">
+
 {% block search_input %}
   <div class="form-group has-feedback">
     <input id="ogdch_search" type="search" class="form-control input-lg" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}"/>
@@ -34,3 +36,5 @@
     <span>{{ form.hidden_from_list(fields=fields) }}</span>
   {%- endif %}
 {% endblock %}
+
+</form>
