@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-
+{% extends "base_ogdch.html" %}
 {%- block page -%}
 
   {#
@@ -8,7 +7,7 @@
   file.
   #}
   {%- block header %}
-    {% include "header.html" %}
+    {% include "header_ogdch.html" %}
   {% endblock -%}
 
   {# The content block allows you to replace the content of the page if needed #}
@@ -18,14 +17,14 @@
       {% block main_content %}
         {% block primary %}
           {% block page_header %}
-            <header class="page-header">
+            <header class="page-header page_ogdch">
               <div class="container">
                 <div class="row">
                   <div class="col-xs-12">
                     {% block breadcrumb %}
                       {% if self.breadcrumb_content() | trim %}
                       <ol class="breadcrumb">
-                        {% snippet 'snippets/home_breadcrumb_item.html' %}
+                        {% snippet 'snippets/home_breadcrumb_item_ogdch.html' %}
                         {% block breadcrumb_content %}{% endblock %}
                       </ol>
                       {% endif %}
@@ -61,6 +60,6 @@
   file.
   #}
   {%- block footer %}
-    {% include "footer.html" %}
+    {% include "footer_ogdch.html" %}
   {% endblock -%}
 {%- endblock -%}

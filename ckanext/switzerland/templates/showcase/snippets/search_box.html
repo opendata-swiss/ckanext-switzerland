@@ -31,7 +31,7 @@ Extra info passed into the add/remove params to make the url
       <div class="col-md-3 facet-filters">
         <h2 class="sr-only">{{ _('Search Filter') }}</h2>
         {% for facet in c.facet_titles %}
-          {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet, label_function=h.localize_json_title, extras=extras) }}
+          {{ h.snippet('snippets/facet_list_ogdch.html', title=c.facet_titles[facet], name=facet, label_function=h.localize_json_title, extras=extras) }}
         {% endfor %}
       </div>
       <div class="col-md-9">
