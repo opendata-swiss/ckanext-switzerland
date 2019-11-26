@@ -6,6 +6,7 @@ import ckan.lib.cli
 import ckan.logic as logic
 import ckan.model as model
 import helpers as ogdch_helpers
+import pandas as pd
 
 
 class OgdchCommand(ckan.lib.cli.CkanCommand):
@@ -56,9 +57,9 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             default=False,
             help='dryrun of cleanup harvestjobs')
         self.parser.add_option(
-            '--shapefile', action="store_true", dest='shapefile',
+            '--shapefile', action="store", type="string",  dest='shapefile',
             default='ech-0200.shacl.ttl',
-            help='shaclshape file name for shacl shape validation')
+            help='shape file name for shacl shape validation')
 
     def command(self):
         # load pylons config
@@ -295,10 +296,10 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             ogdch_helpers.get_shacl_command_from_config()
         data_dict['datapath'] = ogdch_helpers.get_shacl_file_path(
             data_dict['resultdir'], 'data', 'ttl')
-        data_dict['resultpath'] = ogdch_helpers.get_shacl_file_path(
-            data_dict['resultdir'], 'result', 'ttl')
-        data_dict['csvpath'] = ogdch_helpers.get_shacl_file_path(
-            data_dict['resultdir'], 'result', 'csv')
+        data_dict['resultpath'] = ogdch_helpers.get_shacl_result_file_path(
+            data_dict['resultdir'], data_dict['shapefile'], 'ttl')
+        data_dict['csvpath'] = ogdch_helpers.get_shacl_result_file_path(
+            data_dict['resultdir'], data_dict['shapefile'], 'csv')
 
         # set context
         context = {'model': model,
@@ -317,17 +318,40 @@ class OgdchCommand(ckan.lib.cli.CkanCommand):
             self._print_shacl_validation_result(data_dict)
 
     def _print_shacl_validation_result(self, data_dict):
-        print('\nCommand Shacl Validation:')
-        print('---------------------------\n')
-        print('- data has been serialized:\n{}\n'
+        print('\n')
+        print(' Shacl Shape Validation of Harvest Source {}:'
+              .format(data_dict['harvest_source_id']))
+        print(' {}'.format('-' * 80))
+        print(' - data has been serialized: {}'
               .format(data_dict['datapath']))
-        print('- raw shaclresult:\n{}\n'
+        print(' - validation against shapefile: {}'
+              .format(data_dict['shapefilepath']))
+        print(' - raw shaclresult: {}'
               .format(data_dict['resultpath']))
-        print('- csv file with shacl errors has been written:\n{}\n'
+        print(' - csv file with shacl errors has been written: {}'
               .format(data_dict['csvpath']))
 
-    def _print_shacl_exception(self, e):
-        print('\nCommand Shacl Validation:')
-        print('---------------------------\n')
-        print('- the following exception occured:\n{}\n'
-              .format(e))
+        # read csv file in as pandas dataframe
+        df = pd.read_csv(data_dict['csvpath'], delimiter='|')
+
+        # drop harvester source id when the harvest source is
+        # mandatory
+        df.drop(['harvest_source_id'], axis=1, inplace=True)
+
+        # printing out parse errors:
+        df_errors = df.ix[df.parseerror.notnull()]
+        print("\n Parseerrors: {}".format(len(df_errors)))
+        print(' ---------------')
+        for error in df_errors.parseerror.values:
+            print " - {}".format(error)
+        # drop parseerrors
+        df.drop(df[df.parseerror.notnull()].index, inplace=True)
+
+        # group the results
+        dg = df.groupby(['sh_severity', 'sh_path', 'sh_constraint'])\
+            .size().reset_index().rename(columns={0: 'count'})
+        print("\n Most frequent shacl shape violations:")
+        print(' -------------------------------------')
+        print(dg.sort_values('count', ascending=False)
+              .to_string(index=False))
+        print("\n")

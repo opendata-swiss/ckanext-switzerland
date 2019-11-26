@@ -412,3 +412,10 @@ def get_shacl_file_path(resultdir, identifier, format):
     filename = '.'.join([identifier, format])
     filepath = os.path.join(resultdir, filename)
     return filepath
+
+
+def get_shacl_result_file_path(resultdir, shapefile, format):
+    identifier = shapefile.split('.')[0]
+    filename = '.'.join(['result', identifier, format])
+    filepath = os.path.join(resultdir, filename)
+    return filepath
