@@ -5,3 +5,4 @@ pyyaml==3.11
 ckantoolkit==0.0.3
 pysolr==3.6.0
 Unidecode==1.0.22
+pandas==0.24.2
