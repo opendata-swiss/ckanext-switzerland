@@ -81,6 +81,13 @@ pip install -r requirements.txt
 pip install -r dev-requirements.txt
 cd -
 
+echo "Installing ckanext-xloader and its requirements..."
+git clone https://github.com/davidread/ckanext-xloader
+cd ckanext-xloader
+python setup.py develop
+pip install -r requirements.txt
+cd -
+
 echo "Installing ckanext-ckanext-switzerland and its requirements..."
 python setup.py develop
 pip install -r requirements.txt
