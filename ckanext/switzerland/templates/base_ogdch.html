@@ -1,4 +1,4 @@
-{% ckan_extends %}
+{% extends 'base.html' %}
 
 {% set site_root_url = h.url_for('/', locale='default', qualified=true) %}
 {% set site_root_url = site_root_url|replace('http://opendata.swiss', 'https://opendata.swiss') %}
