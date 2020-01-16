@@ -430,6 +430,10 @@
         "fr": "Couverture",
         "it": "Copertura"
       }
+    },
+    {
+      "field_name": "hash",
+      "display_snippet": null
     }
   ]
 }
