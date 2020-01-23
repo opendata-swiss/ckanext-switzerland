@@ -6,7 +6,7 @@ import ckanext.switzerland.helpers as sh
 
 import ckan.plugins as plugins
 from ckan.lib.plugins import DefaultTranslation
-import ckanext.datapusher.interfaces as dpi
+import ckanext.xloader.interfaces as ix
 import ckan.plugins.toolkit as toolkit
 from ckan import logic
 import ckan.lib.helpers as h
@@ -427,7 +427,7 @@ class OgdchResourcePlugin(OgdchLanguagePlugin):
 class OgdchPackagePlugin(OgdchLanguagePlugin):
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
-    plugins.implements(dpi.IDataPusher, inherit=True)
+    plugins.implements(ix.IXloader, inherit=True)
 
     def is_supported_package_type(self, pkg_dict):
         # only package type 'dataset' is supported (not harvesters!)
@@ -658,7 +658,7 @@ class OgdchPackagePlugin(OgdchLanguagePlugin):
 
         return search_params
 
-    # IDataPusher
+    # IXloader
 
     def after_upload(self, context, resource_dict, dataset_dict):
         # create resource views after a successful upload to the DataStore
