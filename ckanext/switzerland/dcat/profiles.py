@@ -183,7 +183,10 @@ class SwissDCATAPProfile(MultiLangProfile):
 
         for contact_node in self.g.objects(subject, predicate):
             email = self._object_value(contact_node, VCARD.hasEmail)
-            email_clean = email.replace('mailto:', '')
+            if email:
+                email_clean = email.replace('mailto:', '')
+            else:
+                email_clean = ''
             contact = {
                 'name': self._object_value(contact_node, VCARD.fn),
                 'email': email_clean
