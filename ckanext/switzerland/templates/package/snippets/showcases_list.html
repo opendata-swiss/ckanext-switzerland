@@ -17,7 +17,7 @@ Example:
   </div>
   <div class="row">
     <div class="col-xs-12">
-      {{ h.build_nav('dataset_showcase_list', _('Showcases'), id=pkg.name) }}
+      {{ h.get_showcases_for_dataset(pkg.name) }}
     </div>
   </div>
 </section>
