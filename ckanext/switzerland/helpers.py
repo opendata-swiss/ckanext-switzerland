@@ -435,4 +435,4 @@ def get_showcases_for_dataset(id):
         return tk.get_action('ckanext_package_showcase_list')(
             context, data_dict)
     except logic.NotFound:
-        return []
+        return None
