@@ -1,6 +1,7 @@
 import os
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic
+from ckan import model as model
 from ckan.exceptions import CkanConfigurationException
 import requests
 import json
@@ -419,3 +420,19 @@ def get_shacl_result_file_path(resultdir, shapefile, format):
     filename = '.'.join(['result', identifier, format])
     filepath = os.path.join(resultdir, filename)
     return filepath
+
+
+def get_showcases_for_dataset(id):
+    '''
+    Return a list of showcases a dataset is associated with
+    '''
+    context = {'model': model, 'session': model.Session,
+               'user': tk.c.user or tk.c.author, 'for_view': True,
+               'auth_user_obj': tk.c.userobj}
+    data_dict = {'package_id': id}
+
+    try:
+        return tk.get_action('ckanext_package_showcase_list')(
+            context, data_dict)
+    except logic.NotFound:
+        return None

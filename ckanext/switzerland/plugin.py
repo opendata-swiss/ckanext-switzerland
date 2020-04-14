@@ -136,6 +136,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_localised_number': sh.ogdch_localised_number,
             'ogdch_render_tree': sh.ogdch_render_tree,
             'ogdch_group_tree': sh.ogdch_group_tree,
+            'get_showcases_for_dataset': sh.get_showcases_for_dataset,
         }
 
 
