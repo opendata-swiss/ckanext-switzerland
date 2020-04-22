@@ -1,5 +1,6 @@
 # coding=UTF-8
 
+from ckanext.showcase.plugin import ShowcasePlugin
 from ckanext.switzerland import validators as v
 from ckanext.switzerland import logic as l
 import ckanext.switzerland.helpers as sh
@@ -703,6 +704,112 @@ class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
                     controller='ckanext.switzerland.controller:OgdchGroupSearchController',  # noqa
                     action='read')
         return map
+
+
+def create_showcase_types():
+    """
+    Create tags and vocabulary for showcase types, if they don't exist already.
+    """
+    user = toolkit.get_action("get_site_user")({"ignore_auth": True}, ())
+    context = {"user": user["name"]}
+    try:
+        # TODO: this is a workaround copied from
+        # https://github.com/ckan/ckanext-dcat/commit/bd490115da8087a14b9a2ef603328e69535144bb
+        # When we upgrade CKAN, we should be able to remove this.
+        from paste.registry import Registry
+        from ckan.lib.cli import MockTranslator
+        registry = Registry()
+        registry.prepare()
+        from pylons import translator
+        registry.register(translator, MockTranslator())
+
+        data = {"id": "showcase_types"}
+        toolkit.get_action("vocabulary_show")(context, data)
+        log.info("'showcase_types' vocabulary already exists, skipping")
+    except toolkit.ObjectNotFound:
+        log.info("Creating vocab 'showcase_types'")
+        data = {"name": "showcase_types"}
+        vocab = toolkit.get_action("vocabulary_create")(context, data)
+        for tag in (
+                "Application",
+                "Data visualisation",
+                "Event",
+                "Blog and media articles",
+                "Paper"
+        ):
+            log.info("Adding tag {0} to vocab 'showcase_types'".format(tag))
+            data = {"name": tag, "vocabulary_id": vocab["id"]}
+            toolkit.get_action("tag_create")(context, data)
+
+
+def showcase_types():
+    """
+    Return the list of showcase types from the showcase_types vocabulary.
+    """
+    create_showcase_types()
+    try:
+        showcase_types = toolkit.get_action("tag_list")(
+            data_dict={"vocabulary_id": "showcase_types"}
+        )
+        return showcase_types
+    except toolkit.ObjectNotFound:
+        return None
+
+
+class OgdchShowcasePlugin(ShowcasePlugin):
+    plugins.implements(plugins.IConfigurable, inherit=True)
+    plugins.implements(plugins.IDatasetForm, inherit=True)
+    plugins.implements(plugins.ITemplateHelpers, inherit=True)
+
+    # IConfigurable
+
+    def configure(self, config):
+        super(OgdchShowcasePlugin, self).configure(config)
+        # create vocabulary if necessary
+        create_showcase_types()
+
+    # IDatasetForm
+
+    def _modify_package_schema(self, schema):
+        schema.update(
+            {
+                "showcase_type": [
+                    toolkit.get_validator("ignore_missing"),
+                    toolkit.get_converter("convert_to_extras"),
+                ]
+            }
+        )
+        return schema
+
+    def create_package_schema(self):
+        schema = super(OgdchShowcasePlugin, self).create_package_schema()
+        schema = self._modify_package_schema(schema)
+        return schema
+
+    def update_package_schema(self):
+        schema = super(OgdchShowcasePlugin, self).update_package_schema()
+        schema = self._modify_package_schema(schema)
+        return schema
+
+    def show_package_schema(self):
+        schema = super(OgdchShowcasePlugin, self).show_package_schema()
+        schema.update(
+            {
+                "showcase_type": [
+                    toolkit.get_converter("convert_from_extras"),
+                    toolkit.get_validator("ignore_missing"),
+                ]
+            }
+        )
+        return schema
+
+    # ITemplateHelpers
+
+    def get_helpers(self):
+        helpers = super(OgdchShowcasePlugin, self).get_helpers()
+        helpers["showcase_types"] = showcase_types()
+
+        return helpers
 
 
 class LangToString(object):

@@ -85,6 +85,7 @@ setup(
         ogdch_org=ckanext.switzerland.plugin:OgdchOrganizationPlugin
         ogdch_org_search=ckanext.switzerland.plugin:OgdchOrganisationSearchPlugin
         ogdch_group_search=ckanext.switzerland.plugin:OgdchGroupSearchPlugin
+        ogdch_showcase=ckanext.switzerland.plugin:OgdchShowcasePlugin
         ogdch_dcat=ckanext.switzerland.dcat.plugins:OgdchDcatPlugin
         dcat_ch_rdf_harvester=ckanext.switzerland.dcat.harvesters:SwissDCATRDFHarvester
 
