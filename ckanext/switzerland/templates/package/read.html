@@ -40,6 +40,10 @@
     {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
   {% endblock %}
 
+  {% block datapublisher_contact %}
+    {% snippet "package/snippets/datapublisher_contact.html", pkg_dict=pkg %}
+  {% endblock %}
+
   {% block package_related_datasets %}
     {% snippet "package/snippets/related_datasets.html", pkg=pkg %}
   {% endblock %}

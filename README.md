@@ -18,9 +18,11 @@ To generate a new ckanext-switzerland.pot file use the following command:
     cd /var/www/ckanext/ckanext-switzerland/
     python setup.py extract_messages
 
-Or follow the official CKAN guide at https://github.com/ckan/ckan/wiki/Translations-and-Extensions
+Or follow the official CKAN guide at https://docs.ckan.org/en/latest/extensions/translating-extensions.html
 
 All translations are done via Transifex. To compile the po files use the following command:
+
+    python setup.py compile_catalog
 
 ## Command
 
