@@ -258,7 +258,11 @@ msgstr "Pubblica dei dati"
 msgid "Share your application"
 msgstr "Condividi un’applicazione"
 
-#: ckanext/switzerland/templates/footer.html:25
+#: ckanext/switzerland/templates/footer_ogdch.html:16
+msgid "NewsMail Open Government Data"
+msgstr "Abbonarsi alla NewsMail"
+
+#: ckanext/switzerland/templates/footer_ogdch.html:25
 msgid "Dataset"
 msgid_plural "Datasets"
 msgstr[0] "Dataset"

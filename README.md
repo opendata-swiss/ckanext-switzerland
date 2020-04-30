@@ -22,6 +22,8 @@ Or follow the official CKAN guide at https://github.com/ckan/ckan/wiki/Translati
 
 All translations are done via Transifex. To compile the po files use the following command:
 
+    python setup.py compile_catalog
+
 ## Command
 
 This extension currently provides two paster commands: 

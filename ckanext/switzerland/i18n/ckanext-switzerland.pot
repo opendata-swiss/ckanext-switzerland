@@ -240,6 +240,10 @@ msgstr ""
 msgid "Share your application"
 msgstr ""
 
+#: ckanext/switzerland/templates/footer_ogdch.html:16
+msgid "NewsMail Open Government Data"
+msgstr ""
+
 #: ckanext/switzerland/templates/footer.html:25
 msgid "Dataset"
 msgid_plural "Datasets"

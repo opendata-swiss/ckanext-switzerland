@@ -9,7 +9,7 @@ from ckan.common import _
 from babel import numbers
 import iribaker
 from urlparse import urlparse
-from ckan.lib.helpers import localised_number
+import ckan.lib.helpers as ckan_helpers
 import ckan.lib.i18n as i18n
 import unicodedata
 
@@ -78,6 +78,15 @@ def get_localized_org(org_id=None, include_datasets=False):
             logic.NotAuthorized, AttributeError):
         return {}
 
+def get_localized_newsletter_url():
+    lang = ckan_helpers.lang()
+    newsletter_url = {
+       'en': None,
+       'de': 'https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/ogd/newsmail.html',
+       'fr': 'https://www.bfs.admin.ch/bfs/fr/home/services/ogd/newsmail.html',
+       'it': 'https://www.bfs.admin.ch/bfs/it/home/servizi/ogd/newsmail.html',
+    }
+    return newsletter_url[lang]
 
 def localize_json_title(facet_item):
     # json.loads tries to convert numbers in Strings to integers. At this point
@@ -274,7 +283,7 @@ def ogdch_localised_number(number):
     if i18n.get_lang() == 'de':
         return numbers.format_number(number, locale='de_CH')
     else:
-        return localised_number(number)
+        return ckan_helpers.localised_number(number)
 
 
 def ogdch_render_tree():
