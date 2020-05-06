@@ -9,12 +9,27 @@ from ckan.common import _
 from babel import numbers
 import iribaker
 from urlparse import urlparse
-from ckan.lib.helpers import localised_number
+from ckan.lib.helpers import localised_number, url_for
 import ckan.lib.i18n as i18n
 import unicodedata
 
 import logging
 log = logging.getLogger(__name__)
+
+TERMS_OF_USE_OPEN = 'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired' # noqa
+TERMS_OF_USE_BY = 'NonCommercialAllowed-CommercialAllowed-ReferenceRequired' # noqa
+TERMS_OF_USE_ASK = 'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired' # noqa
+TERMS_OF_USE_BY_ASK = 'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired' # noqa
+TERMS_OF_USE_CLOSED = 'ClosedData'
+
+# these bookmarks can be used in the wordpress page
+# for the terms of use
+mapping_terms_of_use_to_pagemark = {
+    TERMS_OF_USE_OPEN: '#terms_open',
+    TERMS_OF_USE_BY: '#terms_by',
+    TERMS_OF_USE_ASK: '#terms_ask',
+    TERMS_OF_USE_BY_ASK: '#terms_by_ask',
+}
 
 
 def get_dataset_count():
@@ -178,23 +193,23 @@ def get_political_level(political_level):
 
 def get_terms_of_use_icon(terms_of_use):
     term_to_image_mapping = {
-        'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired': {  # noqa
+        TERMS_OF_USE_OPEN: {  # noqa
             'title': _('Open use'),
             'icon': 'terms_open',
         },
-        'NonCommercialAllowed-CommercialAllowed-ReferenceRequired': {  # noqa
+        TERMS_OF_USE_BY: {  # noqa
             'title': _('Open use. Must provide the source.'),
             'icon': 'terms_by',
         },
-        'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired': {  # noqa
+        TERMS_OF_USE_ASK: {  # noqa
             'title': _('Open use. Use for commercial purposes requires permission of the data owner.'),  # noqa
             'icon': 'terms_ask',
         },
-        'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired': {  # noqa
+        TERMS_OF_USE_BY_ASK: {  # noqa
             'title': _('Open use. Must provide the source. Use for commercial purposes requires permission of the data owner.'),  # noqa
             'icon': 'terms_by-ask',
         },
-        'ClosedData': {
+        TERMS_OF_USE_CLOSED: {
             'title': _('Closed data'),
             'icon': 'terms_closed',
         },
@@ -203,12 +218,20 @@ def get_terms_of_use_icon(terms_of_use):
     return term_to_image_mapping.get(term_id, None)
 
 
+def get_terms_of_use_url(terms_of_use):
+    terms_of_use_url = url_for('/terms-of-use')
+    pagemark = mapping_terms_of_use_to_pagemark.get(terms_of_use)
+    if pagemark:
+        terms_of_use_url += pagemark
+    return terms_of_use_url
+
+
 def simplify_terms_of_use(term_id):
     terms = [
-        'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired',
-        'NonCommercialAllowed-CommercialAllowed-ReferenceRequired',
-        'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired',
-        'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired',
+        TERMS_OF_USE_OPEN,
+        TERMS_OF_USE_BY,
+        TERMS_OF_USE_ASK,
+        TERMS_OF_USE_BY_ASK,
     ]
 
     if term_id in terms:
