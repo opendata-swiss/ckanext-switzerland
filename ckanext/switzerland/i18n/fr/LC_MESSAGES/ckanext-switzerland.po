@@ -479,6 +479,16 @@ msgstr "Description"
 msgid "Additional information"
 msgstr "Informations complémentaires"
 
+#: ckanext/switzerland/templates/package/resource_read.html:107
+#: ckanext/switzerland/templates/package/snippets/datapublisher_contact.html:4
+msgid "Got questions?"
+msgstr "Vous avez des questions?"
+
+#: ckanext/switzerland/templates/package/resource_read.html:107
+#: ckanext/switzerland/templates/package/snippets/datapublisher_contact.html:5
+msgid "Ask the publisher directly"
+msgstr "Demandez directement à l'éditeur"
+
 #: ckanext/switzerland/templates/package/resource_read.html:122
 #: ckanext/switzerland/templates/package/snippets/resource_item.html:19
 msgid "Preview"
