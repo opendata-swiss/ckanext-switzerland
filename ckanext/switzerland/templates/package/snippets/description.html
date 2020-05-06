@@ -30,9 +30,9 @@ Example:
       <dl>
         <dt>{{ _('Terms of use') }}</dt>
         <dd class="terms">
-            <a href="{{ h.url('/terms-of-use') }}">
-              {% set dataset_rights = h.get_dataset_terms_of_use(pkg.name) %}
-              {% set terms_of_use = h.get_terms_of_use_icon(dataset_rights) %}
+            {% set dataset_rights = h.get_dataset_terms_of_use(pkg.name) %}
+            {% set terms_of_use = h.get_terms_of_use_icon(dataset_rights) %}
+            <a href="{{ h.get_terms_of_use_url(dataset_rights) }}">
               {% if terms_of_use %}
                 <img src="/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.svg" onerror="this.onerror=null;this.src='/content/themes/wp-ogdch-theme/assets/images/terms/{{ terms_of_use.icon }}.png'" alt="{{ terms_of_use.title }}" title="{{ terms_of_use.title }}" />
               {% else %}
