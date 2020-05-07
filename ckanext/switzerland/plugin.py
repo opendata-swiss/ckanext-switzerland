@@ -138,6 +138,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_group_tree': sh.ogdch_group_tree,
             'get_showcases_for_dataset': sh.get_showcases_for_dataset,
             'get_terms_of_use_url': sh.get_terms_of_use_url,
+            'get_localized_newsletter_url': sh.get_localized_newsletter_url,
         }
 
 

@@ -9,7 +9,8 @@ from ckan.common import _
 from babel import numbers
 import iribaker
 from urlparse import urlparse
-from ckan.lib.helpers import localised_number, url_for
+
+from ckan.lib.helpers import lang, url_for, localised_number
 import ckan.lib.i18n as i18n
 import unicodedata
 
@@ -459,3 +460,14 @@ def get_showcases_for_dataset(id):
             context, data_dict)
     except logic.NotFound:
         return None
+
+
+def get_localized_newsletter_url():
+    current_language = lang()
+    newsletter_url = {
+       'en': None,
+       'de': 'https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/ogd/newsmail.html',  # noqa
+       'fr': 'https://www.bfs.admin.ch/bfs/fr/home/services/ogd/newsmail.html',
+       'it': 'https://www.bfs.admin.ch/bfs/it/home/servizi/ogd/newsmail.html',
+    }
+    return newsletter_url[current_language]
