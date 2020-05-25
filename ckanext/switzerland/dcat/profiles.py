@@ -333,6 +333,7 @@ class SwissDCATAPProfile(MultiLangProfile):
                     ('media_type', DCAT.mediaType),
                     ('download_url', DCAT.downloadURL),
                     ('url', DCAT.accessURL),
+                    ('coverage', DCT.coverage),
                     ('rights', DCT.rights),
                     ('license', DCT.license),
                     ):
@@ -578,6 +579,7 @@ class SwissDCATAPProfile(MultiLangProfile):
             items = [
                 ('status', ADMS.status, None, Literal),
                 ('rights', DCT.rights, None, Literal),
+                ('coverage', DCT.coverage, None, Literal),
                 ('license', DCT.license, None, Literal),
                 ('identifier', DCT.identifier, None, Literal),
                 ('media_type', DCAT.mediaType, None, Literal),
