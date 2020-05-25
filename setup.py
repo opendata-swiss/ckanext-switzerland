@@ -79,12 +79,10 @@ setup(
     entry_points='''
         [ckan.plugins]
         ogdch=ckanext.switzerland.plugin:OgdchPlugin
-        ogdch_pkg=ckanext.switzerland.plugin:OgdchPackagePlugin
-        ogdch_res=ckanext.switzerland.plugin:OgdchResourcePlugin
-        ogdch_group=ckanext.switzerland.plugin:OgdchGroupPlugin
-        ogdch_org=ckanext.switzerland.plugin:OgdchOrganizationPlugin
-        ogdch_org_search=ckanext.switzerland.plugin:OgdchOrganisationSearchPlugin
-        ogdch_group_search=ckanext.switzerland.plugin:OgdchGroupSearchPlugin
+        ogdch_pkg=ckanext.switzerland.plugin:OgdchPackageControllerPlugin
+        ogdch_group=ckanext.switzerland.plugin:OgdchGroupControllerPlugin
+        ogdch_org=ckanext.switzerland.plugin:OgdchOrganizationControllerPlugin
+        ogdch_res=ckanext.switzerland.plugin:OgdchResourceControllerPlugin
         ogdch_dcat=ckanext.switzerland.dcat.plugins:OgdchDcatPlugin
         dcat_ch_rdf_harvester=ckanext.switzerland.dcat.harvesters:SwissDCATRDFHarvester
 
