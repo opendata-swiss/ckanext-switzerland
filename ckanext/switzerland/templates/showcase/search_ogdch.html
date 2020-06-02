@@ -1,4 +1,4 @@
-{% extends "package/search.html" %}
+{% extends "package/search_ogdch.html" %}
 {% import 'macros/form.html' as form %}
 
 {% block subtitle %}{{ _("Showcases") }}{% endblock %}
@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block secondary_content %}
-  {{ h.snippet('showcase/snippets/helper.html') }}
+  {{ h.snippet('showcase/snippets/helper.html') }}y
   <div class="filters">
     <div>
       {% for facet in c.facet_titles %}
