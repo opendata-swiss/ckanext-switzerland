@@ -3,8 +3,6 @@ import os
 import json
 import re
 import urlparse
-from webhelpers.html import HTML
-from webhelpers import paginate
 from ckan import logic
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.munge import munge_title_to_name
@@ -194,7 +192,7 @@ def _prepare_resource_format(resource, format_mapping):
 def _package_reduce_to_requested_language(pkg_dict, desired_lang_code, ignore_fields):  # noqa
     # pkg fields
     for key, value in pkg_dict.iteritems():
-        if not key in ignore_fields:
+        if key not in ignore_fields:
             pkg_dict[key] = _extract_lang_value(
                 value,
                 desired_lang_code
@@ -285,8 +283,8 @@ def _prepare_suggest_context(search_data, pkg_dict):
     return search_data
 
 
-# generates a set with formats of all resources
 def _prepare_formats_for_index(resources, format_mapping):
+    """generates a set with formats of all resources"""
     formats = set()
     for r in resources:
         resource = _prepare_resource_format(
@@ -302,7 +300,7 @@ def _prepare_formats_for_index(resources, format_mapping):
 
 
 def _is_dataset_package_type(pkg_dict):
-    # only package type 'dataset' is supported (not harvesters!)
+    """determines whether a packages is a dataset"""
     try:
         return (pkg_dict['type'] == 'dataset')
     except KeyError:
@@ -310,93 +308,95 @@ def _is_dataset_package_type(pkg_dict):
 
 
 def ogdch_prepare_search_data_for_index(search_data, format_mapping):
-        if not _is_dataset_package_type(search_data):
-            return search_data
-
-        extract_title = LangToString('title')
-        validated_dict = json.loads(search_data['validated_data_dict'])
-
-        search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
-        search_data['res_name_en'] = [sh.get_localized_value(r['title'], 'en') for r in validated_dict[u'resources']]  # noqa
-        search_data['res_name_de'] = [sh.get_localized_value(r['title'], 'de') for r in validated_dict[u'resources']]  # noqa
-        search_data['res_name_fr'] = [sh.get_localized_value(r['title'], 'fr') for r in validated_dict[u'resources']]  # noqa
-        search_data['res_name_it'] = [sh.get_localized_value(r['title'], 'it') for r in validated_dict[u'resources']]  # noqa
-        search_data['res_description_en'] = [sh.get_localized_value(r['description'], 'en') for r in validated_dict[u'resources']]  # noqa
-        search_data['res_description_de'] = [sh.get_localized_value(r['description'], 'de') for r in validated_dict[u'resources']]  # noqa
-        search_data['res_description_fr'] = [sh.get_localized_value(r['description'], 'fr') for r in validated_dict[u'resources']]  # noqa
-        search_data['res_description_it'] = [sh.get_localized_value(r['description'], 'it') for r in validated_dict[u'resources']]  # noqa
-        search_data['groups_en'] = [sh.get_localized_value(g['display_name'], 'en') for g in validated_dict[u'groups']]  # noqa
-        search_data['groups_de'] = [sh.get_localized_value(g['display_name'], 'de') for g in validated_dict[u'groups']]  # noqa
-        search_data['groups_fr'] = [sh.get_localized_value(g['display_name'], 'fr') for g in validated_dict[u'groups']]  # noqa
-        search_data['groups_it'] = [sh.get_localized_value(g['display_name'], 'it') for g in validated_dict[u'groups']]  # noqa
-        search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
-        search_data['res_format'] = _prepare_formats_for_index(
-            resources=validated_dict[u'resources'],
-            format_mapping=format_mapping
-        )  # noqa
-        search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources'] if 'rights' in r.keys()]  # noqa
-        search_data['title_string'] = extract_title(validated_dict)
-        search_data['description'] = LangToString('description')(validated_dict)  # noqa
-        if 'political_level' in validated_dict[u'organization']:
-            search_data['political_level'] = validated_dict[u'organization'][u'political_level']  # noqa
-
-        search_data['identifier'] = validated_dict.get('identifier')
-        search_data['contact_points'] = [c['name'] for c in validated_dict.get('contact_points', [])]  # noqa
-        search_data['publishers'] = [p['label'] for p in validated_dict.get('publishers', [])]  # noqa
-
-        # TODO: Remove the try-except-block.
-        # This fixes the index while we have 'wrong' relations on
-        # datasets harvested with an old version of ckanext-geocat
-        try:
-            search_data['see_alsos'] = [d['dataset_identifier'] for d in validated_dict.get('see_alsos', [])]  # noqa
-        except TypeError:
-            search_data['see_alsos'] = [d for d in
-                                        validated_dict.get('see_alsos',
-                                                           [])]  # noqa
-
-        # make sure we're not dealing with NoneType
-        if search_data['metadata_created'] is None:
-            search_data['metadata_created'] = ''
-
-        if search_data['metadata_modified'] is None:
-            search_data['metadata_modified'] = ''
-
-        try:
-            # index language-specific values (or it's fallback)
-            for lang_code in sh.get_langs():
-                search_data['title_' + lang_code] = sh.get_localized_value(
-                    validated_dict['title'],
-                    lang_code
-                )
-                search_data['title_string_' + lang_code] = munge_title_to_name(
-                    sh.get_localized_value(validated_dict['title'], lang_code)
-                )
-                search_data['description_' + lang_code] = sh.get_localized_value(  # noqa
-                    validated_dict['description'],
-                    lang_code
-                )
-                search_data['keywords_' + lang_code] = sh.get_localized_value(
-                    validated_dict['keywords'],
-                    lang_code
-                )
-                search_data['organization_' + lang_code] = sh.get_localized_value(  # noqa
-                    validated_dict['organization']['title'],
-                    lang_code
-                )
-
-        except KeyError:
-            pass
-
-        # clean terms for suggest context
-        search_data = _prepare_suggest_context(
-            search_data,
-            validated_dict
-        )
-
+    """prepares the data for indexing"""
+    if not _is_dataset_package_type(search_data):
         return search_data
+
+    extract_title = LangToString('title')
+    validated_dict = json.loads(search_data['validated_data_dict'])
+
+    search_data['res_name'] = [extract_title(r) for r in validated_dict[u'resources']]  # noqa
+    search_data['res_name_en'] = [sh.get_localized_value(r['title'], 'en') for r in validated_dict[u'resources']]  # noqa
+    search_data['res_name_de'] = [sh.get_localized_value(r['title'], 'de') for r in validated_dict[u'resources']]  # noqa
+    search_data['res_name_fr'] = [sh.get_localized_value(r['title'], 'fr') for r in validated_dict[u'resources']]  # noqa
+    search_data['res_name_it'] = [sh.get_localized_value(r['title'], 'it') for r in validated_dict[u'resources']]  # noqa
+    search_data['res_description_en'] = [sh.get_localized_value(r['description'], 'en') for r in validated_dict[u'resources']]  # noqa
+    search_data['res_description_de'] = [sh.get_localized_value(r['description'], 'de') for r in validated_dict[u'resources']]  # noqa
+    search_data['res_description_fr'] = [sh.get_localized_value(r['description'], 'fr') for r in validated_dict[u'resources']]  # noqa
+    search_data['res_description_it'] = [sh.get_localized_value(r['description'], 'it') for r in validated_dict[u'resources']]  # noqa
+    search_data['groups_en'] = [sh.get_localized_value(g['display_name'], 'en') for g in validated_dict[u'groups']]  # noqa
+    search_data['groups_de'] = [sh.get_localized_value(g['display_name'], 'de') for g in validated_dict[u'groups']]  # noqa
+    search_data['groups_fr'] = [sh.get_localized_value(g['display_name'], 'fr') for g in validated_dict[u'groups']]  # noqa
+    search_data['groups_it'] = [sh.get_localized_value(g['display_name'], 'it') for g in validated_dict[u'groups']]  # noqa
+    search_data['res_description'] = [LangToString('description')(r) for r in validated_dict[u'resources']]  # noqa
+    search_data['res_format'] = _prepare_formats_for_index(
+        resources=validated_dict[u'resources'],
+        format_mapping=format_mapping
+    )  # noqa
+    search_data['res_rights'] = [sh.simplify_terms_of_use(r['rights']) for r in validated_dict[u'resources'] if 'rights' in r.keys()]  # noqa
+    search_data['title_string'] = extract_title(validated_dict)
+    search_data['description'] = LangToString('description')(validated_dict)  # noqa
+    if 'political_level' in validated_dict[u'organization']:
+        search_data['political_level'] = validated_dict[u'organization'][u'political_level']  # noqa
+
+    search_data['identifier'] = validated_dict.get('identifier')
+    search_data['contact_points'] = [c['name'] for c in validated_dict.get('contact_points', [])]  # noqa
+    search_data['publishers'] = [p['label'] for p in validated_dict.get('publishers', [])]  # noqa
+
+    # TODO: Remove the try-except-block.
+    # This fixes the index while we have 'wrong' relations on
+    # datasets harvested with an old version of ckanext-geocat
+    try:
+        search_data['see_alsos'] = [d['dataset_identifier'] for d in validated_dict.get('see_alsos', [])]  # noqa
+    except TypeError:
+        search_data['see_alsos'] = [d for d in
+                                    validated_dict.get('see_alsos',
+                                                       [])]  # noqa
+
+    # make sure we're not dealing with NoneType
+    if search_data['metadata_created'] is None:
+        search_data['metadata_created'] = ''
+
+    if search_data['metadata_modified'] is None:
+        search_data['metadata_modified'] = ''
+
+    try:
+        # index language-specific values (or it's fallback)
+        for lang_code in sh.get_langs():
+            search_data['title_' + lang_code] = sh.get_localized_value(
+                validated_dict['title'],
+                lang_code
+            )
+            search_data['title_string_' + lang_code] = munge_title_to_name(
+                sh.get_localized_value(validated_dict['title'], lang_code)
+            )
+            search_data['description_' + lang_code] = sh.get_localized_value(  # noqa
+                validated_dict['description'],
+                lang_code
+            )
+            search_data['keywords_' + lang_code] = sh.get_localized_value(
+                validated_dict['keywords'],
+                lang_code
+            )
+            search_data['organization_' + lang_code] = sh.get_localized_value(  # noqa
+                validated_dict['organization']['title'],
+                lang_code
+            )
+
+    except KeyError:
+        pass
+
+    # clean terms for suggest context
+    search_data = _prepare_suggest_context(
+        search_data,
+        validated_dict
+    )
+
+    return search_data
 
 
 class LangToString(object):
+    """language to string"""
     def __init__(self, attribute):
         self.attribute = attribute
 
@@ -414,7 +414,10 @@ class LangToString(object):
         except KeyError:
             return ''
 
-def ogdch_prepare_res_dict_before_show(res_dict, format_mapping, ignore_fields):
+
+def ogdch_prepare_res_dict_before_show(
+        res_dict, format_mapping, ignore_fields):
+    """prepares a resource dict for the template"""
     res_dict = _prepare_package_json(
             pkg_dict=res_dict,
             format_mapping=format_mapping,
@@ -463,11 +466,9 @@ def ogdch_prepare_pkg_dict_for_api(pkg_dict):
 
 
 def ogdch_adjust_search_params(search_params):
-    '''
-    search in correct language-specific field and boost
+    """search in correct language-specific field and boost
     results in current language
-    borrowed from ckanext-multilingual (core extension)
-    '''
+    borrowed from ckanext-multilingual (core extension)"""
     lang_set = sh.get_langs()
     try:
         current_lang = toolkit.request.environ['CKAN_LANG']
@@ -515,7 +516,3 @@ def ogdch_adjust_search_params(search_params):
     search_params['q'] = re.sub(":\s", " ", q)
 
     return search_params
-
-
-# Monkeypatch to style CKAN pagination
-

@@ -11,7 +11,6 @@ import ckan.plugins as plugins
 from ckan.lib.plugins import DefaultTranslation
 import ckanext.xloader.interfaces as ix
 import ckan.plugins.toolkit as toolkit
-from ckan import logic
 import ckan.lib.helpers as h
 import collections
 import os
