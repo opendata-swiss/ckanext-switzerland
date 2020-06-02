@@ -1,8 +1,6 @@
-import os
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic
 from ckan import model as model
-from ckan.exceptions import CkanConfigurationException
 import requests
 import json
 from ckan.common import _
