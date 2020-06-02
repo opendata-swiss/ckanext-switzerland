@@ -78,13 +78,13 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        ogdch=ckanext.switzerland.plugin:OgdchPlugin
-        ogdch_pkg=ckanext.switzerland.plugin:OgdchPackagePlugin
-        ogdch_res=ckanext.switzerland.plugin:OgdchResourcePlugin
-        ogdch_group=ckanext.switzerland.plugin:OgdchGroupPlugin
-        ogdch_org=ckanext.switzerland.plugin:OgdchOrganizationPlugin
-        ogdch_org_search=ckanext.switzerland.plugin:OgdchOrganisationSearchPlugin
-        ogdch_group_search=ckanext.switzerland.plugin:OgdchGroupSearchPlugin
+        ogdch=ckanext.switzerland.plugins:OgdchPlugin
+        ogdch_pkg=ckanext.switzerland.plugins:OgdchPackagePlugin
+        ogdch_res=ckanext.switzerland.plugins:OgdchResourcePlugin
+        ogdch_group=ckanext.switzerland.plugins:OgdchGroupPlugin
+        ogdch_org=ckanext.switzerland.plugins:OgdchOrganizationPlugin
+        ogdch_org_search=ckanext.switzerland.plugins:OgdchOrganisationSearchPlugin
+        ogdch_group_search=ckanext.switzerland.plugins:OgdchGroupSearchPlugin
 
         [babel.extractors]
                 ckan = ckan.lib.extract:extract_ckan
