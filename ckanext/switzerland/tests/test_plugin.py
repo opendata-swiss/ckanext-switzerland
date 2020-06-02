@@ -1,5 +1,5 @@
 """Tests for plugin.py."""
-import ckanext.switzerland.plugin as plugin
+import ckanext.switzerland.plugins as plugin
 from nose.tools import *  # noqa
 import mock
 import sys
