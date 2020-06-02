@@ -85,18 +85,9 @@ setup(
         ogdch_org=ckanext.switzerland.plugin:OgdchOrganizationPlugin
         ogdch_org_search=ckanext.switzerland.plugin:OgdchOrganisationSearchPlugin
         ogdch_group_search=ckanext.switzerland.plugin:OgdchGroupSearchPlugin
-        ogdch_dcat=ckanext.switzerland.dcat.plugins:OgdchDcatPlugin
-        dcat_ch_rdf_harvester=ckanext.switzerland.dcat.harvesters:SwissDCATRDFHarvester
 
         [babel.extractors]
                 ckan = ckan.lib.extract:extract_ckan
-
-        [paste.paster_command]
-        ogdch=ckanext.switzerland.commands:OgdchCommand
-
-        [ckan.rdf.profiles]
-        swiss_dcat_ap=ckanext.switzerland.dcat.profiles:SwissDCATAPProfile
-        swiss_schemaorg=ckanext.switzerland.dcat.profiles:SwissSchemaOrgProfile
     ''',
 
     message_extractors={
