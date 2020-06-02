@@ -1,8 +1,10 @@
 # coding=UTF-8
 
+from ckanext.showcase.plugin import ShowcasePlugin
 from ckanext.switzerland import validators as v
 from ckanext.switzerland import logic as l
 import ckanext.switzerland.helpers as sh
+import ckanext.switzerland.backend_helpers as bh
 import ckanext.switzerland.plugin_utils as pu
 import re
 from webhelpers.html import HTML
@@ -132,6 +134,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'get_showcases_for_dataset': sh.get_showcases_for_dataset,
             'get_terms_of_use_url': sh.get_terms_of_use_url,
             'get_localized_newsletter_url': sh.get_localized_newsletter_url,
+            'ogdch_template_helper_get_active_class': bh.ogdch_template_helper_get_active_class, # noqa
         }
 
 
@@ -278,6 +281,21 @@ class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
                     controller='ckanext.switzerland.controller:OgdchGroupSearchController',  # noqa
                     action='read')
         return map
+
+
+class OgdchShowcasePlugin(ShowcasePlugin):
+
+    def search_template(self):
+        return bh.ogdch_template_choice(
+            template_frontend=os.path.join('showcase', 'search_ogdch.html'),
+            template_backend=os.path.join('showcase', 'search.html')
+        )
+
+    def read_template(self):
+        return bh.ogdch_template_choice(
+            template_frontend=os.path.join('showcase', 'read_ogdch.html'),
+            template_backend=os.path.join('showcase', 'read.html')
+        )
 
 
 # Monkeypatch to style CKAN pagination

@@ -88,6 +88,12 @@ python setup.py develop
 pip install -r requirements.txt
 cd -
 
+echo "Installing ckanext-showcase and its requirements..."
+git clone https://github.com/ckan/ckanext-showcase
+cd ckanext-showcase
+python setup.py develop
+cd -
+
 echo "Installing ckanext-ckanext-switzerland and its requirements..."
 python setup.py develop
 pip install -r requirements.txt
