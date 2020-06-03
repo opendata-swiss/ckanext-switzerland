@@ -1,11 +1,11 @@
-{% extends "organization/read_base.html" %}
+{% extends "group/read_base_ogdch.html" %}
 
 {% block meta_description %}<meta name="description" content="{{ c.group_dict.description|truncate(200) }}" />{% endblock %}
 
 {% block subtitle %}{{ c.group_dict.display_name }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
+  <li>{% link_for _('Categories'), controller='group', action='index' %}</li>
   <li class="active"><a href="">{{ c.group_dict.display_name|truncate(30) }}</a></li>
 {% endblock %}
 
@@ -14,17 +14,11 @@
 {% endblock %}
 
 {% block primary_content %}
-{% block organization_description %}
-<section class="container description">
+{% block group_description %}
+<section class="container">
   <div class="row">
     <div class="col-xs-12">
-      {% if c.group_dict.image_url %}
-        <img src="{{ c.group_dict.image_url }}" class="logo pull-right-md" alt="{{ c.group_dict.display_name }}" />
-      {% endif %}
       <p class="lead">{{ c.group_dict.description }}</p>
-      {% if c.group_dict.url %}
-        <p>{{ _('More information') }}: <a href="{{ c.group_dict.url }}">{{ c.group_dict.url }}</a></p>
-      {% endif %}
     </div>
   </div>
 </section>
