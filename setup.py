@@ -83,8 +83,6 @@ setup(
         ogdch_res=ckanext.switzerland.plugins:OgdchResourcePlugin
         ogdch_group=ckanext.switzerland.plugins:OgdchGroupPlugin
         ogdch_org=ckanext.switzerland.plugins:OgdchOrganizationPlugin
-        ogdch_org_search=ckanext.switzerland.plugins:OgdchOrganisationSearchPlugin
-        ogdch_group_search=ckanext.switzerland.plugins:OgdchGroupSearchPlugin
         ogdch_showcase=ckanext.switzerland.plugins:OgdchShowcasePlugin
 
         [babel.extractors]
