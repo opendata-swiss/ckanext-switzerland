@@ -13,7 +13,7 @@
 {% block subtitle %}{{ _('Organizations') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('Organizations'), controller='organization', action='index' %}</li>
+  <li class="active">{% link_for _('Organizations'), controller='ckanext.switzerland.controllers.organization:OgdchOrganizationController', action='index' %}</li>
 {% endblock %}
 
 {% block page_title %}
