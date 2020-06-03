@@ -4,11 +4,17 @@
 <nav class="section navigation">
 <ul class="nav nav-pills">
   {% block header_site_navigation_backend %}
+     <li class="{{ h.ogdch_template_helper_get_active_class(request.url, 'organization') }}">
+         {{ h.nav_link(_('Organizations'), named_route='organizations_index') }}
+     </li>
      <li class="{{ h.ogdch_template_helper_get_active_class(request.url, 'harvest') }}">
        {{ h.nav_link(_('Harvest Sources'), named_route='{0}_search'.format('harvest')) }}
      </li>
      <li class="{{ h.ogdch_template_helper_get_active_class(request.url, 'showcase') }}">
        {{ h.nav_link(_('Applications'), named_route='ckanext_showcase_index') }}
+     </li>
+     <li class="{{ h.ogdch_template_helper_get_active_class(request.url, 'group') }}">
+         {{ h.nav_link(_('Categories'), named_route='group_index') }}
      </li>
   {% endblock %}
 </ul>
