@@ -32,6 +32,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IRoutes, inherit=True)
 
     # ITranslation
 
@@ -136,6 +137,41 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'get_localized_newsletter_url': sh.get_localized_newsletter_url,
             'ogdch_template_helper_get_active_class': bh.ogdch_template_helper_get_active_class, # noqa
         }
+
+    # IRouter
+
+    def before_map(self, map):
+        """create perma-link route"""
+        map.connect('perma_redirect', '/perma/{id}',
+                    controller='ckanext.switzerland.controller.perma:OgdchPermaController',  # noqa
+                    action='read')
+
+        # group routes
+        map.connect('group_new', '/group/new', controller='group', action='new')
+        map.connect('group_read', '/group/{id}',
+                  controller='ckanext.switzerland.controllers.group:OgdchGroupController',
+                  action='read')
+        map.connect('group_edit', '/group/edit/{id}', controller='group', action='edit')
+
+        map.connect('group_index', '/group',
+                    controller='ckanext.switzerland.controllers.group:OgdchGroupController',
+                    action='index')
+
+        # organization routes
+        map.connect('organization_index', '/organization',
+                    controller='ckanext.switzerland.controllers.organization:OgdchOrganizationController',
+                    action='index')
+        map.connect('organization_new', '/organization/new', controller='organization', action='new')
+        map.connect('organization_read', '/organization/{id}',
+                  controller='ckanext.switzerland.controllers.organization:OgdchOrganizationController',
+                  action='read')
+        map.connect('organization_edit', '/organization/edit/{id}', controller='organization', action='edit')
+
+        map.connect('search', '/dataset',
+                    controller='ckanext.switzerland.controllers.package:OgdchPackageController',
+                    action='search')
+
+        return map
 
 
 class OgdchMixin(object):
