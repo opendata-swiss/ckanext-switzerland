@@ -32,6 +32,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IRoutes, inherit=True)
 
     # ITranslation
 
@@ -137,6 +138,45 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_template_helper_get_active_class': bh.ogdch_template_helper_get_active_class, # noqa
         }
 
+    # IRouter
+
+    def before_map(self, map):
+        """adding custom routes to the ckan mapping"""
+
+        # create perma-link route
+        map.connect('perma_redirect', '/perma/{id}',
+                    controller='ckanext.switzerland.controllers.perma:OgdchPermaController',  # noqa
+                    action='read')
+
+        # group routes
+        map.connect('group_new', '/group/new',
+                    controller='group', action='new')
+        map.connect('group_read', '/group/{id}',
+                    controller='ckanext.switzerland.controllers.group:OgdchGroupController', # noqa
+                    action='read')
+        map.connect('group_edit', '/group/edit/{id}', controller='group', action='edit') # noqa
+
+        map.connect('group_index', '/group',
+                    controller='ckanext.switzerland.controllers.group:OgdchGroupController', # noqa
+                    action='index')
+
+        # organization routes
+        map.connect('organization_index', '/organization',
+                    controller='ckanext.switzerland.controllers.organization:OgdchOrganizationController', # noqa
+                    action='index')
+        map.connect('organization_new', '/organization/new', controller='organization', action='new') # noqa
+        map.connect('organization_read', '/organization/{id}',
+                    controller='ckanext.switzerland.controllers.organization:OgdchOrganizationController', # noqa
+                    action='read')
+        map.connect('organization_edit', '/organization/edit/{id}',
+                    controller='organization', action='edit')
+
+        map.connect('search', '/dataset',
+                    controller='ckanext.switzerland.controllers.package:OgdchPackageController', # noqa
+                    action='search')
+
+        return map
+
 
 class OgdchMixin(object):
     """
@@ -192,15 +232,6 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(ix.IXloader, inherit=True)
 
-    # IRouter
-
-    def before_map(self, map):
-        """create perma-link route"""
-        map.connect('perma_redirect', '/perma/{id}',
-                    controller='ckanext.switzerland.controller:OgdchPermaController',  # noqa
-                    action='read')
-        return map
-
     # IPackageController
 
     def before_view(self, pkg_dict):
@@ -250,37 +281,6 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
                 'package': dataset_dict,
             }
         )
-
-
-class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IRoutes, inherit=True)
-
-    # IRouter
-    # Redirect organization_read /organization/{id} to custom controller
-    # fix the search on the org page and use Hierarchy if needed
-
-    def before_map(self, map):
-        map.connect('organization_read', '/organization/{id}',
-                    controller='ckanext.switzerland.controller:OgdchOrganizationSearchController',  # noqa
-                    action='read')
-        map.connect('organization_index', '/organization',
-                    controller='ckanext.switzerland.controller:OgdchOrganizationSearchController',  # noqa
-                    action='index')
-        return map
-
-
-class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IRoutes, inherit=True)
-
-    # IRouter
-    # Redirect gourp_read /group/{id} to custom controller
-    # fix the search on the group page if search term and facets are combined
-
-    def before_map(self, map):
-        map.connect('group_read', '/group/{id}',
-                    controller='ckanext.switzerland.controller:OgdchGroupSearchController',  # noqa
-                    action='read')
-        return map
 
 
 class OgdchShowcasePlugin(ShowcasePlugin):
