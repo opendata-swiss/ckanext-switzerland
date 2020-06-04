@@ -5,8 +5,6 @@ import requests
 import json
 from ckan.common import _
 from babel import numbers
-import iribaker
-from urlparse import urlparse
 
 from ckan.lib.helpers import lang, url_for, localised_number
 import ckan.lib.i18n as i18n
@@ -371,21 +369,6 @@ def map_to_valid_format(resource_format, format_mapping):
             return key
     else:
         return None
-
-
-# convert URI to IRI (used for RDF)
-# this function also validates the URI and throws a ValueError if the
-# provided URI is invalid
-def uri_to_iri(uri):
-    result = urlparse(uri)
-    if not result.scheme or not result.netloc or result.netloc == '-':
-        raise ValueError("Provided URI does not have a valid schema or netloc")
-
-    try:
-        iri = iribaker.to_iri(uri)
-        return iri
-    except:
-        raise ValueError("Provided URI can't be converted to IRI")
 
 
 def get_showcases_for_dataset(id):
