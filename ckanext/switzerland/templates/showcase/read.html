@@ -54,7 +54,7 @@
     </div>
   {% endif %}
   {% block package_info %}
-    {% snippet 'showcase/snippets/showcase_info.html', pkg=pkg, showcase_pkgs=c.showcase_pkgs, tags=pkg.tags %}
+    {% snippet 'showcase/snippets/showcase_info.html', pkg=pkg, showcase_pkgs=c.showcase_pkgs, tags=pkg.tags, type=pkg.showcase_type %}
   {% endblock %}
   {% block package_description %}
     {% if pkg.private %}
