@@ -760,6 +760,7 @@ class OgdchShowcasePlugin(ShowcasePlugin):
     plugins.implements(plugins.IConfigurable, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.ITemplateHelpers, inherit=True)
+    plugins.implements(plugins.IFacets, inherit=True)
 
     # IConfigurable
 
@@ -810,6 +811,17 @@ class OgdchShowcasePlugin(ShowcasePlugin):
         helpers["showcase_types"] = showcase_types()
 
         return helpers
+
+    # IFacets
+
+    def dataset_facets(self, facets_dict, package_type):
+        if package_type != "showcase":
+            return facets_dict
+
+        facets_dict = super(OgdchShowcasePlugin, self).dataset_facets(facets_dict, package_type)
+        facets_dict["showcase_type"] = toolkit._("Types")
+
+        return facets_dict
 
 
 class LangToString(object):
