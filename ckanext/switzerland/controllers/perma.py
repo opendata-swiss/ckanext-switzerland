@@ -17,7 +17,6 @@ class OgdchPermaController(BaseController):
         This action redirects requests to /perma/{identifier} to
         the corresponding /dataset/{slug} route
         """
-        log.error("OGDCHSPY in perma controller")
         try:
             dataset = get_action('ogdch_dataset_by_identifier')(
                 {'for_view': True},
