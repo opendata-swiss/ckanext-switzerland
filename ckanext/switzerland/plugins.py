@@ -136,6 +136,8 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'get_terms_of_use_url': sh.get_terms_of_use_url,
             'get_localized_newsletter_url': sh.get_localized_newsletter_url,
             'ogdch_template_helper_get_active_class': bh.ogdch_template_helper_get_active_class, # noqa
+            'debug_get_type': bh.get_type,
+            'get_localized_value': sh.get_localized_value,
         }
 
     # IRouter
@@ -192,11 +194,13 @@ class OgdchGroupPlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IGroupController, inherit=True)
 
     def before_view(self, pkg_dict):
+        #log.error("OGDCHLANG in from group controller before view {}".format(pkg_dict))
         pkg_dict = pu._prepare_package_json(
             pkg_dict=pkg_dict,
             format_mapping=self.format_mapping,
             ignore_fields=[]
         )
+        log.error("OGDCHLANG out from group controller before view {}".format(pkg_dict['name']))
         return pkg_dict
 
 
@@ -205,11 +209,13 @@ class OgdchOrganizationPlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IOrganizationController, inherit=True)
 
     def before_view(self, pkg_dict):
+        #log.error("OGDCHLANG in from org controller before view {}".format(pkg_dict))
         pkg_dict = pu._prepare_package_json(
             pkg_dict=pkg_dict,
             format_mapping=self.format_mapping,
             ignore_fields=[]
         )
+        log.error("OGDCHLANG out from org controller before view {}".format(pkg_dict['name']))
         return pkg_dict
 
 
@@ -219,11 +225,14 @@ class OgdchResourcePlugin(plugins.SingletonPlugin, OgdchMixin):
 
     # IResourceController
     def before_show(self, res_dict):
-        pu.ogdch_prepare_res_dict_before_show(
+        #log.error("OGDCHLANG in from res controller before show {}".format(res_dict))
+        res_dict = pu.ogdch_prepare_res_dict_before_show(
             res_dict=res_dict,
             format_mapping=self.format_mapping,
             ignore_fields=['tracking_summary']
         )
+        log.error("OGDCHLANG out from res controller before show {}".format(res_dict))
+        return res_dict
 
 
 class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
@@ -236,11 +245,13 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
 
     def before_view(self, pkg_dict):
         """transform pkg dict before view"""
+        #log.error("OGDCHLANG in from pkg controller before show {}".format(pkg_dict))
         pkg_dict = pu._prepare_package_json(
             pkg_dict=pkg_dict,
             format_mapping=self.format_mapping,
             ignore_fields=[]
         )
+        log.error("OGDCHLANG out from pkg controller before show {}".format(pkg_dict['name']))
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
@@ -251,12 +262,14 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
         -> find a solution to _prepare_package_json() in an API call.
         """
         pkg_dict = pu.ogdch_prepare_pkg_dict_for_api(pkg_dict)
+        log.error("OGDCHLANG out from pkg controller after show {}".format(pkg_dict['name']))
         return pkg_dict
 
     def before_index(self, search_data):
         """
         Search data before index
         """
+        log.error("OGDCHLANG before index")
         search_data = pu.ogdch_prepare_search_data_for_index(
             search_data=search_data,
             format_mapping=self.format_mapping
@@ -267,6 +280,7 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
         """
         Adjust search parameters
         """
+        log.error("OGDCHLANG before search")
         search_params = pu.ogdch_adjust_search_params(search_params)
         return search_params
 

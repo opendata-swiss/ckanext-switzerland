@@ -35,3 +35,7 @@ def ogdch_template_choice(template_frontend, template_backend):
         return template_frontend
     else:
         return template_backend
+
+
+def get_type(value):
+    return type(value)
