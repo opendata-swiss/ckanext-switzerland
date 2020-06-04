@@ -1,0 +1,31 @@
+{% ckan_extends %}
+
+{% block basic_fields %}
+
+    {% block package_basic_fields_title %}
+      {{ form.input('title', id='field-title', label=_('Title'), placeholder=_('eg. A descriptive title'), value=data.title, error=errors.title, classes=['control-full', 'control-large'], attrs={'data-module': 'slug-preview-target'}) }}
+    {% endblock %}
+
+    {% block package_basic_fields_url %}
+      {% set prefix = h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id='') %}
+      {% set domain = h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id='', qualified=true) %}
+      {% set domain = domain|replace("http://", "")|replace("https://", "") %}
+      {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': '<showcase>'} %}
+
+      {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('eg. my-showcase'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
+    {% endblock %}
+
+    {% block package_basic_fields_description %}
+      {{ form.markdown('notes', id='field-notes', label=_('Description'), placeholder=_('eg. Some useful notes about the data'), value=data.notes, error=errors.notes) }}
+    {% endblock %}
+
+    {% block package_basic_fields_tags %}
+      {% set tag_attrs = {'data-module': 'autocomplete', 'data-module-tags': '', 'data-module-source': '/api/2/util/tag/autocomplete?incomplete=?'} %}
+      {{ form.input('tag_string', id='field-tags', label=_('Tags'), placeholder=_('eg. economy, mental health, government'), value=data.tag_string, error=errors.tags, classes=['control-full'], attrs=tag_attrs) }}
+    {% endblock %}
+
+    {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
+    {% set is_url = data.image_url and data.image_url.startswith('http') %}
+
+    {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
+{% endblock %}
