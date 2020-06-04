@@ -24,6 +24,19 @@
       {{ form.input('tag_string', id='field-tags', label=_('Tags'), placeholder=_('eg. economy, mental health, government'), value=data.tag_string, error=errors.tags, classes=['control-full'], attrs=tag_attrs) }}
     {% endblock %}
 
+    {% block package_basic_fields_type %}
+    <div class="form-group control-medium">
+      <label class="control-label" for="field-showcase_type">{{ _("Type") }}</label>
+      <div class="controls">
+        <select id="field-showcase_type" name="showcase_type" data-module="autocomplete">
+          {% for type in h.showcase_types %}
+          <option value="{{ type }}" {% if type == data.get('showcase_type') %}selected="selected"{% endif %}>{{ type }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    {% endblock %}
+
     {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
     {% set is_url = data.image_url and data.image_url.startswith('http') %}
 
