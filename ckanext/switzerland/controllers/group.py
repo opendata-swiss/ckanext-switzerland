@@ -44,7 +44,6 @@ class OgdchGroupController(group.GroupController):
 
         This is common code used by both read and bulk_process
         """
-        log.error("OGDCHSPY in ogdch group search controller")
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author,
                    'schema': self._db_to_form_schema(group_type=group_type),
