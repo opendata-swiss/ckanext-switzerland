@@ -47,7 +47,6 @@ class OgdchOrganizationController(organization.OrganizationController):
         there are no clean extension points in the OrganizationController,
         so that the _read() method had to be overridden completely.
         """
-        log.error("OGDCHSPY in ogdch organization search controller _read")
         c.include_children_selected = False
 
         if not c.group_dict.get('is_organization'):
@@ -224,7 +223,6 @@ class OgdchOrganizationController(organization.OrganizationController):
     It passes the q parameter to the template to render it in the searchbox
     """
     def index(self):
-        log.error("OGDCHSPY in ogdch organization search controller index")
         group_type = self._guess_group_type()
 
         page = h.get_page_number(request.params) or 1

@@ -140,7 +140,9 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
     # IRouter
 
     def before_map(self, map):
-        """create perma-link route"""
+        """adding custom routes to the ckan mapping"""
+
+        # create perma-link route
         map.connect('perma_redirect', '/perma/{id}',
                     controller='ckanext.switzerland.controllers.perma:OgdchPermaController',  # noqa
                     action='read')
@@ -278,14 +280,6 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
                 'package': dataset_dict,
             }
         )
-
-
-class OgdchOrganisationSearchPlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IRoutes, inherit=True)
-
-
-class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
-    plugins.implements(plugins.IRoutes, inherit=True)
 
 
 class OgdchShowcasePlugin(ShowcasePlugin):
