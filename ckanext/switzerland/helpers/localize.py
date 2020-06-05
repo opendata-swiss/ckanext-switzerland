@@ -3,8 +3,6 @@ from ckan.lib.helpers import lang
 LANGUAGES = ['de', 'fr', 'it', 'en']
 
 
-
-
 def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
     """localizes language dict and
     returns value if it is no language dict"""
