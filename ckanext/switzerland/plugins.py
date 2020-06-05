@@ -195,13 +195,13 @@ class OgdchGroupPlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IGroupController, inherit=True)
 
     def before_view(self, pkg_dict):
-        #log.error("OGDCHLANG in from group controller before view {}".format(pkg_dict))
         pkg_dict = pu._prepare_package_json(
             pkg_dict=pkg_dict,
             format_mapping=self.format_mapping,
             ignore_fields=[]
         )
-        log.error("OGDCHLANG out from group controller before view {}".format(pkg_dict['name']))
+        log.error("OGDCHLANG out from group controller before view {}"
+                  .format(pkg_dict['name']))
         return pkg_dict
 
 
@@ -210,13 +210,13 @@ class OgdchOrganizationPlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IOrganizationController, inherit=True)
 
     def before_view(self, pkg_dict):
-        #log.error("OGDCHLANG in from org controller before view {}".format(pkg_dict))
         pkg_dict = pu._prepare_package_json(
             pkg_dict=pkg_dict,
             format_mapping=self.format_mapping,
             ignore_fields=[]
         )
-        log.error("OGDCHLANG out from org controller before view {}".format(pkg_dict['name']))
+        log.error("OGDCHLANG out from org controller before view {}"
+                  .format(pkg_dict['name']))
         return pkg_dict
 
 
@@ -226,13 +226,13 @@ class OgdchResourcePlugin(plugins.SingletonPlugin, OgdchMixin):
 
     # IResourceController
     def before_show(self, res_dict):
-        #log.error("OGDCHLANG in from res controller before show {}".format(res_dict))
         res_dict = pu.ogdch_prepare_res_dict_before_show(
             res_dict=res_dict,
             format_mapping=self.format_mapping,
             ignore_fields=['tracking_summary']
         )
-        log.error("OGDCHLANG out from res controller before show {}".format(res_dict))
+        log.error("OGDCHLANG out from res controller before show {}"
+                  .format(res_dict))
         return res_dict
 
 
@@ -246,13 +246,13 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
 
     def before_view(self, pkg_dict):
         """transform pkg dict before view"""
-        #log.error("OGDCHLANG in from pkg controller before show {}".format(pkg_dict))
         pkg_dict = pu._prepare_package_json(
             pkg_dict=pkg_dict,
             format_mapping=self.format_mapping,
             ignore_fields=[]
         )
-        log.error("OGDCHLANG out from pkg controller before show {}".format(pkg_dict['name']))
+        log.error("OGDCHLANG out from pkg controller before show {}"
+                  .format(pkg_dict['name']))
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
