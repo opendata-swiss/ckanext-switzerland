@@ -24,7 +24,7 @@ class TestLanguageHelpers(unittest.TestCase):
         self.multi_language_field_it = {'de': '', 'en': '', 'fr': '', 'it': '?'}
         self.multi_language_field_empty = {'de': '', 'en': '', 'fr': '', 'it': ''}
         self.backup = 'Pferd'
-        self.no_dict = 'some value'
+        self.no_dict = [{'some value': 'x'}, [1,2,3]]
         self.no_language_dict = {'de': 'Hallo', 'fr': 'Bonjour'}
         self.language_it = 'it'
 

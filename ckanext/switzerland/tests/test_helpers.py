@@ -2,7 +2,7 @@
 """Tests for helpers.py."""
 from nose.tools import *  # noqa
 import mock
-import ckanext.switzerland.helpers as helpers
+import ckanext.switzerland.helpers.frontend as helpers
 import sys
 from copy import deepcopy
 
