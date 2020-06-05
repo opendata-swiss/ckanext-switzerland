@@ -32,6 +32,15 @@ mapping_terms_of_use_to_pagemark = {
     TERMS_OF_USE_BY_ASK: '#terms_by_ask',
 }
 
+showcase_types_mapping = {
+    "application": "Application",
+    "data_visualization": "Data visualization",
+    "event": "Event",
+    "blog_and_media_articles": "Blog and media articles",
+    "paper": "Paper",
+    "best_practice": "Best practice",
+}
+
 
 def get_dataset_count():
     user = tk.get_action('get_site_user')({'ignore_auth': True}, {})
@@ -471,3 +480,51 @@ def get_localized_newsletter_url():
        'it': 'https://www.bfs.admin.ch/bfs/it/home/servizi/ogd/newsmail.html',
     }
     return newsletter_url[current_language]
+
+
+def create_showcase_types():
+    """
+    Create tags and vocabulary for showcase types, if they don't exist already.
+    """
+    user = tk.get_action("get_site_user")({"ignore_auth": True}, ())
+    context = {"user": user["name"]}
+    try:
+        # TODO: this is a workaround copied from
+        # https://github.com/ckan/ckanext-dcat/commit/bd490115da8087a14b9a2ef603328e69535144bb
+        # When we upgrade CKAN, we should be able to remove this.
+        from paste.registry import Registry
+        from ckan.lib.cli import MockTranslator
+        registry = Registry()
+        registry.prepare()
+        from pylons import translator
+        registry.register(translator, MockTranslator())
+
+        data = {"id": "showcase_types"}
+        tk.get_action("vocabulary_show")(context, data)
+        log.info("'showcase_types' vocabulary already exists, skipping")
+    except tk.ObjectNotFound:
+        log.info("Creating vocab 'showcase_types'")
+        data = {"name": "showcase_types"}
+        vocab = tk.get_action("vocabulary_create")(context, data)
+        for tag in showcase_types_mapping.keys():
+            log.info("Adding tag {0} to vocab 'showcase_types'".format(tag))
+            data = {"name": tag, "vocabulary_id": vocab["id"]}
+            tk.get_action("tag_create")(context, data)
+
+
+def showcase_types():
+    """
+    Return the list of showcase types from the showcase_types vocabulary.
+    """
+    create_showcase_types()
+    try:
+        showcase_types = tk.get_action("tag_list")(
+            data_dict={"vocabulary_id": "showcase_types"}
+        )
+        return showcase_types
+    except tk.ObjectNotFound:
+        return None
+
+
+def get_showcase_type_name(showcase_type):
+    return _(showcase_types_mapping.get(showcase_type, showcase_type))

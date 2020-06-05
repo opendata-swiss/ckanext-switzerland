@@ -706,56 +706,6 @@ class OgdchGroupSearchPlugin(plugins.SingletonPlugin):
         return map
 
 
-def create_showcase_types():
-    """
-    Create tags and vocabulary for showcase types, if they don't exist already.
-    """
-    user = toolkit.get_action("get_site_user")({"ignore_auth": True}, ())
-    context = {"user": user["name"]}
-    try:
-        # TODO: this is a workaround copied from
-        # https://github.com/ckan/ckanext-dcat/commit/bd490115da8087a14b9a2ef603328e69535144bb
-        # When we upgrade CKAN, we should be able to remove this.
-        from paste.registry import Registry
-        from ckan.lib.cli import MockTranslator
-        registry = Registry()
-        registry.prepare()
-        from pylons import translator
-        registry.register(translator, MockTranslator())
-
-        data = {"id": "showcase_types"}
-        toolkit.get_action("vocabulary_show")(context, data)
-        log.info("'showcase_types' vocabulary already exists, skipping")
-    except toolkit.ObjectNotFound:
-        log.info("Creating vocab 'showcase_types'")
-        data = {"name": "showcase_types"}
-        vocab = toolkit.get_action("vocabulary_create")(context, data)
-        for tag in (
-                "Application",
-                "Data visualisation",
-                "Event",
-                "Blog and media articles",
-                "Paper"
-        ):
-            log.info("Adding tag {0} to vocab 'showcase_types'".format(tag))
-            data = {"name": tag, "vocabulary_id": vocab["id"]}
-            toolkit.get_action("tag_create")(context, data)
-
-
-def showcase_types():
-    """
-    Return the list of showcase types from the showcase_types vocabulary.
-    """
-    create_showcase_types()
-    try:
-        showcase_types = toolkit.get_action("tag_list")(
-            data_dict={"vocabulary_id": "showcase_types"}
-        )
-        return showcase_types
-    except toolkit.ObjectNotFound:
-        return None
-
-
 class OgdchShowcasePlugin(ShowcasePlugin):
     plugins.implements(plugins.IConfigurable, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
@@ -767,7 +717,7 @@ class OgdchShowcasePlugin(ShowcasePlugin):
     def configure(self, config):
         super(OgdchShowcasePlugin, self).configure(config)
         # create vocabulary if necessary
-        create_showcase_types()
+        sh.create_showcase_types()
 
     # IDatasetForm
 
@@ -808,7 +758,8 @@ class OgdchShowcasePlugin(ShowcasePlugin):
 
     def get_helpers(self):
         helpers = super(OgdchShowcasePlugin, self).get_helpers()
-        helpers["showcase_types"] = showcase_types()
+        helpers["showcase_types"] = sh.showcase_types
+        helpers["get_showcase_type_name"] = sh.get_showcase_type_name
 
         return helpers
 
@@ -818,7 +769,10 @@ class OgdchShowcasePlugin(ShowcasePlugin):
         if package_type != "showcase":
             return facets_dict
 
-        facets_dict = super(OgdchShowcasePlugin, self).dataset_facets(facets_dict, package_type)
+        facets_dict = super(OgdchShowcasePlugin, self).dataset_facets(
+            facets_dict,
+            package_type
+        )
         facets_dict["showcase_type"] = toolkit._("Types")
 
         return facets_dict
