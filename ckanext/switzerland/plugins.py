@@ -263,7 +263,8 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
         -> find a solution to _prepare_package_json() in an API call.
         """
         pkg_dict = pu.ogdch_prepare_pkg_dict_for_api(pkg_dict)
-        log.error("OGDCHLANG out from pkg controller after show {}".format(pkg_dict['name']))
+        log.error("OGDCHLANG out from pkg controller after show {}"
+                  .format(pkg_dict['name']))
         return pkg_dict
 
     def before_index(self, search_data):
