@@ -24,6 +24,23 @@
       {{ form.input('tag_string', id='field-tags', label=_('Tags'), placeholder=_('eg. economy, mental health, government'), value=data.tag_string, error=errors.tags, classes=['control-full'], attrs=tag_attrs) }}
     {% endblock %}
 
+    {% block dataset_fields %}
+      {% set groups = h.get_localized_group_list() %}
+      {% if groups %}
+        <div class="form-group control-medium">
+          <label class="control-label">{{ _('Categories') }}</label>
+          <div class="controls">
+            {% for group in groups %}
+              <label class="checkbox" for="field-group-{{ loop.index0 }}">
+                <input id="field-group-{{ loop.index0 }}" type="checkbox" name="groups__{{ loop.index0 }}__id" value="{{ group.id }}" {% if h.group_name_in_groups(group.name, data.get('groups', [])) %}checked{% endif %} />
+                {{ group.title }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endblock %}
+
     {% block package_basic_fields_type %}
     <div class="form-group control-medium">
       <label class="control-label" for="field-showcase_type">{{ _("Type of content") }}</label>

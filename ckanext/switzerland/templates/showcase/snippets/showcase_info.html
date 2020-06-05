@@ -16,28 +16,6 @@ Example:
           {% block package_info_inner %}
           {% set type = pkg.get("showcase_type") %}
           <div class="row">
-            {% if pkg.author %}
-              <div class="col-md-3 col-sm-6">
-                <dl>
-                  <dt>{{ _('Submitted by') }}</dt>
-                  <dd>
-                    <p>{{ pkg.author }}</p>
-                  </dd>
-                </dl>
-              </div>
-            {% endif %}
-            {% if tags %}
-              <div class="col-md-3 col-sm-6">
-                <dl>
-                  <dt>{{ _('Tags') }}</dt>
-                  <dd>
-                    {% for tag in tags %}
-                      <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>{% if not loop.last %}, {% endif %}
-                    {% endfor %}
-                  </dd>
-                </dl>
-              </div>
-            {% endif %}
             {% if type %}
               <div class="col-md-3 col-sm-6">
                 <dl>
@@ -48,14 +26,55 @@ Example:
                 </dl>
               </div>
             {% endif %}
+            {% if pkg.get("groups") %}
+              {% set groups = pkg.get("groups") %}
+              <div class="col-md-3 col-sm-6">
+                <dl>
+                  <dt>{{ _('Categories') }}</dt>
+                  <dd>
+                    {% for group in groups %}
+                      <a class="{% block group_list_item_class %}group['name']{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', groups=group['name'] %}">{{ h.truncate(group['title'], 22) }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                  </dd>
+                </dl>
+              </div>
+            {% endif %}
+            {% if tags %}
+              <div class="col-md-3 col-sm-6">
+                <dl>
+                  <dt>{{ _('Tags') }}</dt>
+                  <dd>
+                    {% for tag in tags %}
+                    <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                    </ul>
+                  </dd>
+                </dl>
+              </div>
+            {% endif %}
+            {% if pkg.author %}
+              <div class="col-md-3 col-sm-6">
+                <dl>
+                  <dt>{{ _('Submitted by') }}</dt>
+                  <dd>
+                    <p>{{ pkg.author }}</p>
+                  </dd>
+                </dl>
+              </div>
+            {% endif %}
+          </div>
+          <div class="row">
             {% if pkg.url %}
-            <div class="col-md-3 col-sm-6">
-              <a class="btn btn-primary" href="{{ pkg.url }}" target="_blank">
-                <i class="fa fa-external-link icon-external-link"></i> {{ _('Launch website') }}
-              </a>
-            </div>
+              <div class="col-md-3 col-sm-6">
+                <dl>
+                <a class="btn btn-primary" href="{{ pkg.url }}" target="_blank">
+                  <i class="fa fa-external-link icon-external-link"></i> {{ _('Launch website') }}
+                </a>
+                </dl>
+              </div>
             {% endif %}
           {% endblock %}
+          </div>
         </div>
         </div>
       </div>
