@@ -3,9 +3,10 @@
 from ckanext.showcase.plugin import ShowcasePlugin
 from ckanext.switzerland import validators as v
 from ckanext.switzerland import logic as l
-import ckanext.switzerland.helpers as sh
-import ckanext.switzerland.backend_helpers as bh
-import ckanext.switzerland.plugin_utils as pu
+import ckanext.switzerland.helpers.frontend as sh
+import ckanext.switzerland.helpers.backend as bh
+import ckanext.switzerland.helpers.localize as localize
+import ckanext.switzerland.helpers.plugin_utils as pu
 import re
 from webhelpers.html import HTML
 from webhelpers import paginate
@@ -137,7 +138,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'get_localized_newsletter_url': sh.get_localized_newsletter_url,
             'ogdch_template_helper_get_active_class': bh.ogdch_template_helper_get_active_class, # noqa
             'debug_get_type': bh.get_type,
-            'get_localized_value': sh.get_localized_value,
+            'get_localized_value': localize.get_localized_value,
         }
 
     # IRouter

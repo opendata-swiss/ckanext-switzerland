@@ -1,6 +1,7 @@
 {% extends "page_ogdch.html" %}
 
 {% set pkg = c.pkg_dict or pkg_dict %}
+
 {% set organization = h.get_localized_org(pkg.owner_org) %}
 
 {% block breadcrumb_content_selected %} class="active"{% endblock %}
@@ -8,6 +9,7 @@
 {% block subtitle %}{{ _('Data') }}{% endblock %}
 
 {% block breadcrumb_content %}
+  {{ pkg.organization }}
   {% if pkg %}
     {% if organization %}
       <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>

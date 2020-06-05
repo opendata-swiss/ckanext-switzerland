@@ -1,7 +1,7 @@
 from ckan.plugins.toolkit import missing, _
 import ckan.lib.navl.dictization_functions as df
 from ckanext.scheming.validation import scheming_validator
-from ckanext.switzerland.helpers import parse_json
+from ckanext.switzerland.helpers.frontend import parse_json
 from ckan.logic import NotFound, get_action
 import json
 import re

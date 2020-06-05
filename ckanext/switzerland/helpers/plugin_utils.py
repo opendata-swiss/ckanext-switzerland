@@ -6,7 +6,8 @@ import urlparse
 from ckan import logic
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.munge import munge_title_to_name
-import ckanext.switzerland.helpers as sh
+import ckanext.switzerland.helpers.frontend as sh
+import ckanext.switzerland.helpers.localize as localize
 
 __location__ = os.path.realpath(os.path.join(
     os.getcwd(),

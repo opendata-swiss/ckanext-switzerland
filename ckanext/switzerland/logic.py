@@ -6,7 +6,7 @@ from ckan.plugins.toolkit import get_or_bust, side_effect_free
 from ckan.logic import ActionError, NotFound, ValidationError
 import ckan.plugins.toolkit as tk
 from ckan.lib.search.common import make_connection
-import helpers as ogdch_helpers
+import ckanext.switzerland.helpers.frontend as ogdch_helpers
 
 import logging
 log = logging.getLogger(__name__)
