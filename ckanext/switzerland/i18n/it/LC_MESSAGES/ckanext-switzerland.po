@@ -647,3 +647,30 @@ msgstr "Nessuna organizzazione trovata"
 #~ msgid "unexpected choice \"%s\""
 #~ msgstr "selezione inattesa \"%s\""
 
+#: ckanext/switzerland/plugin.py:822
+msgid "Type of content"
+msgstr "Tipo di contenuto"
+
+#: ckanext/switzerland/helpers.py:36
+msgid "Application"
+msgstr "Applicazione"
+
+#: ckanext/switzerland/helpers.py:37
+msgid "Data visualization"
+msgstr "Visualizzazione di dati"
+
+#: ckanext/switzerland/helpers.py:38
+msgid "Event"
+msgstr "Manifestazione"
+
+#: ckanext/switzerland/helpers.py:39
+msgid "Blog and media article"
+msgstr "Blog/articolo"
+
+#: ckanext/switzerland/helpers.py:40
+msgid "Paper"
+msgstr "Articolo scientifico"
+
+#: ckanext/switzerland/helpers.py:41
+msgid "Best practice"
+msgstr "Best practice"

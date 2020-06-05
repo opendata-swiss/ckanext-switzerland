@@ -773,7 +773,7 @@ class OgdchShowcasePlugin(ShowcasePlugin):
             facets_dict,
             package_type
         )
-        facets_dict["showcase_type"] = toolkit._("Types")
+        facets_dict["showcase_type"] = toolkit._("Type of content")
 
         return facets_dict
 

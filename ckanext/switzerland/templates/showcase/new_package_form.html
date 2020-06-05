@@ -26,11 +26,11 @@
 
     {% block package_basic_fields_type %}
     <div class="form-group control-medium">
-      <label class="control-label" for="field-showcase_type">{{ _("Type") }}</label>
+      <label class="control-label" for="field-showcase_type">{{ _("Type of content") }}</label>
       <div class="controls">
         <select id="field-showcase_type" name="showcase_type" data-module="autocomplete">
-          {% for type in h.showcase_types %}
-          <option value="{{ type }}" {% if type == data.get('showcase_type') %}selected="selected"{% endif %}>{{ type }}</option>
+          {% for type in h.showcase_types() %}
+            <option value="{{ type }}" {% if type == data.get('showcase_type') %}selected="selected"{% endif %}>{{ h.get_showcase_type_name(type) }}</option>
           {% endfor %}
         </select>
       </div>
