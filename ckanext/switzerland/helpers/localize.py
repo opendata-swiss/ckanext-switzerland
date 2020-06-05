@@ -1,6 +1,6 @@
 from ckan.lib.helpers import lang
 
-LANGUAGES = ['de', 'fr', 'it', 'en']
+LANGUAGES = {'de', 'fr', 'it', 'en'}
 
 
 def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
@@ -8,14 +8,14 @@ def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
     returns value if it is no language dict"""
     if not isinstance(lang_dict, dict):
         return lang_dict
-    elif lang_dict.keys() != LANGUAGES:
+    elif set(lang_dict.keys()) != LANGUAGES:
         return lang_dict
     if not desired_lang_code:
         desired_lang_code = lang()
         desired_lang_value = lang_dict.get(desired_lang_code)
         if desired_lang_value:
             return desired_lang_value
-    return _localize_by_language_order(desired_lang_code, default_value)
+    return _localize_by_language_order(lang_dict, default_value)
 
 
 def _localize_by_language_order(multi_language_field, backup):

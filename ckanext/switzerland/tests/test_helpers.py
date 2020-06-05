@@ -3,6 +3,7 @@
 from nose.tools import *  # noqa
 import mock
 import ckanext.switzerland.helpers.frontend as helpers
+import ckanext.switzerland.helpers.localize as localize
 import sys
 from copy import deepcopy
 
@@ -56,7 +57,7 @@ class TestHelpers(unittest.TestCase):
             'it': 'IT value',
             'en': 'EN value',
         }
-        result = helpers.get_localized_value(lang_dict, 'de')
+        result = localize.get_localized_value(lang_dict, 'de')
         self.assertEquals(lang_dict['de'], result)
 
     def test_get_localized_value_fallback(self):
@@ -66,7 +67,7 @@ class TestHelpers(unittest.TestCase):
             'it': 'IT value',
             'en': '',
         }
-        result = helpers.get_localized_value(lang_dict, 'en')
+        result = localize.get_localized_value(lang_dict, 'en')
         # if en does not exist, fallback to de
         self.assertEquals(lang_dict['de'], result)
 
@@ -80,12 +81,12 @@ class TestHelpers(unittest.TestCase):
             'it': 'IT value',
             'en': 'EN value',
         }
-        result = helpers.get_localized_value(lang_dict)
+        result = localize.get_localized_value(lang_dict)
         self.assertEquals(lang_dict['fr'], result)
 
     def test_get_localized_value_invalid_dict(self):
         test_dict = {'test': 'dict'}
-        result = helpers.get_localized_value(test_dict)
+        result = localize.get_localized_value(test_dict)
         self.assertEquals(test_dict, result)
 
     @mock.patch('ckan.lib.i18n.get_lang')
