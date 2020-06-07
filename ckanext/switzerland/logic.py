@@ -6,7 +6,7 @@ from ckan.plugins.toolkit import get_or_bust, side_effect_free
 from ckan.logic import ActionError, NotFound, ValidationError
 import ckan.plugins.toolkit as tk
 from ckan.lib.search.common import make_connection
-import helpers as ogdch_helpers
+from ckanext.switzerland.helpers.request_utils import get_content_headers
 
 import logging
 log = logging.getLogger(__name__)
@@ -48,7 +48,7 @@ def ogdch_content_headers(context, data_dict):
     Returns some headers of a remote resource
     '''
     url = get_or_bust(data_dict, 'url')
-    response = ogdch_helpers.get_content_headers(url)
+    response = get_content_headers(url)
     return {
         'status_code': response.status_code,
         'content-length': response.headers.get('content-length', ''),

@@ -49,29 +49,29 @@ class TestHelpers(unittest.TestCase):
         result = helpers.simplify_terms_of_use(term_id)
         self.assertEquals('ClosedData', result)
 
-    def test_get_localized_value_dict(self):
+    def test_get_locaized_dict(self):
         lang_dict = {
             'de': 'DE value',
             'fr': 'FR value',
             'it': 'IT value',
             'en': 'EN value',
         }
-        result = helpers.get_localized_value(lang_dict, 'de')
+        result = helpers.get_locaized(lang_dict, 'de')
         self.assertEquals(lang_dict['de'], result)
 
-    def test_get_localized_value_fallback(self):
+    def test_get_localized_value_from_dict_fallback(self):
         lang_dict = {
             'de': 'DE value',
             'fr': 'FR value',
             'it': 'IT value',
             'en': '',
         }
-        result = helpers.get_localized_value(lang_dict, 'en')
+        result = helpers.get_localized_value_from_dict(lang_dict, 'en')
         # if en does not exist, fallback to de
         self.assertEquals(lang_dict['de'], result)
 
     @mock.patch('ckan.plugins.toolkit.request')
-    def test_get_localized_value_no_lang(self, mock_request):
+    def test_get_localized_value_from_dict_no_lang(self, mock_request):
         mock_request.environ = {'CKAN_LANG': 'fr'}
 
         lang_dict = {
@@ -80,12 +80,12 @@ class TestHelpers(unittest.TestCase):
             'it': 'IT value',
             'en': 'EN value',
         }
-        result = helpers.get_localized_value(lang_dict)
+        result = helpers.get_localized_value_from_dict(lang_dict)
         self.assertEquals(lang_dict['fr'], result)
 
-    def test_get_localized_value_invalid_dict(self):
+    def test_get_localized_value_from_dict_invalid_dict(self):
         test_dict = {'test': 'dict'}
-        result = helpers.get_localized_value(test_dict)
+        result = helpers.get_localized_value_from_dict(test_dict)
         self.assertEquals(test_dict, result)
 
     @mock.patch('ckan.lib.i18n.get_lang')

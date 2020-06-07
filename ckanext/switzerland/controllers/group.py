@@ -12,7 +12,7 @@ import ckan.lib.helpers as h
 import ckan.authz as authz
 import ckan.lib.search as search
 import ckan.controllers.group as group
-import ckanext.switzerland.backend_helpers as bh
+import ckanext.switzerland.helpers.backend as bh
 
 log = logging.getLogger(__name__)
 

@@ -15,7 +15,7 @@ from ckan.lib.base import render
 from ckanext.hierarchy.controller import _children_name_list
 import ckan.controllers.organization as organization
 import ckanext.hierarchy.helpers as hierarchy_helpers
-import ckanext.switzerland.backend_helpers as bh
+import ckanext.switzerland.helpers.backend as bh
 
 log = logging.getLogger(__name__)
 

@@ -1,3 +1,6 @@
+"""
+helpers that are used in backend templates only
+"""
 import logging
 from urlparse import urlparse
 from ckan.common import session

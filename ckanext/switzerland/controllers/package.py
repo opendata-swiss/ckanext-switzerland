@@ -3,7 +3,7 @@
 import logging
 import os
 import ckan.controllers.package as package
-import ckanext.switzerland.backend_helpers as bh
+import ckanext.switzerland.helpers.backend as bh
 
 log = logging.getLogger(__name__)
 
