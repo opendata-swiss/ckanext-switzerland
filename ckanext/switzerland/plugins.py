@@ -1,11 +1,14 @@
 # coding=UTF-8
 
 from ckanext.showcase.plugin import ShowcasePlugin
-from ckanext.switzerland import validators as v
+import ckanext.switzerland.helpers.validators as v
 from ckanext.switzerland import logic as l
-import ckanext.switzerland.helpers as sh
-import ckanext.switzerland.backend_helpers as bh
-import ckanext.switzerland.plugin_utils as pu
+import ckanext.switzerland.helpers.frontend as fh
+import ckanext.switzerland.helpers.backend as bh
+import ckanext.switzerland.helpers.plugin_utils as pu
+import ckanext.switzerland.helpers.request_utils as ru
+import ckanext.switzerland.helpers.localize as loc
+import ckanext.switzerland.helpers.format_utils as fmtu
 import re
 from webhelpers.html import HTML
 from webhelpers import paginate
@@ -57,7 +60,6 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_language': v.ogdch_language,
             'ogdch_unique_identifier': v.ogdch_unique_identifier,
             'temporals_to_datetime_output': v.temporals_to_datetime_output,
-            'parse_json': sh.parse_json,
         }
 
     # IFacets
@@ -116,25 +118,25 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
         Provide template helper functions
         """
         return {
-            'get_dataset_count': sh.get_dataset_count,
-            'get_group_count': sh.get_group_count,
-            'get_app_count': sh.get_app_count,
-            'get_org_count': sh.get_org_count,
-            'get_localized_org': sh.get_localized_org,
-            'localize_json_title': sh.localize_json_title,
-            'get_frequency_name': sh.get_frequency_name,
-            'get_political_level': sh.get_political_level,
-            'get_terms_of_use_icon': sh.get_terms_of_use_icon,
-            'get_dataset_terms_of_use': sh.get_dataset_terms_of_use,
-            'get_dataset_by_identifier': sh.get_dataset_by_identifier,
-            'get_readable_file_size': sh.get_readable_file_size,
-            'get_piwik_config': sh.get_piwik_config,
-            'ogdch_localised_number': sh.ogdch_localised_number,
-            'ogdch_render_tree': sh.ogdch_render_tree,
-            'ogdch_group_tree': sh.ogdch_group_tree,
-            'get_showcases_for_dataset': sh.get_showcases_for_dataset,
-            'get_terms_of_use_url': sh.get_terms_of_use_url,
-            'get_localized_newsletter_url': sh.get_localized_newsletter_url,
+            'get_dataset_count': fh.get_dataset_count,
+            'get_group_count': fh.get_group_count,
+            'get_app_count': fh.get_app_count,
+            'get_org_count': fh.get_org_count,
+            'get_localized_org': fh.get_localized_org,
+            'localize_json_title': fh.localize_json_title,
+            'get_frequency_name': fh.get_frequency_name,
+            'get_political_level': fh.get_political_level,
+            'get_terms_of_use_icon': fh.get_terms_of_use_icon,
+            'get_dataset_terms_of_use': fh.get_dataset_terms_of_use,
+            'get_dataset_by_identifier': fh.get_dataset_by_identifier,
+            'get_readable_file_size': fh.get_readable_file_size,
+            'get_piwik_config': fh.get_piwik_config,
+            'ogdch_localised_number': fh.ogdch_localised_number,
+            'ogdch_render_tree': fh.ogdch_render_tree,
+            'ogdch_group_tree': fh.ogdch_group_tree,
+            'get_showcases_for_dataset': fh.get_showcases_for_dataset,
+            'get_terms_of_use_url': fh.get_terms_of_use_url,
+            'get_localized_newsletter_url': fh.get_localized_newsletter_url,
             'ogdch_template_helper_get_active_class': bh.ogdch_template_helper_get_active_class, # noqa
         }
 
@@ -184,33 +186,41 @@ class OgdchMixin(object):
     """
     def update_config(self, config):
         self.format_mapping = \
-            pu.ogdch_get_format_mapping()
+            fmtu.ogdch_get_format_mapping()
 
 
 class OgdchGroupPlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IGroupController, inherit=True)
 
-    def before_view(self, pkg_dict):
-        pkg_dict = pu._prepare_package_json(
-            pkg_dict=pkg_dict,
-            format_mapping=self.format_mapping,
-            ignore_fields=[]
-        )
-        return pkg_dict
+    def before_view(self, grp_dict):
+        """localizes the grp_dict for web requests
+        that are not api requests"""
+        grp_dict = loc.parse_json_attributes(ckan_dict=grp_dict)
+        grp_dict['display_name'] = grp_dict['title']
+        if ru.request_is_api_request():
+            return grp_dict
+        request_lang = ru.get_request_language()
+        grp_dict = loc.localize_ckan_sub_dict(
+            ckan_dict=grp_dict,
+            lang_code=request_lang)
+        return grp_dict
 
 
 class OgdchOrganizationPlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IOrganizationController, inherit=True)
 
-    def before_view(self, pkg_dict):
-        pkg_dict = pu._prepare_package_json(
-            pkg_dict=pkg_dict,
-            format_mapping=self.format_mapping,
-            ignore_fields=[]
-        )
-        return pkg_dict
+    def before_view(self, org_dict):
+        org_dict = loc.parse_json_attributes(ckan_dict=org_dict)
+        org_dict['display_name'] = org_dict['title']
+        if ru.request_is_api_request():
+            return org_dict
+        request_lang = ru.get_request_language()
+        org_dict = loc.localize_ckan_sub_dict(
+            ckan_dict=org_dict,
+            lang_code=request_lang)
+        return org_dict
 
 
 class OgdchResourcePlugin(plugins.SingletonPlugin, OgdchMixin):
@@ -219,11 +229,17 @@ class OgdchResourcePlugin(plugins.SingletonPlugin, OgdchMixin):
 
     # IResourceController
     def before_show(self, res_dict):
-        pu.ogdch_prepare_res_dict_before_show(
-            res_dict=res_dict,
-            format_mapping=self.format_mapping,
-            ignore_fields=['tracking_summary']
-        )
+        res_dict = loc.parse_json_attributes(ckan_dict=res_dict)
+        res_dict['display_name'] = res_dict['title']
+        if ru.request_is_api_request():
+            return res_dict
+        request_lang = ru.get_request_language()
+        res_dict = loc.localize_ckan_sub_dict(
+            ckan_dict=res_dict,
+            lang_code=request_lang)
+        res_dict = fmtu.prepare_resource_format(
+            resource=res_dict, format_mapping=self.format_mapping)
+        return res_dict
 
 
 class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
@@ -236,11 +252,36 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
 
     def before_view(self, pkg_dict):
         """transform pkg dict before view"""
-        pkg_dict = pu._prepare_package_json(
-            pkg_dict=pkg_dict,
-            format_mapping=self.format_mapping,
-            ignore_fields=[]
-        )
+        pkg_dict = loc.parse_json_attributes(ckan_dict=pkg_dict)
+        pkg_dict = pu.package_map_ckan_default_fields(pkg_dict)
+        pkg_dict['resources'] = [
+            fmtu.prepare_resource_format(
+                resource=resource,
+                format_mapping=self.format_mapping)
+            for resource in pkg_dict.get('resources')]
+
+        if ru.request_is_api_request():
+            return pkg_dict
+
+        request_lang = ru.get_request_language()
+
+        pkg_dict = loc.localize_ckan_sub_dict(pkg_dict, request_lang)
+        pkg_dict['resources'] = [
+            loc.localize_ckan_sub_dict(
+                ckan_dict=resource,
+                lang_code=request_lang)
+            for resource in pkg_dict.get('resources')
+        ]
+        pkg_dict['groups'] = [
+            loc.localize_ckan_sub_dict(
+                ckan_dict=grp,
+                lang_code=request_lang)
+            for grp in pkg_dict.get('groups')
+        ]
+        if pkg_dict.get("organization"):
+            pkg_dict['organization'] = loc.localize_ckan_sub_dict(
+                ckan_dict=pkg_dict['organization'],
+                lang_code=request_lang)
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
@@ -335,5 +376,6 @@ class OGDPage(paginate.Page):
         current_page_link = self._pagerlink(self.page, text,
                                             extra_attributes=self.curpage_attr)
         return re.sub(current_page_span, current_page_link, html)
+
 
 h.Page = OGDPage

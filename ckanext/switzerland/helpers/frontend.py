@@ -1,3 +1,7 @@
+"""
+helpers belong in this file if they
+are used in frontend templates
+"""
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic
 from ckan import model as model
@@ -9,23 +13,19 @@ from babel import numbers
 from ckan.lib.helpers import lang, url_for, localised_number
 import ckan.lib.i18n as i18n
 import unicodedata
+import ckanext.switzerland.helpers.localize as loc
+import ckanext.switzerland.helpers.terms_of_use as terms
 
 import logging
 log = logging.getLogger(__name__)
 
-TERMS_OF_USE_OPEN = 'NonCommercialAllowed-CommercialAllowed-ReferenceNotRequired' # noqa
-TERMS_OF_USE_BY = 'NonCommercialAllowed-CommercialAllowed-ReferenceRequired' # noqa
-TERMS_OF_USE_ASK = 'NonCommercialAllowed-CommercialWithPermission-ReferenceNotRequired' # noqa
-TERMS_OF_USE_BY_ASK = 'NonCommercialAllowed-CommercialWithPermission-ReferenceRequired' # noqa
-TERMS_OF_USE_CLOSED = 'ClosedData'
-
 # these bookmarks can be used in the wordpress page
 # for the terms of use
 mapping_terms_of_use_to_pagemark = {
-    TERMS_OF_USE_OPEN: '#terms_open',
-    TERMS_OF_USE_BY: '#terms_by',
-    TERMS_OF_USE_ASK: '#terms_ask',
-    TERMS_OF_USE_BY_ASK: '#terms_by_ask',
+    terms.TERMS_OF_USE_OPEN: '#terms_open',
+    terms.TERMS_OF_USE_BY: '#terms_by',
+    terms.TERMS_OF_USE_ASK: '#terms_ask',
+    terms.TERMS_OF_USE_BY_ASK: '#terms_by_ask',
 }
 
 
@@ -101,55 +101,13 @@ def localize_json_title(facet_item):
         pass
     try:
         lang_dict = json.loads(facet_item['display_name'])
-        return get_localized_value(
+        return loc.get_localized_value_from_dict(
             lang_dict,
-            default_value=facet_item['display_name']
+            lang_code=lang(),
+            default=facet_item['display_name']
         )
     except:
         return facet_item['display_name']
-
-
-def get_langs():
-    language_priorities = ['en', 'de', 'fr', 'it']
-    return language_priorities
-
-
-def get_localized_value(lang_dict, desired_lang_code=None, default_value=''):
-    # return original value if it's not a dict
-    if not isinstance(lang_dict, dict):
-        return lang_dict
-
-    """
-    if this is not a proper lang_dict ('de', 'fr', etc. keys),
-    return original value
-    """
-    if not all(k in lang_dict for k in get_langs()):
-        return lang_dict
-
-    # if no specific lang is requested, read from environment
-    if desired_lang_code is None:
-        desired_lang_code = tk.request.environ['CKAN_LANG']
-
-    try:
-        # return desired lang if available
-        if lang_dict[desired_lang_code]:
-            return lang_dict[desired_lang_code]
-    except KeyError:
-        pass
-
-    return _lang_fallback(lang_dict, default_value)
-
-
-def _lang_fallback(lang_dict, default_value):
-    # loop over languages in order of their priority for fallback
-    for lang_code in get_langs():
-        try:
-            if (isinstance(lang_dict[lang_code], basestring) and
-                    lang_dict[lang_code]):
-                return lang_dict[lang_code]
-        except (KeyError, IndexError, ValueError):
-            continue
-    return default_value
 
 
 def get_frequency_name(identifier):
@@ -190,28 +148,28 @@ def get_political_level(political_level):
 
 def get_terms_of_use_icon(terms_of_use):
     term_to_image_mapping = {
-        TERMS_OF_USE_OPEN: {  # noqa
+        terms.TERMS_OF_USE_OPEN: {  # noqa
             'title': _('Open use'),
             'icon': 'terms_open',
         },
-        TERMS_OF_USE_BY: {  # noqa
+        terms.TERMS_OF_USE_BY: {  # noqa
             'title': _('Open use. Must provide the source.'),
             'icon': 'terms_by',
         },
-        TERMS_OF_USE_ASK: {  # noqa
+        terms.TERMS_OF_USE_ASK: {  # noqa
             'title': _('Open use. Use for commercial purposes requires permission of the data owner.'),  # noqa
             'icon': 'terms_ask',
         },
-        TERMS_OF_USE_BY_ASK: {  # noqa
+        terms.TERMS_OF_USE_BY_ASK: {  # noqa
             'title': _('Open use. Must provide the source. Use for commercial purposes requires permission of the data owner.'),  # noqa
             'icon': 'terms_by-ask',
         },
-        TERMS_OF_USE_CLOSED: {
+        terms.TERMS_OF_USE_CLOSED: {
             'title': _('Closed data'),
             'icon': 'terms_closed',
         },
     }
-    term_id = simplify_terms_of_use(terms_of_use)
+    term_id = terms.simplify_terms_of_use(terms_of_use)
     return term_to_image_mapping.get(term_id, None)
 
 
@@ -221,19 +179,6 @@ def get_terms_of_use_url(terms_of_use):
     if pagemark:
         terms_of_use_url += pagemark
     return terms_of_use_url
-
-
-def simplify_terms_of_use(term_id):
-    terms = [
-        TERMS_OF_USE_OPEN,
-        TERMS_OF_USE_BY,
-        TERMS_OF_USE_ASK,
-        TERMS_OF_USE_BY_ASK,
-    ]
-
-    if term_id in terms:
-        return term_id
-    return 'ClosedData'
 
 
 def get_dataset_terms_of_use(pkg):
@@ -263,20 +208,6 @@ def get_readable_file_size(num, suffix='B'):
         return "%.1f%s%s" % (num, 'Y', suffix)
     except ValueError:
         return False
-
-
-def parse_json(value, default_value=None):
-    try:
-        return json.loads(value)
-    except (ValueError, TypeError, AttributeError):
-        if default_value is not None:
-            return default_value
-        return value
-
-
-def get_content_headers(url):
-    response = requests.head(url)
-    return response
 
 
 def get_piwik_config():
@@ -337,7 +268,7 @@ def ogdch_group_tree(type_='organization'):
 
 def get_sorted_orgs_by_translated_title(organizations):
     for organization in organizations:
-        organization['title'] = get_translated_group_title(organization['title'])  # noqa
+        organization['title'] = loc.get_localized_value_from_json(organization['title'], i18n.get_lang())  # noqa
         if organization['children']:
             organization['children'] = get_sorted_orgs_by_translated_title(organization['children'])  # noqa
 
@@ -345,30 +276,11 @@ def get_sorted_orgs_by_translated_title(organizations):
     return organizations
 
 
-def get_translated_group_title(titles_string):
-    group_titles_dict = parse_json(titles_string)
-    return get_localized_value(
-        group_titles_dict,
-        i18n.get_lang(),
-        titles_string
-    )
-
-
 # this function strips characters with accents, cedilla and umlauts to their
 # single character-representation to make the resulting words sortable
 # See: http://stackoverflow.com/a/518232
 def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')  # noqa
-
-
-# all formats that need to be mapped have to be entered in the mapping.yaml
-def map_to_valid_format(resource_format, format_mapping):
-    resource_format_lower = resource_format.lower()
-    for key, values in format_mapping.iteritems():
-        if resource_format_lower in values:
-            return key
-    else:
-        return None
 
 
 def get_showcases_for_dataset(id):
