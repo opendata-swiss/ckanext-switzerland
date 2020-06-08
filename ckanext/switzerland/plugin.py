@@ -122,7 +122,6 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return {
             'get_dataset_count': sh.get_dataset_count,
             'get_group_count': sh.get_group_count,
-            'get_app_count': sh.get_app_count,
             'get_org_count': sh.get_org_count,
             'get_localized_org': sh.get_localized_org,
             'localize_json_title': sh.localize_json_title,

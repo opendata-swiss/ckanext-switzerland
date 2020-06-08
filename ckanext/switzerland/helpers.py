@@ -33,13 +33,13 @@ mapping_terms_of_use_to_pagemark = {
 }
 
 
-def get_dataset_count():
+def get_dataset_count(dataset_type='dataset'):
     user = tk.get_action('get_site_user')({'ignore_auth': True}, {})
     req_context = {'user': user['name']}
-
+    fq = ''.join(['+dataset_type:', dataset_type])
     packages = tk.get_action('package_search')(
         req_context,
-        {'fq': '+dataset_type:dataset'}
+        {'fq': fq}
     )
     return packages['count']
 
@@ -59,27 +59,6 @@ def get_org_count():
     req_context = {'user': user['name']}
     orgs = tk.get_action('organization_list')(req_context, {})
     return len(orgs)
-
-
-def get_app_count():
-    result = _call_wp_api('app_statistics')
-    if result is not None:
-        return result['data']['app_count']
-    return 0
-
-
-def _call_wp_api(action):
-    api_url = tk.config.get('ckanext.switzerland.wp_ajax_url', None)
-    try:
-        """
-        this call does not verify the SSL cert, because it is missing on
-        the deployed server.
-        TODO: re-enable verification
-        """
-        r = requests.post(api_url, data={'action': action}, verify=False)
-        return r.json()
-    except:
-        return None
 
 
 def get_localized_org(org_id=None, include_datasets=False):
