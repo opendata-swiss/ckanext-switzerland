@@ -61,27 +61,6 @@ def get_org_count():
     return len(orgs)
 
 
-def get_app_count():
-    result = _call_wp_api('app_statistics')
-    if result is not None:
-        return result['data']['app_count']
-    return 0
-
-
-def _call_wp_api(action):
-    api_url = tk.config.get('ckanext.switzerland.wp_ajax_url', None)
-    try:
-        """
-        this call does not verify the SSL cert, because it is missing on
-        the deployed server.
-        TODO: re-enable verification
-        """
-        r = requests.post(api_url, data={'action': action}, verify=False)
-        return r.json()
-    except:
-        return None
-
-
 def get_localized_org(org_id=None, include_datasets=False):
     if not org_id or org_id is None:
         return {}
