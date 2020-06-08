@@ -33,13 +33,13 @@ mapping_terms_of_use_to_pagemark = {
 }
 
 
-def get_dataset_count():
+def get_dataset_count(dataset_type='dataset'):
     user = tk.get_action('get_site_user')({'ignore_auth': True}, {})
     req_context = {'user': user['name']}
-
+    fq = ''.join(['+dataset_type:', dataset_type])
     packages = tk.get_action('package_search')(
         req_context,
-        {'fq': '+dataset_type:dataset'}
+        {'fq': fq}
     )
     return packages['count']
 
