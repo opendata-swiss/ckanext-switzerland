@@ -40,14 +40,9 @@ def ogdch_dataset_count(context, data_dict):
     for group in groups:
         group_count[group['name']] = group['package_count']
 
-    # get the total number of dataset from package_search
-    search_result = tk.get_action('package_search')(
-        req_context,
-        {'rows': 0, 'fq': '+dataset_type:dataset'}
-    )
-
     return {
-        'total_count': search_result['count'],
+        'total_count': ogdch_helpers.get_dataset_count('dataset'), # noqa
+        'showcase_count': ogdch_helpers.get_dataset_count('showcase'), # noqa
         'groups': group_count,
     }
 
