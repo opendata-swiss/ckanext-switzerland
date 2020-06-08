@@ -1,17 +1,10 @@
 """
 helpers for preparing the resource format
+belong in this file
 """
 import yaml
 import os
-import json
-import re
 import urlparse
-from ckan import logic
-import ckan.plugins.toolkit as toolkit
-from ckan.lib.munge import munge_title_to_name
-import ckanext.switzerland.helpers.localize as loc
-import ckanext.switzerland.helpers.terms_of_use as terms
-import ckanext.switzerland.helpers.request_utils as ru
 
 __location__ = os.path.realpath(os.path.join(
     os.getcwd(),

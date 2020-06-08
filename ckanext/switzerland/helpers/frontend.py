@@ -1,6 +1,6 @@
 """
-helpers that are used in templates:
-- at least one such usgage should be a frontend template
+helpers belong in this file if they
+are used in frontend templates
 """
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic

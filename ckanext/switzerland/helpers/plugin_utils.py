@@ -121,25 +121,21 @@ def ogdch_prepare_search_data_for_index(search_data, format_mapping):
     try:
         # index language-specific values (or it's fallback)
         for lang_code in loc.get_language_priorities():
-            search_data['title_' + lang_code] = loc.get_localized_value_from_dict(
-                validated_dict['title'],
-                lang_code
-            )
+            search_data['title_' + lang_code] = \
+                loc.get_localized_value_from_dict(
+                    validated_dict['title'], lang_code)
             search_data['title_string_' + lang_code] = munge_title_to_name(
-                loc.get_localized_value_from_dict(validated_dict['title'], lang_code)
-            )
-            search_data['description_' + lang_code] = loc.get_localized_value_from_dict(  # noqa
-                validated_dict['description'],
-                lang_code
-            )
-            search_data['keywords_' + lang_code] = loc.get_localized_value_from_dict(
-                validated_dict['keywords'],
-                lang_code
-            )
-            search_data['organization_' + lang_code] = loc.get_localized_value_from_dict(  # noqa
-                validated_dict['organization']['title'],
-                lang_code
-            )
+                loc.get_localized_value_from_dict(
+                    validated_dict['title'], lang_code))
+            search_data['description_' + lang_code] = \
+                loc.get_localized_value_from_dict(
+                    validated_dict['description'], lang_code)
+            search_data['keywords_' + lang_code] = \
+                loc.get_localized_value_from_dict(
+                   validated_dict['keywords'], lang_code)
+            search_data['organization_' + lang_code] = \
+                loc.get_localized_value_from_dict(  # noqa
+                    validated_dict['organization']['title'], lang_code)
 
     except KeyError:
         pass

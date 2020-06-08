@@ -6,34 +6,6 @@ import json
 LANGUAGES = {'de', 'fr', 'it', 'en'}
 
 
-def localize_grp_json_dict(grp_dict, desired_lang_code):
-    return localize_ckan_sub_dict(
-        ckan_dict=grp_dict,
-        lang_code=desired_lang_code,
-    )
-
-
-def localize_org_json_dict(org_dict, desired_lang_code):
-    return localize_ckan_sub_dict(
-        ckan_dict=org_dict,
-        lang_code=desired_lang_code,
-    )
-
-
-def localize_res_json_dict(res_dict, desired_lang_code):
-    return localize_ckan_sub_dict(
-        ckan_dict=res_dict,
-        lang_code=desired_lang_code
-    )
-
-
-def localize_pkg_json_dict(pkg_dict, desired_lang_code):
-    return localize_ckan_sub_dict(
-        ckan_dict=pkg_dict,
-        lang_code=desired_lang_code,
-    )
-
-
 def parse_json_attributes(ckan_dict):
     """turn attribute values from json
     to python structures"""

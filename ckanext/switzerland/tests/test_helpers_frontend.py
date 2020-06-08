@@ -2,14 +2,11 @@
 """Tests for helpers.py."""
 from nose.tools import *  # noqa
 import mock
-import ckanext.switzerland.helpers as helpers
-import sys
+import ckanext.switzerland.helpers.terms_of_use as term
+import ckanext.switzerland.helpers.localize as loc
+import ckanext.switzerland.helpers.frontend as fh
 from copy import deepcopy
-
-if sys.version_info < (2, 7):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 organizations = [{'children': [],
                   'highlighted': False,
@@ -39,77 +36,11 @@ organizations = [{'children': [],
 organization_title = u'{"fr": "Swisstopo FR", "de": "Swisstopo DE", "en": "Swisstopo EN", "it": "Swisstopo IT"}'  # noqa
 
 class TestHelpers(unittest.TestCase):
-    def test_simplify_terms_of_use_open(self):
-        term_id = 'NonCommercialAllowed-CommercialAllowed-ReferenceRequired'
-        result = helpers.simplify_terms_of_use(term_id)
-        self.assertEquals(term_id, result)
-
-    def test_simplify_terms_of_use_closed(self):
-        term_id = 'NonCommercialNotAllowed-CommercialAllowed-ReferenceNotRequired'  # noqa
-        result = helpers.simplify_terms_of_use(term_id)
-        self.assertEquals('ClosedData', result)
-
-    def test_get_locaized_dict(self):
-        lang_dict = {
-            'de': 'DE value',
-            'fr': 'FR value',
-            'it': 'IT value',
-            'en': 'EN value',
-        }
-        result = helpers.get_locaized(lang_dict, 'de')
-        self.assertEquals(lang_dict['de'], result)
-
-    def test_get_localized_value_from_dict_fallback(self):
-        lang_dict = {
-            'de': 'DE value',
-            'fr': 'FR value',
-            'it': 'IT value',
-            'en': '',
-        }
-        result = helpers.get_localized_value_from_dict(lang_dict, 'en')
-        # if en does not exist, fallback to de
-        self.assertEquals(lang_dict['de'], result)
-
-    @mock.patch('ckan.plugins.toolkit.request')
-    def test_get_localized_value_from_dict_no_lang(self, mock_request):
-        mock_request.environ = {'CKAN_LANG': 'fr'}
-
-        lang_dict = {
-            'de': 'DE value',
-            'fr': 'FR value',
-            'it': 'IT value',
-            'en': 'EN value',
-        }
-        result = helpers.get_localized_value_from_dict(lang_dict)
-        self.assertEquals(lang_dict['fr'], result)
-
-    def test_get_localized_value_from_dict_invalid_dict(self):
-        test_dict = {'test': 'dict'}
-        result = helpers.get_localized_value_from_dict(test_dict)
-        self.assertEquals(test_dict, result)
-
-    @mock.patch('ckan.lib.i18n.get_lang')
-    def test_get_translated_group_title(self, mock_get_lang):
-        mock_get_lang.return_value = 'en'
-        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
-        self.assertEqual('Swisstopo EN', translated_title)
-
-        mock_get_lang.return_value = 'de'
-        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
-        self.assertEqual('Swisstopo DE', translated_title)
-
-        mock_get_lang.return_value = 'it'
-        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
-        self.assertEqual('Swisstopo IT', translated_title)
-
-        mock_get_lang.return_value = 'fr'
-        translated_title = helpers.get_translated_group_title(organization_title)  # noqa
-        self.assertEqual('Swisstopo FR', translated_title)
 
     @mock.patch('ckan.lib.i18n.get_lang', return_value='fr')
     def test_get_sorted_orgs_by_translated_title_fr(self, mock_get_lang):
         french_organizations = deepcopy(organizations)
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(french_organizations)  # noqa
+        result_orgs = fh.get_sorted_orgs_by_translated_title(french_organizations)  # noqa
 
         for org in result_orgs:
             if org['children']:
@@ -122,7 +53,7 @@ class TestHelpers(unittest.TestCase):
     @mock.patch('ckan.lib.i18n.get_lang', return_value='it')
     def test_get_sorted_orgs_by_translated_title_it(self, mock_get_lang):
         italian_organizations = deepcopy(organizations)
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(italian_organizations)  # noqa
+        result_orgs = fh.get_sorted_orgs_by_translated_title(italian_organizations)  # noqa
 
         for org in result_orgs:
             if org['children']:
@@ -135,7 +66,7 @@ class TestHelpers(unittest.TestCase):
     @mock.patch('ckan.lib.i18n.get_lang', return_value='de')
     def test_get_sorted_orgs_by_translated_title_de(self, mock_get_lang):
         german_organizations = deepcopy(organizations)
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(german_organizations)  # noqa
+        result_orgs = fh.get_sorted_orgs_by_translated_title(german_organizations)  # noqa
 
         for org in result_orgs:
             if org['children']:
@@ -148,7 +79,7 @@ class TestHelpers(unittest.TestCase):
     @mock.patch('ckan.lib.i18n.get_lang', return_value='en')
     def test_get_sorted_orgs_by_translated_title_en(self, mock_get_lang):
         english_organizations = deepcopy(organizations)
-        result_orgs = helpers.get_sorted_orgs_by_translated_title(english_organizations)  # noqa
+        result_orgs = fh.get_sorted_orgs_by_translated_title(english_organizations)  # noqa
 
         for org in result_orgs:
             if org['children']:

@@ -194,7 +194,7 @@ class OgdchGroupPlugin(plugins.SingletonPlugin, OgdchMixin):
     plugins.implements(plugins.IGroupController, inherit=True)
 
     def before_view(self, grp_dict):
-        """localizes the grp_dict for web requests 
+        """localizes the grp_dict for web requests
         that are not api requests"""
         grp_dict = loc.parse_json_attributes(ckan_dict=grp_dict)
         grp_dict['display_name'] = grp_dict['title']
@@ -204,8 +204,6 @@ class OgdchGroupPlugin(plugins.SingletonPlugin, OgdchMixin):
         grp_dict = loc.localize_ckan_sub_dict(
             ckan_dict=grp_dict,
             lang_code=request_lang)
-        log.error("================== grp before view ========================")
-        log.error(grp_dict)
         return grp_dict
 
 
@@ -222,7 +220,6 @@ class OgdchOrganizationPlugin(plugins.SingletonPlugin, OgdchMixin):
         org_dict = loc.localize_ckan_sub_dict(
             ckan_dict=org_dict,
             lang_code=request_lang)
-        org_dict = loc.localize_org_json_dict(org_dict=org_dict, desired_lang_code=request_lang)
         return org_dict
 
 
@@ -243,7 +240,6 @@ class OgdchResourcePlugin(plugins.SingletonPlugin, OgdchMixin):
         res_dict = fmtu.prepare_resource_format(
             resource=res_dict, format_mapping=self.format_mapping)
         return res_dict
-
 
 
 class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
@@ -286,9 +282,6 @@ class OgdchPackagePlugin(plugins.SingletonPlugin, OgdchMixin):
             pkg_dict['organization'] = loc.localize_ckan_sub_dict(
                 ckan_dict=pkg_dict['organization'],
                 lang_code=request_lang)
-        log.error("================== pkg grps before view ========================")
-        log.error(pkg_dict['groups'])
-        log.error("----------------------------------------------------------------")
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
@@ -383,5 +376,6 @@ class OGDPage(paginate.Page):
         current_page_link = self._pagerlink(self.page, text,
                                             extra_attributes=self.curpage_attr)
         return re.sub(current_page_span, current_page_link, html)
+
 
 h.Page = OGDPage

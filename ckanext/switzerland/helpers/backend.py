@@ -1,5 +1,6 @@
 """
-helpers that are used in backend templates only
+helpers belong in this file if they are only
+used in backend templates
 """
 import logging
 from urlparse import urlparse
