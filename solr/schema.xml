@@ -301,9 +301,10 @@ schema. In this case the version should be set to the next CKAN version number.
     <field name="metadata_created" type="date" indexed="true" stored="true" multiValued="false"/>
     <field name="metadata_modified" type="date" indexed="true" stored="true" multiValued="false"/>
 
-    <field name="showcase_type" type="string" indexed="true" stored="true" multiValued="false"/>
-
     <field name="indexed_ts" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
+
+    <!--  Extra field for showcases  -->
+    <field name="showcase_type" type="string" indexed="true" stored="true" multiValued="false"/>
 
     <!-- Copy the title field into titleString, and treat as a string
          (rather than text type).  This allows us to sort on the titleString -->
