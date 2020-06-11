@@ -41,7 +41,7 @@ Example:
             {% if type %}
               <div class="col-md-3 col-sm-6">
                 <dl>
-                  <dt>{{ _('Type') }}</dt>
+                  <dt>{{ _('Type of content') }}</dt>
                   <dd>
                     <a class="{% block type_item_class %}type{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', showcase_type=type %}">{{ h.get_showcase_type_name(type) }}</a>
                   </dd>

@@ -1,3 +1,5 @@
+# coding=UTF-8
+
 import os
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic
@@ -33,12 +35,12 @@ mapping_terms_of_use_to_pagemark = {
 }
 
 showcase_types_mapping = {
-    "application": "Application",
-    "data_visualization": "Data visualization",
-    "event": "Event",
-    "blog_and_media_articles": "Blog and media articles",
-    "paper": "Paper",
-    "best_practice": "Best practice",
+    "application": u'{"fr": "Application", "de": "Applikation", "en": "Application", "it": "Applicazione"}', # noqa
+    "data_visualization": u'{"fr": "Visualisation de donées", "de": "Daten-Visualisierung", "en": "Data visualization", "it": "Visualizzazione di dati"}', # noqa
+    "event": u'{"fr": "Evènement", "de": "Veranstaltung", "en": "Event", "it": "Manifestazione"}', # noqa
+    "blog_and_media_articles": u'{"fr": "Article blogs et médias", "de": "Blog und Medienartikel", "en": "Blog and media article", "it": "Blog/articolo"}', # noqa
+    "paper": u'{"fr": "Article scientifique", "de": "Wissenschaftliche Arbeit", "en": "Paper", "it": "Articolo scientifico"}', # noqa
+    "best_practice": u'{"fr": "Best practice", "de": "Best practice", "en": "Best practice", "it": "Best practice"}', # noqa
 }
 
 
@@ -529,4 +531,5 @@ def showcase_types():
 
 
 def get_showcase_type_name(showcase_type):
-    return _(showcase_types_mapping.get(showcase_type, showcase_type))
+    type_string = showcase_types_mapping.get(showcase_type, showcase_type)
+    return get_localized_value(parse_json(type_string))
