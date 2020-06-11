@@ -491,13 +491,15 @@ def create_showcase_types():
     try:
         # TODO: this is a workaround copied from
         # https://github.com/ckan/ckanext-dcat/commit/bd490115da8087a14b9a2ef603328e69535144bb
-        # When we upgrade CKAN, we should be able to remove this.
+        # It is necessary "until the core translation function defaults to the
+        # Flask one." When we upgrade CKAN to v2.9, we should try removing it.
         from paste.registry import Registry
         from ckan.lib.cli import MockTranslator
         registry = Registry()
         registry.prepare()
         from pylons import translator
         registry.register(translator, MockTranslator())
+        # End of workaround
 
         data = {"id": "showcase_types"}
         tk.get_action("vocabulary_show")(context, data)
