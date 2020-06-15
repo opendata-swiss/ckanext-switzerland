@@ -14,6 +14,7 @@ Example:
       <div class="module context-info">
         <div class="module-content">
           {% block package_info_inner %}
+          {% set type = pkg.get("showcase_type") %}
           <div class="row">
             {% if pkg.author %}
               <div class="col-md-3 col-sm-6">
@@ -33,7 +34,16 @@ Example:
                     {% for tag in tags %}
                       <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>{% if not loop.last %}, {% endif %}
                     {% endfor %}
-                    </ul>
+                  </dd>
+                </dl>
+              </div>
+            {% endif %}
+            {% if type %}
+              <div class="col-md-3 col-sm-6">
+                <dl>
+                  <dt>{{ _('Type of content') }}</dt>
+                  <dd>
+                    <a class="{% block type_item_class %}type{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', showcase_type=type %}">{{ h.get_showcase_type_name(type) }}</a>
                   </dd>
                 </dl>
               </div>

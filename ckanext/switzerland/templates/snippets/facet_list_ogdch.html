@@ -109,6 +109,22 @@ within_tertiary
                     {% endfor %}
                   </ul>
                 </nav>
+              {% elif name == 'showcase_type' %}
+                <nav>
+                  <ul class="{{ nav_class or 'nav nav-pills nav-stacked' }}">
+                    {% for item in items %}
+                      {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if item.active else h.add_url_param(new_params={name: item.name}, extras=extras, alternative_url=alternative_url) %}
+                      {% set label = h.get_showcase_type_name(item.name) %}
+                      {% set label_truncated = h.truncate(label, 22) %}
+                      {% set count = count_label(item['count']) if count_label else ('%d' % item['count']) %}
+                      <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %} break-word">
+                        <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}">
+                          {{ label_truncated }} <span class="small">{{ count }}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </nav>
               {% else %}
                 <nav>
                   <ul class="{{ nav_class or 'nav nav-pills nav-stacked' }}">

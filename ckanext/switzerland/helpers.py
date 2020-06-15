@@ -1,3 +1,5 @@
+# coding=UTF-8
+
 import os
 import ckan.plugins.toolkit as tk
 import ckan.logic as logic
@@ -30,6 +32,15 @@ mapping_terms_of_use_to_pagemark = {
     TERMS_OF_USE_BY: '#terms_by',
     TERMS_OF_USE_ASK: '#terms_ask',
     TERMS_OF_USE_BY_ASK: '#terms_by_ask',
+}
+
+showcase_types_mapping = {
+    "application": u'{"fr": "Application", "de": "Applikation", "en": "Application", "it": "Applicazione"}', # noqa
+    "data_visualization": u'{"fr": "Visualisation de donées", "de": "Daten-Visualisierung", "en": "Data visualization", "it": "Visualizzazione di dati"}', # noqa
+    "event": u'{"fr": "Evènement", "de": "Veranstaltung", "en": "Event", "it": "Manifestazione"}', # noqa
+    "blog_and_media_articles": u'{"fr": "Article blogs et médias", "de": "Blog und Medienartikel", "en": "Blog and media article", "it": "Blog/articolo"}', # noqa
+    "paper": u'{"fr": "Article scientifique", "de": "Wissenschaftliche Arbeit", "en": "Paper", "it": "Articolo scientifico"}', # noqa
+    "best_practice": u'{"fr": "Best practice", "de": "Best practice", "en": "Best practice", "it": "Best practice"}', # noqa
 }
 
 
@@ -450,3 +461,54 @@ def get_localized_newsletter_url():
        'it': 'https://www.bfs.admin.ch/bfs/it/home/servizi/ogd/newsmail.html',
     }
     return newsletter_url[current_language]
+
+
+def create_showcase_types():
+    """
+    Create tags and vocabulary for showcase types, if they don't exist already.
+    """
+    user = tk.get_action("get_site_user")({"ignore_auth": True}, ())
+    context = {"user": user["name"]}
+    try:
+        # TODO: this is a workaround copied from
+        # https://github.com/ckan/ckanext-dcat/commit/bd490115da8087a14b9a2ef603328e69535144bb
+        # It is necessary "until the core translation function defaults to the
+        # Flask one." When we upgrade CKAN to v2.9, we should try removing it.
+        from paste.registry import Registry
+        from ckan.lib.cli import MockTranslator
+        registry = Registry()
+        registry.prepare()
+        from pylons import translator
+        registry.register(translator, MockTranslator())
+        # End of workaround
+
+        data = {"id": "showcase_types"}
+        tk.get_action("vocabulary_show")(context, data)
+        log.info("'showcase_types' vocabulary already exists, skipping")
+    except tk.ObjectNotFound:
+        log.info("Creating vocab 'showcase_types'")
+        data = {"name": "showcase_types"}
+        vocab = tk.get_action("vocabulary_create")(context, data)
+        for tag in showcase_types_mapping.keys():
+            log.info("Adding tag {0} to vocab 'showcase_types'".format(tag))
+            data = {"name": tag, "vocabulary_id": vocab["id"]}
+            tk.get_action("tag_create")(context, data)
+
+
+def showcase_types():
+    """
+    Return the list of showcase types from the showcase_types vocabulary.
+    """
+    create_showcase_types()
+    try:
+        showcase_types = tk.get_action("tag_list")(
+            data_dict={"vocabulary_id": "showcase_types"}
+        )
+        return showcase_types
+    except tk.ObjectNotFound:
+        return None
+
+
+def get_showcase_type_name(showcase_type):
+    type_string = showcase_types_mapping.get(showcase_type, showcase_type)
+    return get_localized_value(parse_json(type_string))
