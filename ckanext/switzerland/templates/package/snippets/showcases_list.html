@@ -16,15 +16,10 @@ Example:
     </div>
   </div>
   {% block showcase_list %}
-    {% set showcase_list = h.get_showcases_for_dataset(pkg.name) %}
-    {% if showcase_list %}
-      <ul class="media-grid" data-module="media-grid">
-          {% for package in showcase_list %}
-            {% snippet 'showcase/snippets/showcase_item_small.html', package=package, show_remove=h.check_access('ckanext_showcase_update') %}
-          {% endfor %}
-      </ul>
-    {% else %}
-      <p class="empty">{{ _('There are no showcases that feature this dataset') }}</p>
-    {% endif %}
+    <ul class="media-grid" data-module="media-grid">
+        {% for package in showcases %}
+          {% snippet 'showcase/snippets/showcase_item_small.html', package=package, show_remove=h.check_access('ckanext_showcase_update') %}
+        {% endfor %}
+    </ul>
   {% endblock %}
 </section>
