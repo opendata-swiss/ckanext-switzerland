@@ -33,7 +33,10 @@
   {% endblock %}
 
   {% block package_showcases %}
-    {% snippet "package/snippets/showcases_list.html", pkg=pkg, resources=pkg.resources %}
+    {% set showcases = h.get_showcases_for_dataset(pkg.name) %}
+    {% if showcases %}
+      {% snippet "package/snippets/showcases_list.html", pkg=pkg, showcases=showcases %}
+    {% endif %}
   {% endblock %}
 
   {% block package_additional_info %}
