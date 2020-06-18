@@ -512,3 +512,30 @@ def showcase_types():
 def get_showcase_type_name(showcase_type):
     type_string = showcase_types_mapping.get(showcase_type, showcase_type)
     return get_localized_value(parse_json(type_string))
+
+
+def group_name_in_groups(group_name, groups):
+    for group in groups:
+        if group_name == group['name']:
+            return True
+    return False
+
+
+def get_localized_group_list():
+    """
+    Returns a list of dicts containing the id, name and localized title
+    for each group.
+    """
+    user = tk.get_action('get_site_user')({'ignore_auth': True}, {})
+    req_context = {'user': user['name']}
+    groups = tk.get_action('group_list')(req_context, {'all_fields': True})
+    group_list = []
+    for group in groups:
+        group_list.append({
+            'id': group['id'],
+            'name': group['name'],
+            'title': get_localized_value(group['title'], i18n.get_lang()),
+        })
+
+    group_list.sort(key=lambda group: strip_accents(group['title'].lower()), reverse=False)  # noqa
+    return group_list
