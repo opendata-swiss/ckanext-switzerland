@@ -145,6 +145,13 @@
         "validators": "default(0) natural_number_validator",
         "display_snippet": "file_size.html"
       }
+    },
+    {
+      "preset_name": "ogdch_coverage",
+      "values": {
+        "display_snippet": "coverage.html",
+        "output_validators": "location_period_or_jurisdiction"
+      }
     }
   ]
 }

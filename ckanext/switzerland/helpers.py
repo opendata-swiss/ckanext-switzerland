@@ -12,7 +12,7 @@ from babel import numbers
 import iribaker
 from urlparse import urlparse
 
-from ckan.lib.helpers import lang, url_for, localised_number
+from ckan.lib.helpers import lang, url_for, localised_number, render_datetime
 import ckan.lib.i18n as i18n
 import unicodedata
 
@@ -539,3 +539,11 @@ def get_localized_group_list():
 
     group_list.sort(key=lambda group: strip_accents(group['title'].lower()), reverse=False)  # noqa
     return group_list
+
+def render_location_period_or_jurisdiction(value):
+    """render as a date if it is a date and plain otherwise"""
+    try:
+        return render_datetime(value.value, with_hours=False)
+    except:
+       return value
+
