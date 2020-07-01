@@ -700,19 +700,19 @@ msgstr ""
 
 #: ckanext/switzerland/templates/showcase/snippets/search_box.html:25
 msgid "Search applications..."
-msgstr ""
+msgstr "Cerca applicazioni..."
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_info.html:55
 msgid "Datasets in Application"
-msgstr ""
+msgstr "Dataset in Applicazione"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_info.html:65
 msgid "There are no Datasets in this Application"
-msgstr ""
+msgstr "Non ci sono Dataset in questa Applicazione"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:30
 msgid "This application has no description"
-msgstr ""
+msgstr "Questa applicazione non ha descrizione"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:46
 msgid "Remove dataset from this application"
@@ -765,22 +765,22 @@ msgstr ""
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:7
 msgid "{number} application found for '{query}'"
 msgid_plural "{number} applications found for '{query}'"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} applicazione trovato per '{query}'"
+msgstr[1] "{number} applicazioni trovato per '{query}'"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:8
 msgid "No application found for '{query}'"
-msgstr ""
+msgstr "Nessuna applicazione trovato per '{query}'"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:9
 msgid "{number} application found"
 msgid_plural "{number} applications found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} applicazione trovato"
+msgstr[1] "{number} applicazioni trovato"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:10
 msgid "No application found"
-msgstr ""
+msgstr "Nessuna applicazione trovato"
 
 #: ckanext/switzerland/templates/admin/confirm_remove_showcase_admin.html:11
 msgid "Are you sure you want to remove this user as a Application Admin - {name}?"
@@ -810,46 +810,4 @@ msgstr ""
 
 #: ckanext/switzerland/templates/admin/manage_showcase_admins.html:51
 msgid "Are you sure you want to remove this user from the Application Admin list?"
-msgstr ""
-
-#: ckanext/showcase/controller.py:147 ckanext/showcase/controller.py:184
-#: ckanext/showcase/controller.py:224 ckanext/showcase/controller.py:238
-#: ckanext/showcase/controller.py:274
-msgid "Showcase not found"
-msgstr ""
-
-#: ckanext/showcase/controller.py:149 ckanext/showcase/controller.py:276
-msgid "Unauthorized to read showcase"
-msgstr ""
-
-#: ckanext/showcase/controller.py:171 ckanext/showcase/controller.py:182
-msgid "Unauthorized to delete showcase"
-msgstr ""
-
-#: ckanext/showcase/controller.py:176
-msgid "Showcase has been deleted."
-msgstr ""
-
-#: ckanext/showcase/controller.py:227 ckanext/showcase/controller.py:329
-msgid "The dataset has been added to the showcase."
-msgid_plural "The datasets have been added to the showcase."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ckanext/showcase/controller.py:241 ckanext/showcase/controller.py:297
-msgid "The dataset has been removed from the showcase."
-msgid_plural "The datasets have been removed from the showcase."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ckanext/showcase/controller.py:547
-msgid "The user is now a Showcase Admin"
-msgstr ""
-
-#: ckanext/showcase/controller.py:583
-msgid "The user is not a Showcase Admin"
-msgstr ""
-
-#: ckanext/showcase/controller.py:585
-msgid "The user is no longer a Showcase Admin"
 msgstr ""
