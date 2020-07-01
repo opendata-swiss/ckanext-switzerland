@@ -12,7 +12,7 @@
       {% set domain = domain|replace("http://", "")|replace("https://", "") %}
       {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': '<showcase>'} %}
 
-      {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('eg. my-showcase'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
+      {{ form.prepend('name', id='field-name', label=_('URL'), prepend=prefix, placeholder=_('eg. my-application'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
     {% endblock %}
 
     {% block package_basic_fields_description %}
