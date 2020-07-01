@@ -258,7 +258,7 @@ msgstr "Publizieren Sie Daten"
 
 #: ckanext/switzerland/templates/footer.html:11
 msgid "Share your application"
-msgstr "Teilen Sie Ihre Anwendung"
+msgstr "Teilen Sie Ihre Applikation"
 
 #: ckanext/switzerland/templates/footer_ogdch.html:16
 msgid "NewsMail Open Government Data"
@@ -287,8 +287,8 @@ msgstr[1] "Kategorien"
 #: ckanext/switzerland/templates/footer.html:57
 msgid "Application"
 msgid_plural "Applications"
-msgstr[0] "Anwendung"
-msgstr[1] "Anwendungen"
+msgstr[0] "Applikation"
+msgstr[1] "Applikationen"
 
 #: ckanext/switzerland/templates/footer.html:63
 msgid "A joint project of the Confederation and the cantons"
@@ -343,7 +343,7 @@ msgstr "Daten"
 #: ckanext/switzerland/templates/showcase/search.html:7
 #: ckanext/switzerland/templates/showcase/search.html:11
 msgid "Applications"
-msgstr "Anwendungen"
+msgstr "Applikationen"
 
 #: ckanext/switzerland/templates/footer.html:88
 msgid "Legal framework"
@@ -699,19 +699,19 @@ msgstr ""
 
 #: ckanext/switzerland/templates/showcase/snippets/search_box.html:25
 msgid "Search applications..."
-msgstr "Anwendungen suchen..."
+msgstr "Applikationen suchen..."
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_info.html:55
 msgid "Datasets in Application"
-msgstr "Datensätze in Anwendungen"
+msgstr "Datensätze in Applikationen"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_info.html:65
 msgid "There are no Datasets in this Application"
-msgstr "Es gibt keine Datensätze in diese Anwendung"
+msgstr "Es gibt keine Datensätze in dieser Applikation"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:30
 msgid "This application has no description"
-msgstr "Diese Anwendung hat keine Beschreibung"
+msgstr "Diese Applikation hat keine Beschreibung"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:46
 msgid "Remove dataset from this application"
@@ -764,22 +764,22 @@ msgstr ""
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:7
 msgid "{number} application found for '{query}'"
 msgid_plural "{number} applications found for '{query}'"
-msgstr[0] "{number} Anwendung gefunden für \"{query}\""
-msgstr[1] "{number} Anwendungen gefunden für \"{query}\""
+msgstr[0] "{number} Applikation gefunden für \"{query}\""
+msgstr[1] "{number} Applikationen gefunden für \"{query}\""
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:8
 msgid "No application found for '{query}'"
-msgstr "Keine Anwendungen gefunden bei der Suche {query}"
+msgstr "Keine Applikationen gefunden bei der Suche {query}"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:9
 msgid "{number} application found"
 msgid_plural "{number} applications found"
-msgstr[0] "{number} Anwendung gefunden"
-msgstr[1] "{number} Anwendungen gefunden"
+msgstr[0] "{number} Applikation gefunden"
+msgstr[1] "{number} Applikationen gefunden"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:10
 msgid "No application found"
-msgstr "Keine Anwendungen gefunden"
+msgstr "Keine Applikationen gefunden"
 
 #: ckanext/switzerland/templates/admin/confirm_remove_showcase_admin.html:11
 msgid "Are you sure you want to remove this user as a Application Admin - {name}?"
