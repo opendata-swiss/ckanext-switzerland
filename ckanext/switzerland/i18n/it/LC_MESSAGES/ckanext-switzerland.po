@@ -716,7 +716,7 @@ msgstr "Questa applicazione non ha descrizione"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:46
 msgid "Remove dataset from this application"
-msgstr ""
+msgstr "Elimina il dataset da questa applicazione"
 
 #: ckanext/switzerland/templates/showcase/new_package_form.html:15
 msgid "eg. my-application"
