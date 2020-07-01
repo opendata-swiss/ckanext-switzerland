@@ -8,7 +8,7 @@
   <section class="module span6 offset3">
     <div class="module-content">
       {% block form %}
-        <p>{{ _('Are you sure you want to remove this user as a Showcase Admin - {name}?').format(name=c.user_dict.name) }}</p>
+        <p>{{ _('Are you sure you want to remove this user as a Application Admin - {name}?').format(name=c.user_dict.name) }}</p>
         <p class="form-actions">
           <form action="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='remove_showcase_admin' %}" method="post">
             <input type="hidden" name="user" value="{{ c.user_id }}" />
