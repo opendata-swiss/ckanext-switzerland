@@ -255,8 +255,8 @@ msgid "Learn to publish data"
 msgstr "Pubblica dei dati"
 
 #: ckanext/switzerland/templates/footer.html:11
-msgid "Share your application"
-msgstr "Condividi un’applicazione"
+msgid "Share your showcase"
+msgstr "Condividi il tuo showcase"
 
 #: ckanext/switzerland/templates/footer_ogdch.html:16
 msgid "NewsMail Open Government Data"
@@ -283,10 +283,10 @@ msgstr[0] "Categoria"
 msgstr[1] "Categorie"
 
 #: ckanext/switzerland/templates/footer.html:57
-msgid "Application"
-msgid_plural "Applications"
-msgstr[0] "Applicazione"
-msgstr[1] "Applicazioni"
+msgid "Showcase"
+msgid_plural "Showcases"
+msgstr[0] "Showcase"
+msgstr[1] "Showcases"
 
 #: ckanext/switzerland/templates/footer.html:63
 msgid "A joint project of the Confederation and the cantons"
@@ -342,8 +342,8 @@ msgstr "Dati"
 #: ckanext/switzerland/templates/showcase/search.html:4
 #: ckanext/switzerland/templates/showcase/search.html:7
 #: ckanext/switzerland/templates/showcase/search.html:11
-msgid "Applications"
-msgstr "Applicazioni"
+msgid "Showcases"
+msgstr "Showcases"
 
 #: ckanext/switzerland/templates/footer.html:88
 msgid "Legal framework"
@@ -659,8 +659,8 @@ msgid "Type of content"
 msgstr "Tipo di contenuto"
 
 #: ckanext/switzerland/helpers.py:36
-msgid "Application"
-msgstr "Applicazione"
+msgid "Showcase"
+msgstr "Showcase"
 
 #: ckanext/switzerland/helpers.py:37
 msgid "Data visualization"
@@ -682,132 +682,42 @@ msgstr "Articolo scientifico"
 msgid "Best practice"
 msgstr "Best practice"
 
-#: ckanext/switzerland/templates/package/dataset_showcase_list.html:17
-msgid "Associate this application with this dataset"
-msgstr ""
-
-#: ckanext/switzerland/templates/package/dataset_showcase_list.html:17
-msgid "Add to application"
-msgstr ""
-
-#: ckanext/switzerland/templates/package/dataset_showcase_list.html:21
-msgid "Applications featuring {dataset_name}"
-msgstr ""
-
-#: ckanext/switzerland/templates/package/dataset_showcase_list.html:26
-msgid "There are no applications that feature this dataset"
-msgstr ""
-
 #: ckanext/switzerland/templates/showcase/snippets/search_box.html:25
-msgid "Search applications..."
-msgstr "Cerca applicazioni..."
+msgid "Search showcases..."
+msgstr "Cerca showcases..."
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_info.html:55
-msgid "Datasets in Application"
-msgstr "Dataset in Applicazione"
+msgid "Datasets in Showcase"
+msgstr "Dataset in Showcase"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_info.html:65
-msgid "There are no Datasets in this Application"
-msgstr "Non ci sono Dataset in questa Applicazione"
+msgid "There are no Datasets in this Showcase"
+msgstr "Non ci sono Dataset in questo Showcase"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:30
-msgid "This application has no description"
-msgstr "Questa applicazione non ha descrizione"
+msgid "This showcase has no description"
+msgstr "Questo showcase non ha descrizione"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:46
-msgid "Remove dataset from this application"
-msgstr "Elimina il dataset da questa applicazione"
-
-#: ckanext/switzerland/templates/showcase/new_package_form.html:15
-msgid "eg. my-application"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/add_datasets.html:3
-msgid "Applications - Add datasets"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/add_datasets.html:31
-#: ckanext/switzerland/templates/showcase/manage_datasets.html:36
-msgid "Datasets available to add to this application"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/add_datasets.html:48
-#: ckanext/switzerland/templates/showcase/manage_datasets.html:51
-msgid "Add to Application"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/confirm_delete.html:11
-msgid "Are you sure you want to delete application - {showcase_name}?"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/edit_base.html:22
-#: ckanext/switzerland/templates/showcase/new.html:3
-#: ckanext/switzerland/templates/showcase/new_package_form.html:63
-msgid "Create Application"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/edit_base.html:35
-msgid "View application"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/edit_base.html:41
-msgid "Edit application"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/manage_datasets.html:3
-msgid "Applications - Manage datasets"
-msgstr ""
-
-#: ckanext/switzerland/templates/showcase/manage_datasets.html:3
-msgid "Applications - Manage datasets"
-msgstr ""
+msgid "Remove dataset from this showcase"
+msgstr "Elimina il dataset da questo showcase"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:7
-msgid "{number} application found for '{query}'"
-msgid_plural "{number} applications found for '{query}'"
-msgstr[0] "{number} applicazione trovato per '{query}'"
-msgstr[1] "{number} applicazioni trovato per '{query}'"
+msgid "{number} showcase found for '{query}'"
+msgid_plural "{number} showcases found for '{query}'"
+msgstr[0] "{number} showcase trovato per '{query}'"
+msgstr[1] "{number} showcases trovato per '{query}'"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:8
-msgid "No application found for '{query}'"
-msgstr "Nessuna applicazione trovato per '{query}'"
+msgid "No showcase found for '{query}'"
+msgstr "Nessuno showcase trovato per '{query}'"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:9
-msgid "{number} application found"
-msgid_plural "{number} applications found"
-msgstr[0] "{number} applicazione trovato"
-msgstr[1] "{number} applicazioni trovato"
+msgid "{number} showcase found"
+msgid_plural "{number} showcases found"
+msgstr[0] "{number} showcase trovato"
+msgstr[1] "{number} showcases trovato"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:10
-msgid "No application found"
-msgstr "Nessuna applicazione trovato"
-
-#: ckanext/switzerland/templates/admin/confirm_remove_showcase_admin.html:11
-msgid "Are you sure you want to remove this user as a Application Admin - {name}?"
-msgstr ""
-
-#: ckanext/switzerland/templates/admin/manage_showcase_admins.html:9
-msgid "Manage Application Admins"
-msgstr ""
-
-#: ckanext/switzerland/templates/admin/manage_showcase_admins.html:19
-msgid "To make an existing user a Application Admin, search for their username below."
-msgstr ""
-
-#: ckanext/switzerland/templates/admin/manage_showcase_admins.html:38
-msgid "Application Admins"
-msgstr ""
-
-#: ckanext/switzerland/templates/admin/manage_showcase_admins.html:61
-msgid "There are currently no Application Admins."
-msgstr ""
-
-#: ckanext/switzerland/templates/admin/manage_showcase_admins.html:69
-msgid ""
-" <p><strong>Application Admin:</strong> Can create and remove applications. Can add"
-" and remove datasets from applications.</p> "
-msgstr ""
-
-#: ckanext/switzerland/templates/admin/manage_showcase_admins.html:51
-msgid "Are you sure you want to remove this user from the Application Admin list?"
-msgstr ""
+msgid "No showcase found"
+msgstr "Nessuno showcase trovato"

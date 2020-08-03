@@ -1,14 +1,14 @@
 {% extends "package/search.html" %}
 {% import 'macros/form.html' as form %}
 
-{% block subtitle %}{{ _("Applications") }}{% endblock %}
+{% block subtitle %}{{ _("Showcases") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Applications'), controller='ckanext.showcase.controller:ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcases'), controller='ckanext.showcase.controller:ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 {% block page_title %}
-  <h1>{{ _('Applications') }}</h1>
+  <h1>{{ _('Showcases') }}</h1>
 {% endblock %}
 
 {% block primary_content %}

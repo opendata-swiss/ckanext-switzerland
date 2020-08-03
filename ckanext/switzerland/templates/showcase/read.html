@@ -3,7 +3,7 @@
 {% set pkg = c.pkg_dict %}
 {% set name = pkg.title or pkg.name %}
 
-{% block subtitle %}{{ pkg.title or pkg.name }} - {{ _('Applications') }}{% endblock %}
+{% block subtitle %}{{ pkg.title or pkg.name }} - {{ _('Showcases') }}{% endblock %}
 
 {% block links -%}
   {{ super() }}
@@ -25,7 +25,7 @@
 
 {% block breadcrumb_content %}
     {% set showcase = pkg.title or pkg.name %}
-    <li>{{ h.nav_link(_('Applications'), controller='ckanext.showcase.controller:ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
+    <li>{{ h.nav_link(_('Showcases'), controller='ckanext.showcase.controller:ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
     <li{{ self.breadcrumb_content_selected() }}>{% link_for showcase|truncate(30), controller='ckanext.showcase.controller:ShowcaseController', action='read', id=pkg.name %}</li>
 {% endblock %}
 
