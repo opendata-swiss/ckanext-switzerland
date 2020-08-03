@@ -33,7 +33,7 @@ Example:
                   <dt>{{ _('Categories') }}</dt>
                   <dd>
                     {% for group in groups %}
-                      <a class="{% block group_list_item_class %}group['name']{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', groups=group['name'] %}">{{ h.truncate(group['title'], 22) }}</a>{% if not loop.last %}, {% endif %}
+                      <a class="{% block group_list_item_class %}group['name']{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', groups=group['name'] %}">{{ group['title'] }}</a>{% if not loop.last %}<br />{% endif %}
                     {% endfor %}
                   </dd>
                 </dl>
