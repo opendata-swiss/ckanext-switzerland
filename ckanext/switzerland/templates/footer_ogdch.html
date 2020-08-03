@@ -10,7 +10,7 @@
 	  <div class="col-lg-9 col-md-8 col-xs-12">
           <div class="col-xs-12 buttons">
             <a class="btn btn-default-inverted" href="https://handbook.opendata.swiss/" role="button">{{ _('Learn to publish data') }}</a>
-            <a class="btn btn-default-inverted" href="{{ h.url('/contact') }}" role="button">{{ _('Share your application') }}</a>
+            <a class="btn btn-default-inverted" href="{{ h.url('/contact') }}" role="button">{{ _('Share your showcase') }}</a>
           </div>
           <div class="col-xs-12 buttons">
             <a class="btn-twitter" href="https://twitter.com/opendataswiss" role="button"><img src="/content/themes/wp-ogdch-theme/assets/images/twitter.svg"/></a>
@@ -64,7 +64,7 @@
           <div class="statsnumber">
             {{ app_display }} <i class="fa fa-puzzle-piece"></i>
           </div>
-          <p>{{ ungettext('Application', 'Applications', app_count) }}</p>
+          <p>{{ ungettext('Showcase', 'Showcases', app_count) }}</p>
         </a>
       </div>
     </div>
@@ -93,7 +93,7 @@
         <li><a href="{{ h.url('/contact') }}">{{ _('Contact') }}</a></li>
         <li><a href="{{ h.url_for('search') }}">{{ _('Data') }}</a></li>
         <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
-        <li><a href="{{ h.url_for('/showcase') }}">{{ _('Applications') }}</a></li>
+        <li><a href="{{ h.url_for('/showcase') }}">{{ _('Showcases') }}</a></li>
         <li><a href="{{ h.url('/terms-of-use') }}">{{ _('Terms of use') }}</a></li>
         <li><a href="{{ h.url('/legal-framework') }}">{{ _('Legal framework') }}</a></li>
         <li><a href="https://github.com/opendata-swiss" target="_blank">{{ _('Sourcecode') }}</a></li>
