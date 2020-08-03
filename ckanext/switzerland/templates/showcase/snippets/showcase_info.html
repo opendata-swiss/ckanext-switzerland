@@ -45,7 +45,7 @@ Example:
                   <dt>{{ _('Tags') }}</dt>
                   <dd>
                     {% for tag in tags %}
-                    <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>{% if not loop.last %}, {% endif %}
+                    <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{% url_for controller='ckanext.showcase.controller:ShowcaseController', action='search', tags=tag.name %}">{{ tag.display_name }}</a>{% if not loop.last %}, {% endif %}
                     {% endfor %}
                     </ul>
                   </dd>
