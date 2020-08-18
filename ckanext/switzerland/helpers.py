@@ -473,6 +473,26 @@ def create_showcase_types():
         data = {"id": "showcase_types"}
         tk.get_action("vocabulary_show")(context, data)
         log.info("'showcase_types' vocabulary already exists, skipping")
+    except TypeError as err:
+        if err.message == ('No object (name: translator) has been registered '
+                           'for this thread'):
+            # This happens because the CKAN core translation function does not
+            # yet default to the Flask one, so when this method is called
+            # under some circumstances, the tk.ObjectNotFound error we are
+            # expecting cannot be translated and throws a TypeError instead.
+            # We should try removing this workaround when we upgrade to CKAN
+            # v2.9.
+            log.info("Creating vocab 'showcase_types'")
+            data = {"name": "showcase_types"}
+            vocab = tk.get_action("vocabulary_create")(context, data)
+            for tag in showcase_types_mapping.keys():
+                log.info(
+                    "Adding tag {0} to vocab 'showcase_types'".format(tag)
+                )
+                data = {"name": tag, "vocabulary_id": vocab["id"]}
+                tk.get_action("tag_create")(context, data)
+        else:
+            raise
     except tk.ObjectNotFound:
         log.info("Creating vocab 'showcase_types'")
         data = {"name": "showcase_types"}
