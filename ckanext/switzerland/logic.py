@@ -53,6 +53,32 @@ def ogdch_counts(context, data_dict):
 
 
 @side_effect_free
+def ogdch_counts(context, data_dict):
+    '''
+    Return the following data about our ckan instance:
+    - total number of datasets
+    - number of datasets per group
+    - total number of showcases
+    - total number of organisations (including all levels of the hierarchy)
+    '''
+    user = tk.get_action('get_site_user')({'ignore_auth': True}, {})
+    req_context = {'user': user['name']}
+
+    # group_list contains the number of datasets in the 'packages' field
+    groups = tk.get_action('group_list')(req_context, {'all_fields': True})
+    group_count = OrderedDict()
+    for group in groups:
+        group_count[group['name']] = group['package_count']
+
+    return {
+        'total_dataset_count': ogdch_helpers.get_dataset_count('dataset'), # noqa
+        'showcase_count': ogdch_helpers.get_dataset_count('showcase'), # noqa
+        'groups': group_count,
+        'organization_count': ogdch_helpers.get_org_count(),
+    }
+
+
+@side_effect_free
 def ogdch_content_headers(context, data_dict):
     '''
     Returns some headers of a remote resource
