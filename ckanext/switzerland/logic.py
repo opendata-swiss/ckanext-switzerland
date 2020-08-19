@@ -52,6 +52,46 @@ def ogdch_counts(context, data_dict):
     }
 
 
+@side_effect_free  # noqa
+def ogdch_package_show(context, data_dict):  # noqa
+    """
+    custom package_show logic that returns a dataset together
+    with related datasets, showcases and terms of use
+    """
+    user = tk.get_action('get_site_user')({'ignore_auth': True}, {})
+    context.update({'user': user['name'], 'for_view': True})
+    id = get_or_bust(data_dict, 'id')
+
+    result = tk.get_action('package_show')(context, {'id': id})
+    if result:
+        if result.get('see_alsos'):
+            for item in result.get('see_alsos'):
+                try:
+                    related_dataset = tk.get_action('ogdch_dataset_by_identifier')(  # noqa
+                        context, {'identifier': item.get('dataset_identifier')})  # noqa
+                    if related_dataset:
+                        item['title'] = related_dataset['title']
+                        item['name'] = related_dataset['name']
+                except:
+                    continue
+
+        try:
+            showcases = ogdch_helpers.get_showcases_for_dataset(id=id)
+            result['showcases'] = showcases
+        except:
+            pass
+
+        try:
+            result['terms_of_use'] = tk.get_action('ogdch_dataset_terms_of_use')(  # noqa
+                context, {'id': id})
+        except:
+            raise "Terms of Use could not be found for dataset {}".format(id)
+
+        return result
+    else:
+        raise NotFound
+
+
 @side_effect_free
 def ogdch_content_headers(context, data_dict):
     '''
