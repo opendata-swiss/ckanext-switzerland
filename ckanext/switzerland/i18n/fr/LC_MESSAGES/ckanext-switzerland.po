@@ -692,7 +692,7 @@ msgstr "Jeux de données dans le showcase"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_info.html:65
 msgid "There are no Datasets in this Showcase"
-msgstr "Il n'y a pas de jeux de données dans cette showcase"
+msgstr "Il n'y a pas de jeux de données dans ce showcase"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_item_small.html:30
 msgid "This showcase has no description"
@@ -705,19 +705,19 @@ msgstr "Supprimer le jeu de données de ce showcase"
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:7
 msgid "{number} showcase found for '{query}'"
 msgid_plural "{number} showcases found for '{query}'"
-msgstr[0] "{number} showcase trouvée pour '{query}'"
-msgstr[1] "{number} showcases trouvées pour '{query}'"
+msgstr[0] "{number} showcase trouvé pour '{query}'"
+msgstr[1] "{number} showcases trouvés pour '{query}'"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:8
 msgid "No showcase found for '{query}'"
-msgstr "Aucun showcase trouvée pour '{query}'"
+msgstr "Aucun showcase trouvé pour '{query}'"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:9
 msgid "{number} showcase found"
 msgid_plural "{number} showcases found"
-msgstr[0] "{number} showcase trouvée"
-msgstr[1] "{number} showcases trouvées"
+msgstr[0] "{number} showcase trouvé"
+msgstr[1] "{number} showcases trouvés"
 
 #: ckanext/switzerland/templates/showcase/snippets/showcase_search_result_text.html:10
 msgid "No showcase found"
-msgstr "Aucun showcase trouvée"
+msgstr "Aucun showcase trouvé"
