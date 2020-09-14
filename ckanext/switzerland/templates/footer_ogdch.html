@@ -4,7 +4,6 @@
     <div class="row">
       <div class="col-lg-3 col-md-4 col-xs-12 ">
         <h2>{{ _('Get involved') }}</h2>
-        <p><a href="{{ h.url('/faq') }}">{{ _('Frequently Asked Questions') }}</a></p>
       </div>
       {% set localized_newsletter_url = h.get_localized_newsletter_url() %}
 	  <div class="col-lg-9 col-md-8 col-xs-12">
@@ -89,7 +88,6 @@
     <div class="footer-navigation">
       <ul class="list-inline small">
         <li><a href="{{ h.url('/about') }}">{{ _('About') }}</a></li>
-        <li><a href="{{ h.url('/faq') }}">{{ _('FAQ') }}</a></li>
         <li><a href="{{ h.url('/contact') }}">{{ _('Contact') }}</a></li>
         <li><a href="{{ h.url_for('search') }}">{{ _('Data') }}</a></li>
         <li><a href="{{ h.url_for(controller='organization', action='index') }}">{{ _('Organizations') }}</a></li>
