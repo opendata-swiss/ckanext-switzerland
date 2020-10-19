@@ -114,6 +114,7 @@ class OgdchPlugin(plugins.SingletonPlugin, DefaultTranslation):
             'ogdch_cleanup_harvestjobs': l.ogdch_cleanup_harvestjobs,
             'ogdch_shacl_validate': l.ogdch_shacl_validate,
             'ogdch_package_show': l.ogdch_package_show,
+            'ogdch_showcase_search': l.ogdch_showcase_search,
         }
 
     # ITemplateHelpers
