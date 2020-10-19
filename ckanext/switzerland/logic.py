@@ -93,6 +93,24 @@ def ogdch_package_show(context, data_dict):  # noqa
 
 
 @side_effect_free
+def ogdch_showcase_search(context, data_dict):
+    '''
+    Custom package_search logic restricted to showcases, with 'for_view'=True
+    so that the ckanext-showcase before_view method is called. This includes
+    the number of datasets in each showcase in the output.
+    '''
+    user = tk.get_action('get_site_user')({'ignore_auth': True}, {})
+    context.update({'user': user['name'], 'for_view': True})
+    data_dict.update({'fq': 'dataset_type:showcase'})
+
+    result = tk.get_action('package_search')(context, data_dict)
+    if result:
+        return result
+    else:
+        raise NotFound
+
+
+@side_effect_free
 def ogdch_content_headers(context, data_dict):
     '''
     Returns some headers of a remote resource
