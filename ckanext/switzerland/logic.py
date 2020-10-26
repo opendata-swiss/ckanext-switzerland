@@ -87,6 +87,11 @@ def ogdch_package_show(context, data_dict):  # noqa
         except:
             raise "Terms of Use could not be found for dataset {}".format(id)
 
+        for resource in result['resources']:
+            resource_views = tk.get_action('resource_view_list')(
+                context, {'id': resource['id']})
+            resource['has_views'] = len(resource_views) > 0
+
         return result
     else:
         raise NotFound
