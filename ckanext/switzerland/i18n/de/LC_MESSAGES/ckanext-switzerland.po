@@ -312,11 +312,6 @@ msgstr ""
 msgid "About"
 msgstr "Über das Portal"
 
-#: ckanext/switzerland/templates/footer.html:82
-#: ckanext/switzerland/templates/header.html:49
-msgid "FAQ"
-msgstr "FAQ"
-
 #: ckanext/switzerland/templates/footer.html:83
 #: ckanext/switzerland/templates/header.html:52
 msgid "Contact"
