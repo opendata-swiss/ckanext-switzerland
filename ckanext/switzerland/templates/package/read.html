@@ -44,7 +44,7 @@
   {% endblock %}
 
   {% block datapublisher_contact %}
-    {% if pkt.contact_points|length > 0 %}
+    {% if pkg.contact_points|length > 0 %}
       {% snippet "package/snippets/datapublisher_contact.html", pkg_dict=pkg %}
     {% endif %}
   {% endblock %}
