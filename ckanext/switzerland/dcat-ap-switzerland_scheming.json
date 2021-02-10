@@ -429,7 +429,8 @@
         "de": "Abdeckung",
         "fr": "Couverture",
         "it": "Copertura"
-      }
+      },
+      "preset": "ogdch_coverage"
     }
   ]
 }
