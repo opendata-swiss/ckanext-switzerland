@@ -3,6 +3,8 @@ ckanext-switzerland
 
 CKAN extension for DCAT-AP Switzerland, templates and different plugins for [opendata.swiss](https://opendata.swiss).
 
+This extension is deprecated. See https://github.com/opendata-swiss/ckanext-switzerland-ng for the current code.
+
 ## Requirements
 
 - CKAN 2.6+
